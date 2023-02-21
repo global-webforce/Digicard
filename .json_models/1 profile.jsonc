@@ -1,0 +1,9 @@
+{
+  "__className": "Profile.model",
+  "__path": "/lib/app/models/",
+  "weight":99.9,
+  "height":99.9,
+  "company_id": 1,
+  "verified": 0,
+  "short_bio":"howell.braxtonedibbert.name"
+}

@@ -1,0 +1,105 @@
+import 'package:ez_ui/src/shared/ez_helpers.dart';
+import 'package:ez_ui/src/widgets/ez_button.dart';
+import 'package:ez_ui/src/widgets/ez_text_x.dart';
+import 'package:ez_ui/src/widgets/forms/ez_input_field.dart';
+import 'package:flutter/material.dart';
+
+class ExamplePage extends StatelessWidget {
+  const ExamplePage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Design System")),
+      body: ListView(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+        children: [
+          EzText.headingOne('Design System'),
+          vSpaceSmall,
+          Divider(),
+          vSpaceSmall,
+          ...buttonWidgets,
+          ...textWidgets,
+          ...inputFields,
+        ],
+      ),
+    );
+  }
+
+  List<Widget> get textWidgets => [
+        EzText.headingOne('Heading One'),
+        vSpaceTiny,
+        EzText.headingTwo('Heading Two'),
+        vSpaceTiny,
+        EzText.headingThree('Heading Three'),
+        vSpaceTiny,
+        EzText.headline('Headline'),
+        vSpaceTiny,
+        EzText.subheading('This will be a sub heading to the headling'),
+        vSpaceTiny,
+        EzText.body('Body Text that will be used for the general body',
+            color: Colors.black),
+        vSpaceTiny,
+        EzText.caption('This will be the caption usually for smaller details'),
+        vSpaceTiny,
+      ];
+
+  List<Widget> get buttonWidgets => [
+        EzText.headline('Buttons'),
+        vSpaceMedium,
+        EzText.body('Normal'),
+        vSpaceSmall,
+        EzButton(
+          title: 'SIGN IN',
+        ),
+        vSpaceSmall,
+        EzText.body('Disabled'),
+        vSpaceSmall,
+        EzButton(
+          title: 'SIGN IN',
+          disabled: true,
+        ),
+        vSpaceSmall,
+        EzText.body('Busy'),
+        vSpaceSmall,
+        EzButton(
+          title: 'SIGN IN',
+          busy: true,
+        ),
+        vSpaceSmall,
+        EzText.body('Outline'),
+        vSpaceSmall,
+        EzButton.outline(
+          title: 'Select location',
+          leading: Icons.send,
+        ),
+        vSpaceMedium,
+      ];
+
+  List<Widget> get inputFields => [
+        EzText.headline('Input Field'),
+        vSpaceSmall,
+        EzText.body('Enter Password'),
+        vSpaceSmall,
+        EzInputField(
+          controller: TextEditingController(),
+          placeholder: 'Enter Password',
+        ),
+        vSpaceSmall,
+        EzText.body('Leading Icon'),
+        vSpaceSmall,
+        EzInputField(
+          controller: TextEditingController(),
+          leading: Icon(Icons.reset_tv),
+          placeholder: 'Enter TV Code',
+        ),
+        vSpaceSmall,
+        EzText.body('Trailing Icon'),
+        vSpaceSmall,
+        EzInputField(
+          controller: TextEditingController(),
+          trailing: Icon(Icons.clear_outlined),
+          placeholder: 'Search for things',
+        ),
+      ];
+}

@@ -1,0 +1,16 @@
+{
+  "__className": "User.model",
+  "__path": "/lib/app/models/",
+  "id":249,
+  "first_name":"Morton",
+  "last_name":"Schmeler",
+  "email":"howell.braxtonedibbert.name",
+  "birth_date": null,
+  "gender" : null,
+  "email_verified_at":null,
+  "mobile_number":null,
+  "role": null,
+  "profile_pic":null,
+  "profile.profile": {},
+  "address.address": {}
+}

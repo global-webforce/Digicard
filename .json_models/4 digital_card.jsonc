@@ -1,0 +1,14 @@
+{
+  "__className": "DigitalCard.model",
+  "__path": "/lib/app/models/",
+  "id": 1,
+  "user_id": 1,
+  "name" : "Mark Dionnie",
+  "title" : "Programmer",
+  "company" : "Global Webforce",
+  "image" : "ffff",
+  "mobile_number":"09238988128",
+  "email": "dionnie_bulingit@yahoo.com",
+  "created_at": "2022-11-01T01:51:45.000000Z",
+  "updated_at": "2022-11-01T01:51:45.000000Z"
+}
