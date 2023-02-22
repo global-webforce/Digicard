@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-class ScaffoldPageViewModel extends BaseViewModel {
+class DashboardViewViewModel extends BaseViewModel {
   final GlobalKey<ScaffoldState> scaffoldkey = GlobalKey<ScaffoldState>();
 }

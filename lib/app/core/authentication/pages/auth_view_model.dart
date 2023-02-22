@@ -1,3 +1,4 @@
+import 'package:digicard/app/app.router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:digicard/app/app.locator.dart';
@@ -33,7 +34,7 @@ class AuthViewModel extends ReactiveViewModel {
   }
 
   @override
-  List<ReactiveServiceMixin> get reactiveServices => [
+  List<ListenableServiceMixin> get listenableServices => [
         _appService,
       ];
 
@@ -80,6 +81,9 @@ class AuthViewModel extends ReactiveViewModel {
       final formValue = _loginFormKey.currentState?.instantValue;
 
       await runBusyFuture(_appService.login(formValue!), throwException: true);
+
+      locator<NavigationService>()
+          .pushNamedAndRemoveUntil(Routes.dashboardView);
 
       if (_appService.user?.role == "registered") {
         _bottomSheetService

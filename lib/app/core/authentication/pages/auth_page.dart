@@ -1,13 +1,11 @@
-import 'package:auto_route/auto_route.dart';
+import 'package:digicard/app/app.router.dart';
 import 'package:digicard/app/app_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
-class AuthPage extends StatelessWidget {
-  AuthPage({Key? key}) : super(key: key);
-
-  final PageController _pageViewController =
-      PageController(initialPage: 1, keepPage: false);
+class AuthView extends StatelessWidget {
+  const AuthView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,16 +14,9 @@ class AuthPage extends StatelessWidget {
         onViewModelReady: (_) {},
         builder: (context, viewModel, child) {
           return Scaffold(
-              body: AutoRouter(
-                  key: const GlobalObjectKey('welcome-router'),
-                  builder: (context, content) {
-                    final kContent = KeyedSubtree(
-                      key: const GlobalObjectKey('welcome-content-main'),
-                      child: content,
-                    );
-
-                    return kContent;
-                  }));
+              body: ExtendedNavigator(
+                  router: AuthViewRouter(),
+                  navigatorKey: StackedService.nestedNavigationKey(1)));
         });
   }
 }

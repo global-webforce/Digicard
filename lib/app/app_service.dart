@@ -11,7 +11,7 @@ import 'package:stacked/stacked.dart';
 
 import 'package:http/http.dart' as http;
 
-class AppService with ReactiveServiceMixin {
+class AppService with ListenableServiceMixin {
   final _dialogService = locator<DialogService>();
   final _apiService = locator<ApiService>();
   final _localStorageService = locator<LocalStorageService>();
@@ -50,6 +50,7 @@ class AppService with ReactiveServiceMixin {
         _user.value = User.fromJson(jsonDecode(res.body)["user"]);
         _localStorageService.user = User.fromJson(jsonDecode(res.body)["user"]);
         _localStorageService.token = jsonDecode(res.body)["token"];
+        notifyListeners();
       },
       onError: (e) {},
     );

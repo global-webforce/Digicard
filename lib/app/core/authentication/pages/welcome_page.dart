@@ -1,16 +1,17 @@
 // ignore_for_file: implementation_imports
 import 'dart:ui';
 
-import 'package:auto_route/src/router/auto_router_x.dart';
+import 'package:digicard/app/app.locator.dart';
+import 'package:digicard/app/app.router.dart';
 import 'package:digicard/app/shared/constants/dimensions.dart';
 import 'package:ez_core/ez_core.dart';
 import 'package:ez_ui/ez_ui.dart';
-import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:stacked_services/stacked_services.dart';
 
-class WelcomePage extends StatelessWidget {
-  const WelcomePage({Key? key}) : super(key: key);
+class WelcomeView extends StatelessWidget {
+  const WelcomeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +76,10 @@ class WelcomePage extends StatelessWidget {
                       EzButton.elevated(
                         title: "CREATE MY CARDS",
                         onTap: () {
-                          context.pushRoute(const LoginRoute());
+                          locator<NavigationService>().navigateTo(
+                            AuthViewRoutes.loginView,
+                            id: 1,
+                          );
                         },
                       ),
                       vSpaceRegular,

@@ -1,3 +1,4 @@
+import 'package:digicard/app/app.router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:digicard/app/app.locator.dart';
@@ -22,6 +23,7 @@ class AppViewModel extends ReactiveViewModel {
   final _storageService = locator<LocalStorageService>();
   final _bottomSheetService = locator<BottomSheetService>();
   final _snackbarService = locator<SnackbarService>();
+  final _navigationService = locator<NavigationService>();
 
   @override
   void onFutureError(error, Object? key) {
@@ -36,7 +38,7 @@ class AppViewModel extends ReactiveViewModel {
   }
 
   @override
-  List<ReactiveServiceMixin> get reactiveServices => [
+  List<ListenableServiceMixin> get listenableServices => [
         _appService,
       ];
 
@@ -56,6 +58,7 @@ class AppViewModel extends ReactiveViewModel {
   }
 
   Future signOut() async {
+    _navigationService.pushNamedAndRemoveUntil(Routes.authView);
     await _appService.signOut();
   }
 
@@ -96,16 +99,8 @@ class AppViewModel extends ReactiveViewModel {
 
       await runBusyFuture(_appService.login(formValue!), throwException: true);
 
-      if (_appService.user?.role == "registered") {
-        _bottomSheetService
-            .showCustomSheet(
-                variant: BottomSheetType.codeVerification,
-                takesInput: true,
-                enableDrag: false,
-                barrierDismissible: false,
-                useRootNavigator: true)
-            .whenComplete(() => _loginFormKey.currentState?.reset());
-      }
+      locator<NavigationService>()
+          .pushNamedAndRemoveUntil(Routes.dashboardView);
     }
   }
 

@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:digicard/app/core/authentication/pages/auth_view_model.dart';
 import 'package:digicard/app/shared/constants/dimensions.dart';
 import 'package:ez_core/ez_core.dart';
@@ -11,14 +10,14 @@ import 'package:loader_overlay/loader_overlay.dart';
 
 import 'package:stacked/stacked.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class LoginView extends StatefulWidget {
+  const LoginView({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginView> createState() => _LoginViewState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<AuthViewModel>.reactive(
@@ -33,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
             FocusScopeNode currentFocus = FocusScope.of(context);
             return Scaffold(
               appBar: AppBar(
-                leading: const AutoLeadingButton(),
+                leading: const BackButton(),
                 actions: [
                   if (isKeyboardVisible)
                     TextButton(

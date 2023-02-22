@@ -8,8 +8,8 @@ import 'package:digicard/features/create_card/services/digital_card_service.dart
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class HomePageViewModel extends ReactiveViewModel {
-  final log = getLogger('HomePageViewModel');
+class HomeViewViewModel extends ReactiveViewModel {
+  final log = getLogger('HomeViewViewModel');
   final _dialogService = locator<DialogService>();
   final _bottomSheetService = locator<BottomSheetService>();
   final _digitalCardService = locator<DigitalCardService>();
