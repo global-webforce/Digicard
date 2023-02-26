@@ -20,6 +20,9 @@ class InitialView extends StatelessWidget {
             routes: (handler) {
               return viewModel.isLoggedIn();
             },
+            onPopRoute: (route, result) {
+              print(route.path);
+            },
           );
 
           return GlobalLoaderOverlay(

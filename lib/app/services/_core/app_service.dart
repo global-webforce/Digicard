@@ -49,12 +49,12 @@ class AppService with ListenableServiceMixin {
   }
 
   List<PageRouteInfo<dynamic>> isLoggedIn() {
-    if (_localStorageService.token != null) {
-      if (!kIsWeb) FlutterNativeSplash.remove();
-      return [const DashboardRoute()];
-    }
     if (!kIsWeb) FlutterNativeSplash.remove();
-    return [const AuthRoute()];
+
+    return [
+      if (_localStorageService.token == null) const AuthRoute(),
+      if (_localStorageService.token != null) const DashboardRoute(),
+    ];
   }
 
   Future login(Map<String, dynamic> formData) async {

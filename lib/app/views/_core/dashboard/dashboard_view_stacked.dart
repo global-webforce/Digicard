@@ -1,8 +1,7 @@
-import 'package:digicard/app/app.dialog_ui.dart';
-import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/constants/keys.dart';
 import 'package:digicard/app/ui/_shared/app_colors.dart';
 import 'package:digicard/app/ui/widgets/app_icon.dart';
+import 'package:digicard/app/views/_core/dashboard/dashboard_viewmodel.dart';
 import 'package:digicard/app/views/contacts/contacts_view.dart';
 import 'package:digicard/app/views/home/home_view.dart';
 import 'package:digicard/app/views/scan_qr_code/scan_qr_code_view.dart';
@@ -14,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 class DashboardView extends StatelessWidget {
   const DashboardView({Key? key}) : super(key: key);
@@ -156,7 +154,7 @@ class DashboardView extends StatelessWidget {
   }
 }
 
-class DashboardViewModel extends IndexTrackingViewModel {
+/* class DashboardViewModel extends IndexTrackingViewModel {
   final _dialogService = locator<DialogService>();
   Future<DialogResponse<dynamic>?> confirmExit() async {
     return _dialogService.showCustomDialog(
@@ -168,4 +166,4 @@ class DashboardViewModel extends IndexTrackingViewModel {
       barrierDismissible: true,
     );
   }
-}
+} */

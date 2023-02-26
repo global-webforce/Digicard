@@ -10,4 +10,6 @@ class ContactsViewModel extends BaseViewModel {
   final _appService = locator<AppService>();
 
   User? get user => _appService.user;
+
+  //
 }
