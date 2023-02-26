@@ -1,17 +1,36 @@
-/* import 'package:digicard/main/dashboard/home/home_view.dart';
-import 'package:digicard/main/features/contacts/contacts_view.dart';
-import 'package:digicard/main/features/scan_qr_code/scan_qr_code_view.dart';
-import 'package:digicard/main/features/settings/settings_view.dart';
-import 'package:ez_core/ez_core.dart';
+import 'package:digicard/app/app.dialog_ui.dart';
+import 'package:digicard/app/app.locator.dart';
+import 'package:digicard/app/constants/keys.dart';
+import 'package:digicard/app/ui/_shared/app_colors.dart';
+import 'package:digicard/app/ui/widgets/app_icon.dart';
+import 'package:digicard/app/views/contacts/contacts_view.dart';
+import 'package:digicard/app/views/home/home_view.dart';
+import 'package:digicard/app/views/scan_qr_code/scan_qr_code_view.dart';
+import 'package:digicard/app/views/settings/settings_view.dart';
+
 import 'package:ez_dashboard/ez_dashboard.dart';
 import 'package:ez_dashboard/screen_size_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 class DashboardView extends StatelessWidget {
   const DashboardView({Key? key}) : super(key: key);
+
+  autoHideDrawer(BuildContext context) {
+    return WidgetsBinding.instance.addPostFrameCallback((_) {
+      final scaffold = dashboardScaffoldKey.currentState;
+      if (scaffold!.isDrawerOpen || isDesktop(context)) {
+        scaffold.closeDrawer();
+      }
+    });
+  }
+
+  Widget divider() {
+    return VerticalDivider(width: 2, thickness: 2, color: HexColor("#332D28"));
+  }
 
   Widget getViewForIndex(int index) {
     switch (index) {
@@ -29,22 +48,30 @@ class DashboardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DashboardParts.autoHideDrawer(context);
+    autoHideDrawer(context);
     return ViewModelBuilder<DashboardViewModel>.reactive(
+      disposeViewModel: true,
+      viewModelBuilder: () => DashboardViewModel(),
+      onViewModelReady: (viewModel) {},
       builder: (context, viewModel, child) => WillPopScope(
-        onWillPop: () => DashboardParts.exitDialog(context),
+        onWillPop: () async {
+          return await viewModel
+              .confirmExit()
+              .then((value) => value!.confirmed);
+        },
         child: Scaffold(
-            key: DashboardParts.scaffoldkey,
+            key: dashboardScaffoldKey,
             body: Row(
               children: [
                 if (isDesktop(context))
                   EZDrawer(
+                    colorTheme: kcPrimaryColor,
                     currentIndex: viewModel.currentIndex,
                     onTap: (i) {
                       viewModel.setIndex(i);
                     },
                     appBar: EZAppBar(
-                      appName: DashboardParts.appIcon,
+                      appName: appIcon(),
                     ),
                     items: [
                       EZDrawerMenuItem(
@@ -65,19 +92,20 @@ class DashboardView extends StatelessWidget {
                       ),
                     ],
                   ),
-                if (isDesktop(context)) DashboardParts.divider(),
+                if (isDesktop(context)) divider(),
                 Expanded(child: getViewForIndex(viewModel.currentIndex)),
               ],
             ),
             drawerEnableOpenDragGesture: true,
             drawer: EZDrawer(
+              colorTheme: kcPrimaryColor,
               currentIndex: viewModel.currentIndex,
               onTap: (i) {
                 viewModel.setIndex(i);
-                DashboardParts.scaffoldkey.currentState?.closeDrawer();
+                dashboardScaffoldKey.currentState?.closeDrawer();
               },
               appBar: EZAppBar(
-                appName: DashboardParts.appIcon,
+                appName: appIcon(),
               ),
               items: [
                 EZDrawerMenuItem(
@@ -99,6 +127,7 @@ class DashboardView extends StatelessWidget {
               ],
             ),
             bottomNavigationBar: EZBottomNavbar(
+              colorTheme: kcPrimaryColor,
               currentIndex: viewModel.currentIndex,
               onTap: (i) {
                 viewModel.setIndex(i);
@@ -123,95 +152,20 @@ class DashboardView extends StatelessWidget {
               ],
             )),
       ),
-      viewModelBuilder: () => DashboardViewModel(),
     );
   }
 }
 
-class DashboardViewModel extends IndexTrackingViewModel {}
-
-class DashboardParts {
-  DashboardParts._();
-
-  static GlobalKey<ScaffoldState> scaffoldkey = GlobalKey<ScaffoldState>();
-
-  static void autoHideDrawer(BuildContext context) {
-    return WidgetsBinding.instance.addPostFrameCallback((_) {
-      final scaffold = DashboardParts.scaffoldkey.currentState;
-      if (scaffold!.isDrawerOpen || isDesktop(context)) {
-        scaffold.closeDrawer();
-      }
-    });
-  }
-
-  static Widget divider() {
-    return VerticalDivider(width: 2, thickness: 2, color: HexColor("#332D28"));
-  }
-
-  static Widget appIcon = Row(
-    children: [
-      const Icon(
-        Icons.qr_code_2_rounded,
-        size: 30,
-        color: Colors.white,
-      ),
-      const SizedBox(
-        width: 10,
-      ),
-      const Text("DIGICARD"),
-      hSpaceSmall,
-      Container(
-          decoration: BoxDecoration(
-              color: kcPrimaryColor, borderRadius: BorderRadius.circular(10)),
-          child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-            child: Text(
-              "PRO",
-              style: TextStyle(color: Colors.black),
-            ),
-          )),
-    ],
-  );
-
-  Future showExitPopup(BuildContext context) async {
-    return showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Exit App'),
-        content: const Text('Do you want to exit an App?'),
-        actions: [
-          ElevatedButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('No'),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Yes'),
-          ),
-        ],
-      ),
+class DashboardViewModel extends IndexTrackingViewModel {
+  final _dialogService = locator<DialogService>();
+  Future<DialogResponse<dynamic>?> confirmExit() async {
+    return _dialogService.showCustomDialog(
+      variant: DialogType.confirmation,
+      title: "Exit App",
+      description: "You sure you want to exit App?",
+      mainButtonTitle: "Cancel",
+      secondaryButtonTitle: "Exit",
+      barrierDismissible: true,
     );
   }
-
-  static Future<bool> exitDialog(BuildContext context) async {
-    return await showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text('Exit App'),
-            content: const Text('Do you want to exit an App?'),
-            actions: [
-              ElevatedButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: const Text('No'),
-              ),
-              ElevatedButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: const Text('Yes'),
-              ),
-            ],
-          ),
-        ) ??
-        false;
-  }
 }
- */

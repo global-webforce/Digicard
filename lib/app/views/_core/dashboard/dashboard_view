@@ -1,4 +1,4 @@
-import 'package:auto_route/auto_route.dart';
+/* import 'package:auto_route/auto_route.dart';
 import 'package:digicard/app/constants/keys.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:digicard/app/ui/_shared/app_colors.dart';
@@ -153,3 +153,4 @@ class DashboardView extends StatelessWidget {
         });
   }
 }
+ */

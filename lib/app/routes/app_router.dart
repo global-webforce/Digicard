@@ -2,12 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:digicard/app/views/_core/login/auth_view.dart';
 import 'package:digicard/app/views/_core/login/login_view.dart';
 import 'package:digicard/app/views/_core/welcome/welcome_view.dart';
-import 'package:digicard/app/views/_core/dashboard/dashboard_view.dart';
-import 'package:digicard/app/views/home/home_view.dart';
-import 'package:digicard/app/views/contacts/contacts_view.dart';
-import 'package:digicard/app/views/scan_qr_code/scan_qr_code_view.dart';
-import 'package:digicard/app/views/settings/settings_view.dart';
+
 import 'package:flutter/material.dart';
+
+import '../views/_core/dashboard/dashboard_view_stacked.dart';
 
 class HeroEmptyRouterPage extends StatelessWidget {
   const HeroEmptyRouterPage({super.key});
@@ -41,7 +39,7 @@ class HeroEmptyRouterPage extends StatelessWidget {
   CustomRoute(
     path: "/",
     page: DashboardView,
-    children: [
+/*     children: [
       CustomRoute(
         initial: true,
         page: HomeView,
@@ -59,7 +57,7 @@ class HeroEmptyRouterPage extends StatelessWidget {
         page: SettingsView,
       ),
       RedirectRoute(path: '*', redirectTo: ''),
-    ],
+    ], */
   ),
 ])
 class $AppRoute {}
