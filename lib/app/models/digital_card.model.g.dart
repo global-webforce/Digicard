@@ -14,6 +14,7 @@ _$_DigitalCard _$$_DigitalCardFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String?,
       company: json['company'] as String?,
       image: json['image'] as String?,
+      color: json['color'] as String?,
       mobileNumber: json['mobile_number'] as String?,
       email: json['email'] as String?,
       createdAt: json['created_at'] == null
@@ -32,6 +33,7 @@ Map<String, dynamic> _$$_DigitalCardToJson(_$_DigitalCard instance) =>
       'title': instance.title,
       'company': instance.company,
       'image': instance.image,
+      'color': instance.color,
       'mobile_number': instance.mobileNumber,
       'email': instance.email,
       'created_at': instance.createdAt?.toIso8601String(),

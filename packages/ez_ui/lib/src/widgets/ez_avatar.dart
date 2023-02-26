@@ -54,43 +54,5 @@ class EzAvatar extends StatelessWidget {
             ));
       },
     );
-
-    /*   CircleAvatar(
-      backgroundColor: Colors.white,
-      radius: radius,
-      child: LayoutBuilder(builder: (context, constraints) {
-        return Stack(
-          children: [
-            CircularProfileAvatar(
-              imgUrl,
-              radius: radius,
-              borderWidth: 1,
-              borderColor: Colors.grey.withOpacity(0.4),
-              backgroundColor: Theme.of(context).cardColor,
-              foregroundColor: Theme.of(context).colorScheme.primary,
-              initialsText: Text(
-                (firstName != null) ? firstName!.initials() : "N/A",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w300,
-                  color: Theme.of(context).colorScheme.secondary,
-                ),
-              ),
-              errorWidget: ((context, url, error) => const SizedBox.shrink()),
-              imageFit: BoxFit.cover,
-              cacheImage: true,
-              onTap: () {},
-            ),
-            if (badge != null)
-              Positioned(
-                bottom: 5,
-                right: 0,
-                child:
-                    SizedBox(width: constraints.maxWidth * 0.3, child: badge),
-              ),
-          ],
-        );
-      }),
-    ); */
   }
 }

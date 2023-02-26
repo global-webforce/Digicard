@@ -27,6 +27,7 @@ mixin _$DigitalCard {
   String? get title => throw _privateConstructorUsedError;
   String? get company => throw _privateConstructorUsedError;
   String? get image => throw _privateConstructorUsedError;
+  String? get color => throw _privateConstructorUsedError;
   @JsonKey(name: 'mobile_number')
   String? get mobileNumber => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
@@ -54,6 +55,7 @@ abstract class $DigitalCardCopyWith<$Res> {
       String? title,
       String? company,
       String? image,
+      String? color,
       @JsonKey(name: 'mobile_number') String? mobileNumber,
       String? email,
       @JsonKey(name: 'created_at') DateTime? createdAt,
@@ -79,6 +81,7 @@ class _$DigitalCardCopyWithImpl<$Res, $Val extends DigitalCard>
     Object? title = freezed,
     Object? company = freezed,
     Object? image = freezed,
+    Object? color = freezed,
     Object? mobileNumber = freezed,
     Object? email = freezed,
     Object? createdAt = freezed,
@@ -108,6 +111,10 @@ class _$DigitalCardCopyWithImpl<$Res, $Val extends DigitalCard>
       image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
+              as String?,
+      color: freezed == color
+          ? _value.color
+          : color // ignore: cast_nullable_to_non_nullable
               as String?,
       mobileNumber: freezed == mobileNumber
           ? _value.mobileNumber
@@ -144,6 +151,7 @@ abstract class _$$_DigitalCardCopyWith<$Res>
       String? title,
       String? company,
       String? image,
+      String? color,
       @JsonKey(name: 'mobile_number') String? mobileNumber,
       String? email,
       @JsonKey(name: 'created_at') DateTime? createdAt,
@@ -167,6 +175,7 @@ class __$$_DigitalCardCopyWithImpl<$Res>
     Object? title = freezed,
     Object? company = freezed,
     Object? image = freezed,
+    Object? color = freezed,
     Object? mobileNumber = freezed,
     Object? email = freezed,
     Object? createdAt = freezed,
@@ -196,6 +205,10 @@ class __$$_DigitalCardCopyWithImpl<$Res>
       image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
+              as String?,
+      color: freezed == color
+          ? _value.color
+          : color // ignore: cast_nullable_to_non_nullable
               as String?,
       mobileNumber: freezed == mobileNumber
           ? _value.mobileNumber
@@ -227,6 +240,7 @@ class _$_DigitalCard implements _DigitalCard {
       this.title,
       this.company,
       this.image,
+      this.color,
       @JsonKey(name: 'mobile_number') this.mobileNumber,
       this.email,
       @JsonKey(name: 'created_at') this.createdAt,
@@ -249,6 +263,8 @@ class _$_DigitalCard implements _DigitalCard {
   @override
   final String? image;
   @override
+  final String? color;
+  @override
   @JsonKey(name: 'mobile_number')
   final String? mobileNumber;
   @override
@@ -262,7 +278,7 @@ class _$_DigitalCard implements _DigitalCard {
 
   @override
   String toString() {
-    return 'DigitalCard(id: $id, userId: $userId, name: $name, title: $title, company: $company, image: $image, mobileNumber: $mobileNumber, email: $email, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'DigitalCard(id: $id, userId: $userId, name: $name, title: $title, company: $company, image: $image, color: $color, mobileNumber: $mobileNumber, email: $email, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -276,6 +292,7 @@ class _$_DigitalCard implements _DigitalCard {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.company, company) || other.company == company) &&
             (identical(other.image, image) || other.image == image) &&
+            (identical(other.color, color) || other.color == color) &&
             (identical(other.mobileNumber, mobileNumber) ||
                 other.mobileNumber == mobileNumber) &&
             (identical(other.email, email) || other.email == email) &&
@@ -288,7 +305,7 @@ class _$_DigitalCard implements _DigitalCard {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, userId, name, title, company,
-      image, mobileNumber, email, createdAt, updatedAt);
+      image, color, mobileNumber, email, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -312,6 +329,7 @@ abstract class _DigitalCard implements DigitalCard {
       final String? title,
       final String? company,
       final String? image,
+      final String? color,
       @JsonKey(name: 'mobile_number') final String? mobileNumber,
       final String? email,
       @JsonKey(name: 'created_at') final DateTime? createdAt,
@@ -333,6 +351,8 @@ abstract class _DigitalCard implements DigitalCard {
   String? get company;
   @override
   String? get image;
+  @override
+  String? get color;
   @override
   @JsonKey(name: 'mobile_number')
   String? get mobileNumber;

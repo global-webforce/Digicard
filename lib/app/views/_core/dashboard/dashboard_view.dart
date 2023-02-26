@@ -1,0 +1,155 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:digicard/app/constants/keys.dart';
+import 'package:digicard/app/routes/app_router.gr.dart';
+import 'package:digicard/app/ui/_shared/app_colors.dart';
+import 'package:digicard/app/ui/widgets/app_icon.dart';
+import 'package:digicard/app/views/_core/dashboard/dashboard_viewmodel.dart';
+import 'package:ez_dashboard/ez_dashboard.dart';
+import 'package:ez_dashboard/screen_size_helper.dart';
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:stacked/stacked.dart';
+
+class DashboardView extends StatelessWidget {
+  const DashboardView({Key? key}) : super(key: key);
+
+  autoHideDrawer(BuildContext context) {
+    return WidgetsBinding.instance.addPostFrameCallback((_) {
+      final scaffold = dashboardScaffoldKey.currentState;
+      if (scaffold!.isDrawerOpen || isDesktop(context)) {
+        scaffold.closeDrawer();
+      }
+    });
+  }
+
+  Widget divider() {
+    return VerticalDivider(width: 2, thickness: 2, color: HexColor("#332D28"));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    autoHideDrawer(context);
+
+    const routes = [
+      HomeRoute(),
+      ScanQRCodeRoute(),
+      ContactsRoute(),
+      SettingsRoute(),
+    ];
+
+    return ViewModelBuilder<DashboardViewModel>.reactive(
+        disposeViewModel: true,
+        viewModelBuilder: () => DashboardViewModel(),
+        onViewModelReady: (viewModel) {},
+        builder: (context, viewModel, child) {
+          return AutoTabsRouter(
+              routes: routes,
+              navigatorObservers: () => [HeroController()],
+              lazyLoad: true,
+              homeIndex: 0,
+              key: UniqueKey(),
+              curve: Curves.bounceIn,
+              builder: (context, child, animation) {
+                return WillPopScope(
+                  onWillPop: () async {
+                    return await viewModel
+                        .confirmExit()
+                        .then((value) => value!.confirmed);
+                  },
+                  child: Scaffold(
+                      key: dashboardScaffoldKey,
+                      drawerEnableOpenDragGesture: true,
+                      body: Row(
+                        children: [
+                          if (isDesktop(context))
+                            EZDrawer(
+                              colorTheme: kcPrimaryColor,
+                              currentIndex: context.tabsRouter.activeIndex,
+                              onTap: (i) {
+                                context.tabsRouter.setActiveIndex(i);
+                              },
+                              appBar: EZAppBar(
+                                appName: appIcon(),
+                              ),
+                              items: [
+                                EZDrawerMenuItem(
+                                  icon: FontAwesomeIcons.solidIdCard,
+                                  title: "CARDS",
+                                ),
+                                EZDrawerMenuItem(
+                                  icon: FontAwesomeIcons.camera,
+                                  title: "SCAN",
+                                ),
+                                EZDrawerMenuItem(
+                                  icon: FontAwesomeIcons.addressBook,
+                                  title: "CONTACTS",
+                                ),
+                                EZDrawerMenuItem(
+                                  icon: Icons.settings_rounded,
+                                  title: "SETTINGS",
+                                ),
+                              ],
+                            ),
+                          if (isDesktop(context)) divider(),
+                          Expanded(child: child),
+                        ],
+                      ),
+                      drawer: EZDrawer(
+                        colorTheme: kcPrimaryColor,
+                        currentIndex: context.tabsRouter.activeIndex,
+                        onTap: (i) {
+                          context.tabsRouter.setActiveIndex(i);
+                        },
+                        appBar: EZAppBar(
+                          appName: appIcon(),
+                        ),
+                        items: [
+                          EZDrawerMenuItem(
+                            icon: FontAwesomeIcons.solidIdCard,
+                            title: "CARDS",
+                          ),
+                          EZDrawerMenuItem(
+                            icon: FontAwesomeIcons.camera,
+                            title: "SCAN",
+                          ),
+                          EZDrawerMenuItem(
+                            icon: FontAwesomeIcons.addressBook,
+                            title: "CONTACTS",
+                          ),
+                          EZDrawerMenuItem(
+                            icon: Icons.settings_rounded,
+                            title: "SETTINGS",
+                          ),
+                        ],
+                      ),
+                      bottomNavigationBar: EZBottomNavbar(
+                        colorTheme: kcPrimaryColor,
+                        currentIndex: context.tabsRouter.activeIndex,
+                        onTap: (i) {
+                          context.tabsRouter.setActiveIndex(i);
+                        },
+                        items: [
+                          EZBottomNavbarItem(
+                            icon: FontAwesomeIcons.solidIdCard,
+                            title: "CARDS",
+                          ),
+                          EZBottomNavbarItem(
+                            icon: FontAwesomeIcons.camera,
+                            title: "SCAN",
+                          ),
+                          EZBottomNavbarItem(
+                            icon: FontAwesomeIcons.addressBook,
+                            title: "CONTACTS",
+                          ),
+                          EZBottomNavbarItem(
+                            icon: Icons.settings_rounded,
+                            title: "SETTINGS",
+                          ),
+                        ],
+                      )),
+                );
+              });
+        });
+  }
+}

@@ -77,7 +77,7 @@ class EzButton extends StatelessWidget {
     Widget _icon() {
       if (leading != null) {
         return Padding(
-          padding: const EdgeInsets.only(right: 5),
+          padding: const EdgeInsets.only(right: 10),
           child: Icon(
             leading,
             color: outline ? background : foreground,

@@ -12,6 +12,7 @@ class DigitalCard with _$DigitalCard {
     String? title,
     String? company,
     String? image,
+    String? color,
     @JsonKey(name: 'mobile_number') String? mobileNumber,
     String? email,
     @JsonKey(name: 'created_at') DateTime? createdAt,

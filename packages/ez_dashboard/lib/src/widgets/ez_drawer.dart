@@ -17,6 +17,7 @@ class EZDrawerMenuItem {
 
 //DRAWER HERE!!!
 class EZDrawer extends StatelessWidget {
+  final Color colorTheme;
   final Widget? drawerHeader;
   final EZAppBar appBar;
   final List<EZDrawerMenuItem> items;
@@ -28,7 +29,8 @@ class EZDrawer extends StatelessWidget {
       required this.items,
       required this.appBar,
       required this.onTap,
-      required this.currentIndex})
+      required this.currentIndex,
+      this.colorTheme = Colors.blue})
       : super(key: key);
 
   @override
@@ -42,17 +44,17 @@ class EZDrawer extends StatelessWidget {
         elevation: 0,
         clipBehavior: Clip.hardEdge,
         color: menu.key == currentIndex
-            ? Colors.orange.withOpacity(0.3)
+            ? colorTheme.withOpacity(0.3)
             : Colors.transparent,
         child: ListTile(
           leading: Icon(
             menu.value.icon,
-            color: menu.key == currentIndex ? Colors.orange : null,
+            color: menu.key == currentIndex ? colorTheme : null,
           ),
           title: Text(
             menu.value.title,
             style: TextStyle(
-              color: menu.key == currentIndex ? Colors.orange : null,
+              color: menu.key == currentIndex ? colorTheme : null,
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),

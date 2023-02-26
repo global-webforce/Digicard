@@ -1,0 +1,50 @@
+import 'package:digicard/app/app.locator.dart';
+import 'package:digicard/app/services/_core/app_service.dart';
+import 'package:digicard/app/models/user.model.dart';
+import 'package:digicard/app/app.snackbar_ui.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
+
+class BasicProfileViewModel extends ReactiveViewModel {
+  final _appService = locator<AppService>();
+  final _snackbarService = locator<SnackbarService>();
+  final GlobalKey<ScaffoldState> scaffoldkey = GlobalKey<ScaffoldState>();
+  @override
+  List<ListenableServiceMixin> get listenableServices => [
+        _appService,
+      ];
+
+  User? get user => _appService.user;
+
+  final _userProfileFormKey = GlobalKey<FormBuilderState>();
+  GlobalKey<FormBuilderState> get userProfileFormKey => _userProfileFormKey;
+
+  Future updateProfile() async {
+    if (_userProfileFormKey.currentState!.saveAndValidate()) {
+      final formValue = _userProfileFormKey.currentState?.instantValue;
+      Map<String, dynamic> rawFormData = Map.of(formValue!);
+      rawFormData.addAll({
+        "full_address": rawFormData["address1"],
+        "place_name": rawFormData["address2"].placeName,
+        "state_name": rawFormData["address2"].stateName,
+        "state_code": rawFormData["address2"].stateCode,
+        "postcode": rawFormData["address2"].postcode,
+        "latitude": rawFormData["address2"].latitude,
+        "longitude": rawFormData["address2"].longitude,
+        "accuracy": rawFormData["address2"].accuracy,
+      });
+      rawFormData.remove('address1');
+      rawFormData.remove('address2');
+
+      await runBusyFuture(_appService.updateProfile(rawFormData),
+          throwException: true);
+
+      _snackbarService.showCustomSnackBar(
+          message: "Profile Update Successful",
+          duration: const Duration(seconds: 2),
+          variant: SnackbarType.successful);
+    }
+  }
+}
