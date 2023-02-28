@@ -1,11 +1,12 @@
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/ui/bottom_sheets/card_send_bottom_sheet.dart';
 import 'package:digicard/app/ui/bottom_sheets/card_tools_bottom_sheet.dart';
+import 'package:digicard/app/ui/bottom_sheets/image_picker_bottom_sheet.dart';
 
 import 'package:stacked_services/stacked_services.dart';
 
 //1. Create name/alias of custom dialog
-enum BottomSheetType { codeVerification, digitalCard, send, z }
+enum BottomSheetType { codeVerification, digitalCard, send, imagepicker }
 
 Future<void> setupBottomSheetUI() async {
   final bottomSheetService = locator<BottomSheetService>();
@@ -19,6 +20,11 @@ Future<void> setupBottomSheetUI() async {
         ),
     BottomSheetType.send: (context, sheetRequest, completer) =>
         CardSendBottomSheet(
+          request: sheetRequest,
+          completer: completer,
+        ),
+    BottomSheetType.imagepicker: (context, sheetRequest, completer) =>
+        ImagePickerBottomSheet(
           request: sheetRequest,
           completer: completer,
         ),

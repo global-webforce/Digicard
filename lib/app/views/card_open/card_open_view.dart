@@ -32,7 +32,6 @@ class CardOpenView extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
                   child: EzButton.elevated(
-                    background: HexColor("${card.color}"),
                     leading: Icons.save_rounded,
                     title: "Save Contact",
                     onLongPress: () {},
@@ -60,7 +59,7 @@ class CardOpenView extends StatelessWidget {
                                   bottom: BorderSide(
                                     //                    <--- top side
                                     color: HexColor("${card.color}"),
-                                    width: 8.0,
+                                    width: 5,
                                   ),
                                 ),
                               ),
@@ -73,7 +72,7 @@ class CardOpenView extends StatelessWidget {
                             ),
                             vSpaceRegular,
                             Positioned(
-                              bottom: -30,
+                              bottom: -25,
                               child: Center(
                                 child: Container(
                                   decoration: const BoxDecoration(
@@ -83,7 +82,7 @@ class CardOpenView extends StatelessWidget {
                                   padding: const EdgeInsets.all(15),
                                   child: Image.network(
                                     "https://globalwebforce.com/wp-content/uploads/2021/06/cropped-nav-logo.png",
-                                    width: 200,
+                                    width: 180,
                                   ),
                                 ),
                               ),

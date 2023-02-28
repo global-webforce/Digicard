@@ -26,7 +26,6 @@ class CardToolsBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<CardToolsBottomSheetViewModel>.reactive(
-        key: UniqueKey(),
         viewModelBuilder: () => CardToolsBottomSheetViewModel(),
         builder: (context, viewModel, child) {
           if (viewModel.busy(duplicateBusyKey)) {

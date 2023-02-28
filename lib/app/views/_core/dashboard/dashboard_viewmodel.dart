@@ -54,7 +54,7 @@ class DashboardViewModel extends MultipleStreamViewModel {
   int i = 0;
   final _appService = locator<AppService>();
   Stream<int> numbersStream([int delay = 1000]) async* {
-    while (i != 10) {
+    while (i != 999999999) {
       await Future.delayed(Duration(milliseconds: delay));
       yield i += 1;
     }

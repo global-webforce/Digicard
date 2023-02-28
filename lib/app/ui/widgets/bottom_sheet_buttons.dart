@@ -1,4 +1,3 @@
-import 'package:ez_core/ez_core.dart';
 import 'package:ez_ui/ez_ui.dart';
 import 'package:flutter/material.dart';
 
@@ -83,7 +82,7 @@ class MinButtons extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 icon,
-                hSpaceSmall,
+                const SizedBox(width: 10),
                 EzText.caption(title, align: TextAlign.left),
               ],
             ),

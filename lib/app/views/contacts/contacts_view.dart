@@ -1,6 +1,6 @@
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/constants/keys.dart';
-import 'package:digicard/app/ui/_core/scaffold_body_wrapper.dart';
+import 'package:digicard/app/ui/forms/edit_card_view.dart';
 import 'package:digicard/app/views/contacts/contacts_view_view_model.dart';
 import 'package:ez_core/ez_core.dart';
 import 'package:ez_dashboard/ez_dashboard.dart';
@@ -26,8 +26,6 @@ class ContactsView extends StatelessWidget {
                 ],
               ),
             ),
-            body: ScaffoldBodyWrapper(builder: (context, constrains) {
-              return const Text("DIGICARD");
-            })));
+            body: CardEditView()));
   }
 }

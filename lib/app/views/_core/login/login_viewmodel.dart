@@ -134,9 +134,10 @@ class LoginViewModel extends ReactiveViewModel {
           throwException: true);
     } else {
       _dialogService.showCustomDialog(
-          variant: DialogType.forgotPassword,
+          variant: DialogType.simple,
           barrierDismissible: true,
-          description: "FFFF");
+          description:
+              "To reset password, enter your account email above, then tap Forgot Password again.");
     }
   }
 
