@@ -1,5 +1,3 @@
-import 'package:easy_debounce/easy_debounce.dart';
-
 import 'package:ez_dashboard/src/widgets/ez_appbar.dart';
 import 'package:flutter/material.dart';
 
@@ -60,10 +58,11 @@ class EZDrawer extends StatelessWidget {
             ),
           ),
           onTap: () {
-            EasyDebounce.debounce(
+            onTap(menu.key);
+            /*   EasyDebounce.debounce(
                 'bottom-navigation', const Duration(milliseconds: 100), () {
-              onTap(menu.key);
-            });
+              
+            }); */
           },
           trailing: (menu.value.notificationCount > 0)
               ? CircleAvatar(

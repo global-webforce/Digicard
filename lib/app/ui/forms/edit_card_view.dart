@@ -157,7 +157,8 @@ class CardEditView extends StackedView<CardEditViewModel> with $CardEditView {
                                       InkWell(
                                         borderRadius: BorderRadius.circular(5),
                                         onTap: () {
-                                          FocusScope.of(context).unfocus();
+                                          FocusScope.of(context)
+                                              .requestFocus(FocusNode());
                                           viewModel.showImagePicker();
                                         },
                                         child: Ink(
@@ -182,7 +183,8 @@ class CardEditView extends StackedView<CardEditViewModel> with $CardEditView {
                                       InkWell(
                                         borderRadius: BorderRadius.circular(5),
                                         onTap: () {
-                                          FocusScope.of(context).unfocus();
+                                          FocusScope.of(context)
+                                              .requestFocus(FocusNode());
                                           viewModel.showColorPicker();
                                         },
                                         child: Ink(
@@ -245,7 +247,10 @@ class CardEditView extends StackedView<CardEditViewModel> with $CardEditView {
                       initialValue: viewModel.fulln,
                       key: UniqueKey(),
                       readOnly: true,
-                      onTap: () => viewModel.toggleNamePanel(),
+                      onTap: () {
+                        FocusScope.of(context).requestFocus(FocusNode());
+                        viewModel.toggleNamePanel();
+                      },
                       decoration: InputDecoration(
                         hintText: 'Your Full Name',
                         suffixIcon: CircleIconButton(
@@ -253,6 +258,7 @@ class CardEditView extends StackedView<CardEditViewModel> with $CardEditView {
                               ? Icons.arrow_drop_down_rounded
                               : Icons.arrow_drop_up_rounded,
                           onTap: () {
+                            FocusScope.of(context).requestFocus(FocusNode());
                             viewModel.toggleNamePanel();
                           },
                         ),

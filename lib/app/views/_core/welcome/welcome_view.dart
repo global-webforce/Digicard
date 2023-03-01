@@ -65,7 +65,7 @@ class WelcomeView extends StatelessWidget {
                         color: Colors.white,
                       ),
                       const Text(
-                        "Create a business card for every \nsituation",
+                        "Create a business card for \nevery situation",
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white, fontSize: 20),
                       ),

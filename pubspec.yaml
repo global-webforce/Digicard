@@ -94,6 +94,9 @@ dependencies:
   auto_route: ^5.0.4
   flutter_colorpicker: ^1.0.3
   image_cropper: ^3.0.1
+  touchable: ^1.0.2
+
+
 dev_dependencies:
   analyzer: ^5.1.0
   auto_route_generator: ^5.0.3
@@ -104,9 +107,6 @@ dev_dependencies:
     sdk: flutter
   freezed: ^2.0.3
   json_serializable: ^6.1.4
-  
-  
-
 dependency_overrides:
   image_picker_android: 0.8.4+13
   flutter_lints: ^2.0.1

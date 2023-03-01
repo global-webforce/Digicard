@@ -25,7 +25,7 @@ class HomeView extends StatelessWidget {
           await viewModel.init();
         },
         disposeViewModel: false,
-        fireOnViewModelReadyOnce: false,
+        fireOnViewModelReadyOnce: true,
         builder: (context, viewModel, child) {
           return Scaffold(
               appBar: AppBar(

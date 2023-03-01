@@ -22,7 +22,7 @@ class ColorPickerDialog extends StatelessWidget {
 
             return Center(
               child: SizedBox(
-                height: 240,
+                height: 200,
                 child: GridView.count(
                   crossAxisCount: 5,
                   crossAxisSpacing: 5,

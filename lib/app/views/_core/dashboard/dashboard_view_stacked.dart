@@ -2,10 +2,6 @@ import 'package:digicard/app/constants/keys.dart';
 import 'package:digicard/app/ui/_shared/app_colors.dart';
 import 'package:digicard/app/ui/widgets/app_icon.dart';
 import 'package:digicard/app/views/_core/dashboard/dashboard_viewmodel.dart';
-import 'package:digicard/app/views/contacts/contacts_view.dart';
-import 'package:digicard/app/views/home/home_view.dart';
-import 'package:digicard/app/views/scan_qr_code/scan_qr_code_view.dart';
-import 'package:digicard/app/views/settings/settings_view.dart';
 
 import 'package:ez_dashboard/ez_dashboard.dart';
 import 'package:ez_dashboard/screen_size_helper.dart';
@@ -30,25 +26,11 @@ class DashboardView extends StatelessWidget {
     return VerticalDivider(width: 2, thickness: 2, color: HexColor("#332D28"));
   }
 
-  Widget getViewForIndex(int index) {
-    switch (index) {
-      case 0:
-        return const HomeView();
-      case 1:
-        return const ScanQRCodeView();
-      case 2:
-        return const ContactsView();
-      case 3:
-        return const SettingsView();
-    }
-    return const HomeView();
-  }
-
   @override
   Widget build(BuildContext context) {
     autoHideDrawer(context);
     return ViewModelBuilder<DashboardViewModel>.reactive(
-      disposeViewModel: true,
+      disposeViewModel: false,
       viewModelBuilder: () => DashboardViewModel(),
       onViewModelReady: (viewModel) {},
       builder: (context, viewModel, child) => WillPopScope(
@@ -91,7 +73,8 @@ class DashboardView extends StatelessWidget {
                     ],
                   ),
                 if (isDesktop(context)) divider(),
-                Expanded(child: getViewForIndex(viewModel.currentIndex)),
+                Expanded(
+                    child: viewModel.getViewForIndex(viewModel.currentIndex)),
               ],
             ),
             drawerEnableOpenDragGesture: true,

@@ -1,4 +1,3 @@
-import 'package:easy_debounce/easy_debounce.dart';
 import 'package:ez_dashboard/screen_size_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -34,10 +33,11 @@ class EZBottomNavbar extends StatelessWidget {
                 type: BottomNavigationBarType.fixed,
                 showUnselectedLabels: true,
                 onTap: (i) {
-                  EasyDebounce.debounce(
+                  onTap(i);
+                  /*   EasyDebounce.debounce(
                       'bottom-navigate', const Duration(milliseconds: 100), () {
-                    onTap(i);
-                  });
+                   
+                  }); */
                 },
               ),
             ],
