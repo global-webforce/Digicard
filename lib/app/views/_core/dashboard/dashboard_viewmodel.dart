@@ -35,7 +35,7 @@ class DashboardViewModel extends BaseViewModel {
       _reverse = false;
     }
     _currentIndex = value;
-    notifyListeners();
+    rebuildUi();
   }
 
   bool isIndexSelected(int index) => _currentIndex == index;

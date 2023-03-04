@@ -13,7 +13,6 @@ import 'package:share_plus/share_plus.dart';
 import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class CardSendBottomSheetViewModel extends ReactiveViewModel {
@@ -24,9 +23,6 @@ class CardSendBottomSheetViewModel extends ReactiveViewModel {
 
   @override
   List<ListenableServiceMixin> get listenableServices => [_digitalCardsService];
-
-  final _digitalCardsFormKey = GlobalKey<FormBuilderState>();
-  GlobalKey<FormBuilderState> get digitalCardsFormKey => _digitalCardsFormKey;
 
   GlobalKey globalKey = GlobalKey();
 

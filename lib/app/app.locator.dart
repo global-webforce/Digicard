@@ -20,7 +20,6 @@ import 'services/digital_card_service.dart';
 import 'services/digital_card_service_laravel.dart';
 import 'ui/bottom_sheets/card_send_bottom_sheet_viewmodel.dart';
 import 'ui/bottom_sheets/card_tools_bottom_sheet_viewmodel.dart';
-import 'views/_core/basic_profile/basic_profile_viewmodel.dart';
 import 'views/_core/dashboard/dashboard_viewmodel.dart';
 import 'views/_core/initialize/initial_viewmodel.dart';
 import 'views/_core/login/login_viewmodel.dart';
@@ -53,7 +52,6 @@ Future<void> setupLocator(
       () => DigitalCardServiceLaravel());
   locator.registerSingleton(InitialViewModel());
   locator.registerSingleton(LoginViewModel());
-  locator.registerSingleton(BasicProfileViewModel());
   locator.registerSingleton(DashboardViewModel());
   locator.registerSingleton(HomeViewModel());
   locator.registerSingleton(CardToolsBottomSheetViewModel());

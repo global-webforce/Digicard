@@ -23,14 +23,33 @@ mixin _$DigitalCard {
   int? get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'user_id')
   int? get userId => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
+  @JsonKey(name: 'owner_id')
+  int? get ownerId => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
-  String? get company => throw _privateConstructorUsedError;
-  String? get image => throw _privateConstructorUsedError;
+  @JsonKey(name: 'logo_image')
+  String? get logoImage => throw _privateConstructorUsedError;
   String? get color => throw _privateConstructorUsedError;
+  @JsonKey(name: 'profile_image')
+  String? get profileImage => throw _privateConstructorUsedError;
+  String? get prefix => throw _privateConstructorUsedError;
+  @JsonKey(name: 'first_name')
+  String? get firstName => throw _privateConstructorUsedError;
+  @JsonKey(name: 'middle_name')
+  String? get middleName => throw _privateConstructorUsedError;
+  @JsonKey(name: 'last_name')
+  String? get lastName => throw _privateConstructorUsedError;
+  String? get suffix => throw _privateConstructorUsedError;
+  @JsonKey(name: 'short_bio')
+  String? get shortBio => throw _privateConstructorUsedError;
+  String? get position => throw _privateConstructorUsedError;
+  String? get company => throw _privateConstructorUsedError;
+  String? get email => throw _privateConstructorUsedError;
+  String? get address => throw _privateConstructorUsedError;
   @JsonKey(name: 'mobile_number')
   String? get mobileNumber => throw _privateConstructorUsedError;
-  String? get email => throw _privateConstructorUsedError;
+  String? get website => throw _privateConstructorUsedError;
+  @JsonKey(name: 'goes_by')
+  String? get goesBy => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'updated_at')
@@ -51,13 +70,24 @@ abstract class $DigitalCardCopyWith<$Res> {
   $Res call(
       {int? id,
       @JsonKey(name: 'user_id') int? userId,
-      String? name,
+      @JsonKey(name: 'owner_id') int? ownerId,
       String? title,
-      String? company,
-      String? image,
+      @JsonKey(name: 'logo_image') String? logoImage,
       String? color,
-      @JsonKey(name: 'mobile_number') String? mobileNumber,
+      @JsonKey(name: 'profile_image') String? profileImage,
+      String? prefix,
+      @JsonKey(name: 'first_name') String? firstName,
+      @JsonKey(name: 'middle_name') String? middleName,
+      @JsonKey(name: 'last_name') String? lastName,
+      String? suffix,
+      @JsonKey(name: 'short_bio') String? shortBio,
+      String? position,
+      String? company,
       String? email,
+      String? address,
+      @JsonKey(name: 'mobile_number') String? mobileNumber,
+      String? website,
+      @JsonKey(name: 'goes_by') String? goesBy,
       @JsonKey(name: 'created_at') DateTime? createdAt,
       @JsonKey(name: 'updated_at') DateTime? updatedAt});
 }
@@ -77,13 +107,24 @@ class _$DigitalCardCopyWithImpl<$Res, $Val extends DigitalCard>
   $Res call({
     Object? id = freezed,
     Object? userId = freezed,
-    Object? name = freezed,
+    Object? ownerId = freezed,
     Object? title = freezed,
-    Object? company = freezed,
-    Object? image = freezed,
+    Object? logoImage = freezed,
     Object? color = freezed,
-    Object? mobileNumber = freezed,
+    Object? profileImage = freezed,
+    Object? prefix = freezed,
+    Object? firstName = freezed,
+    Object? middleName = freezed,
+    Object? lastName = freezed,
+    Object? suffix = freezed,
+    Object? shortBio = freezed,
+    Object? position = freezed,
+    Object? company = freezed,
     Object? email = freezed,
+    Object? address = freezed,
+    Object? mobileNumber = freezed,
+    Object? website = freezed,
+    Object? goesBy = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -96,33 +137,77 @@ class _$DigitalCardCopyWithImpl<$Res, $Val extends DigitalCard>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as int?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
+      ownerId: freezed == ownerId
+          ? _value.ownerId
+          : ownerId // ignore: cast_nullable_to_non_nullable
+              as int?,
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String?,
-      company: freezed == company
-          ? _value.company
-          : company // ignore: cast_nullable_to_non_nullable
-              as String?,
-      image: freezed == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
+      logoImage: freezed == logoImage
+          ? _value.logoImage
+          : logoImage // ignore: cast_nullable_to_non_nullable
               as String?,
       color: freezed == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as String?,
-      mobileNumber: freezed == mobileNumber
-          ? _value.mobileNumber
-          : mobileNumber // ignore: cast_nullable_to_non_nullable
+      profileImage: freezed == profileImage
+          ? _value.profileImage
+          : profileImage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      prefix: freezed == prefix
+          ? _value.prefix
+          : prefix // ignore: cast_nullable_to_non_nullable
+              as String?,
+      firstName: freezed == firstName
+          ? _value.firstName
+          : firstName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      middleName: freezed == middleName
+          ? _value.middleName
+          : middleName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastName: freezed == lastName
+          ? _value.lastName
+          : lastName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      suffix: freezed == suffix
+          ? _value.suffix
+          : suffix // ignore: cast_nullable_to_non_nullable
+              as String?,
+      shortBio: freezed == shortBio
+          ? _value.shortBio
+          : shortBio // ignore: cast_nullable_to_non_nullable
+              as String?,
+      position: freezed == position
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as String?,
+      company: freezed == company
+          ? _value.company
+          : company // ignore: cast_nullable_to_non_nullable
               as String?,
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      address: freezed == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String?,
+      mobileNumber: freezed == mobileNumber
+          ? _value.mobileNumber
+          : mobileNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
+      website: freezed == website
+          ? _value.website
+          : website // ignore: cast_nullable_to_non_nullable
+              as String?,
+      goesBy: freezed == goesBy
+          ? _value.goesBy
+          : goesBy // ignore: cast_nullable_to_non_nullable
               as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
@@ -147,13 +232,24 @@ abstract class _$$_DigitalCardCopyWith<$Res>
   $Res call(
       {int? id,
       @JsonKey(name: 'user_id') int? userId,
-      String? name,
+      @JsonKey(name: 'owner_id') int? ownerId,
       String? title,
-      String? company,
-      String? image,
+      @JsonKey(name: 'logo_image') String? logoImage,
       String? color,
-      @JsonKey(name: 'mobile_number') String? mobileNumber,
+      @JsonKey(name: 'profile_image') String? profileImage,
+      String? prefix,
+      @JsonKey(name: 'first_name') String? firstName,
+      @JsonKey(name: 'middle_name') String? middleName,
+      @JsonKey(name: 'last_name') String? lastName,
+      String? suffix,
+      @JsonKey(name: 'short_bio') String? shortBio,
+      String? position,
+      String? company,
       String? email,
+      String? address,
+      @JsonKey(name: 'mobile_number') String? mobileNumber,
+      String? website,
+      @JsonKey(name: 'goes_by') String? goesBy,
       @JsonKey(name: 'created_at') DateTime? createdAt,
       @JsonKey(name: 'updated_at') DateTime? updatedAt});
 }
@@ -171,13 +267,24 @@ class __$$_DigitalCardCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? userId = freezed,
-    Object? name = freezed,
+    Object? ownerId = freezed,
     Object? title = freezed,
-    Object? company = freezed,
-    Object? image = freezed,
+    Object? logoImage = freezed,
     Object? color = freezed,
-    Object? mobileNumber = freezed,
+    Object? profileImage = freezed,
+    Object? prefix = freezed,
+    Object? firstName = freezed,
+    Object? middleName = freezed,
+    Object? lastName = freezed,
+    Object? suffix = freezed,
+    Object? shortBio = freezed,
+    Object? position = freezed,
+    Object? company = freezed,
     Object? email = freezed,
+    Object? address = freezed,
+    Object? mobileNumber = freezed,
+    Object? website = freezed,
+    Object? goesBy = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -190,33 +297,77 @@ class __$$_DigitalCardCopyWithImpl<$Res>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as int?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
+      ownerId: freezed == ownerId
+          ? _value.ownerId
+          : ownerId // ignore: cast_nullable_to_non_nullable
+              as int?,
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String?,
-      company: freezed == company
-          ? _value.company
-          : company // ignore: cast_nullable_to_non_nullable
-              as String?,
-      image: freezed == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
+      logoImage: freezed == logoImage
+          ? _value.logoImage
+          : logoImage // ignore: cast_nullable_to_non_nullable
               as String?,
       color: freezed == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as String?,
-      mobileNumber: freezed == mobileNumber
-          ? _value.mobileNumber
-          : mobileNumber // ignore: cast_nullable_to_non_nullable
+      profileImage: freezed == profileImage
+          ? _value.profileImage
+          : profileImage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      prefix: freezed == prefix
+          ? _value.prefix
+          : prefix // ignore: cast_nullable_to_non_nullable
+              as String?,
+      firstName: freezed == firstName
+          ? _value.firstName
+          : firstName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      middleName: freezed == middleName
+          ? _value.middleName
+          : middleName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastName: freezed == lastName
+          ? _value.lastName
+          : lastName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      suffix: freezed == suffix
+          ? _value.suffix
+          : suffix // ignore: cast_nullable_to_non_nullable
+              as String?,
+      shortBio: freezed == shortBio
+          ? _value.shortBio
+          : shortBio // ignore: cast_nullable_to_non_nullable
+              as String?,
+      position: freezed == position
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as String?,
+      company: freezed == company
+          ? _value.company
+          : company // ignore: cast_nullable_to_non_nullable
               as String?,
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      address: freezed == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String?,
+      mobileNumber: freezed == mobileNumber
+          ? _value.mobileNumber
+          : mobileNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
+      website: freezed == website
+          ? _value.website
+          : website // ignore: cast_nullable_to_non_nullable
+              as String?,
+      goesBy: freezed == goesBy
+          ? _value.goesBy
+          : goesBy // ignore: cast_nullable_to_non_nullable
               as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
@@ -236,13 +387,24 @@ class _$_DigitalCard implements _DigitalCard {
   _$_DigitalCard(
       {this.id,
       @JsonKey(name: 'user_id') this.userId,
-      this.name,
+      @JsonKey(name: 'owner_id') this.ownerId,
       this.title,
-      this.company,
-      this.image,
+      @JsonKey(name: 'logo_image') this.logoImage,
       this.color,
-      @JsonKey(name: 'mobile_number') this.mobileNumber,
+      @JsonKey(name: 'profile_image') this.profileImage,
+      this.prefix,
+      @JsonKey(name: 'first_name') this.firstName,
+      @JsonKey(name: 'middle_name') this.middleName,
+      @JsonKey(name: 'last_name') this.lastName,
+      this.suffix,
+      @JsonKey(name: 'short_bio') this.shortBio,
+      this.position,
+      this.company,
       this.email,
+      this.address,
+      @JsonKey(name: 'mobile_number') this.mobileNumber,
+      this.website,
+      @JsonKey(name: 'goes_by') this.goesBy,
       @JsonKey(name: 'created_at') this.createdAt,
       @JsonKey(name: 'updated_at') this.updatedAt});
 
@@ -255,20 +417,50 @@ class _$_DigitalCard implements _DigitalCard {
   @JsonKey(name: 'user_id')
   final int? userId;
   @override
-  final String? name;
+  @JsonKey(name: 'owner_id')
+  final int? ownerId;
   @override
   final String? title;
   @override
-  final String? company;
-  @override
-  final String? image;
+  @JsonKey(name: 'logo_image')
+  final String? logoImage;
   @override
   final String? color;
+  @override
+  @JsonKey(name: 'profile_image')
+  final String? profileImage;
+  @override
+  final String? prefix;
+  @override
+  @JsonKey(name: 'first_name')
+  final String? firstName;
+  @override
+  @JsonKey(name: 'middle_name')
+  final String? middleName;
+  @override
+  @JsonKey(name: 'last_name')
+  final String? lastName;
+  @override
+  final String? suffix;
+  @override
+  @JsonKey(name: 'short_bio')
+  final String? shortBio;
+  @override
+  final String? position;
+  @override
+  final String? company;
+  @override
+  final String? email;
+  @override
+  final String? address;
   @override
   @JsonKey(name: 'mobile_number')
   final String? mobileNumber;
   @override
-  final String? email;
+  final String? website;
+  @override
+  @JsonKey(name: 'goes_by')
+  final String? goesBy;
   @override
   @JsonKey(name: 'created_at')
   final DateTime? createdAt;
@@ -278,7 +470,7 @@ class _$_DigitalCard implements _DigitalCard {
 
   @override
   String toString() {
-    return 'DigitalCard(id: $id, userId: $userId, name: $name, title: $title, company: $company, image: $image, color: $color, mobileNumber: $mobileNumber, email: $email, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'DigitalCard(id: $id, userId: $userId, ownerId: $ownerId, title: $title, logoImage: $logoImage, color: $color, profileImage: $profileImage, prefix: $prefix, firstName: $firstName, middleName: $middleName, lastName: $lastName, suffix: $suffix, shortBio: $shortBio, position: $position, company: $company, email: $email, address: $address, mobileNumber: $mobileNumber, website: $website, goesBy: $goesBy, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -288,14 +480,32 @@ class _$_DigitalCard implements _DigitalCard {
             other is _$_DigitalCard &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.name, name) || other.name == name) &&
+            (identical(other.ownerId, ownerId) || other.ownerId == ownerId) &&
             (identical(other.title, title) || other.title == title) &&
-            (identical(other.company, company) || other.company == company) &&
-            (identical(other.image, image) || other.image == image) &&
+            (identical(other.logoImage, logoImage) ||
+                other.logoImage == logoImage) &&
             (identical(other.color, color) || other.color == color) &&
+            (identical(other.profileImage, profileImage) ||
+                other.profileImage == profileImage) &&
+            (identical(other.prefix, prefix) || other.prefix == prefix) &&
+            (identical(other.firstName, firstName) ||
+                other.firstName == firstName) &&
+            (identical(other.middleName, middleName) ||
+                other.middleName == middleName) &&
+            (identical(other.lastName, lastName) ||
+                other.lastName == lastName) &&
+            (identical(other.suffix, suffix) || other.suffix == suffix) &&
+            (identical(other.shortBio, shortBio) ||
+                other.shortBio == shortBio) &&
+            (identical(other.position, position) ||
+                other.position == position) &&
+            (identical(other.company, company) || other.company == company) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.address, address) || other.address == address) &&
             (identical(other.mobileNumber, mobileNumber) ||
                 other.mobileNumber == mobileNumber) &&
-            (identical(other.email, email) || other.email == email) &&
+            (identical(other.website, website) || other.website == website) &&
+            (identical(other.goesBy, goesBy) || other.goesBy == goesBy) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -304,8 +514,31 @@ class _$_DigitalCard implements _DigitalCard {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, userId, name, title, company,
-      image, color, mobileNumber, email, createdAt, updatedAt);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        userId,
+        ownerId,
+        title,
+        logoImage,
+        color,
+        profileImage,
+        prefix,
+        firstName,
+        middleName,
+        lastName,
+        suffix,
+        shortBio,
+        position,
+        company,
+        email,
+        address,
+        mobileNumber,
+        website,
+        goesBy,
+        createdAt,
+        updatedAt
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -325,13 +558,24 @@ abstract class _DigitalCard implements DigitalCard {
   factory _DigitalCard(
       {final int? id,
       @JsonKey(name: 'user_id') final int? userId,
-      final String? name,
+      @JsonKey(name: 'owner_id') final int? ownerId,
       final String? title,
-      final String? company,
-      final String? image,
+      @JsonKey(name: 'logo_image') final String? logoImage,
       final String? color,
-      @JsonKey(name: 'mobile_number') final String? mobileNumber,
+      @JsonKey(name: 'profile_image') final String? profileImage,
+      final String? prefix,
+      @JsonKey(name: 'first_name') final String? firstName,
+      @JsonKey(name: 'middle_name') final String? middleName,
+      @JsonKey(name: 'last_name') final String? lastName,
+      final String? suffix,
+      @JsonKey(name: 'short_bio') final String? shortBio,
+      final String? position,
+      final String? company,
       final String? email,
+      final String? address,
+      @JsonKey(name: 'mobile_number') final String? mobileNumber,
+      final String? website,
+      @JsonKey(name: 'goes_by') final String? goesBy,
       @JsonKey(name: 'created_at') final DateTime? createdAt,
       @JsonKey(name: 'updated_at') final DateTime? updatedAt}) = _$_DigitalCard;
 
@@ -344,20 +588,50 @@ abstract class _DigitalCard implements DigitalCard {
   @JsonKey(name: 'user_id')
   int? get userId;
   @override
-  String? get name;
+  @JsonKey(name: 'owner_id')
+  int? get ownerId;
   @override
   String? get title;
   @override
-  String? get company;
-  @override
-  String? get image;
+  @JsonKey(name: 'logo_image')
+  String? get logoImage;
   @override
   String? get color;
+  @override
+  @JsonKey(name: 'profile_image')
+  String? get profileImage;
+  @override
+  String? get prefix;
+  @override
+  @JsonKey(name: 'first_name')
+  String? get firstName;
+  @override
+  @JsonKey(name: 'middle_name')
+  String? get middleName;
+  @override
+  @JsonKey(name: 'last_name')
+  String? get lastName;
+  @override
+  String? get suffix;
+  @override
+  @JsonKey(name: 'short_bio')
+  String? get shortBio;
+  @override
+  String? get position;
+  @override
+  String? get company;
+  @override
+  String? get email;
+  @override
+  String? get address;
   @override
   @JsonKey(name: 'mobile_number')
   String? get mobileNumber;
   @override
-  String? get email;
+  String? get website;
+  @override
+  @JsonKey(name: 'goes_by')
+  String? get goesBy;
   @override
   @JsonKey(name: 'created_at')
   DateTime? get createdAt;

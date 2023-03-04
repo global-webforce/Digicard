@@ -1,14 +1,12 @@
 import 'package:digicard/app/app.bottomsheet_ui.dart';
 import 'package:digicard/app/app.dialog_ui.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/services/_core/app_service.dart';
 import 'package:digicard/app/models/user.model.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:string_validator/string_validator.dart';
 
 enum ActionType { login, register, forgotPassword }
 
@@ -37,6 +35,17 @@ class LoginViewModel extends ReactiveViewModel {
         _appService,
       ];
 
+  final FormGroup _form = FormGroup({
+    'email': FormControl<String>(validators: [
+      Validators.required,
+      Validators.email,
+    ]),
+    'password': FormControl<String>(validators: [
+      Validators.required,
+    ]),
+  });
+  FormGroup get form => _form;
+
   User? get user => _appService.user;
 
   Future<void> init() async {
@@ -47,41 +56,17 @@ class LoginViewModel extends ReactiveViewModel {
     await _appService.logOut();
   }
 
-  final _loginFormKey = GlobalKey<FormBuilderState>();
-  GlobalKey<FormBuilderState> get loginFormKey => _loginFormKey;
-
   ActionType _action = ActionType.login;
   ActionType get action => _action;
   set action(v) {
     _action = v;
-    _loginFormKey.currentState?.reset();
-    notifyListeners();
-  }
-
-  bool _allowLogin = false;
-  get allowLogin => _allowLogin;
-  checkAllowLogin() {
-    String email = _loginFormKey.currentState?.fields['email']?.value ?? "";
-    String password =
-        _loginFormKey.currentState?.fields['password']?.value ?? "";
-    if (isEmail(email) && password.isNotEmpty) {
-      _allowLogin = true;
-    } else {
-      _allowLogin = false;
-    }
-    notifyListeners();
+    form.reset();
+    rebuildUi();
   }
 
   Future login() async {
-    if (_loginFormKey.currentState!.saveAndValidate()) {
-      final formValue = _loginFormKey.currentState?.instantValue;
-      await runBusyFuture(_appService.login(formValue!), throwException: true);
-
-      /*      locator<AppRoute>().pushAndPopUntil(
-        const DashboardRoute(),
-        predicate: (route) => true,
-      ); */
-
+    if (!form.hasErrors) {
+      await runBusyFuture(_appService.login(form.value), throwException: true);
       if (_appService.user?.role == "registered") {
         _bottomSheetService
             .showCustomSheet(
@@ -90,29 +75,15 @@ class LoginViewModel extends ReactiveViewModel {
                 enableDrag: false,
                 barrierDismissible: false,
                 useRootNavigator: true)
-            .whenComplete(() => _loginFormKey.currentState?.reset());
+            .whenComplete(() => form.reset());
       }
     }
   }
 
   Future register() async {
-    if (_loginFormKey.currentState!.saveAndValidate()) {
-      final formValue = _loginFormKey.currentState?.instantValue;
-      Map<String, dynamic> rawFormData = Map.of(formValue!);
-
-      rawFormData.addAll({
-        "place_name": "aaaa",
-        "state_name": "aaaa",
-        "state_code": "aaaa",
-        "postcode": "aaaa",
-        "latitude": "aaaa",
-        "longitude": "aaaa",
-        "accuracy": "aaaa",
-      });
-
-      await runBusyFuture(_appService.register(rawFormData),
+    if (!form.hasErrors) {
+      await runBusyFuture(_appService.register(form.value),
           throwException: true);
-
       if (_appService.user?.role == "registered") {
         _bottomSheetService
             .showCustomSheet(
@@ -121,15 +92,13 @@ class LoginViewModel extends ReactiveViewModel {
                 enableDrag: false,
                 barrierDismissible: false,
                 useRootNavigator: true)
-            .whenComplete(() => _loginFormKey.currentState?.reset());
+            .whenComplete(() => form.reset());
       }
     }
   }
 
   Future forgotPassword() async {
-    String? email = _loginFormKey.currentState?.fields['email']?.value;
-
-    if (isEmail(email ?? "")) {
+    if (!form.control('email').hasErrors) {
       await runBusyFuture(Future.delayed(const Duration(seconds: 1)),
           throwException: true);
     } else {
@@ -137,7 +106,7 @@ class LoginViewModel extends ReactiveViewModel {
           variant: DialogType.simple,
           barrierDismissible: true,
           description:
-              "To reset password, enter your account email above, then tap Forgot Password again.");
+              "To reset password, enter your account email, then tap Forgot Password again.");
     }
   }
 

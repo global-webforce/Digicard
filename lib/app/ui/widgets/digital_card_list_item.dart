@@ -1,16 +1,17 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:digicard/app/models/digital_card.model.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-class DigitalCardWidget extends StatelessWidget {
+class DigitalCardListItem extends StatelessWidget {
   final DigitalCard card;
-  final AutoSizeGroup? autoSizeGroup;
+
   final Function onTap;
-  const DigitalCardWidget(
-      {Key? key, required this.card, required this.onTap, this.autoSizeGroup})
-      : super(key: key);
+  const DigitalCardListItem({
+    Key? key,
+    required this.card,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class DigitalCardWidget extends StatelessWidget {
       return Container(
         color: Colors.white,
         child: CachedNetworkImage(
-          imageUrl: "${card.image}",
+          imageUrl: "${card.profileImage}",
           width: double.infinity,
           height: 140,
           fit: BoxFit.cover,

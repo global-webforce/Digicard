@@ -19,7 +19,6 @@ import 'package:share_plus/share_plus.dart';
 import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'dart:ui' as ui;
 
@@ -37,9 +36,6 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
 
   @override
   List<ListenableServiceMixin> get listenableServices => [_digitalCardsService];
-
-  final _digitalCardsFormKey = GlobalKey<FormBuilderState>();
-  GlobalKey<FormBuilderState> get digitalCardsFormKey => _digitalCardsFormKey;
 
   List<DigitalCard> get digitalCards => _digitalCardsService.digitalCards;
 
@@ -129,7 +125,7 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
     }
     setBusyForObject(downloadQRBusyKey, false);
     if (result["isSuccess"] == true) {
-      notifyListeners();
+      rebuildUi();
       _snackbarService.showCustomSnackBar(
         message: "QR Code saved to Gallery",
         duration: const Duration(seconds: 2),

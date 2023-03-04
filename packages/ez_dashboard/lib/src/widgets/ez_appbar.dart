@@ -10,7 +10,7 @@ class EZAppBar extends StatelessWidget with PreferredSizeWidget {
   final EzAppBarAvatar? userAvatar;
   final String? leadingImageAsset;
   EZAppBar(
-      {super.key,
+      {key,
       required this.appName,
       List<EZAppBarIcon>? iconBadges,
       this.userAvatar,

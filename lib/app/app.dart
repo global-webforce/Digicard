@@ -1,7 +1,6 @@
 import 'package:digicard/app/api/api_service.dart';
 import 'package:digicard/app/services/_core/app_service.dart';
 import 'package:digicard/app/views/_core/login/login_viewmodel.dart';
-import 'package:digicard/app/views/_core/basic_profile/basic_profile_viewmodel.dart';
 import 'package:digicard/app/views/_core/initialize/initial_viewmodel.dart';
 import 'package:digicard/app/services/_core/local_storage_service.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
@@ -14,7 +13,6 @@ import 'package:digicard/app/views/home/home_view_viewmodel.dart';
 import 'package:digicard/app/views/contacts/contacts_view_view_model.dart';
 import 'package:digicard/app/views/scan_qr_code/scan_qr_code_view_viewmodel.dart';
 import 'package:digicard/app/views/settings/settings_view_view_model.dart';
-
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:stacked_themes/stacked_themes.dart';
@@ -78,7 +76,7 @@ import 'package:stacked_themes/stacked_themes.dart';
 
     Singleton(classType: InitialViewModel),
     Singleton(classType: LoginViewModel),
-    Singleton(classType: BasicProfileViewModel),
+    //Singleton(classType: BasicProfileViewModel),
 
     /*end of core registration*/
     Singleton(classType: DashboardViewModel),

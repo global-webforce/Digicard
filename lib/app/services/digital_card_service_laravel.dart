@@ -36,7 +36,6 @@ class DigitalCardServiceLaravel
   @override
   Future delete(int? id) async {
     digitalCards.removeWhere((e) => e.id == id);
-    notifyListeners();
     /*  await _apiService.delete(
       ApiEndpoints.instance.deleteService(id),
       onSuccess: (res) async {
@@ -56,12 +55,33 @@ class DigitalCardServiceLaravel
             (index) => DigitalCard(
                   id: index,
                   userId: index + 1,
-                  name: fkr.faker.person.name(),
+                  ownerId: index + 1,
+                  title: fkr.faker.conference.name(),
+                  logoImage: fkr.faker.randomGenerator.element([
+                    "https://globalwebforce.com/wp-content/uploads/2021/06/cropped-nav-logo.png",
+                    "https://upload.wikimedia.org/wikipedia/en/7/72/New_Mobile_Legends_Bang_Bang_2020_Logo.png"
+                        "https://cdn1.designhill.com/assets/dh/images/infographic/master_card.png?ver=2.12.40",
+                    "https://brandslogos.com/wp-content/uploads/thumbs/famous-amos-logo-vector.svg",
+                    "https://99designs-blog.imgix.net/blog/wp-content/uploads/2022/05/Shell_logo.svg-e1659037248878.png?auto=format&q=60&fit=max&w=930"
+                        "https://global-uploads.webflow.com/5e157548d6f7910beea4e2d6/611e17ec949adb702e521eb5_4Em9cry00PqgpP_mCCrgJ_OmdqSMCzQVgEYtfvDrfM3eBL3zBMvBZ4TxXHUVdgXWiwySmgYSFXmKx86BS10Yk2fVQhKTFOXTYlxKPsII1HBYjkvQ3d14PFsOfFbk51boJMEI6Ns7.png"
+                  ]),
+                  profileImage: fkr.faker.image.image(
+                    random: true,
+                    width: 700,
+                  ),
+                  prefix: fkr.faker.person.prefix(),
+                  firstName: fkr.faker.person.firstName(),
+                  middleName: fkr.faker.person.lastName(),
+                  lastName: fkr.faker.person.lastName(),
+                  suffix: fkr.faker.person.suffix(),
+                  shortBio: fkr.faker.lorem.sentences(5).join(" "),
+                  position: fkr.faker.company.position(),
                   company: fkr.faker.company.name(),
-                  title: fkr.faker.company.position(),
                   email: fkr.faker.internet.email(),
-                  image: fkr.faker.image.image(random: true),
+                  address: fkr.faker.address.city(),
                   mobileNumber: fkr.faker.phoneNumber.us(),
+                  website: fkr.faker.internet.httpsUrl(),
+                  goesBy: fkr.faker.person.name(),
                   color: fkr.random.element([
                     "#CA6656",
                     "#73B19C",
@@ -70,7 +90,8 @@ class DigitalCardServiceLaravel
                     "#E62E7C",
                     "#1A6181",
                     "#444444",
-                    "#FF9800"
+                    "#FF9800",
+                    "#F7F7F7",
                   ]),
                   createdAt: DateTime.now(),
                   updatedAt: DateTime.now(),
@@ -88,6 +109,5 @@ class DigitalCardServiceLaravel
     int index = digitalCards.indexWhere((e) => e.id == digitalCard.id);
     digitalCards.insert(index + 1,
         digitalCard.copyWith(id: DateTime.now().millisecondsSinceEpoch));
-    notifyListeners();
   }
 }

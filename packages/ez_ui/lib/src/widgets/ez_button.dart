@@ -97,19 +97,17 @@ class EzButton extends StatelessWidget {
     }
 
     Widget content() {
-      return AnimatedSwitcher(
-          duration: const Duration(milliseconds: 500),
-          child: busy
-              ? Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [const SizedBox.shrink(), _loading()],
-                )
-              : Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [_icon(), _text()],
-                ));
+      return busy
+          ? Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [const SizedBox.shrink(), _loading()],
+            )
+          : Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [_icon(), _text()],
+            );
     }
 
     Widget _outlinedButton() {

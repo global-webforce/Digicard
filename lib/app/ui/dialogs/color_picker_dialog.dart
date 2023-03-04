@@ -82,7 +82,7 @@ class ColorPickerDialog extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       BlockPicker(
-                        pickerColor: Colors.red,
+                        pickerColor: Colors.orange,
                         onColorChanged: (color) {
                           completer(DialogResponse(data: color));
                         },

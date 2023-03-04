@@ -5,7 +5,7 @@ import 'package:digicard/app/constants/keys.dart';
 import 'package:digicard/app/ui/_core/empty_display.dart';
 import 'package:digicard/app/ui/_core/scaffold_list_wrapper.dart';
 import 'package:digicard/app/ui/widgets/app_icon.dart';
-import 'package:digicard/app/ui/widgets/digital_card_widget.dart';
+import 'package:digicard/app/ui/widgets/digital_card_list_item.dart';
 import 'package:digicard/app/views/home/home_view_viewmodel.dart';
 import 'package:ez_dashboard/ez_drawer_button.dart';
 import 'package:ez_dashboard/screen_size_helper.dart';
@@ -60,7 +60,7 @@ class HomeView extends StatelessWidget {
                     addAutomaticKeepAlives: false,
                     addRepaintBoundaries: false,
                     itemBuilder: (context, index) {
-                      return DigitalCardWidget(
+                      return DigitalCardListItem(
                         onTap: () {
                           viewModel.show(viewModel.digitalCards[index]);
                         },
