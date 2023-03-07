@@ -1,5 +1,5 @@
 import 'package:digicard/app/app.locator.dart';
-import 'package:digicard/app/app_service.dart';
+import 'package:digicard/app/services/_core/app_service.dart';
 
 class ApiEndpoints {
   final _appService = locator<AppService>();

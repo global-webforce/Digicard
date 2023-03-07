@@ -42,7 +42,7 @@ class EzSettingsListItem extends StatelessWidget {
               color: foregroundColor ??
                   Theme.of(context)
                       .textTheme
-                      .bodyText1
+                      .bodyLarge
                       ?.color
                       ?.withOpacity(0.7),
             ),
@@ -52,7 +52,7 @@ class EzSettingsListItem extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   color: foregroundColor ??
-                      Theme.of(context).textTheme.bodyText1?.color,
+                      Theme.of(context).textTheme.bodyLarge?.color,
                   fontSize: 16,
                   fontWeight: FontWeight.w500),
             ),
@@ -79,7 +79,7 @@ class EzSettingsListItem extends StatelessWidget {
           icon,
           size: 28,
           color: foregroundColor ??
-              Theme.of(context).textTheme.bodyText1?.color?.withOpacity(0.7),
+              Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(0.7),
         ),
         title: Text(
           title,
@@ -87,7 +87,7 @@ class EzSettingsListItem extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
               color: foregroundColor ??
-                  Theme.of(context).textTheme.bodyText1?.color,
+                  Theme.of(context).textTheme.bodyLarge?.color,
               fontSize: 16,
               fontWeight: FontWeight.w500),
         ),

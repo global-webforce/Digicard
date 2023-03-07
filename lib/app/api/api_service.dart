@@ -5,7 +5,7 @@ import 'package:digicard/app/api/api_interceptor.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_interceptor/http/intercepted_client.dart';
 import 'package:digicard/app/app.locator.dart';
-import 'package:digicard/app/core/local_storage/local_storage_service.dart';
+import 'package:digicard/app/services/_core/local_storage_service.dart';
 
 extension IsOk on http.Response {
   bool get ok {
@@ -28,7 +28,7 @@ class ApiService {
       return Future.error("Unknown error");
     }
     if (error.contains("XMLHttpRequest error")) {
-      //  x.signOut();
+      //  x.logOut();
       return Future.error("Network request failed");
     }
     if (error.contains("Invalid Credentials")) {
@@ -46,7 +46,6 @@ class ApiService {
     if (error.contains("Connection closed before full header was received")) {
       return Future.value();
     }
-
     return Future.error(error);
   }
 

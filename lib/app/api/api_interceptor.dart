@@ -2,7 +2,7 @@ import 'package:http_interceptor/http_interceptor.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'dart:io';
 
-import 'package:digicard/app/core/local_storage/local_storage_service.dart';
+import 'package:digicard/app/services/_core/local_storage_service.dart';
 
 class ApiInterceptor implements InterceptorContract {
   final _localStorageService = locator<LocalStorageService>();

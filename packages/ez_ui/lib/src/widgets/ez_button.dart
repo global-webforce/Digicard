@@ -77,7 +77,7 @@ class EzButton extends StatelessWidget {
     Widget _icon() {
       if (leading != null) {
         return Padding(
-          padding: const EdgeInsets.only(right: 5),
+          padding: const EdgeInsets.only(right: 10),
           child: Icon(
             leading,
             color: outline ? background : foreground,
@@ -97,19 +97,17 @@ class EzButton extends StatelessWidget {
     }
 
     Widget content() {
-      return AnimatedSwitcher(
-          duration: const Duration(milliseconds: 500),
-          child: busy
-              ? Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [const SizedBox.shrink(), _loading()],
-                )
-              : Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [_icon(), _text()],
-                ));
+      return busy
+          ? Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [const SizedBox.shrink(), _loading()],
+            )
+          : Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [_icon(), _text()],
+            );
     }
 
     Widget _outlinedButton() {

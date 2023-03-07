@@ -1,17 +1,15 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:digicard/app/core/authentication/pages/register_page.dart';
-import 'package:digicard/features/contacts/contacts_page.dart';
-import 'package:digicard/app/core/authentication/pages/auth_page.dart';
-import 'package:digicard/app/core/authentication/pages/login_page.dart';
-import 'package:digicard/app/core/authentication/pages/welcome_page.dart';
-import 'package:digicard/dashboards/user_dashboard/pages/home_page.dart';
-import 'package:digicard/dashboards/user_dashboard/pages/scaffold_page.dart';
-import 'package:digicard/features/scan/scan_page.dart';
-import 'package:digicard/features/settings/pages/settings_page.dart';
+import 'package:digicard/app/views/_core/login/auth_view.dart';
+import 'package:digicard/app/views/_core/login/login_view.dart';
+import 'package:digicard/app/views/_core/welcome/welcome_view.dart';
+
 import 'package:flutter/material.dart';
 
+import '../views/_core/dashboard/dashboard_view_stacked.dart';
+
 class HeroEmptyRouterPage extends StatelessWidget {
-  const HeroEmptyRouterPage({Key? key}) : super(key: key);
+  const HeroEmptyRouterPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return HeroControllerScope(
@@ -21,74 +19,45 @@ class HeroEmptyRouterPage extends StatelessWidget {
   }
 }
 
-@MaterialAutoRouter(replaceInRouteName: 'Page,Route', routes: [
+@MaterialAutoRouter(replaceInRouteName: 'View,Route', routes: [
   CustomRoute(
     path: '/',
-    page: AuthPage,
-    transitionsBuilder: TransitionsBuilders.fadeIn,
+    page: AuthView,
     children: [
       CustomRoute(
-        page: WelcomePage,
         initial: true,
-        transitionsBuilder: TransitionsBuilders.zoomIn,
+        path: '',
+        page: WelcomeView,
       ),
       CustomRoute(
-        path: 'login',
-        page: LoginPage,
-        transitionsBuilder: TransitionsBuilders.zoomIn,
-      ),
-      CustomRoute(
-        path: "register",
-        page: RegisterPage,
-        transitionsBuilder: TransitionsBuilders.zoomIn,
+        path: '',
+        page: LoginView,
       ),
       RedirectRoute(path: '*', redirectTo: ''),
     ],
   ),
   CustomRoute(
     path: "/",
-    page: ScaffoldPage,
-    children: [
+    page: DashboardView,
+/*     children: [
       CustomRoute(
         initial: true,
-        page: HomePage,
-        maintainState: false,
-        meta: {
-          'prefixPath': 'home',
-        },
-        transitionsBuilder: TransitionsBuilders.fadeIn,
+        page: HomeView,
       ),
       CustomRoute(
-        initial: true,
-        path: "",
-        page: ScanPage,
-        maintainState: false,
-        meta: {
-          'prefixPath': 'appointments',
-        },
-        transitionsBuilder: TransitionsBuilders.fadeIn,
+        path: '',
+        page: ScanQRCodeView,
       ),
       CustomRoute(
-        initial: true,
-        path: "",
-        page: ContactsPage,
-        maintainState: false,
-        meta: {
-          'prefixPath': 'chat',
-        },
-        transitionsBuilder: TransitionsBuilders.fadeIn,
+        path: '',
+        page: ContactsView,
       ),
       CustomRoute(
-        path: "",
-        page: SettingsPage,
-        maintainState: false,
-        meta: {
-          'prefixPath': 'settings',
-        },
-        transitionsBuilder: TransitionsBuilders.fadeIn,
+        path: '',
+        page: SettingsView,
       ),
       RedirectRoute(path: '*', redirectTo: ''),
-    ],
+    ], */
   ),
 ])
 class $AppRoute {}
