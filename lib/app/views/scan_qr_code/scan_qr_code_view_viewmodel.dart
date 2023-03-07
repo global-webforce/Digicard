@@ -1,6 +1,5 @@
 import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
-
 import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';

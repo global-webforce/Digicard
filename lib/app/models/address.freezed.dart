@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'address.model.dart';
+part of 'address.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -21,16 +21,12 @@ Address _$AddressFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Address {
   int? get postcode => throw _privateConstructorUsedError;
-  @JsonKey(name: 'place_name')
   String? get placeName => throw _privateConstructorUsedError;
-  @JsonKey(name: 'state_name')
   String? get stateName => throw _privateConstructorUsedError;
-  @JsonKey(name: 'state_code')
   String? get stateCode => throw _privateConstructorUsedError;
   double? get latitude => throw _privateConstructorUsedError;
   double? get longitude => throw _privateConstructorUsedError;
   int? get accuracy => throw _privateConstructorUsedError;
-  @JsonKey(name: 'full_address')
   String? get fullAddress => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -45,13 +41,13 @@ abstract class $AddressCopyWith<$Res> {
   @useResult
   $Res call(
       {int? postcode,
-      @JsonKey(name: 'place_name') String? placeName,
-      @JsonKey(name: 'state_name') String? stateName,
-      @JsonKey(name: 'state_code') String? stateCode,
+      String? placeName,
+      String? stateName,
+      String? stateCode,
       double? latitude,
       double? longitude,
       int? accuracy,
-      @JsonKey(name: 'full_address') String? fullAddress});
+      String? fullAddress});
 }
 
 /// @nodoc
@@ -122,13 +118,13 @@ abstract class _$$_AddressCopyWith<$Res> implements $AddressCopyWith<$Res> {
   @useResult
   $Res call(
       {int? postcode,
-      @JsonKey(name: 'place_name') String? placeName,
-      @JsonKey(name: 'state_name') String? stateName,
-      @JsonKey(name: 'state_code') String? stateCode,
+      String? placeName,
+      String? stateName,
+      String? stateCode,
       double? latitude,
       double? longitude,
       int? accuracy,
-      @JsonKey(name: 'full_address') String? fullAddress});
+      String? fullAddress});
 }
 
 /// @nodoc
@@ -192,13 +188,13 @@ class __$$_AddressCopyWithImpl<$Res>
 class _$_Address implements _Address {
   _$_Address(
       {this.postcode,
-      @JsonKey(name: 'place_name') this.placeName,
-      @JsonKey(name: 'state_name') this.stateName,
-      @JsonKey(name: 'state_code') this.stateCode,
+      this.placeName,
+      this.stateName,
+      this.stateCode,
       this.latitude,
       this.longitude,
       this.accuracy,
-      @JsonKey(name: 'full_address') this.fullAddress});
+      this.fullAddress});
 
   factory _$_Address.fromJson(Map<String, dynamic> json) =>
       _$$_AddressFromJson(json);
@@ -206,13 +202,10 @@ class _$_Address implements _Address {
   @override
   final int? postcode;
   @override
-  @JsonKey(name: 'place_name')
   final String? placeName;
   @override
-  @JsonKey(name: 'state_name')
   final String? stateName;
   @override
-  @JsonKey(name: 'state_code')
   final String? stateCode;
   @override
   final double? latitude;
@@ -221,7 +214,6 @@ class _$_Address implements _Address {
   @override
   final int? accuracy;
   @override
-  @JsonKey(name: 'full_address')
   final String? fullAddress;
 
   @override
@@ -274,26 +266,23 @@ class _$_Address implements _Address {
 abstract class _Address implements Address {
   factory _Address(
       {final int? postcode,
-      @JsonKey(name: 'place_name') final String? placeName,
-      @JsonKey(name: 'state_name') final String? stateName,
-      @JsonKey(name: 'state_code') final String? stateCode,
+      final String? placeName,
+      final String? stateName,
+      final String? stateCode,
       final double? latitude,
       final double? longitude,
       final int? accuracy,
-      @JsonKey(name: 'full_address') final String? fullAddress}) = _$_Address;
+      final String? fullAddress}) = _$_Address;
 
   factory _Address.fromJson(Map<String, dynamic> json) = _$_Address.fromJson;
 
   @override
   int? get postcode;
   @override
-  @JsonKey(name: 'place_name')
   String? get placeName;
   @override
-  @JsonKey(name: 'state_name')
   String? get stateName;
   @override
-  @JsonKey(name: 'state_code')
   String? get stateCode;
   @override
   double? get latitude;
@@ -302,7 +291,6 @@ abstract class _Address implements Address {
   @override
   int? get accuracy;
   @override
-  @JsonKey(name: 'full_address')
   String? get fullAddress;
   @override
   @JsonKey(ignore: true)

@@ -9,17 +9,12 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:digicard/app/api/api_service.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/services/_core/local_storage_service.dart';
-import 'package:digicard/app/models/user.model.dart';
+import 'package:digicard/app/models/user.dart';
 import 'package:digicard/app/api/api_endpoints.dart';
 import 'package:stacked/stacked.dart';
 import 'package:http/http.dart' as http;
 
 class AppService with ListenableServiceMixin {
-  final _dialogService = locator<DialogService>();
-  final _apiService = locator<ApiService>();
-  final _localStorageService = locator<LocalStorageService>();
-  DialogService get dialogService => _dialogService;
-
   AppService() {
     listenToReactiveValues([
       _user,
@@ -27,25 +22,24 @@ class AppService with ListenableServiceMixin {
     ]);
   }
 
-  final ReactiveValue<User?> _user = ReactiveValue<User?>(null);
+  final _apiService = locator<ApiService>();
+  final _dialogService = locator<DialogService>();
   final ReactiveValue<bool?> _isOnboarded = ReactiveValue<bool?>(null);
+  final _localStorageService = locator<LocalStorageService>();
+  final ReactiveValue<User?> _user = ReactiveValue<User?>(null);
+
+  DialogService get dialogService => _dialogService;
 
   User? get user => _user.value;
+
   set user(User? user) {
     _user.value = user;
   }
 
   bool? get isOnboarded => _isOnboarded.value;
+
   set isOnboarded(bool? val) {
     _isOnboarded.value = val;
-  }
-
-  bool isMember() {
-    return user?.role == "member";
-  }
-
-  bool isServiceProvider() {
-    return user?.role == "service_provider";
   }
 
   List<PageRouteInfo<dynamic>> isLoggedIn() {

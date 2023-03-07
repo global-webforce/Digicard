@@ -14,7 +14,7 @@ analyzer:
     - "**/*.gr.dart"
     - "**/*.g.dart"
     - "**/*.freezed.dart"
-    - "**/*.model.dart"
+    - "**/*.dart"
   errors:
     invalid_annotation_target: ignore
 

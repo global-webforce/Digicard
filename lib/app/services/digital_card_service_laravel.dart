@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:digicard/app/api/api_service.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/api/api_endpoints.dart';
-import 'package:digicard/app/models/digital_card.model.dart';
+import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:faker/faker.dart' as fkr;
@@ -36,6 +36,7 @@ class DigitalCardServiceLaravel
   @override
   Future delete(int? id) async {
     digitalCards.removeWhere((e) => e.id == id);
+    notifyListeners();
     /*  await _apiService.delete(
       ApiEndpoints.instance.deleteService(id),
       onSuccess: (res) async {
@@ -83,15 +84,9 @@ class DigitalCardServiceLaravel
                   website: fkr.faker.internet.httpsUrl(),
                   goesBy: fkr.faker.person.name(),
                   color: fkr.random.element([
-                    "#CA6656",
-                    "#73B19C",
-                    "#EFBF5C",
-                    "#8959B0",
-                    "#E62E7C",
-                    "#1A6181",
-                    "#444444",
-                    "#FF9800",
-                    "#F7F7F7",
+                    0xffb74093,
+                    0xffb74093,
+                    0xffb74093,
                   ]),
                   createdAt: DateTime.now(),
                   updatedAt: DateTime.now(),

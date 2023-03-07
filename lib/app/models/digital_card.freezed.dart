@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'digital_card.model.dart';
+part of 'digital_card.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -20,39 +20,27 @@ DigitalCard _$DigitalCardFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$DigitalCard {
-  int? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'user_id')
+  int get id => throw _privateConstructorUsedError;
   int? get userId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'owner_id')
   int? get ownerId => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
-  @JsonKey(name: 'logo_image')
   String? get logoImage => throw _privateConstructorUsedError;
-  String? get color => throw _privateConstructorUsedError;
-  @JsonKey(name: 'profile_image')
+  int? get color => throw _privateConstructorUsedError;
   String? get profileImage => throw _privateConstructorUsedError;
   String? get prefix => throw _privateConstructorUsedError;
-  @JsonKey(name: 'first_name')
   String? get firstName => throw _privateConstructorUsedError;
-  @JsonKey(name: 'middle_name')
   String? get middleName => throw _privateConstructorUsedError;
-  @JsonKey(name: 'last_name')
   String? get lastName => throw _privateConstructorUsedError;
   String? get suffix => throw _privateConstructorUsedError;
-  @JsonKey(name: 'short_bio')
   String? get shortBio => throw _privateConstructorUsedError;
   String? get position => throw _privateConstructorUsedError;
   String? get company => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
   String? get address => throw _privateConstructorUsedError;
-  @JsonKey(name: 'mobile_number')
   String? get mobileNumber => throw _privateConstructorUsedError;
   String? get website => throw _privateConstructorUsedError;
-  @JsonKey(name: 'goes_by')
   String? get goesBy => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -68,28 +56,28 @@ abstract class $DigitalCardCopyWith<$Res> {
       _$DigitalCardCopyWithImpl<$Res, DigitalCard>;
   @useResult
   $Res call(
-      {int? id,
-      @JsonKey(name: 'user_id') int? userId,
-      @JsonKey(name: 'owner_id') int? ownerId,
+      {int id,
+      int? userId,
+      int? ownerId,
       String? title,
-      @JsonKey(name: 'logo_image') String? logoImage,
-      String? color,
-      @JsonKey(name: 'profile_image') String? profileImage,
+      String? logoImage,
+      int? color,
+      String? profileImage,
       String? prefix,
-      @JsonKey(name: 'first_name') String? firstName,
-      @JsonKey(name: 'middle_name') String? middleName,
-      @JsonKey(name: 'last_name') String? lastName,
+      String? firstName,
+      String? middleName,
+      String? lastName,
       String? suffix,
-      @JsonKey(name: 'short_bio') String? shortBio,
+      String? shortBio,
       String? position,
       String? company,
       String? email,
       String? address,
-      @JsonKey(name: 'mobile_number') String? mobileNumber,
+      String? mobileNumber,
       String? website,
-      @JsonKey(name: 'goes_by') String? goesBy,
-      @JsonKey(name: 'created_at') DateTime? createdAt,
-      @JsonKey(name: 'updated_at') DateTime? updatedAt});
+      String? goesBy,
+      DateTime? createdAt,
+      DateTime? updatedAt});
 }
 
 /// @nodoc
@@ -105,7 +93,7 @@ class _$DigitalCardCopyWithImpl<$Res, $Val extends DigitalCard>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
+    Object? id = null,
     Object? userId = freezed,
     Object? ownerId = freezed,
     Object? title = freezed,
@@ -129,10 +117,10 @@ class _$DigitalCardCopyWithImpl<$Res, $Val extends DigitalCard>
     Object? updatedAt = freezed,
   }) {
     return _then(_value.copyWith(
-      id: freezed == id
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -152,7 +140,7 @@ class _$DigitalCardCopyWithImpl<$Res, $Val extends DigitalCard>
       color: freezed == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       profileImage: freezed == profileImage
           ? _value.profileImage
           : profileImage // ignore: cast_nullable_to_non_nullable
@@ -230,28 +218,28 @@ abstract class _$$_DigitalCardCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int? id,
-      @JsonKey(name: 'user_id') int? userId,
-      @JsonKey(name: 'owner_id') int? ownerId,
+      {int id,
+      int? userId,
+      int? ownerId,
       String? title,
-      @JsonKey(name: 'logo_image') String? logoImage,
-      String? color,
-      @JsonKey(name: 'profile_image') String? profileImage,
+      String? logoImage,
+      int? color,
+      String? profileImage,
       String? prefix,
-      @JsonKey(name: 'first_name') String? firstName,
-      @JsonKey(name: 'middle_name') String? middleName,
-      @JsonKey(name: 'last_name') String? lastName,
+      String? firstName,
+      String? middleName,
+      String? lastName,
       String? suffix,
-      @JsonKey(name: 'short_bio') String? shortBio,
+      String? shortBio,
       String? position,
       String? company,
       String? email,
       String? address,
-      @JsonKey(name: 'mobile_number') String? mobileNumber,
+      String? mobileNumber,
       String? website,
-      @JsonKey(name: 'goes_by') String? goesBy,
-      @JsonKey(name: 'created_at') DateTime? createdAt,
-      @JsonKey(name: 'updated_at') DateTime? updatedAt});
+      String? goesBy,
+      DateTime? createdAt,
+      DateTime? updatedAt});
 }
 
 /// @nodoc
@@ -265,7 +253,7 @@ class __$$_DigitalCardCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
+    Object? id = null,
     Object? userId = freezed,
     Object? ownerId = freezed,
     Object? title = freezed,
@@ -289,10 +277,10 @@ class __$$_DigitalCardCopyWithImpl<$Res>
     Object? updatedAt = freezed,
   }) {
     return _then(_$_DigitalCard(
-      id: freezed == id
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -312,7 +300,7 @@ class __$$_DigitalCardCopyWithImpl<$Res>
       color: freezed == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       profileImage: freezed == profileImage
           ? _value.profileImage
           : profileImage // ignore: cast_nullable_to_non_nullable
@@ -385,65 +373,57 @@ class __$$_DigitalCardCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_DigitalCard implements _DigitalCard {
   _$_DigitalCard(
-      {this.id,
-      @JsonKey(name: 'user_id') this.userId,
-      @JsonKey(name: 'owner_id') this.ownerId,
+      {required this.id,
+      this.userId,
+      this.ownerId,
       this.title,
-      @JsonKey(name: 'logo_image') this.logoImage,
+      this.logoImage,
       this.color,
-      @JsonKey(name: 'profile_image') this.profileImage,
+      this.profileImage,
       this.prefix,
-      @JsonKey(name: 'first_name') this.firstName,
-      @JsonKey(name: 'middle_name') this.middleName,
-      @JsonKey(name: 'last_name') this.lastName,
+      this.firstName,
+      this.middleName,
+      this.lastName,
       this.suffix,
-      @JsonKey(name: 'short_bio') this.shortBio,
+      this.shortBio,
       this.position,
       this.company,
       this.email,
       this.address,
-      @JsonKey(name: 'mobile_number') this.mobileNumber,
+      this.mobileNumber,
       this.website,
-      @JsonKey(name: 'goes_by') this.goesBy,
-      @JsonKey(name: 'created_at') this.createdAt,
-      @JsonKey(name: 'updated_at') this.updatedAt});
+      this.goesBy,
+      this.createdAt,
+      this.updatedAt});
 
   factory _$_DigitalCard.fromJson(Map<String, dynamic> json) =>
       _$$_DigitalCardFromJson(json);
 
   @override
-  final int? id;
+  final int id;
   @override
-  @JsonKey(name: 'user_id')
   final int? userId;
   @override
-  @JsonKey(name: 'owner_id')
   final int? ownerId;
   @override
   final String? title;
   @override
-  @JsonKey(name: 'logo_image')
   final String? logoImage;
   @override
-  final String? color;
+  final int? color;
   @override
-  @JsonKey(name: 'profile_image')
   final String? profileImage;
   @override
   final String? prefix;
   @override
-  @JsonKey(name: 'first_name')
   final String? firstName;
   @override
-  @JsonKey(name: 'middle_name')
   final String? middleName;
   @override
-  @JsonKey(name: 'last_name')
   final String? lastName;
   @override
   final String? suffix;
   @override
-  @JsonKey(name: 'short_bio')
   final String? shortBio;
   @override
   final String? position;
@@ -454,18 +434,14 @@ class _$_DigitalCard implements _DigitalCard {
   @override
   final String? address;
   @override
-  @JsonKey(name: 'mobile_number')
   final String? mobileNumber;
   @override
   final String? website;
   @override
-  @JsonKey(name: 'goes_by')
   final String? goesBy;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
 
   @override
@@ -556,65 +532,57 @@ class _$_DigitalCard implements _DigitalCard {
 
 abstract class _DigitalCard implements DigitalCard {
   factory _DigitalCard(
-      {final int? id,
-      @JsonKey(name: 'user_id') final int? userId,
-      @JsonKey(name: 'owner_id') final int? ownerId,
+      {required final int id,
+      final int? userId,
+      final int? ownerId,
       final String? title,
-      @JsonKey(name: 'logo_image') final String? logoImage,
-      final String? color,
-      @JsonKey(name: 'profile_image') final String? profileImage,
+      final String? logoImage,
+      final int? color,
+      final String? profileImage,
       final String? prefix,
-      @JsonKey(name: 'first_name') final String? firstName,
-      @JsonKey(name: 'middle_name') final String? middleName,
-      @JsonKey(name: 'last_name') final String? lastName,
+      final String? firstName,
+      final String? middleName,
+      final String? lastName,
       final String? suffix,
-      @JsonKey(name: 'short_bio') final String? shortBio,
+      final String? shortBio,
       final String? position,
       final String? company,
       final String? email,
       final String? address,
-      @JsonKey(name: 'mobile_number') final String? mobileNumber,
+      final String? mobileNumber,
       final String? website,
-      @JsonKey(name: 'goes_by') final String? goesBy,
-      @JsonKey(name: 'created_at') final DateTime? createdAt,
-      @JsonKey(name: 'updated_at') final DateTime? updatedAt}) = _$_DigitalCard;
+      final String? goesBy,
+      final DateTime? createdAt,
+      final DateTime? updatedAt}) = _$_DigitalCard;
 
   factory _DigitalCard.fromJson(Map<String, dynamic> json) =
       _$_DigitalCard.fromJson;
 
   @override
-  int? get id;
+  int get id;
   @override
-  @JsonKey(name: 'user_id')
   int? get userId;
   @override
-  @JsonKey(name: 'owner_id')
   int? get ownerId;
   @override
   String? get title;
   @override
-  @JsonKey(name: 'logo_image')
   String? get logoImage;
   @override
-  String? get color;
+  int? get color;
   @override
-  @JsonKey(name: 'profile_image')
   String? get profileImage;
   @override
   String? get prefix;
   @override
-  @JsonKey(name: 'first_name')
   String? get firstName;
   @override
-  @JsonKey(name: 'middle_name')
   String? get middleName;
   @override
-  @JsonKey(name: 'last_name')
   String? get lastName;
   @override
   String? get suffix;
   @override
-  @JsonKey(name: 'short_bio')
   String? get shortBio;
   @override
   String? get position;
@@ -625,18 +593,14 @@ abstract class _DigitalCard implements DigitalCard {
   @override
   String? get address;
   @override
-  @JsonKey(name: 'mobile_number')
   String? get mobileNumber;
   @override
   String? get website;
   @override
-  @JsonKey(name: 'goes_by')
   String? get goesBy;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
   @override
   @JsonKey(ignore: true)

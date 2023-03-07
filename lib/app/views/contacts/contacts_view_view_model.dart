@@ -1,7 +1,7 @@
 import 'package:digicard/app/app.locator.dart';
 
 import 'package:digicard/app/services/_core/app_service.dart';
-import 'package:digicard/app/models/user.model.dart';
+import 'package:digicard/app/models/user.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 

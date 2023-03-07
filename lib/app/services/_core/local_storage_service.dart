@@ -1,12 +1,19 @@
 import 'dart:convert';
 
 import 'package:digicard/app/app.logger.dart';
-import 'package:digicard/app/models/address.model.dart';
-import 'package:digicard/app/models/user.model.dart';
+import 'package:digicard/app/models/address.dart';
+import 'package:digicard/app/models/user.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorageService {
+  static const String appLanguagesKey = 'languages';
+  static const String darkModeKey = 'darkmode';
+  static const String isOnboardedKey = 'isOnboardedKey';
+  static const String placesInAustraliaKey = 'placesInAustralia';
+  static const String tokenKey = 'token';
+  static const String userKey = 'user';
+
   final log = getLogger('LocalStorageService');
 
   static LocalStorageService? _instance;
@@ -22,7 +29,6 @@ class LocalStorageService {
     return Future.value(_instance);
   }
 
-  static const String placesInAustraliaKey = 'placesInAustralia';
   Future<List<Address>> placesInAustralia() async {
     try {
       var response =
@@ -35,24 +41,22 @@ class LocalStorageService {
     return [];
   }
 
-  static const String appLanguagesKey = 'languages';
   List<String> get languages => _getFromDisk(appLanguagesKey);
+
   set languages(List<String> appLanguages) =>
       _saveToDisk(appLanguagesKey, appLanguages);
 
-  static const String darkModeKey = 'darkmode';
   bool get darkMode => _getFromDisk(darkModeKey);
+
   set darkMode(bool value) => _saveToDisk(darkModeKey, value);
 
-  static const String tokenKey = 'token';
   String? get token => _getFromDisk(tokenKey);
+
   set token(String? value) => _saveToDisk(tokenKey, value);
 
-  static const String isOnboardedKey = 'isOnboardedKey';
   bool get isOnboarded => _getFromDisk(isOnboardedKey) ?? false;
-  set isOnboarded(bool? value) => _saveToDisk(isOnboardedKey, value);
 
-  static const String userKey = 'user';
+  set isOnboarded(bool? value) => _saveToDisk(isOnboardedKey, value);
 
   User? get user {
     var userJson = _getFromDisk(userKey);
@@ -65,7 +69,7 @@ class LocalStorageService {
   }
 
   set user(User? userToSave) {
-    _saveToDisk(userKey, json.encode(userToSave?.toJson()));
+    //  _saveToDisk(userKey, json.encode(u));
   }
 
   void deleteUser() {

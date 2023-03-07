@@ -1,6 +1,8 @@
 Many months have passed and you forgot how this works hayyaa...
 ok, let's start again.
 
+DOCS:
+https://marketplace.visualstudio.com/items?itemName=hirantha.json-to-dart
 
 1. We use JSON TO DART MODEL - a vscode extension that automates json serialization, meaning
 we only have to give the json structure of the model and it will generate the class with all the

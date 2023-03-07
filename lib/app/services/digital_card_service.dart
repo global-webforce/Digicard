@@ -1,4 +1,4 @@
-import 'package:digicard/app/models/digital_card.model.dart';
+import 'package:digicard/app/models/digital_card.dart';
 import 'package:stacked/stacked.dart';
 
 abstract class DigitalCardService with ListenableServiceMixin {

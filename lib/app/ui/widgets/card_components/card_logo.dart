@@ -1,17 +1,21 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:touchable/touchable.dart';
 
 class CardLogo extends StatefulWidget {
   final Color color;
-  final String? imageUrl;
+  final String? image;
+  final File? imageError;
 
   final Function()? onTap;
   const CardLogo({
     Key? key,
     required this.color,
     this.onTap,
-    this.imageUrl,
+    this.image,
+    this.imageError,
   }) : super(key: key);
 
   @override
@@ -39,10 +43,11 @@ class _CardLogoState extends State<CardLogo> {
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: CachedNetworkImage(
-                  imageUrl: "${widget.imageUrl}",
+                  imageUrl: widget.imageError == null ? "${widget.image}" : "",
                   imageBuilder: (context, imageProvider) {
                     return Container(
                       width: 180,
+                      height: 70,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: imageProvider,
@@ -52,40 +57,64 @@ class _CardLogoState extends State<CardLogo> {
                     );
                   },
                   placeholder: (context, url) {
-                    return const SizedBox();
+                    return const SizedBox(
+                      width: 180,
+                      height: 70,
+                    );
                   },
                   errorWidget: (context, url, error) {
-                    return SizedBox(
-                      child: Wrap(
-                        spacing: 5,
-                        alignment: WrapAlignment.center,
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.add,
-                            size: 30,
-                            shadows: <Shadow>[
-                              Shadow(
-                                  offset: const Offset(2, 2),
-                                  color: Colors.black.withOpacity(0.2),
-                                  blurRadius: 10.0)
-                            ],
-                          ),
-                          Text(
-                            "ADD LOGO",
-                            style: TextStyle(
-                              fontSize: 18,
-                              shadows: <Shadow>[
-                                Shadow(
-                                    offset: const Offset(2, 2),
-                                    color: Colors.black.withOpacity(0.3),
-                                    blurRadius: 10.0)
-                              ],
+                    return widget.imageError == null
+                        ? SizedBox(
+                            child: InkWell(
+                              onTap: widget.onTap != null
+                                  ? () {
+                                      widget.onTap!();
+                                    }
+                                  : null,
+                              child: Wrap(
+                                spacing: 5,
+                                alignment: WrapAlignment.center,
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.add,
+                                    size: 22,
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                          offset: const Offset(2, 2),
+                                          color: Colors.black.withOpacity(0.2),
+                                          blurRadius: 10.0)
+                                    ],
+                                  ),
+                                  Text(
+                                    "ADD LOGO",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                            offset: const Offset(2, 2),
+                                            color:
+                                                Colors.black.withOpacity(0.3),
+                                            blurRadius: 10.0)
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           )
-                        ],
-                      ),
-                    );
+                        : Container(
+                            width: 180,
+                            height: 70,
+                            decoration: BoxDecoration(
+                              image: widget.imageError != null
+                                  ? DecorationImage(
+                                      fit: BoxFit.contain,
+                                      image: FileImage(
+                                          widget.imageError ?? File("")))
+                                  : null,
+                            ),
+                          );
                   },
                 ),
               ),

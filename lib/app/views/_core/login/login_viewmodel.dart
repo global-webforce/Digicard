@@ -3,7 +3,7 @@ import 'package:digicard/app/app.dialog_ui.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/services/_core/app_service.dart';
-import 'package:digicard/app/models/user.model.dart';
+import 'package:digicard/app/models/user.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:digicard/app/app.logger.dart';
-import 'package:digicard/app/models/digital_card.model.dart';
+import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/app.bottomsheet_ui.dart';
 import 'package:digicard/app/app.dialog_ui.dart';
 import 'package:digicard/app/app.snackbar_ui.dart';
@@ -9,6 +9,7 @@ import 'package:digicard/app/ui/_shared/app_colors.dart';
 import 'package:digicard/app/views/card_edit_after_duplicate/card_edit_after_duplicate_view.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:digicard/app/views/card_open/card_open_view.dart';
+import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -68,7 +69,15 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
 
   view(DigitalCard card) {
     _navigationService.navigateToView(CardOpenView(
-      card: card,
+      viewMode: ViewMode.preview,
+      cardId: card.id,
+    ));
+  }
+
+  update(DigitalCard card) {
+    _navigationService.navigateToView(CardOpenView(
+      viewMode: ViewMode.update,
+      cardId: card.id,
     ));
   }
 

@@ -1,4 +1,5 @@
 import 'package:digicard/app/app.locator.dart';
+import 'package:digicard/app/ui/_core/sliver_grid_delegate.dart';
 import 'package:digicard/app/ui/_shared/app_colors.dart';
 import 'package:digicard/app/ui/_shared/dimensions.dart';
 import 'package:digicard/app/constants/keys.dart';
@@ -10,7 +11,6 @@ import 'package:digicard/app/views/home/home_view_viewmodel.dart';
 import 'package:ez_dashboard/ez_drawer_button.dart';
 import 'package:ez_dashboard/screen_size_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:stacked/stacked.dart';
 
@@ -51,10 +51,13 @@ class HomeView extends StatelessWidget {
                 },
                 itemCount: viewModel.digitalCards.length,
                 builder: (context, constraints) {
-                  return AlignedGridView.count(
-                    crossAxisCount: isMobile(context) ? 2 : 3,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
+                  return GridView.builder(
+                    gridDelegate:
+                        SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
+                            crossAxisCount: isMobile(context) ? 2 : 3,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            height: 230),
                     itemCount: viewModel.digitalCards.length,
                     padding: Dimens.sliverPadding1000(constraints),
                     addAutomaticKeepAlives: false,

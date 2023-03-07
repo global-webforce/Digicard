@@ -1,4 +1,4 @@
-import 'package:digicard/app/models/digital_card.model.dart';
+import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/ui/_core/scaffold_body_wrapper.dart';
 import 'package:digicard/app/ui/bottom_sheets/card_tools_bottom_sheet_viewmodel.dart';
 import 'package:flutter/material.dart';
