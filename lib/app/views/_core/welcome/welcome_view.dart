@@ -1,14 +1,11 @@
 // ignore_for_file: implementation_imports
 import 'dart:ui';
-
 import 'package:digicard/app/app.locator.dart';
-
 import 'package:digicard/app/ui/_shared/dimensions.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:ez_core/ez_core.dart';
 import 'package:ez_ui/ez_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 class WelcomeView extends StatelessWidget {
   const WelcomeView({Key? key}) : super(key: key);
@@ -17,11 +14,14 @@ class WelcomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [HexColor("#F09819"), HexColor("##FF512F")],
+            colors: [
+              Color(0xffF09819),
+              Color(0xffFF512F),
+            ],
             tileMode: TileMode.clamp,
           ),
         ),

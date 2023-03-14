@@ -5,6 +5,8 @@ import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/app.bottomsheet_ui.dart';
 import 'package:digicard/app/app.dialog_ui.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
+import 'package:digicard/app/views/card_open/card_open_view.dart';
+import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -13,6 +15,7 @@ class HomeViewModel extends ReactiveViewModel {
   final _dialogService = locator<DialogService>();
   final _bottomSheetService = locator<BottomSheetService>();
   final _digitalCardService = locator<DigitalCardService>();
+  final _navigationService = locator<NavigationService>();
 
   @override
   List<ListenableServiceMixin> get listenableServices => [
@@ -38,6 +41,13 @@ class HomeViewModel extends ReactiveViewModel {
       isScrollControlled: true,
       useRootNavigator: true,
     );
+  }
+
+  create() {
+    _navigationService.navigateToView(CardOpenView(
+      actionType: ActionType.create,
+      card: DigitalCard(),
+    ));
   }
 
   Future init() async {

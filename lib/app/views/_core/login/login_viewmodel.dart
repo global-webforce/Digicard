@@ -67,7 +67,7 @@ class LoginViewModel extends ReactiveViewModel {
   Future login() async {
     if (!form.hasErrors) {
       await runBusyFuture(_appService.login(form.value), throwException: true);
-      if (_appService.user?.role == "registered") {
+      if (_appService.user != null) {
         _bottomSheetService
             .showCustomSheet(
                 variant: BottomSheetType.codeVerification,
@@ -84,7 +84,7 @@ class LoginViewModel extends ReactiveViewModel {
     if (!form.hasErrors) {
       await runBusyFuture(_appService.register(form.value),
           throwException: true);
-      if (_appService.user?.role == "registered") {
+      if (_appService.user != null) {
         _bottomSheetService
             .showCustomSheet(
                 variant: BottomSheetType.codeVerification,

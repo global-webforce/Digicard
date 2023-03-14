@@ -11,7 +11,7 @@ import 'package:digicard/app/views/_core/dashboard/dashboard_viewmodel.dart';
 import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
 import 'package:digicard/app/views/home/home_view_viewmodel.dart';
 import 'package:digicard/app/views/contacts/contacts_view_view_model.dart';
-import 'package:digicard/app/views/scan_qr_code/scan_qr_code_view_viewmodel.dart';
+import 'package:digicard/app/views/scan_qr_code/scan_viewmodel.dart';
 import 'package:digicard/app/views/settings/settings_view_view_model.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -84,7 +84,7 @@ import 'package:stacked_themes/stacked_themes.dart';
     Singleton(classType: CardToolsBottomSheetViewModel),
     Singleton(classType: CardSendBottomSheetViewModel),
     Singleton(classType: CardOpenViewModel),
-    Singleton(classType: ScanQRCodeViewModel),
+    Singleton(classType: ScanViewModel),
     Singleton(classType: ContactsViewModel),
     Singleton(classType: SettingsViewModel),
   ],

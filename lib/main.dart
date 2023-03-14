@@ -15,7 +15,6 @@ void main() async {
   // GoogleFonts.config.allowRuntimeFetching = false;
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   if (!kIsWeb) FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-
   setupLocator();
   locator.registerSingleton(AppRoute(StackedService.navigatorKey));
   await ThemeManager.initialise();
@@ -31,5 +30,4 @@ void main() async {
   );
   runApp(const InitialView());
 }
-
 //locator.registerSingleton(AppRoute(StackedService.navigatorKey));

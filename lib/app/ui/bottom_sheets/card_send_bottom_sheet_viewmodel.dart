@@ -26,7 +26,8 @@ class CardSendBottomSheetViewModel extends ReactiveViewModel {
 
   GlobalKey globalKey = GlobalKey();
 
-  List<DigitalCard> get digitalCards => _digitalCardsService.digitalCards;
+  late BuildContext context;
+  DigitalCard? card;
 
   show() {
     _bottomSheetService.showCustomSheet(

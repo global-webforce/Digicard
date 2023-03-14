@@ -1,13 +1,12 @@
 import 'package:digicard/app/constants/keys.dart';
+import 'package:digicard/app/extensions/color.dart';
 import 'package:digicard/app/ui/_shared/app_colors.dart';
 import 'package:digicard/app/ui/widgets/app_icon.dart';
 import 'package:digicard/app/views/_core/dashboard/dashboard_viewmodel.dart';
-
 import 'package:ez_dashboard/ez_dashboard.dart';
 import 'package:ez_dashboard/screen_size_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:stacked/stacked.dart';
 
 class DashboardView extends StatelessWidget {
@@ -23,7 +22,8 @@ class DashboardView extends StatelessWidget {
   }
 
   Widget divider() {
-    return VerticalDivider(width: 2, thickness: 2, color: HexColor("#332D28"));
+    return VerticalDivider(
+        width: 2, thickness: 2, color: HexColor.fromHex("#332D28"));
   }
 
   @override

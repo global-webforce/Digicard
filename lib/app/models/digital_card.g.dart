@@ -8,12 +8,12 @@ part of 'digital_card.dart';
 
 _$_DigitalCard _$$_DigitalCardFromJson(Map<String, dynamic> json) =>
     _$_DigitalCard(
-      id: json['id'] as int,
+      id: json['id'] as int?,
       userId: json['userId'] as int?,
-      ownerId: json['ownerId'] as int?,
-      title: json['title'] as String?,
+      uuid: json['uuid'] as String?,
+      title: json['title'] as String? ?? "New Card",
       logoImage: json['logoImage'] as String?,
-      color: json['color'] as int?,
+      color: json['color'] as String?,
       profileImage: json['profileImage'] as String?,
       prefix: json['prefix'] as String?,
       firstName: json['firstName'] as String?,
@@ -40,7 +40,7 @@ Map<String, dynamic> _$$_DigitalCardToJson(_$_DigitalCard instance) =>
     <String, dynamic>{
       'id': instance.id,
       'userId': instance.userId,
-      'ownerId': instance.ownerId,
+      'uuid': instance.uuid,
       'title': instance.title,
       'logoImage': instance.logoImage,
       'color': instance.color,

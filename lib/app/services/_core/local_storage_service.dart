@@ -69,7 +69,7 @@ class LocalStorageService {
   }
 
   set user(User? userToSave) {
-    //  _saveToDisk(userKey, json.encode(u));
+    _saveToDisk(userKey, json.encode(userToSave?.toJson()));
   }
 
   void deleteUser() {

@@ -18,54 +18,37 @@ class ImagePickerBottomSheetViewModel extends ReactiveViewModel {
 
   pickFromGallery() async {
     image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      await cropImage(image);
+    }
 
-    await cropImage(image);
     _bottomSheetService.completeSheet(
-      SheetResponse(
-        data: {
-          "image": image,
-          "removeImage": false,
-        },
-      ),
+      SheetResponse(data: image),
     );
   }
 
   pickFromCamera() async {
     image = await _picker.pickImage(source: ImageSource.camera);
-
-    await cropImage(image);
+    if (image != null) {
+      await cropImage(image);
+    }
     _bottomSheetService.completeSheet(
-      SheetResponse(
-        data: {
-          "image": image,
-          "removeImage": false,
-        },
-      ),
+      SheetResponse(data: image),
     );
   }
 
   removeImage() {
     image = null;
     _bottomSheetService.completeSheet(
-      SheetResponse(
-        data: {
-          "image": null,
-          "removeImage": true,
-        },
-      ),
+      SheetResponse(data: false),
     );
   }
 
   cropImage(XFile? src) async {
-    //  final img = Image.file(File(src!.path));
     await ImageCropper().cropImage(
       sourcePath: src!.path,
       aspectRatioPresets: [
         CropAspectRatioPreset.square,
-        CropAspectRatioPreset.ratio3x2,
-        CropAspectRatioPreset.original,
-        CropAspectRatioPreset.ratio4x3,
-        CropAspectRatioPreset.ratio16x9
       ],
       uiSettings: [
         AndroidUiSettings(
@@ -79,7 +62,6 @@ class ImagePickerBottomSheetViewModel extends ReactiveViewModel {
         ),
       ],
     ).then((croppedFile) {
-      print("PRINT!!!");
       image = XFile(croppedFile!.path);
     });
   }

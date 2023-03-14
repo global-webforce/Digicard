@@ -39,7 +39,9 @@ class HomeView extends StatelessWidget {
               floatingActionButton: FloatingActionButton(
                   backgroundColor: kcPrimaryColor,
                   child: const Icon(Icons.add),
-                  onPressed: () {}),
+                  onPressed: () {
+                    viewModel.create();
+                  }),
               body: ScaffoldListWrapper(
                 isBusy: viewModel.isBusy,
                 emptyIndicatorWidget: const EmptyDisplay(
@@ -57,7 +59,7 @@ class HomeView extends StatelessWidget {
                             crossAxisCount: isMobile(context) ? 2 : 3,
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 10,
-                            height: 230),
+                            height: 242),
                     itemCount: viewModel.digitalCards.length,
                     padding: Dimens.sliverPadding1000(constraints),
                     addAutomaticKeepAlives: false,

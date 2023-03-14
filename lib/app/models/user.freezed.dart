@@ -224,7 +224,7 @@ class _$_User implements _User {
       this.profilePic,
       this.emailVerifiedAt,
       this.address})
-      : assert(id.isNotEmpty, 'User id must be integer and not null'),
+      : assert(id != null, 'User id must be integer and not null'),
         assert(email.isNotEmpty, 'User email must be string and not null');
 
   factory _$_User.fromJson(Map<String, dynamic> json) => _$$_UserFromJson(json);

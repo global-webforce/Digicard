@@ -44,8 +44,20 @@ class InitialView extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                colorSchemeSeed: kcPrimaryColor,
-                brightness: Brightness.dark,
+                colorScheme: ColorScheme(
+                  primary: Colors.orange,
+                  secondary: Colors.orangeAccent,
+                  surface: Colors.grey.shade800,
+                  background: Colors.grey.shade900,
+                  error: Colors.red,
+                  onPrimary: Colors.white,
+                  onSecondary: Colors.white,
+                  onSurface: Colors.white,
+                  onBackground: Colors.white,
+                  onError: Colors.white,
+                  brightness: Brightness.light,
+                ),
+                brightness: Brightness.light,
                 elevatedButtonTheme: ElevatedButtonThemeData(
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,

@@ -3,11 +3,12 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:touchable/touchable.dart';
+import 'dart:io' as io;
 
 class CardLogo extends StatefulWidget {
   final Color color;
   final String? image;
-  final File? imageError;
+  final bool showOnError;
 
   final Function()? onTap;
   const CardLogo({
@@ -15,7 +16,7 @@ class CardLogo extends StatefulWidget {
     required this.color,
     this.onTap,
     this.image,
-    this.imageError,
+    this.showOnError = true,
   }) : super(key: key);
 
   @override
@@ -28,99 +29,104 @@ class _CardLogoState extends State<CardLogo> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    Widget shape(Widget child) {
+      return SizedBox(
         width: double.infinity,
-        height: 70,
+        height: 60,
         child: CanvasTouchDetector(
-          gesturesToOverride: const [GestureType.onTapDown],
-          builder: (context) => CustomPaint(
-            painter: RPSCustomPainter(
-              context,
-              widget.color,
-              (widget.onTap != null) ? widget.onTap! : widget.onTap,
-            ),
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: CachedNetworkImage(
-                  imageUrl: widget.imageError == null ? "${widget.image}" : "",
-                  imageBuilder: (context, imageProvider) {
-                    return Container(
-                      width: 180,
-                      height: 70,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: imageProvider,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    );
-                  },
-                  placeholder: (context, url) {
-                    return const SizedBox(
-                      width: 180,
-                      height: 70,
-                    );
-                  },
-                  errorWidget: (context, url, error) {
-                    return widget.imageError == null
-                        ? SizedBox(
-                            child: InkWell(
-                              onTap: widget.onTap != null
-                                  ? () {
-                                      widget.onTap!();
-                                    }
-                                  : null,
-                              child: Wrap(
-                                spacing: 5,
-                                alignment: WrapAlignment.center,
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.add,
-                                    size: 22,
-                                    shadows: <Shadow>[
-                                      Shadow(
-                                          offset: const Offset(2, 2),
-                                          color: Colors.black.withOpacity(0.2),
-                                          blurRadius: 10.0)
-                                    ],
-                                  ),
-                                  Text(
-                                    "ADD LOGO",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      shadows: <Shadow>[
-                                        Shadow(
-                                            offset: const Offset(2, 2),
-                                            color:
-                                                Colors.black.withOpacity(0.3),
-                                            blurRadius: 10.0)
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          )
-                        : Container(
-                            width: 180,
-                            height: 70,
-                            decoration: BoxDecoration(
-                              image: widget.imageError != null
-                                  ? DecorationImage(
-                                      fit: BoxFit.contain,
-                                      image: FileImage(
-                                          widget.imageError ?? File("")))
-                                  : null,
-                            ),
-                          );
-                  },
+            gesturesToOverride: const [GestureType.onTapDown],
+            builder: (context) => CustomPaint(
+                painter: RPSCustomPainter(
+                  context,
+                  widget.color,
+                  (widget.onTap != null) ? widget.onTap! : widget.onTap,
                 ),
-              ),
+                child: Center(
+                    child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: child,
+                )))),
+      );
+    }
+
+    return CachedNetworkImage(
+      imageUrl: "${widget.image}",
+      imageBuilder: (context, imageProvider) {
+        return shape(Container(
+          width: 180,
+          height: 70,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: imageProvider,
+              fit: BoxFit.contain,
             ),
           ),
         ));
+      },
+      placeholder: (context, url) {
+        return shape(const SizedBox(
+          width: 180,
+          height: 70,
+        ));
+      },
+      errorWidget: (context, url, error) {
+        if (widget.showOnError == false) {
+          return const SizedBox.shrink();
+        }
+
+        if (io.File("${widget.image}").existsSync()) {
+          return shape(Container(
+            width: 180,
+            height: 70,
+            decoration: BoxDecoration(
+              image: widget.image != null
+                  ? DecorationImage(
+                      fit: BoxFit.contain,
+                      image: FileImage(File("${widget.image}")))
+                  : null,
+            ),
+          ));
+        }
+
+        return InkWell(
+            onTap: widget.onTap != null
+                ? () {
+                    widget.onTap!();
+                  }
+                : null,
+            child: shape(
+              Wrap(
+                spacing: 5,
+                alignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: const [
+                  Icon(
+                    Icons.add,
+                    size: 20,
+                    /*   shadows: <Shadow>[
+                      Shadow(
+                          offset: const Offset(2, 2),
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 10.0)
+                    ], */
+                  ),
+                  Text(
+                    "ADD LOGO",
+                    style: TextStyle(
+                      fontSize: 15,
+                      /*  shadows: <Shadow>[
+                        Shadow(
+                            offset: const Offset(2, 2),
+                            color: Colors.black.withOpacity(0.3),
+                            blurRadius: 10.0)
+                      ], */
+                    ),
+                  )
+                ],
+              ),
+            ));
+      },
+    );
   }
 }
 
@@ -133,9 +139,6 @@ class RPSCustomPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final h = size.height;
-    final w = size.width;
-
     var myCanvas = TouchyCanvas(context, canvas);
     Paint paint0 = Paint()
       ..color = color
@@ -158,7 +161,7 @@ class RPSCustomPainter extends CustomPainter {
     path0.close();
 
     canvas.drawPath(path0, paint0);
-    canvas.drawShadow(path0, Colors.black, 1, false);
+    // canvas.drawShadow(path0, Colors.black, 1, false);
     myCanvas.drawPath(
       path0,
       paint0,

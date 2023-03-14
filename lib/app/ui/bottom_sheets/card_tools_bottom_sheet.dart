@@ -1,14 +1,13 @@
 import 'dart:math';
 
+import 'package:digicard/app/extensions/color.dart';
 import 'package:digicard/app/ui/widgets/bottom_sheet_buttons.dart';
-import 'package:digicard/app/ui/overlays/card_duplicating_overlay.dart';
-import 'package:digicard/app/ui/overlays/qr_code_downloading_overlay.dart';
+import 'package:digicard/app/ui/overlays/custom_overlay.dart';
 import 'package:digicard/app/ui/bottom_sheets/card_tools_bottom_sheet_viewmodel.dart';
 import 'package:ez_core/ez_core.dart';
 import 'package:ez_ui/ez_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -27,14 +26,25 @@ class CardToolsBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<CardToolsBottomSheetViewModel>.reactive(
         viewModelBuilder: () => CardToolsBottomSheetViewModel(),
+        onViewModelReady: (viewModel) {
+          viewModel.card = request.data;
+          viewModel.context = context;
+        },
         builder: (context, viewModel, child) {
           if (viewModel.busy(duplicateBusyKey)) {
-            context.loaderOverlay.show(widget: const DuplicatingOverlay());
+            context.loaderOverlay
+                .show(widget: const CustomOverlay(title: "Duplicating..."));
           } else if (viewModel.busy(downloadQRBusyKey)) {
-            context.loaderOverlay.show(widget: const DownloadQROverlay());
+            context.loaderOverlay
+                .show(widget: const CustomOverlay(title: "Downloading..."));
+          } else if (viewModel.busy(deleteBusyKey)) {
+            context.loaderOverlay
+                .show(widget: const CustomOverlay(title: "Deleting..."));
           } else {
             context.loaderOverlay.hide();
           }
+
+          final color = HexColor.fromHex("${viewModel.card.color}");
 
           return ClipRRect(
             borderRadius: const BorderRadius.only(
@@ -49,7 +59,7 @@ class CardToolsBottomSheet extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      color: HexColor("${request.data.color}"),
+                      color: color,
                       height: 25,
                       child: Center(
                         child: Container(
@@ -74,13 +84,13 @@ class CardToolsBottomSheet extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            EzText.title1("${request.data.title}",
+                            EzText.title1("${viewModel.card.title}",
                                 align: TextAlign.center),
                             vSpaceRegular,
                             Row(
                               children: [
                                 PanelButtons(
-                                  color: HexColor("${request.data.color}"),
+                                  color: color,
                                   onTap: () {
                                     viewModel.send();
                                   },
@@ -94,7 +104,7 @@ class CardToolsBottomSheet extends StatelessWidget {
                                 ),
                                 hSpaceSmall,
                                 PanelButtons(
-                                  color: HexColor("${request.data.color}"),
+                                  color: color,
                                   onTap: () {
                                     viewModel.view(request.data);
                                   },
@@ -111,8 +121,10 @@ class CardToolsBottomSheet extends StatelessWidget {
                             Row(
                               children: [
                                 PanelButtons(
-                                  color: HexColor("${request.data.color}"),
-                                  onTap: () {},
+                                  color: color,
+                                  onTap: () {
+                                    viewModel.update(request.data);
+                                  },
                                   icon: const Icon(
                                     FontAwesomeIcons.penToSquare,
                                     size: 36,
@@ -122,15 +134,14 @@ class CardToolsBottomSheet extends StatelessWidget {
                                 ),
                                 hSpaceSmall,
                                 PanelButtons(
-                                  color: HexColor("${request.data.color}"),
+                                  color: color,
                                   onTap: () {},
                                   icon: const Icon(
-                                    FontAwesomeIcons.clipboardQuestion,
+                                    FontAwesomeIcons.gear,
                                     size: 36,
                                   ),
-                                  title: "TEST",
-                                  subtitle:
-                                      "See what your card looks like on others.",
+                                  title: "SETTINGS",
+                                  subtitle: "Tweak your card settings",
                                 ),
                               ],
                             ),
@@ -138,17 +149,16 @@ class CardToolsBottomSheet extends StatelessWidget {
                             Row(
                               children: [
                                 MinButtons(
-                                    color: HexColor("${request.data.color}"),
+                                    color: color,
                                     onTap: () async {
-                                      await viewModel
-                                          .downloadWithoutLogo(context);
+                                      await viewModel.duplicate(request.data);
                                     },
-                                    icon: const Icon(FontAwesomeIcons.qrcode),
-                                    title: "Download QR"),
+                                    icon: const Icon(FontAwesomeIcons.copy),
+                                    title: "Dupicate"),
                                 hSpaceSmall,
                                 MinButtons(
-                                    color: HexColor("${request.data.color}"),
-                                    onTap: () {},
+                                    color: color,
+                                    onTap: null,
                                     icon:
                                         const Icon(FontAwesomeIcons.nfcSymbol),
                                     title: "Write to NFC"),
@@ -158,39 +168,40 @@ class CardToolsBottomSheet extends StatelessWidget {
                             Row(
                               children: [
                                 MinButtons(
-                                    color: HexColor("${request.data.color}"),
-                                    onTap: () async {
-                                      await viewModel.duplicate(request.data);
-                                    },
-                                    icon: const Icon(FontAwesomeIcons.copy),
-                                    title: "Dupicatee"),
-                                hSpaceSmall,
-                                MinButtons(
-                                    color: HexColor("${request.data.color}"),
-                                    onTap: () {},
-                                    icon: const Icon(
-                                        FontAwesomeIcons.arrowsLeftRight),
-                                    title: "Transfer"),
-                              ],
-                            ),
-                            vSpaceSmall,
-                            Row(
-                              children: [
-                                MinButtons(
-                                    color: HexColor("${request.data.color}"),
-                                    onTap: () {},
-                                    icon: const Icon(FontAwesomeIcons.gear),
-                                    title: "Settings"),
-                                hSpaceSmall,
-                                MinButtons(
-                                    color: HexColor("${request.data.color}"),
+                                    color: color,
                                     onTap: () async {
                                       await viewModel.delete(request.data.id);
                                     },
                                     icon: const Icon(FontAwesomeIcons.trash),
                                     title: "Delete"),
+                                hSpaceSmall,
+                                MinButtons(
+                                    color: color,
+                                    onTap: null,
+                                    icon: const Icon(
+                                        FontAwesomeIcons.arrowsLeftRight),
+                                    title: "Transfer"),
                               ],
-                            )
+                            ),
+                            /*   vSpaceSmall,
+                            Row(
+                              children: [
+                                MinButtons(
+                                    color: color,
+                                    onTap: () async {
+                                      await viewModel
+                                          .downloadWithoutLogo(context);
+                                    },
+                                    icon: const Icon(FontAwesomeIcons.qrcode),
+                                    title: "Download QR"),
+                                hSpaceSmall,
+                                MinButtons(
+                                    color: color,
+                                    onTap: null,
+                                    icon: const Icon(FontAwesomeIcons.gear),
+                                    title: "Settings"),
+                              ],
+                            ) */
                           ],
                         ),
                       ),

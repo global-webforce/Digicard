@@ -1,3 +1,5 @@
+import 'package:digicard/app/constants/color_pallette.dart';
+import 'package:digicard/app/ui/_shared/app_colors.dart';
 import 'package:digicard/app/ui/dialogs/color_picker_dialog_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -77,19 +79,22 @@ class ColorPickerDialog extends StatelessWidget {
                 width: 600,
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.all(15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      BlockPicker(
-                        pickerColor: Colors.orange,
-                        onColorChanged: (color) {
-                          completer(DialogResponse(data: color));
-                        },
-                        layoutBuilder: pickerLayoutBuilder,
-                        itemBuilder: pickerItemBuilder,
-                      ),
-                    ],
+                  child: Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        BlockPicker(
+                          availableColors: cardColors,
+                          pickerColor: request.data ?? kcPrimaryColor,
+                          onColorChanged: (color) {
+                            completer(DialogResponse(data: color));
+                          },
+                          layoutBuilder: pickerLayoutBuilder,
+                          itemBuilder: pickerItemBuilder,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

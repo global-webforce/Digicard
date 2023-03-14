@@ -42,10 +42,14 @@ class EzButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final buttonBackgroundColor = background != null
-        ? MaterialStateProperty.all(background)
-        : MaterialStateProperty.all(
-            Theme.of(context).appBarTheme.backgroundColor);
+    final defaultButtonColor = MaterialStateProperty.all(
+        Theme.of(context).buttonTheme.colorScheme?.primary);
+    final defaultDisabledButtonColor = MaterialStateProperty.all(
+        Theme.of(context).buttonTheme.colorScheme?.primary.darken());
+
+    final customButtonColor = MaterialStateProperty.all(background);
+    final customDisabledButtonColor =
+        MaterialStateProperty.all(background?.darken());
 
     final buttonRadius = MaterialStateProperty.all<RoundedRectangleBorder>(
       RoundedRectangleBorder(
@@ -127,8 +131,15 @@ class EzButton extends StatelessWidget {
     Widget _elevatedButton() {
       return ElevatedButton(
         style: ButtonStyle(
+          elevation: MaterialStateProperty.all(0),
           shape: buttonRadius,
-          backgroundColor: disabled ? null : buttonBackgroundColor,
+          backgroundColor: disabled
+              ? background != null
+                  ? customDisabledButtonColor
+                  : defaultDisabledButtonColor
+              : background != null
+                  ? customButtonColor
+                  : defaultButtonColor,
         ),
         onPressed: disabled || busy ? null : onTap,
         onLongPress: disabled || busy ? null : onLongPress,
@@ -138,12 +149,33 @@ class EzButton extends StatelessWidget {
 
     return ConstrainedBox(
       constraints: const BoxConstraints(
-        minHeight: 45,
-        maxHeight: 45,
+        minHeight: 50,
+        maxHeight: 50,
         minWidth: 120,
         maxWidth: double.infinity,
       ),
       child: outline ? _outlinedButton() : _elevatedButton(),
     );
+  }
+}
+
+extension ColorBrightness on Color {
+  Color darken([double amount = .1]) {
+    assert(amount >= 0 && amount <= 1);
+
+    final hsl = HSLColor.fromColor(this);
+    final hslDark = hsl.withLightness((hsl.lightness - amount).clamp(0.0, 1.0));
+
+    return hslDark.toColor();
+  }
+
+  Color lighten([double amount = .1]) {
+    assert(amount >= 0 && amount <= 1);
+
+    final hsl = HSLColor.fromColor(this);
+    final hslLight =
+        hsl.withLightness((hsl.lightness + amount).clamp(0.0, 1.0));
+
+    return hslLight.toColor();
   }
 }

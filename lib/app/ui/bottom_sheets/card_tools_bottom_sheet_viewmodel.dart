@@ -6,7 +6,6 @@ import 'package:digicard/app/app.bottomsheet_ui.dart';
 import 'package:digicard/app/app.dialog_ui.dart';
 import 'package:digicard/app/app.snackbar_ui.dart';
 import 'package:digicard/app/ui/_shared/app_colors.dart';
-import 'package:digicard/app/views/card_edit_after_duplicate/card_edit_after_duplicate_view.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:digicard/app/views/card_open/card_open_view.dart';
 import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
@@ -23,14 +22,16 @@ import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'dart:ui' as ui;
 
+import 'package:uuid/uuid.dart';
+
 const String duplicateBusyKey = 'duplicate-busy-key';
 const String downloadQRBusyKey = 'downloadQR-busy-key';
+const String deleteBusyKey = 'delete-busy-key';
 
 class CardToolsBottomSheetViewModel extends ReactiveViewModel {
   final log = getLogger('CardToolsBottomSheetViewModel');
   final _bottomSheetService = locator<BottomSheetService>();
   final _dialogService = locator<DialogService>();
-
   final _digitalCardsService = locator<DigitalCardService>();
   final _snackbarService = locator<SnackbarService>();
   final _navigationService = locator<NavigationService>();
@@ -38,7 +39,8 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
   @override
   List<ListenableServiceMixin> get listenableServices => [_digitalCardsService];
 
-  List<DigitalCard> get digitalCards => _digitalCardsService.digitalCards;
+  late BuildContext context;
+  late DigitalCard card;
 
   Future<DialogResponse<dynamic>?> delete(int? id) async {
     _dialogService
@@ -50,34 +52,41 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
       secondaryButtonTitle: "Delete",
       barrierDismissible: true,
     )
-        .then((value) {
+        .then((value) async {
       if (value!.confirmed) {
-        _digitalCardsService.delete(id);
+        setBusyForObject(deleteBusyKey, true);
+        await _digitalCardsService.delete(card);
+        setBusyForObject(deleteBusyKey, false);
         _bottomSheetService.completeSheet(SheetResponse());
       }
+
       return value;
     });
     return null;
   }
 
   send() {
+    _bottomSheetService.completeSheet(SheetResponse());
     _bottomSheetService.showCustomSheet(
+      ignoreSafeArea: false,
       variant: BottomSheetType.send,
+      data: card,
       isScrollControlled: true,
     );
   }
 
   view(DigitalCard card) {
     _navigationService.navigateToView(CardOpenView(
-      viewMode: ViewMode.preview,
-      cardId: card.id,
+      actionType: ActionType.view,
+      card: card,
     ));
   }
 
   update(DigitalCard card) {
+    _bottomSheetService.completeSheet(SheetResponse());
     _navigationService.navigateToView(CardOpenView(
-      viewMode: ViewMode.update,
-      cardId: card.id,
+      actionType: ActionType.edit,
+      card: card,
     ));
   }
 
@@ -92,12 +101,16 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
 
   duplicate(DigitalCard digitalCard) async {
     setBusyForObject(duplicateBusyKey, true);
-    _digitalCardsService.duplicate(digitalCard);
+    _digitalCardsService
+        .duplicate(digitalCard.copyWith(title: "${digitalCard.title} Copy"));
 
     await Future.delayed(const Duration(seconds: 1));
     setBusyForObject(duplicateBusyKey, false);
     _bottomSheetService.completeSheet(SheetResponse());
-    await _navigationService.navigateToView(AddDigitalCardPage(digitalCard));
+    _navigationService.navigateToView(CardOpenView(
+      actionType: ActionType.edit,
+      card: card.copyWith(title: "${digitalCard.title} Copy"),
+    ));
   }
 
   //Create an instance of ScreenshotController
@@ -110,8 +123,11 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
       pixelRatio: 10,
     )
         .then((Uint8List? image) async {
+      var uuid = const Uuid();
       final tempDir = await getTemporaryDirectory();
-      File file = await File('${tempDir.path}/mamaloan.png').create();
+      File file = await File(
+              '${tempDir.path}/${uuid.v5(Uuid.NAMESPACE_URL, 'www.digicard.com')}.png')
+          .create();
       file.writeAsBytesSync(List<int>.from(image!.toList()));
       XFile filex = XFile(file.path);
       Share.shareXFiles([filex]);

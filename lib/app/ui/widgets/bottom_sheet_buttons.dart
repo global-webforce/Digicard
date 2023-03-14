@@ -5,8 +5,8 @@ class PanelButtons extends StatelessWidget {
   final Icon icon;
   final String title;
   final String subtitle;
-  final Function onTap;
-  final Color color;
+  final Function()? onTap;
+  final Color? color;
   const PanelButtons(
       {Key? key,
       required this.icon,
@@ -20,14 +20,15 @@ class PanelButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Card(
+        elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
         clipBehavior: Clip.hardEdge,
         margin: EdgeInsets.zero,
-        color: color.withOpacity(0.3),
+        color: color?.withOpacity(0.3),
         child: InkWell(
-          onTap: () => onTap(),
+          onTap: onTap != null ? () => onTap!() : null,
           child: Container(
             width: 160,
             height: 150,
@@ -36,11 +37,19 @@ class PanelButtons extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 icon,
-                EzText.title1(title, align: TextAlign.center),
-                EzText.caption(
+                Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                Text(
                   subtitle,
-                  align: TextAlign.center,
-                )
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.fade,
+                  style: const TextStyle(fontSize: 12),
+                ),
               ],
             ),
           ),
@@ -53,8 +62,8 @@ class PanelButtons extends StatelessWidget {
 class MinButtons extends StatelessWidget {
   final Icon icon;
   final String title;
-  final Function onTap;
-  final Color color;
+  final Function()? onTap;
+  final Color? color;
   const MinButtons({
     Key? key,
     required this.icon,
@@ -67,14 +76,16 @@ class MinButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Card(
+        elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
         clipBehavior: Clip.hardEdge,
         margin: EdgeInsets.zero,
-        color: color.withOpacity(0.3),
+        color:
+            onTap != null ? color?.withOpacity(0.3) : color?.withOpacity(0.1),
         child: InkWell(
-          onTap: () => onTap(),
+          onTap: onTap != null ? () => onTap!() : null,
           child: Container(
             width: 160,
             padding: const EdgeInsets.all(12),

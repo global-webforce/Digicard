@@ -10,6 +10,7 @@ class SettingsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 0,
       clipBehavior: Clip.antiAlias,
       child: ListView.separated(
         primary: false,

@@ -17,12 +17,23 @@ Widget appIcon() {
       hSpaceSmall,
       Container(
           decoration: BoxDecoration(
-              color: kcPrimaryColor, borderRadius: BorderRadius.circular(10)),
+              gradient: LinearGradient(
+                colors: [
+                  Colors.yellow.shade700,
+                  Colors.orange.shade900,
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              color: kcPrimaryColor,
+              borderRadius: BorderRadius.circular(10)),
           child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-            child: Text(
-              "PRO",
-              style: TextStyle(color: Colors.black),
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            child: Center(
+              child: Text(
+                "PRO",
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           )),
     ],

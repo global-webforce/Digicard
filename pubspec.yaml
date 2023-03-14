@@ -35,18 +35,15 @@ dependencies:
     path: ./packages/ez_core
   ez_dashboard:
     path: ./packages/ez_dashboard
-  ez_onboarding:
-    path: ./packages/ez_onboarding
   ez_ui:
     path: ./packages/ez_ui
-  faker: ^2.0.0
+  
   flutter:
     sdk: flutter
   
   flutter_keyboard_visibility: ^5.4.0
   flutter_native_splash: ^2.2.13
   google_fonts: ^4.0.3
-  hexcolor: ^3.0.1
   http: ^0.13.4
   http_interceptor: ^2.0.0-beta.5
   http_parser: ^4.0.1
@@ -68,9 +65,12 @@ dependencies:
   validators: ^3.0.0
   equatable: ^2.0.3
   url_launcher: ^6.1.2
+  uuid: ^3.0.7
+  faker: ^2.0.0
+  vcard_maintained: ^0.0.1+1
 #UI
   font_awesome_flutter: ^10.3.0
-  reactive_forms: ^14.2.0
+  
   #dotted_border: ^2.0.0+2
 #  flutter_form_builder: ^7.8.0
   #form_builder_extra_fields: ^8.3.0
@@ -102,8 +102,12 @@ dependencies:
 #  latlong2: ^0.8.1
   freezed_annotation: ^2.0.3
   json_annotation: ^4.6.0
+  reactive_forms: ^14.2.0
+  reactive_forms_annotations: ^0.13.2
+  reactive_image_picker: ^0.13.0
 dev_dependencies:
   build_runner: ^2.3.2
+  reactive_forms_generator: ^0.23.4
   freezed: ^2.0.3
   json_serializable: ^6.1.4
   analyzer: ^5.1.0

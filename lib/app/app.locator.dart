@@ -26,7 +26,7 @@ import 'views/_core/login/login_viewmodel.dart';
 import 'views/card_open/card_open_viewmodel.dart';
 import 'views/contacts/contacts_view_view_model.dart';
 import 'views/home/home_view_viewmodel.dart';
-import 'views/scan_qr_code/scan_qr_code_view_viewmodel.dart';
+import 'views/scan_qr_code/scan_viewmodel.dart';
 import 'views/settings/settings_view_view_model.dart';
 
 final locator = StackedLocator.instance;
@@ -57,7 +57,7 @@ Future<void> setupLocator(
   locator.registerSingleton(CardToolsBottomSheetViewModel());
   locator.registerSingleton(CardSendBottomSheetViewModel());
   locator.registerSingleton(CardOpenViewModel());
-  locator.registerSingleton(ScanQRCodeViewModel());
+  locator.registerSingleton(ScanViewModel());
   locator.registerSingleton(ContactsViewModel());
   locator.registerSingleton(SettingsViewModel());
 }

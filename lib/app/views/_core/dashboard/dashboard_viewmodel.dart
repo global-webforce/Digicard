@@ -2,7 +2,7 @@ import 'package:digicard/app/app.dialog_ui.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/views/contacts/contacts_view.dart';
 import 'package:digicard/app/views/home/home_view.dart';
-import 'package:digicard/app/views/scan_qr_code/scan_qr_code_view.dart';
+import 'package:digicard/app/views/scan_qr_code/scan_view.dart';
 import 'package:digicard/app/views/settings/settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -45,7 +45,7 @@ class DashboardViewModel extends BaseViewModel {
       case 0:
         return const HomeView();
       case 1:
-        return const ScanQRCodeView();
+        return const ScanView();
       case 2:
         return const ContactsView();
       case 3:

@@ -1,6 +1,5 @@
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/constants/keys.dart';
-import 'package:digicard/app/ui/_shared/app_colors.dart';
 import 'package:digicard/app/views/settings/settings_view_view_model.dart';
 import 'package:digicard/app/ui/_core/settings_ui.dart';
 import 'package:ez_core/ez_core.dart';
@@ -29,11 +28,6 @@ class SettingsView extends StatelessWidget {
                 ],
               ),
             ),
-            floatingActionButton: FloatingActionButton(
-                heroTag: UniqueKey(),
-                backgroundColor: kcPrimaryColor,
-                child: const Icon(Icons.add),
-                onPressed: () {}),
             body: Padding(
               padding: const EdgeInsets.all(14),
               child: SettingsList(sections: [

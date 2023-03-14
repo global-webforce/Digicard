@@ -1,12 +1,11 @@
 import 'package:digicard/app/models/address.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-
 part 'user.freezed.dart';
 part 'user.g.dart';
 
 @freezed
 class User with _$User {
-  @Assert('id.isNotEmpty', 'User id must be integer and not null')
+  @Assert('id != null', 'User id must be integer and not null')
   @Assert('email.isNotEmpty', 'User email must be string and not null')
   factory User({
     required int id,

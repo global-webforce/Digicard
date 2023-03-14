@@ -4,7 +4,8 @@ import 'package:stacked/stacked.dart';
 abstract class DigitalCardService with ListenableServiceMixin {
   List<DigitalCard> get digitalCards;
   Future getAll();
-  Future create(Map<String, dynamic> formData);
+  Future create(DigitalCard digitalCard);
+  Future update(DigitalCard digitalCard);
+  Future delete(DigitalCard digitalCard);
   duplicate(DigitalCard digitalCard);
-  Future delete(int? id);
 }

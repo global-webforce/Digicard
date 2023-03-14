@@ -9,7 +9,7 @@ class CardColorPicker extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Material(
-        color: Colors.black.withOpacity(0.7),
+        color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(10),
         child: InkWell(
           borderRadius: BorderRadius.circular(10),
@@ -23,7 +23,7 @@ class CardColorPicker extends StatelessWidget {
             padding: const EdgeInsets.all(2),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Colors.white)),
+                border: Border.all(color: Colors.white.withOpacity(0.5))),
             child: const RadiantGradientMask(
               child: Icon(
                 Icons.color_lens_rounded,

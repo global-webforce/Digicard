@@ -1,9 +1,9 @@
 import 'dart:math';
 
-import 'package:digicard/app/ui/_shared/app_colors.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:digicard/app/extensions/color.dart';
 import 'package:digicard/app/ui/widgets/bottom_sheet_buttons.dart';
-import 'package:digicard/app/ui/overlays/card_duplicating_overlay.dart';
-import 'package:digicard/app/ui/overlays/qr_code_downloading_overlay.dart';
+import 'package:digicard/app/ui/overlays/custom_overlay.dart';
 import 'package:ez_core/ez_core.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -28,115 +28,155 @@ class CardSendBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<CardToolsBottomSheetViewModel>.reactive(
         viewModelBuilder: () => CardToolsBottomSheetViewModel(),
+        onViewModelReady: (viewModel) {
+          viewModel.card = request.data;
+          viewModel.context = context;
+        },
         builder: (context, viewModel, child) {
           if (viewModel.busy(duplicateBusyKey)) {
-            context.loaderOverlay.show(widget: const DuplicatingOverlay());
+            context.loaderOverlay
+                .show(widget: const CustomOverlay(title: "Duplicating..."));
           } else if (viewModel.busy(downloadQRBusyKey)) {
-            context.loaderOverlay.show(widget: const DownloadQROverlay());
+            context.loaderOverlay
+                .show(widget: const CustomOverlay(title: "Downloading..."));
+          } else if (viewModel.busy(deleteBusyKey)) {
+            context.loaderOverlay
+                .show(widget: const CustomOverlay(title: "Deleting..."));
           } else {
             context.loaderOverlay.hide();
           }
 
           return SafeArea(
-            child: Scaffold(
-              body: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(15.0),
-                    topRight: Radius.circular(15.0)),
-                child: Container(
-                  height: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                  ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          color: Colors.red,
-                          height: 25,
-                          child: Center(
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5))),
-                              width: 50,
-                              height: 5,
-                            ),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(15.0),
+                  topRight: Radius.circular(15.0)),
+              child: Container(
+                height: double.infinity,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        color: HexColor.fromHex("${viewModel.card.color}"),
+                        height: 25,
+                        child: Center(
+                          child: Container(
+                            decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5))),
+                            width: 50,
+                            height: 5,
                           ),
                         ),
-                        Center(
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 16,
-                                horizontal: max(
-                                    (MediaQuery.of(context).size.width - 500) /
-                                        2,
-                                    15)),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Screenshot(
-                                    key: UniqueKey(),
-                                    controller:
-                                        viewModel.screenshotControllerShare,
-                                    child: QrImage(
-                                      data: 'This is a simple QR code',
-                                      version: QrVersions.auto,
-                                      embeddedImage: const AssetImage(
-                                          'assets/images/splash.png'),
-                                      embeddedImageStyle: QrEmbeddedImageStyle(
-                                        color: Colors.red,
-                                        size: const Size(80, 80),
+                      ),
+                      Center(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 16,
+                              horizontal: max(
+                                  (MediaQuery.of(context).size.width - 500) / 2,
+                                  15)),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Screenshot(
+                                  key: UniqueKey(),
+                                  controller:
+                                      viewModel.screenshotControllerShare,
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    fit: StackFit.loose,
+                                    children: [
+                                      QrImage(
+                                        data:
+                                            "https://www.digicard.com/me/${viewModel.card.uuid}",
+                                        version: QrVersions.auto,
+                                        size: 250,
+                                        foregroundColor: Colors.white,
+                                        backgroundColor: HexColor.fromHex(
+                                                "${viewModel.card.color}") ??
+                                            Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                        gapless: false,
                                       ),
-                                      eyeStyle: const QrEyeStyle(
-                                          eyeShape: QrEyeShape.circle,
-                                          color: Colors.black),
-                                      size: 250,
-                                      foregroundColor: Colors.white,
-                                      backgroundColor: kcPrimaryColor,
-                                      gapless: false,
-                                    ),
+                                      Positioned(
+                                        child: Center(
+                                          child: Container(
+                                            color: Colors.white,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(2.0),
+                                              child: CachedNetworkImage(
+                                                  imageUrl:
+                                                      "${viewModel.card.logoImage}",
+                                                  imageBuilder: (context,
+                                                          imageProvider) =>
+                                                      Image(
+                                                        image: imageProvider,
+                                                        width: 60,
+                                                      ),
+                                                  placeholder: (context, url) {
+                                                    return const SizedBox
+                                                        .shrink();
+                                                  },
+                                                  errorWidget:
+                                                      (context, url, error) {
+                                                    return const SizedBox
+                                                        .shrink();
+                                                  }),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                vSpaceRegular,
-                                const Text("Point your camera at the QR Code."),
-                                vSpaceRegular,
-                                Row(
-                                  children: [
-                                    MinButtons(
-                                        onTap: () async {
-                                          await viewModel.share();
-                                        },
-                                        icon:
-                                            const Icon(FontAwesomeIcons.share),
-                                        title: "Share"),
-                                  ],
-                                ),
-                                vSpaceSmall,
-                                Row(
-                                  children: [
-                                    MinButtons(
-                                        onTap: () async {
-                                          await viewModel.downloadWithLogo();
-                                        },
-                                        icon: const Icon(
-                                            FontAwesomeIcons.download),
-                                        title: "Download QR"),
-                                  ],
-                                )
-                              ],
-                            ),
+                              ),
+                              vSpaceRegular,
+                              const Text("Point your camera at the QR Code."),
+                              vSpaceRegular,
+                              Row(
+                                children: [
+                                  MinButtons(
+                                      color: HexColor.fromHex(
+                                          "${viewModel.card.color}"),
+                                      onTap: () async {
+                                        await viewModel.share();
+                                      },
+                                      icon: const Icon(FontAwesomeIcons.share),
+                                      title: "Share"),
+                                ],
+                              ),
+                              vSpaceSmall,
+                              Row(
+                                children: [
+                                  MinButtons(
+                                      color: HexColor.fromHex(
+                                          "${viewModel.card.color}"),
+                                      onTap: () async {
+                                        await viewModel.downloadWithLogo();
+                                      },
+                                      icon:
+                                          const Icon(FontAwesomeIcons.download),
+                                      title: "Download QR"),
+                                ],
+                              )
+                            ],
                           ),
                         ),
-                        const SizedBox.shrink(),
-                      ],
-                    ),
+                      ),
+                      const SizedBox.shrink(),
+                    ],
                   ),
                 ),
               ),

@@ -1,5 +1,7 @@
 import 'package:digicard/app/app.locator.dart';
-import 'package:digicard/app/ui/_shared/app_colors.dart';
+import 'package:digicard/app/extensions/color.dart';
+import 'package:digicard/app/models/digital_card.dart';
+import 'package:digicard/app/ui/overlays/custom_overlay.dart';
 import 'package:digicard/app/ui/widgets/card_components/card_color_picker.dart';
 import 'package:digicard/app/ui/widgets/card_components/card_info.dart';
 import 'package:digicard/app/ui/widgets/card_components/card_logo.dart';
@@ -9,26 +11,34 @@ import 'package:ez_core/ez_core.dart';
 import 'package:ez_ui/ez_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CardOpenView extends StatelessWidget {
-  final ViewMode viewMode;
-  const CardOpenView({Key? key, required this.cardId, required this.viewMode})
+  final DigitalCard card;
+  final ActionType actionType;
+  const CardOpenView({Key? key, required this.card, required this.actionType})
       : super(key: key);
-  final int cardId;
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<CardOpenViewModel>.reactive(
         viewModelBuilder: () => locator<CardOpenViewModel>(),
         disposeViewModel: false,
-        onViewModelReady: (viewModel) {
-          viewModel.initForm(id: cardId, viewMode: viewMode);
+        onDispose: (model) {
+          model.formModel.form.dispose();
         },
+        onViewModelReady: (model) => model.initialize(card, actionType),
         builder: (context, viewModel, child) {
+          if (viewModel.busy(saveBusyKey)) {
+            context.loaderOverlay
+                .show(widget: const CustomOverlay(title: "Saving..."));
+          } else {
+            context.loaderOverlay.hide();
+          }
+
           Widget bevel() {
             return Container(
               height: 30,
@@ -41,147 +51,230 @@ class CardOpenView extends StatelessWidget {
             );
           }
 
-          Widget bottomSheet() {
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(15, 15, 15, 30),
-              child: EzButton.elevated(
-                background: HexColor("${viewModel.formVal("color")}"),
-                rounded: true,
-                leading: Icons.save_rounded,
-                title: "Save Contact",
-                onLongPress: () {},
-              ),
-            );
-          }
+          return ReactiveDigitalCardForm(
+            form: viewModel.formModel,
+            child: Builder(builder: (context) {
+              final formModel = viewModel.formModel;
+              Widget bottomSheet() {
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 15, 15, 30),
+                  child: EzButton.elevated(
+                    background:
+                        HexColor.fromHex("${formModel.colorControl?.value}"),
+                    rounded: true,
+                    leading: Icons.save_rounded,
+                    title: "Save Contact",
+                    onLongPress: () {},
+                  ),
+                );
+              }
 
-          Widget titleField() {
-            return Padding(
-              padding: const EdgeInsets.all(0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(5),
-                child: ReactiveTextField(
-                  onSubmitted: (control) {
-                    viewModel.form.unfocus();
-                  },
-                  textCapitalization: TextCapitalization.characters,
-                  textAlign: TextAlign.center,
-                  showErrors: (control) => false,
-                  formControlName: 'title',
-                  textInputAction: TextInputAction.next,
-                  decoration: const InputDecoration(
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                      border: UnderlineInputBorder(),
-                      hintText: "TITLE",
-                      counterText: "",
-                      filled: false),
-                ),
-              ),
-            );
-          }
+              Widget logoImage() {
+                return ReactiveValueListenableBuilder<dynamic>(
+                    formControl: formModel.logoImageControl,
+                    builder: (context, field, child) {
+                      return CardLogo(
+                          showOnError: viewModel.actionType == ActionType.view
+                              ? false
+                              : true,
+                          image: field.value,
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                          onTap: (viewModel.actionType == ActionType.view)
+                              ? null
+                              : () async {
+                                  formModel.form.unfocus();
+                                  await viewModel.showLogoPicker();
+                                });
+                    });
+              }
 
-          Widget logoImage() {
-            return ReactiveValueListenableBuilder<dynamic>(
-                formControlName: 'logo_image',
-                builder: (context, value1, child) {
-                  return ReactiveValueListenableBuilder<dynamic>(
-                      formControlName: 'logo_image_file',
-                      builder: (context, value2, child) {
-                        return CardLogo(
-                            image: value1.value,
-                            imageError: value2.value,
-                            color: Theme.of(context).scaffoldBackgroundColor,
-                            onTap: () async {
-                              viewModel.form.unfocus();
-                              await viewModel.showLogoPicker();
-                            });
-                      });
-                });
-          }
+              Widget profileImage() {
+                return ReactiveValueListenableBuilder<dynamic>(
+                    formControl: formModel.colorControl,
+                    builder: (context, color, child) {
+                      return ReactiveValueListenableBuilder<dynamic>(
+                          formControl: formModel.profileImageControl,
+                          builder: (context, image, child) {
+                            return CardProfileImage(
+                              showOnError:
+                                  viewModel.actionType == ActionType.view
+                                      ? false
+                                      : true,
+                              image: image.value,
+                              color: HexColor.fromHex("${color.value}") ??
+                                  Theme.of(context).colorScheme.primary,
+                              onTap: (viewModel.actionType == ActionType.view)
+                                  ? null
+                                  : () async {
+                                      formModel.form.unfocus();
+                                      await viewModel.showImagePicker();
+                                    },
+                            );
+                          });
+                    });
+              }
 
-          Widget profileImage() {
-            return ReactiveValueListenableBuilder<dynamic>(
-                formControlName: 'profile_image',
-                builder: (context, value1, child) {
-                  return ReactiveValueListenableBuilder<dynamic>(
-                      formControlName: 'profile_image_file',
-                      builder: (context, value2, child) {
-                        return CardProfileImage(
-                          image: value1.value,
-                          imageError: value2.value,
-                          color: Colors.red,
-                          onTap: () async {
-                            viewModel.form.unfocus();
-                            await viewModel.showImagePicker();
-                          },
-                        );
-                      });
-                });
-          }
+              Widget colorPicker() {
+                return ReactiveValueListenableBuilder<dynamic>(
+                    formControl: formModel.colorControl,
+                    builder: (context, field, child) {
+                      return CardColorPicker(
+                        onTap: () async {
+                          formModel.form.unfocus();
+                          await viewModel.showColorPicker(
+                              HexColor.fromHex("${field.value}") ??
+                                  Theme.of(context).scaffoldBackgroundColor);
+                        },
+                      );
+                    });
+              }
 
-          Widget colorPicker() {
-            return CardColorPicker(
-              onTap: () async {
-                viewModel.form.unfocus();
-                await viewModel.showColorPicker();
-              },
-            );
-          }
+              return WillPopScope(
+                onWillPop: () async {
+                  if (!viewModel.formModel.form.pristine) {
+                    return await viewModel
+                        .confirmExit()
+                        .then((value) => value!.confirmed);
+                  }
 
-          return SafeArea(
-            child: Scaffold(
-                appBar: AppBar(
-                  automaticallyImplyLeading: false,
-                  leading: const BackButton(),
-                  actions: [
-                    TextButton(onPressed: () {}, child: const Text("SAVE"))
-                  ],
-                ),
-                //  bottomSheet: bottomSheet(),
-                body: SizedBox(
-                  width: double.infinity,
-                  height: double.infinity,
-                  child: SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      primary: true,
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
-                      child: ReactiveForm(
-                          formGroup: viewModel.form,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              titleField(),
-                              Stack(
-                                clipBehavior: Clip.none,
-                                fit: StackFit.loose,
-                                key: UniqueKey(),
+                  return Future.value(true);
+                },
+                child: Material(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  child: SafeArea(
+                    top: ((viewModel.actionType == ActionType.edit) ||
+                            (viewModel.actionType == ActionType.create))
+                        ? false
+                        : true,
+                    child: Scaffold(
+                      extendBodyBehindAppBar:
+                          viewModel.actionType == ActionType.view,
+                      appBar: viewModel.actionType == ActionType.edit ||
+                              viewModel.actionType == ActionType.create
+                          ? AppBar(
+                              leading: const BackButton(),
+                              title: Text(
+                                  viewModel.actionType == ActionType.edit
+                                      ? "Edit Card"
+                                      : "Create Card"),
+                              elevation: 0,
+                              backgroundColor: null,
+                              actions: [
+                                ReactiveDigitalCardFormConsumer(
+                                    builder: (context, f, w) {
+                                  return (((viewModel.actionType ==
+                                                  ActionType.edit) ||
+                                              (viewModel.actionType ==
+                                                  ActionType.create)) &&
+                                          viewModel.formModel.form.pristine !=
+                                              true)
+                                      ? TextButton(
+                                          onPressed: () async {
+                                            await viewModel.save();
+                                          },
+                                          child: const Text(
+                                            "Save",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16),
+                                          ))
+                                      : const SizedBox.shrink();
+                                }),
+                              ],
+                            )
+                          : AppBar(
+                              leadingWidth: 15,
+                              toolbarHeight: 60,
+                              centerTitle: true,
+                              titleSpacing: 0,
+                              automaticallyImplyLeading: false,
+                              title: Stack(
                                 children: [
-                                  profileImage(),
-                                  vSpaceRegular,
-                                  Positioned(
-                                    bottom: 30,
-                                    right: 0,
-                                    child: colorPicker(),
-                                  ),
-                                  Positioned(
-                                    bottom: 0,
-                                    left: 0,
-                                    right: 0,
-                                    child: bevel(),
-                                  ),
-                                  Positioned(
-                                    top: 0,
-                                    left: 0,
-                                    right: 0,
-                                    child: logoImage(),
+                                  logoImage(),
+                                  Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 10, 8, 10),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Theme.of(context)
+                                                .scaffoldBackgroundColor
+                                                .withOpacity(0.6)),
+                                        child: InkWell(
+                                          customBorder: const CircleBorder(),
+                                          onTap: () =>
+                                              Navigator.maybePop(context),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(6),
+                                            child: Icon(Icons.close_rounded,
+                                                color: Colors.black),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
-                              const _CardInfo(),
-                              const _Form(),
-                            ],
-                          ))),
-                )),
+                              elevation: 0,
+                              backgroundColor: Colors.transparent,
+                            ),
+                      //  bottomSheet: bottomSheet(),
+
+                      body: Builder(builder: (context) {
+                        return SizedBox(
+                          width: double.infinity,
+                          height: double.infinity,
+                          child: SingleChildScrollView(
+                            //  physics: const BouncingScrollPhysics(),
+                            primary: true,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                /*   if (viewModel.actionType != ActionType.view)
+                                      titleField(), */
+                                Stack(
+                                  children: [
+                                    profileImage(),
+                                    if (viewModel.actionType != ActionType.view)
+                                      Positioned(
+                                        bottom: 30,
+                                        right: 0,
+                                        child: colorPicker(),
+                                      ),
+                                    Positioned(
+                                      bottom: 0,
+                                      left: 0,
+                                      right: 0,
+                                      child: bevel(),
+                                    ),
+                                    viewModel.actionType == ActionType.edit ||
+                                            viewModel.actionType ==
+                                                ActionType.create
+                                        ? Positioned(
+                                            top: 0,
+                                            left: 0,
+                                            right: 0,
+                                            child: logoImage(),
+                                          )
+                                        : const SizedBox.shrink(),
+                                  ],
+                                ),
+                                if (viewModel.actionType == ActionType.view)
+                                  const _CardInfo(),
+                                if (viewModel.actionType != ActionType.view)
+                                  const _Form(),
+                              ],
+                            ),
+                          ),
+                        );
+                      }),
+                    ),
+                  ),
+                ),
+              );
+            }),
           );
         });
   }
@@ -192,48 +285,55 @@ class _CardInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = getParentViewModel<CardOpenViewModel>(context);
-    return ReactiveFormConsumer(builder: (context, v, w) {
+    final form = ReactiveDigitalCardForm.of(context, listen: true);
+
+    return ReactiveDigitalCardFormConsumer(builder: (context, v, w) {
       return Padding(
-        padding: const EdgeInsets.fromLTRB(15, 30, 15, 15),
+        padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              viewModel.fullName,
+              "${form?.prefixControl?.value ?? ""} ${form?.firstNameControl?.value ?? ""} ${form?.middleNameControl?.value ?? ""} ${form?.lastNameControl?.value ?? ""} ${form?.suffixControl?.value ?? ""}"
+                  .trim(),
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             vSpaceSmall,
             Text(
-              viewModel.formVal("title"),
+              "${form?.titleControl?.value}",
               style: const TextStyle(
-                fontSize: 17,
+                fontSize: 16,
               ),
             ),
             vSpaceRegular,
-            InfoItem(
-              padding: EdgeInsets.zero,
-              icon: const Icon(
-                FontAwesomeIcons.solidBuilding,
-                size: 17,
-              ),
-              title: viewModel.formVal("company"),
-              titleTextStyle: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            ReactiveValueListenableBuilder<dynamic>(
+                formControl: form?.colorControl,
+                builder: (context, field, child) {
+                  return InfoItem(
+                    padding: EdgeInsets.zero,
+                    icon: const Icon(
+                      FontAwesomeIcons.solidBuilding,
+                      size: 17,
+                    ),
+                    title: "${form?.companyControl?.value}",
+                    titleTextStyle: TextStyle(
+                      color: HexColor.fromHex("${form?.colorControl?.value}"),
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  );
+                }),
             vSpaceRegular,
             InfoItem(
               padding: EdgeInsets.zero,
               icon: Padding(
                 padding: const EdgeInsets.only(left: 12, right: 2),
                 child: Container(
-                  color: Colors.white,
+                  color: HexColor.fromHex("${form?.colorControl?.value}"),
                   width: 3,
                 ),
               ),
-              title: viewModel.formVal("short_bio"),
+              title: "${form?.shortBioControl?.value}",
             ),
             vSpaceRegular,
             InfoItem(
@@ -242,10 +342,13 @@ class _CardInfo extends StatelessWidget {
                 FontAwesomeIcons.quoteLeft,
                 size: 18,
               ),
-              title: "Goes By ${viewModel.formVal("goes_by")}",
+              title: "Goes By ${form?.goesByControl?.value}",
             ),
             vSpaceRegular,
             Card(
+              color: HexColor.fromHex("${form?.colorControl?.value}")
+                  ?.withOpacity(0.2),
+              elevation: 0,
               clipBehavior: Clip.antiAlias,
               child: ListView(
                 padding: const EdgeInsets.symmetric(vertical: 8),
@@ -257,11 +360,11 @@ class _CardInfo extends StatelessWidget {
                       FontAwesomeIcons.envelope,
                       size: 18,
                     ),
-                    title: viewModel.formVal("email"),
+                    title: "${form?.emailControl?.value}",
                     onTap: () {
                       final Uri url = Uri(
                         scheme: 'mailto',
-                        path: viewModel.formVal("email"),
+                        path: "${form?.emailControl?.value}",
                       );
 
                       launchUrl(url);
@@ -272,10 +375,10 @@ class _CardInfo extends StatelessWidget {
                       FontAwesomeIcons.locationDot,
                       size: 18,
                     ),
-                    title: viewModel.formVal("address"),
+                    title: "${form?.addressControl?.value}",
                     onTap: () {
                       final Uri url = Uri.parse(
-                        "https://www.google.com/maps/search/?api=1&query=${viewModel.formVal("address")}",
+                        "https://www.google.com/maps/search/?api=1&query=${form?.addressControl?.value}",
                       );
                       launchUrl(url);
                     },
@@ -285,11 +388,11 @@ class _CardInfo extends StatelessWidget {
                       FontAwesomeIcons.phone,
                       size: 18,
                     ),
-                    title: viewModel.formVal("mobile_number"),
+                    title: "${form?.mobileNumberControl?.value}",
                     onTap: () {
                       final Uri url = Uri(
                         scheme: 'sms',
-                        path: viewModel.formVal("mobile_number"),
+                        path: "${form?.mobileNumberControl?.value}",
                       );
 
                       launchUrl(url);
@@ -300,10 +403,10 @@ class _CardInfo extends StatelessWidget {
                       FontAwesomeIcons.globe,
                       size: 18,
                     ),
-                    title: viewModel.formVal("website"),
+                    title: "${form?.websiteControl?.value}",
                     onTap: () {
                       final Uri url = Uri.parse(
-                        viewModel.formVal("website"),
+                        "${form?.websiteControl?.value}",
                       );
 
                       launchUrl(url);
@@ -324,14 +427,30 @@ class _Form extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = getParentViewModel<CardOpenViewModel>(context);
+    final form = ReactiveDigitalCardForm.of(context);
+
+    Widget titleField() {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(5),
+        child: ReactiveTextField(
+          showErrors: (control) => false,
+          formControl: form?.titleControl,
+          textInputAction: TextInputAction.next,
+          decoration: const InputDecoration(
+            border: InputBorder.none,
+            labelText: "Title",
+            counterText: "",
+          ),
+        ),
+      );
+    }
 
     Widget prefixField() {
       return ClipRRect(
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControlName: 'prefix',
+          formControl: form?.prefixControl,
           textInputAction: TextInputAction.next,
           decoration: const InputDecoration(
             border: InputBorder.none,
@@ -347,7 +466,7 @@ class _Form extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControlName: 'first_name',
+          formControl: form?.firstNameControl,
           textInputAction: TextInputAction.next,
           decoration: const InputDecoration(
             border: InputBorder.none,
@@ -363,7 +482,7 @@ class _Form extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControlName: 'middle_name',
+          formControl: form?.middleNameControl,
           textInputAction: TextInputAction.next,
           decoration: const InputDecoration(
             border: InputBorder.none,
@@ -379,7 +498,7 @@ class _Form extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControlName: 'last_name',
+          formControl: form?.lastNameControl,
           textInputAction: TextInputAction.next,
           decoration: const InputDecoration(
             border: InputBorder.none,
@@ -395,7 +514,7 @@ class _Form extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControlName: 'suffix',
+          formControl: form?.suffixControl,
           textInputAction: TextInputAction.next,
           decoration: const InputDecoration(
             border: InputBorder.none,
@@ -411,7 +530,7 @@ class _Form extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControlName: 'position',
+          formControl: form?.positionControl,
           textInputAction: TextInputAction.next,
           decoration: const InputDecoration(
             border: InputBorder.none,
@@ -427,7 +546,7 @@ class _Form extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControlName: 'company',
+          formControl: form?.companyControl,
           textInputAction: TextInputAction.next,
           decoration: const InputDecoration(
             border: InputBorder.none,
@@ -443,7 +562,7 @@ class _Form extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControlName: 'short_bio',
+          formControl: form?.shortBioControl,
           textInputAction: TextInputAction.next,
           maxLines: null,
           minLines: 3,
@@ -465,7 +584,7 @@ class _Form extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControlName: 'goes_by',
+          formControl: form?.goesByControl,
           textInputAction: TextInputAction.next,
           decoration: const InputDecoration(
             border: InputBorder.none,
@@ -484,7 +603,7 @@ class _Form extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControlName: 'email',
+          formControl: form?.emailControl,
           textInputAction: TextInputAction.next,
           decoration: const InputDecoration(
             border: InputBorder.none,
@@ -501,7 +620,7 @@ class _Form extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControlName: 'address',
+          formControl: form?.addressControl,
           textInputAction: TextInputAction.next,
           maxLines: null,
           keyboardType: TextInputType.multiline,
@@ -522,7 +641,7 @@ class _Form extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControlName: 'mobile_number',
+          formControl: form?.mobileNumberControl,
           textInputAction: TextInputAction.next,
           decoration: const InputDecoration(
             border: InputBorder.none,
@@ -539,8 +658,8 @@ class _Form extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControlName: 'website',
-          textInputAction: TextInputAction.next,
+          formControl: form?.websiteControl,
+          textInputAction: TextInputAction.done,
           decoration: const InputDecoration(
               border: InputBorder.none,
               prefixIcon: Icon(FontAwesomeIcons.globe),
@@ -555,12 +674,14 @@ class _Form extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
       child: Column(
         children: [
-          ReactiveFormConsumer(builder: (context, f, w) {
+          titleField(),
+          vSpaceSmall,
+          ReactiveDigitalCardFormConsumer(builder: (context, f, w) {
             return Collapsible(
-                onToggle: (expanded) {
-                  viewModel.form.unfocus();
-                },
-                value: viewModel.fullName,
+                onToggle: (expanded) {},
+                value:
+                    "${form?.prefixControl?.value ?? ""} ${form?.firstNameControl?.value ?? ""} ${form?.middleNameControl?.value ?? ""} ${form?.lastNameControl?.value ?? ""} ${form?.suffixControl?.value ?? ""}"
+                        .trim(),
                 body: Padding(
                   padding: const EdgeInsets.only(left: 30),
                   child: Column(
@@ -614,7 +735,7 @@ class Collapsible extends StatefulWidget {
 }
 
 class _CollapsibleState extends State<Collapsible> {
-  double _animatedHeight = 0;
+  double animatedHeight = 0;
   bool expanded = false;
 
   @override
@@ -629,7 +750,7 @@ class _CollapsibleState extends State<Collapsible> {
             onTap: () {
               setState(() {
                 expanded = !expanded;
-                expanded ? _animatedHeight = 310.0 : _animatedHeight = 0.0;
+                expanded ? animatedHeight = 310.0 : animatedHeight = 0.0;
                 widget.onToggle(expanded);
               });
             },
@@ -660,7 +781,7 @@ class _CollapsibleState extends State<Collapsible> {
               ? const SizedBox(
                   width: double.infinity,
                 )
-              : SizedBox(height: _animatedHeight, child: widget.body),
+              : SizedBox(height: animatedHeight, child: widget.body),
         ),
       ],
     );
