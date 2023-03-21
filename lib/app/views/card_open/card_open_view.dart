@@ -49,9 +49,26 @@ class CardOpenView extends StatelessWidget {
                     final formModel = viewModel.formModel;
 
                     Widget bevel() {
-                      return CustomPaint(
-                        size: const Size(double.infinity, 70),
-                        painter: Wave(colorTheme),
+                      return SizedBox(
+                        height: 70,
+                        child: Stack(
+                          children: [
+                            Align(
+                              alignment: Alignment.topCenter,
+                              child: CustomPaint(
+                                size: const Size(double.infinity, 60),
+                                painter: Wave(colorTheme),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: CustomPaint(
+                                size: const Size(double.infinity, 60),
+                                painter: Wave(Theme.of(context).cardColor),
+                              ),
+                            ),
+                          ],
+                        ),
                       );
                     }
 
@@ -265,126 +282,129 @@ class _CardInfo extends StatelessWidget {
 
     return ReactiveDigitalCardFormConsumer(builder: (context, v, w) {
       return LayoutBuilder(builder: (context, c) {
-        return Padding(
-          padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "${form?.fullnameForm.prefixControl?.value ?? ""} ${form?.fullnameForm.firstNameControl?.value ?? ""} ${form?.fullnameForm.middleNameControl?.value ?? ""} ${form?.fullnameForm.lastNameControl?.value ?? ""} ${form?.fullnameForm.suffixControl?.value ?? ""}"
-                    .trim(),
-                style:
-                    const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
-              vSpaceSmall,
-              Text(
-                "${form?.positionControl?.value}",
-                style: const TextStyle(
-                  fontSize: 18,
+        return Container(
+          color: Theme.of(context).cardColor,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "${form?.fullnameForm.prefixControl?.value ?? ""} ${form?.fullnameForm.firstNameControl?.value ?? ""} ${form?.fullnameForm.middleNameControl?.value ?? ""} ${form?.fullnameForm.lastNameControl?.value ?? ""} ${form?.fullnameForm.suffixControl?.value ?? ""}"
+                      .trim(),
+                  style: const TextStyle(
+                      fontSize: 22, fontWeight: FontWeight.bold),
                 ),
-              ),
-              vSpaceSmall,
-              Text(
-                "${form?.departmentControl?.value}",
-                style: const TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-              vSpaceRegular,
-              InfoItem(
-                padding: EdgeInsets.zero,
-                icon: const Icon(
-                  FontAwesomeIcons.solidBuilding,
-                  size: 17,
-                ),
-                title: "${form?.companyControl?.value}",
-                titleTextStyle: TextStyle(
-                    color: colorTheme,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.italic),
-              ),
-              vSpaceRegular,
-              InfoItem(
-                padding: EdgeInsets.zero,
-                icon: Padding(
-                  padding: const EdgeInsets.only(left: 12, right: 2),
-                  child: Container(
-                    color: colorTheme,
-                    width: 3,
+                vSpaceSmall,
+                Text(
+                  "${form?.positionControl?.value}",
+                  style: const TextStyle(
+                    fontSize: 18,
                   ),
                 ),
-                title: "${form?.headlineControl?.value}",
-              ),
-              vSpaceRegular,
-              InfoItem(
-                padding: EdgeInsets.zero,
-                icon: const Icon(
-                  FontAwesomeIcons.message,
-                  size: 18,
+                vSpaceSmall,
+                Text(
+                  "${form?.departmentControl?.value}",
+                  style: const TextStyle(
+                    fontSize: 16,
+                  ),
                 ),
-                title:
-                    "Goes By \"${form?.fullnameForm.preferredNameControl?.value}\" (${form?.fullnameForm.pronounsControl?.value})",
-              ),
-              vSpaceRegular,
-              Card(
-                color: colorTheme.withOpacity(0.4),
-                elevation: 0,
-                clipBehavior: Clip.antiAlias,
-                child: ListView(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    shrinkWrap: true,
-                    primary: false,
-                    children: [
-                      ReactiveFormArray<Map<String, Object?>>(
-                        formArray: form?.customLinksControl,
-                        builder: (context, formArray, child) {
-                          return Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Wrap(
-                                spacing: 15,
-                                runSpacing: 15,
-                                children: formArray.value != null
-                                    ? formArray.value!
-                                        .asMap()
-                                        .entries
-                                        .map((menu) {
-                                        return Row(
-                                          children: [
-                                            const Icon(
-                                              FontAwesomeIcons.link,
-                                              size: 20,
-                                            ),
-                                            hSpaceRegular,
-                                            Expanded(
-                                                child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "${menu.value?["text"]}",
-                                                  style: const TextStyle(
-                                                      fontSize: 16),
-                                                ),
-                                                Text(
-                                                  "${menu.value?["label"]}",
-                                                  style: const TextStyle(
-                                                      fontSize: 14),
-                                                ),
-                                              ],
-                                            ))
-                                          ],
-                                        );
-                                      }).toList()
-                                    : []),
-                          );
-                        },
-                      ),
-                    ]),
-              )
-            ],
+                vSpaceRegular,
+                InfoItem(
+                  padding: EdgeInsets.zero,
+                  icon: const Icon(
+                    FontAwesomeIcons.solidBuilding,
+                    size: 17,
+                  ),
+                  title: "${form?.companyControl?.value}",
+                  titleTextStyle: TextStyle(
+                      color: colorTheme,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic),
+                ),
+                vSpaceRegular,
+                InfoItem(
+                  padding: EdgeInsets.zero,
+                  icon: Padding(
+                    padding: const EdgeInsets.only(left: 12, right: 2),
+                    child: Container(
+                      color: colorTheme,
+                      width: 3,
+                    ),
+                  ),
+                  title: "${form?.headlineControl?.value}",
+                ),
+                vSpaceRegular,
+                InfoItem(
+                  padding: EdgeInsets.zero,
+                  icon: const Icon(
+                    FontAwesomeIcons.message,
+                    size: 18,
+                  ),
+                  title:
+                      "Goes By \"${form?.fullnameForm.preferredNameControl?.value}\" (${form?.fullnameForm.pronounsControl?.value})",
+                ),
+                vSpaceRegular,
+                Card(
+                  color: colorTheme.withOpacity(0.4),
+                  elevation: 0,
+                  clipBehavior: Clip.antiAlias,
+                  child: ListView(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      shrinkWrap: true,
+                      primary: false,
+                      children: [
+                        ReactiveFormArray<Map<String, Object?>>(
+                          formArray: form?.customLinksControl,
+                          builder: (context, formArray, child) {
+                            return Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Wrap(
+                                  spacing: 15,
+                                  runSpacing: 15,
+                                  children: formArray.value != null
+                                      ? formArray.value!
+                                          .asMap()
+                                          .entries
+                                          .map((menu) {
+                                          return Row(
+                                            children: [
+                                              const Icon(
+                                                FontAwesomeIcons.link,
+                                                size: 20,
+                                              ),
+                                              hSpaceRegular,
+                                              Expanded(
+                                                  child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "${menu.value?["text"]}",
+                                                    style: const TextStyle(
+                                                        fontSize: 16),
+                                                  ),
+                                                  Text(
+                                                    "${menu.value?["label"]}",
+                                                    style: const TextStyle(
+                                                        fontSize: 14),
+                                                  ),
+                                                ],
+                                              ))
+                                            ],
+                                          );
+                                        }).toList()
+                                      : []),
+                            );
+                          },
+                        ),
+                      ]),
+                )
+              ],
+            ),
           ),
         );
       });
