@@ -2,11 +2,11 @@ import 'package:digicard/app/app.bottomsheet_ui.dart';
 import 'package:digicard/app/app.dialog_ui.dart';
 import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/extensions/color.dart';
+import 'package:digicard/app/models/custom_link.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:reactive_forms/reactive_forms.dart';
 import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -38,14 +38,25 @@ class CardOpenViewModel extends ReactiveViewModel {
   void initialize(DigitalCard m, ActionType action) {
     model = m;
     actionType = action;
-    _formModel = DigitalCardForm(model, FormGroup({}), null);
-    final elements = _formModel.formElements();
+    initForm();
+  }
+
+  initForm() {
+    _formModel =
+        DigitalCardForm(model, DigitalCardForm.formElements(model), null);
+    final elements = DigitalCardForm.formElements(model);
     _formModel.form.setValidators(elements.validators);
     _formModel.form.setAsyncValidators(elements.asyncValidators);
     if (elements.disabled) {
       _formModel.form.markAsDisabled();
     }
     _formModel.form.addAll(elements.controls);
+    notifyListeners();
+  }
+
+  addNew() {
+    _formModel.customLinksControl
+        .add(CustomLinkForm.formElements(CustomLink()));
   }
 
   Future<DialogResponse<dynamic>?> confirmExit() async {
@@ -131,3 +142,6 @@ class CardOpenViewModel extends ReactiveViewModel {
     });
   }
 }
+
+////
+///

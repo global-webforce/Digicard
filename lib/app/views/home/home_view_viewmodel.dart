@@ -34,6 +34,15 @@ class HomeViewModel extends ReactiveViewModel {
     super.onFutureError(error, key);
   }
 
+  view(DigitalCard card) {
+    _navigationService.navigateToView(
+      CardOpenView(
+        actionType: ActionType.view,
+        card: card,
+      ),
+    );
+  }
+
   show(DigitalCard? digitalCard) async {
     await _bottomSheetService.showCustomSheet(
       variant: BottomSheetType.digitalCard,

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:http/http.dart';
 import 'package:digicard/app/api/api_interceptor.dart';
 import 'package:http/http.dart' as http;
@@ -47,6 +48,22 @@ class ApiService {
       return Future.value();
     }
     return Future.error(error);
+  }
+
+  Future<Uint8List> getBytesFromUrl(String url) async {
+    // Make a GET request to the URL
+    final response = await http.get(Uri.parse(url));
+
+    // Check if the response is successful
+    if (response.statusCode == 200) {
+      // Convert the response body to a Uint8List
+      final bytes = response.bodyBytes;
+
+      // Return the bytes
+      return bytes;
+    } else {
+      return errorMessage("Failed to load image");
+    }
   }
 
   Future get(

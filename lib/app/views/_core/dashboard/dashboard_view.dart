@@ -136,17 +136,3 @@ class DashboardView extends StatelessWidget {
     );
   }
 }
-
-/* class DashboardViewModel extends IndexTrackingViewModel {
-  final _dialogService = locator<DialogService>();
-  Future<DialogResponse<dynamic>?> confirmExit() async {
-    return _dialogService.showCustomDialog(
-      variant: DialogType.confirmation,
-      title: "Exit App",
-      description: "You sure you want to exit App?",
-      mainButtonTitle: "Cancel",
-      secondaryButtonTitle: "Exit",
-      barrierDismissible: true,
-    );
-  }
-} */

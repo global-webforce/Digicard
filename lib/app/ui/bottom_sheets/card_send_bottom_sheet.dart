@@ -42,6 +42,16 @@ class CardSendBottomSheet extends StatelessWidget {
           } else if (viewModel.busy(deleteBusyKey)) {
             context.loaderOverlay
                 .show(widget: const CustomOverlay(title: "Deleting..."));
+          } else if (viewModel.busy(shareBusyKey)) {
+            context.loaderOverlay
+                .show(widget: const CustomOverlay(title: "Loading options..."));
+          } else if (viewModel.busy(saveToContactsBusyKey)) {
+            context.loaderOverlay.show(
+                widget: const CustomOverlay(title: "Saving to Contacts..."));
+          } else if (viewModel.busy(doneBusyKey)) {
+            context.loaderOverlay.show(
+              widget: DoneOverlay(context, title: "Done!"),
+            );
           } else {
             context.loaderOverlay.hide();
           }
@@ -169,6 +179,20 @@ class CardSendBottomSheet extends StatelessWidget {
                                       icon:
                                           const Icon(FontAwesomeIcons.download),
                                       title: "Download QR"),
+                                ],
+                              ),
+                              vSpaceSmall,
+                              Row(
+                                children: [
+                                  MinButtons(
+                                      color: HexColor.fromHex(
+                                          "${viewModel.card.color}"),
+                                      onTap: () async {
+                                        await viewModel.saveToContacts();
+                                      },
+                                      icon: const Icon(
+                                          FontAwesomeIcons.addressBook),
+                                      title: "Save to Contacts"),
                                 ],
                               )
                             ],

@@ -1,5 +1,6 @@
 import 'package:digicard/app/api/api_service.dart';
 import 'package:digicard/app/services/_core/app_service.dart';
+import 'package:digicard/app/services/contacts_service.dart';
 import 'package:digicard/app/views/_core/login/login_viewmodel.dart';
 import 'package:digicard/app/views/_core/initialize/initial_viewmodel.dart';
 import 'package:digicard/app/services/_core/local_storage_service.dart';
@@ -68,10 +69,13 @@ import 'package:stacked_themes/stacked_themes.dart';
     LazySingleton(classType: ApiService),
     LazySingleton(classType: AppService),
 
+    LazySingleton(classType: ContactsService),
+
     LazySingleton(
       classType: DigitalCardServiceLaravel,
       asType: DigitalCardService,
     ),
+
     //my-viewmodels
 
     Singleton(classType: InitialViewModel),

@@ -11,24 +11,17 @@ class CardColorPicker extends StatelessWidget {
       child: Material(
         color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(10),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(10),
+        child: GestureDetector(
           onTap: onTap != null
               ? () {
                   // FocusScope.of(context).requestFocus(FocusNode());
                   onTap!();
                 }
               : null,
-          child: Container(
-            padding: const EdgeInsets.all(2),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Colors.white.withOpacity(0.5))),
-            child: const RadiantGradientMask(
-              child: Icon(
-                Icons.color_lens_rounded,
-                size: 40,
-              ),
+          child: const RadiantGradientMask(
+            child: Icon(
+              Icons.color_lens_rounded,
+              size: 40,
             ),
           ),
         ),
@@ -53,7 +46,10 @@ class RadiantGradientMask extends StatelessWidget {
         ],
         tileMode: TileMode.mirror,
       ).createShader(bounds),
-      child: child,
+      child: const Icon(
+        Icons.color_lens_rounded,
+        size: 40,
+      ),
     );
   }
 }

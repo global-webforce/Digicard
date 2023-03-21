@@ -1,15 +1,9 @@
-import 'dart:io';
-import 'dart:ui' as ui;
-
 import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/app.bottomsheet_ui.dart';
+import 'package:digicard/app/services/contacts_service.dart';
 
 import 'package:digicard/app/services/digital_card_service.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +14,7 @@ class CardSendBottomSheetViewModel extends ReactiveViewModel {
   final _bottomSheetService = locator<BottomSheetService>();
 
   final _digitalCardsService = locator<DigitalCardService>();
+  final _contactsService = locator<ContactsService>();
 
   @override
   List<ListenableServiceMixin> get listenableServices => [_digitalCardsService];
@@ -37,7 +32,7 @@ class CardSendBottomSheetViewModel extends ReactiveViewModel {
   }
 
   Future<void> captureAndSharePng() async {
-    try {
+    /*   try {
       final RenderRepaintBoundary boundary = globalKey.currentContext!
           .findRenderObject()! as RenderRepaintBoundary;
       final ui.Image image = await boundary.toImage(pixelRatio: 10.0);
@@ -53,7 +48,7 @@ class CardSendBottomSheetViewModel extends ReactiveViewModel {
       print("CAPTURED");
     } catch (e) {
       print(e.toString());
-    }
+    } */
   }
 
   //https://github.com/flutter/flutter/issues/40064

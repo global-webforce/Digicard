@@ -30,22 +30,48 @@ class _CardLogoState extends State<CardLogo> {
   @override
   Widget build(BuildContext context) {
     Widget shape(Widget child) {
-      return SizedBox(
-        width: double.infinity,
-        height: 60,
-        child: CanvasTouchDetector(
-            gesturesToOverride: const [GestureType.onTapDown],
-            builder: (context) => CustomPaint(
-                painter: RPSCustomPainter(
-                  context,
-                  widget.color,
-                  (widget.onTap != null) ? widget.onTap! : widget.onTap,
-                ),
-                child: Center(
-                    child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: child,
-                )))),
+      return Stack(
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
+                width: 80,
+                height: 55,
+                decoration: BoxDecoration(
+                    color: widget.color,
+                    borderRadius: const BorderRadius.only(
+                      bottomRight: Radius.circular(180.0),
+                    ))),
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Container(
+                width: 80,
+                height: 55,
+                decoration: BoxDecoration(
+                    color: widget.color,
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(180.0),
+                    ))),
+          ),
+          SizedBox(
+            width: double.infinity,
+            height: 60,
+            child: CanvasTouchDetector(
+                gesturesToOverride: const [GestureType.onTapDown],
+                builder: (context) => CustomPaint(
+                    painter: RPSCustomPainter(
+                      context,
+                      Theme.of(context).scaffoldBackgroundColor,
+                      (widget.onTap != null) ? widget.onTap! : widget.onTap,
+                    ),
+                    child: Center(
+                        child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: child,
+                    )))),
+          ),
+        ],
       );
     }
 
@@ -63,12 +89,12 @@ class _CardLogoState extends State<CardLogo> {
           ),
         ));
       },
-      placeholder: (context, url) {
+      /*     placeholder: (context, url) {
         return shape(const SizedBox(
           width: 180,
           height: 70,
         ));
-      },
+      }, */
       errorWidget: (context, url, error) {
         if (widget.showOnError == false) {
           return const SizedBox.shrink();

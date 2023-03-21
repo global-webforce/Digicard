@@ -31,35 +31,21 @@ mixin _$DigitalCard {
   @FormControlAnnotation<String>()
   String? get logoImage => throw _privateConstructorUsedError;
   @FormControlAnnotation<String>()
-  String? get color => throw _privateConstructorUsedError;
-  @FormControlAnnotation<String>()
   String? get profileImage => throw _privateConstructorUsedError;
   @FormControlAnnotation<String>()
-  String? get prefix => throw _privateConstructorUsedError;
-  @FormControlAnnotation<String>()
-  String? get firstName => throw _privateConstructorUsedError;
-  @FormControlAnnotation<String>()
-  String? get middleName => throw _privateConstructorUsedError;
-  @FormControlAnnotation<String>()
-  String? get lastName => throw _privateConstructorUsedError;
-  @FormControlAnnotation<String>()
-  String? get suffix => throw _privateConstructorUsedError;
-  @FormControlAnnotation<String>()
-  String? get shortBio => throw _privateConstructorUsedError;
+  String? get color => throw _privateConstructorUsedError;
+  @FormGroupAnnotation()
+  FullName? get fullname => throw _privateConstructorUsedError;
   @FormControlAnnotation<String>()
   String? get position => throw _privateConstructorUsedError;
   @FormControlAnnotation<String>()
+  String? get department => throw _privateConstructorUsedError;
+  @FormControlAnnotation<String>()
   String? get company => throw _privateConstructorUsedError;
   @FormControlAnnotation<String>()
-  String? get email => throw _privateConstructorUsedError;
-  @FormControlAnnotation<String>()
-  String? get address => throw _privateConstructorUsedError;
-  @FormControlAnnotation<String>()
-  String? get mobileNumber => throw _privateConstructorUsedError;
-  @FormControlAnnotation<String>()
-  String? get website => throw _privateConstructorUsedError;
-  @FormControlAnnotation<String>()
-  String? get goesBy => throw _privateConstructorUsedError;
+  String? get headline => throw _privateConstructorUsedError;
+  @FormArrayAnnotation()
+  List<CustomLink> get customLinks => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
@@ -81,23 +67,18 @@ abstract class $DigitalCardCopyWith<$Res> {
       @FormControlAnnotation<String>() String? uuid,
       @FormControlAnnotation<String>() String? title,
       @FormControlAnnotation<String>() String? logoImage,
-      @FormControlAnnotation<String>() String? color,
       @FormControlAnnotation<String>() String? profileImage,
-      @FormControlAnnotation<String>() String? prefix,
-      @FormControlAnnotation<String>() String? firstName,
-      @FormControlAnnotation<String>() String? middleName,
-      @FormControlAnnotation<String>() String? lastName,
-      @FormControlAnnotation<String>() String? suffix,
-      @FormControlAnnotation<String>() String? shortBio,
+      @FormControlAnnotation<String>() String? color,
+      @FormGroupAnnotation() FullName? fullname,
       @FormControlAnnotation<String>() String? position,
+      @FormControlAnnotation<String>() String? department,
       @FormControlAnnotation<String>() String? company,
-      @FormControlAnnotation<String>() String? email,
-      @FormControlAnnotation<String>() String? address,
-      @FormControlAnnotation<String>() String? mobileNumber,
-      @FormControlAnnotation<String>() String? website,
-      @FormControlAnnotation<String>() String? goesBy,
+      @FormControlAnnotation<String>() String? headline,
+      @FormArrayAnnotation() List<CustomLink> customLinks,
       DateTime? createdAt,
       DateTime? updatedAt});
+
+  $FullNameCopyWith<$Res>? get fullname;
 }
 
 /// @nodoc
@@ -118,21 +99,14 @@ class _$DigitalCardCopyWithImpl<$Res, $Val extends DigitalCard>
     Object? uuid = freezed,
     Object? title = freezed,
     Object? logoImage = freezed,
-    Object? color = freezed,
     Object? profileImage = freezed,
-    Object? prefix = freezed,
-    Object? firstName = freezed,
-    Object? middleName = freezed,
-    Object? lastName = freezed,
-    Object? suffix = freezed,
-    Object? shortBio = freezed,
+    Object? color = freezed,
+    Object? fullname = freezed,
     Object? position = freezed,
+    Object? department = freezed,
     Object? company = freezed,
-    Object? email = freezed,
-    Object? address = freezed,
-    Object? mobileNumber = freezed,
-    Object? website = freezed,
-    Object? goesBy = freezed,
+    Object? headline = freezed,
+    Object? customLinks = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -157,66 +131,38 @@ class _$DigitalCardCopyWithImpl<$Res, $Val extends DigitalCard>
           ? _value.logoImage
           : logoImage // ignore: cast_nullable_to_non_nullable
               as String?,
-      color: freezed == color
-          ? _value.color
-          : color // ignore: cast_nullable_to_non_nullable
-              as String?,
       profileImage: freezed == profileImage
           ? _value.profileImage
           : profileImage // ignore: cast_nullable_to_non_nullable
               as String?,
-      prefix: freezed == prefix
-          ? _value.prefix
-          : prefix // ignore: cast_nullable_to_non_nullable
+      color: freezed == color
+          ? _value.color
+          : color // ignore: cast_nullable_to_non_nullable
               as String?,
-      firstName: freezed == firstName
-          ? _value.firstName
-          : firstName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      middleName: freezed == middleName
-          ? _value.middleName
-          : middleName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      lastName: freezed == lastName
-          ? _value.lastName
-          : lastName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      suffix: freezed == suffix
-          ? _value.suffix
-          : suffix // ignore: cast_nullable_to_non_nullable
-              as String?,
-      shortBio: freezed == shortBio
-          ? _value.shortBio
-          : shortBio // ignore: cast_nullable_to_non_nullable
-              as String?,
+      fullname: freezed == fullname
+          ? _value.fullname
+          : fullname // ignore: cast_nullable_to_non_nullable
+              as FullName?,
       position: freezed == position
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
+              as String?,
+      department: freezed == department
+          ? _value.department
+          : department // ignore: cast_nullable_to_non_nullable
               as String?,
       company: freezed == company
           ? _value.company
           : company // ignore: cast_nullable_to_non_nullable
               as String?,
-      email: freezed == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
+      headline: freezed == headline
+          ? _value.headline
+          : headline // ignore: cast_nullable_to_non_nullable
               as String?,
-      address: freezed == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as String?,
-      mobileNumber: freezed == mobileNumber
-          ? _value.mobileNumber
-          : mobileNumber // ignore: cast_nullable_to_non_nullable
-              as String?,
-      website: freezed == website
-          ? _value.website
-          : website // ignore: cast_nullable_to_non_nullable
-              as String?,
-      goesBy: freezed == goesBy
-          ? _value.goesBy
-          : goesBy // ignore: cast_nullable_to_non_nullable
-              as String?,
+      customLinks: null == customLinks
+          ? _value.customLinks
+          : customLinks // ignore: cast_nullable_to_non_nullable
+              as List<CustomLink>,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -226,6 +172,18 @@ class _$DigitalCardCopyWithImpl<$Res, $Val extends DigitalCard>
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $FullNameCopyWith<$Res>? get fullname {
+    if (_value.fullname == null) {
+      return null;
+    }
+
+    return $FullNameCopyWith<$Res>(_value.fullname!, (value) {
+      return _then(_value.copyWith(fullname: value) as $Val);
+    });
   }
 }
 
@@ -243,23 +201,19 @@ abstract class _$$_DigitalCardCopyWith<$Res>
       @FormControlAnnotation<String>() String? uuid,
       @FormControlAnnotation<String>() String? title,
       @FormControlAnnotation<String>() String? logoImage,
-      @FormControlAnnotation<String>() String? color,
       @FormControlAnnotation<String>() String? profileImage,
-      @FormControlAnnotation<String>() String? prefix,
-      @FormControlAnnotation<String>() String? firstName,
-      @FormControlAnnotation<String>() String? middleName,
-      @FormControlAnnotation<String>() String? lastName,
-      @FormControlAnnotation<String>() String? suffix,
-      @FormControlAnnotation<String>() String? shortBio,
+      @FormControlAnnotation<String>() String? color,
+      @FormGroupAnnotation() FullName? fullname,
       @FormControlAnnotation<String>() String? position,
+      @FormControlAnnotation<String>() String? department,
       @FormControlAnnotation<String>() String? company,
-      @FormControlAnnotation<String>() String? email,
-      @FormControlAnnotation<String>() String? address,
-      @FormControlAnnotation<String>() String? mobileNumber,
-      @FormControlAnnotation<String>() String? website,
-      @FormControlAnnotation<String>() String? goesBy,
+      @FormControlAnnotation<String>() String? headline,
+      @FormArrayAnnotation() List<CustomLink> customLinks,
       DateTime? createdAt,
       DateTime? updatedAt});
+
+  @override
+  $FullNameCopyWith<$Res>? get fullname;
 }
 
 /// @nodoc
@@ -278,21 +232,14 @@ class __$$_DigitalCardCopyWithImpl<$Res>
     Object? uuid = freezed,
     Object? title = freezed,
     Object? logoImage = freezed,
-    Object? color = freezed,
     Object? profileImage = freezed,
-    Object? prefix = freezed,
-    Object? firstName = freezed,
-    Object? middleName = freezed,
-    Object? lastName = freezed,
-    Object? suffix = freezed,
-    Object? shortBio = freezed,
+    Object? color = freezed,
+    Object? fullname = freezed,
     Object? position = freezed,
+    Object? department = freezed,
     Object? company = freezed,
-    Object? email = freezed,
-    Object? address = freezed,
-    Object? mobileNumber = freezed,
-    Object? website = freezed,
-    Object? goesBy = freezed,
+    Object? headline = freezed,
+    Object? customLinks = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -317,66 +264,38 @@ class __$$_DigitalCardCopyWithImpl<$Res>
           ? _value.logoImage
           : logoImage // ignore: cast_nullable_to_non_nullable
               as String?,
-      color: freezed == color
-          ? _value.color
-          : color // ignore: cast_nullable_to_non_nullable
-              as String?,
       profileImage: freezed == profileImage
           ? _value.profileImage
           : profileImage // ignore: cast_nullable_to_non_nullable
               as String?,
-      prefix: freezed == prefix
-          ? _value.prefix
-          : prefix // ignore: cast_nullable_to_non_nullable
+      color: freezed == color
+          ? _value.color
+          : color // ignore: cast_nullable_to_non_nullable
               as String?,
-      firstName: freezed == firstName
-          ? _value.firstName
-          : firstName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      middleName: freezed == middleName
-          ? _value.middleName
-          : middleName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      lastName: freezed == lastName
-          ? _value.lastName
-          : lastName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      suffix: freezed == suffix
-          ? _value.suffix
-          : suffix // ignore: cast_nullable_to_non_nullable
-              as String?,
-      shortBio: freezed == shortBio
-          ? _value.shortBio
-          : shortBio // ignore: cast_nullable_to_non_nullable
-              as String?,
+      fullname: freezed == fullname
+          ? _value.fullname
+          : fullname // ignore: cast_nullable_to_non_nullable
+              as FullName?,
       position: freezed == position
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
+              as String?,
+      department: freezed == department
+          ? _value.department
+          : department // ignore: cast_nullable_to_non_nullable
               as String?,
       company: freezed == company
           ? _value.company
           : company // ignore: cast_nullable_to_non_nullable
               as String?,
-      email: freezed == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
+      headline: freezed == headline
+          ? _value.headline
+          : headline // ignore: cast_nullable_to_non_nullable
               as String?,
-      address: freezed == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as String?,
-      mobileNumber: freezed == mobileNumber
-          ? _value.mobileNumber
-          : mobileNumber // ignore: cast_nullable_to_non_nullable
-              as String?,
-      website: freezed == website
-          ? _value.website
-          : website // ignore: cast_nullable_to_non_nullable
-              as String?,
-      goesBy: freezed == goesBy
-          ? _value.goesBy
-          : goesBy // ignore: cast_nullable_to_non_nullable
-              as String?,
+      customLinks: null == customLinks
+          ? _value._customLinks
+          : customLinks // ignore: cast_nullable_to_non_nullable
+              as List<CustomLink>,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -396,25 +315,19 @@ class _$_DigitalCard implements _DigitalCard {
       {@FormControlAnnotation<int>() this.id,
       @FormControlAnnotation<int>() this.userId,
       @FormControlAnnotation<String>() this.uuid,
-      @FormControlAnnotation<String>() this.title = "New Card",
+      @FormControlAnnotation<String>() this.title,
       @FormControlAnnotation<String>() this.logoImage,
-      @FormControlAnnotation<String>() this.color,
       @FormControlAnnotation<String>() this.profileImage,
-      @FormControlAnnotation<String>() this.prefix,
-      @FormControlAnnotation<String>() this.firstName,
-      @FormControlAnnotation<String>() this.middleName,
-      @FormControlAnnotation<String>() this.lastName,
-      @FormControlAnnotation<String>() this.suffix,
-      @FormControlAnnotation<String>() this.shortBio,
+      @FormControlAnnotation<String>() this.color,
+      @FormGroupAnnotation() this.fullname,
       @FormControlAnnotation<String>() this.position,
+      @FormControlAnnotation<String>() this.department,
       @FormControlAnnotation<String>() this.company,
-      @FormControlAnnotation<String>() this.email,
-      @FormControlAnnotation<String>() this.address,
-      @FormControlAnnotation<String>() this.mobileNumber,
-      @FormControlAnnotation<String>() this.website,
-      @FormControlAnnotation<String>() this.goesBy,
+      @FormControlAnnotation<String>() this.headline,
+      @FormArrayAnnotation() final List<CustomLink> customLinks = const [],
       this.createdAt,
-      this.updatedAt});
+      this.updatedAt})
+      : _customLinks = customLinks;
 
   factory _$_DigitalCard.fromJson(Map<String, dynamic> json) =>
       _$$_DigitalCardFromJson(json);
@@ -429,7 +342,6 @@ class _$_DigitalCard implements _DigitalCard {
   @FormControlAnnotation<String>()
   final String? uuid;
   @override
-  @JsonKey()
   @FormControlAnnotation<String>()
   final String? title;
   @override
@@ -437,49 +349,35 @@ class _$_DigitalCard implements _DigitalCard {
   final String? logoImage;
   @override
   @FormControlAnnotation<String>()
-  final String? color;
-  @override
-  @FormControlAnnotation<String>()
   final String? profileImage;
   @override
   @FormControlAnnotation<String>()
-  final String? prefix;
+  final String? color;
   @override
-  @FormControlAnnotation<String>()
-  final String? firstName;
-  @override
-  @FormControlAnnotation<String>()
-  final String? middleName;
-  @override
-  @FormControlAnnotation<String>()
-  final String? lastName;
-  @override
-  @FormControlAnnotation<String>()
-  final String? suffix;
-  @override
-  @FormControlAnnotation<String>()
-  final String? shortBio;
+  @FormGroupAnnotation()
+  final FullName? fullname;
   @override
   @FormControlAnnotation<String>()
   final String? position;
   @override
   @FormControlAnnotation<String>()
+  final String? department;
+  @override
+  @FormControlAnnotation<String>()
   final String? company;
   @override
   @FormControlAnnotation<String>()
-  final String? email;
+  final String? headline;
+  final List<CustomLink> _customLinks;
   @override
-  @FormControlAnnotation<String>()
-  final String? address;
-  @override
-  @FormControlAnnotation<String>()
-  final String? mobileNumber;
-  @override
-  @FormControlAnnotation<String>()
-  final String? website;
-  @override
-  @FormControlAnnotation<String>()
-  final String? goesBy;
+  @JsonKey()
+  @FormArrayAnnotation()
+  List<CustomLink> get customLinks {
+    if (_customLinks is EqualUnmodifiableListView) return _customLinks;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_customLinks);
+  }
+
   @override
   final DateTime? createdAt;
   @override
@@ -487,7 +385,7 @@ class _$_DigitalCard implements _DigitalCard {
 
   @override
   String toString() {
-    return 'DigitalCard(id: $id, userId: $userId, uuid: $uuid, title: $title, logoImage: $logoImage, color: $color, profileImage: $profileImage, prefix: $prefix, firstName: $firstName, middleName: $middleName, lastName: $lastName, suffix: $suffix, shortBio: $shortBio, position: $position, company: $company, email: $email, address: $address, mobileNumber: $mobileNumber, website: $website, goesBy: $goesBy, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'DigitalCard(id: $id, userId: $userId, uuid: $uuid, title: $title, logoImage: $logoImage, profileImage: $profileImage, color: $color, fullname: $fullname, position: $position, department: $department, company: $company, headline: $headline, customLinks: $customLinks, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -501,28 +399,20 @@ class _$_DigitalCard implements _DigitalCard {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.logoImage, logoImage) ||
                 other.logoImage == logoImage) &&
-            (identical(other.color, color) || other.color == color) &&
             (identical(other.profileImage, profileImage) ||
                 other.profileImage == profileImage) &&
-            (identical(other.prefix, prefix) || other.prefix == prefix) &&
-            (identical(other.firstName, firstName) ||
-                other.firstName == firstName) &&
-            (identical(other.middleName, middleName) ||
-                other.middleName == middleName) &&
-            (identical(other.lastName, lastName) ||
-                other.lastName == lastName) &&
-            (identical(other.suffix, suffix) || other.suffix == suffix) &&
-            (identical(other.shortBio, shortBio) ||
-                other.shortBio == shortBio) &&
+            (identical(other.color, color) || other.color == color) &&
+            (identical(other.fullname, fullname) ||
+                other.fullname == fullname) &&
             (identical(other.position, position) ||
                 other.position == position) &&
+            (identical(other.department, department) ||
+                other.department == department) &&
             (identical(other.company, company) || other.company == company) &&
-            (identical(other.email, email) || other.email == email) &&
-            (identical(other.address, address) || other.address == address) &&
-            (identical(other.mobileNumber, mobileNumber) ||
-                other.mobileNumber == mobileNumber) &&
-            (identical(other.website, website) || other.website == website) &&
-            (identical(other.goesBy, goesBy) || other.goesBy == goesBy) &&
+            (identical(other.headline, headline) ||
+                other.headline == headline) &&
+            const DeepCollectionEquality()
+                .equals(other._customLinks, _customLinks) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -531,31 +421,23 @@ class _$_DigitalCard implements _DigitalCard {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hashAll([
-        runtimeType,
-        id,
-        userId,
-        uuid,
-        title,
-        logoImage,
-        color,
-        profileImage,
-        prefix,
-        firstName,
-        middleName,
-        lastName,
-        suffix,
-        shortBio,
-        position,
-        company,
-        email,
-        address,
-        mobileNumber,
-        website,
-        goesBy,
-        createdAt,
-        updatedAt
-      ]);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      userId,
+      uuid,
+      title,
+      logoImage,
+      profileImage,
+      color,
+      fullname,
+      position,
+      department,
+      company,
+      headline,
+      const DeepCollectionEquality().hash(_customLinks),
+      createdAt,
+      updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -578,21 +460,14 @@ abstract class _DigitalCard implements DigitalCard {
       @FormControlAnnotation<String>() final String? uuid,
       @FormControlAnnotation<String>() final String? title,
       @FormControlAnnotation<String>() final String? logoImage,
-      @FormControlAnnotation<String>() final String? color,
       @FormControlAnnotation<String>() final String? profileImage,
-      @FormControlAnnotation<String>() final String? prefix,
-      @FormControlAnnotation<String>() final String? firstName,
-      @FormControlAnnotation<String>() final String? middleName,
-      @FormControlAnnotation<String>() final String? lastName,
-      @FormControlAnnotation<String>() final String? suffix,
-      @FormControlAnnotation<String>() final String? shortBio,
+      @FormControlAnnotation<String>() final String? color,
+      @FormGroupAnnotation() final FullName? fullname,
       @FormControlAnnotation<String>() final String? position,
+      @FormControlAnnotation<String>() final String? department,
       @FormControlAnnotation<String>() final String? company,
-      @FormControlAnnotation<String>() final String? email,
-      @FormControlAnnotation<String>() final String? address,
-      @FormControlAnnotation<String>() final String? mobileNumber,
-      @FormControlAnnotation<String>() final String? website,
-      @FormControlAnnotation<String>() final String? goesBy,
+      @FormControlAnnotation<String>() final String? headline,
+      @FormArrayAnnotation() final List<CustomLink> customLinks,
       final DateTime? createdAt,
       final DateTime? updatedAt}) = _$_DigitalCard;
 
@@ -616,49 +491,28 @@ abstract class _DigitalCard implements DigitalCard {
   String? get logoImage;
   @override
   @FormControlAnnotation<String>()
-  String? get color;
-  @override
-  @FormControlAnnotation<String>()
   String? get profileImage;
   @override
   @FormControlAnnotation<String>()
-  String? get prefix;
+  String? get color;
   @override
-  @FormControlAnnotation<String>()
-  String? get firstName;
-  @override
-  @FormControlAnnotation<String>()
-  String? get middleName;
-  @override
-  @FormControlAnnotation<String>()
-  String? get lastName;
-  @override
-  @FormControlAnnotation<String>()
-  String? get suffix;
-  @override
-  @FormControlAnnotation<String>()
-  String? get shortBio;
+  @FormGroupAnnotation()
+  FullName? get fullname;
   @override
   @FormControlAnnotation<String>()
   String? get position;
   @override
   @FormControlAnnotation<String>()
+  String? get department;
+  @override
+  @FormControlAnnotation<String>()
   String? get company;
   @override
   @FormControlAnnotation<String>()
-  String? get email;
+  String? get headline;
   @override
-  @FormControlAnnotation<String>()
-  String? get address;
-  @override
-  @FormControlAnnotation<String>()
-  String? get mobileNumber;
-  @override
-  @FormControlAnnotation<String>()
-  String? get website;
-  @override
-  @FormControlAnnotation<String>()
-  String? get goesBy;
+  @FormArrayAnnotation()
+  List<CustomLink> get customLinks;
   @override
   DateTime? get createdAt;
   @override

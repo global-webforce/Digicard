@@ -4,7 +4,9 @@ import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/api/api_endpoints.dart';
 import 'package:digicard/app/constants/color_pallette.dart';
 import 'package:digicard/app/extensions/color.dart';
+import 'package:digicard/app/models/custom_link.dart';
 import 'package:digicard/app/models/digital_card.dart';
+import 'package:digicard/app/models/full_name.dart';
 import 'package:digicard/app/services/_core/app_service.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:stacked/stacked.dart';
@@ -101,7 +103,7 @@ class DigitalCardServiceLaravel
       ApiEndpoints.instance.notifications(),
       onSuccess: (res) async {
         _digitalCards.value = List.generate(
-            2,
+            6,
             (index) => DigitalCard(
                   id: index,
                   uuid: uuid.v5(Uuid.NAMESPACE_URL, 'www.digicard.com'),
@@ -119,27 +121,50 @@ class DigitalCardServiceLaravel
                     "https://99designs-blog.imgix.net/blog/wp-content/uploads/2022/05/Shell_logo.svg-e1659037248878.png?auto=format&q=60&fit=max&w=930"
                         "https://global-uploads.webflow.com/5e157548d6f7910beea4e2d6/611e17ec949adb702e521eb5_4Em9cry00PqgpP_mCCrgJ_OmdqSMCzQVgEYtfvDrfM3eBL3zBMvBZ4TxXHUVdgXWiwySmgYSFXmKx86BS10Yk2fVQhKTFOXTYlxKPsII1HBYjkvQ3d14PFsOfFbk51boJMEI6Ns7.png"
                   ]),
-                  profileImage: fkr.random.element([
+                  profileImage: /* fkr.random.element([
                     "https://i.ibb.co/ZGvP38P/profile-1.png",
-                  ])
-                  /*   fkr.faker.image.image(
-                    random: true,
-                    width: 700,
-                  ), */
-                  ,
-                  prefix: fkr.faker.person.prefix(),
-                  firstName: fkr.faker.person.firstName(),
-                  middleName: fkr.faker.person.lastName(),
-                  lastName: fkr.faker.person.lastName(),
-                  suffix: fkr.faker.person.suffix(),
-                  shortBio: fkr.faker.lorem.sentences(5).join(" "),
-                  position: fkr.faker.company.position(),
+                  ]) */
+                      fkr.faker.image.image(
+                          random: true,
+                          width: 700,
+                          keywords: ["face", "portrait"]),
+                  fullname: FullName(
+                    prefix: fkr.faker.person.prefix(),
+                    firstName: fkr.faker.person.firstName(),
+                    middleName: fkr.faker.person.lastName(),
+                    lastName: fkr.faker.person.lastName(),
+                    suffix: fkr.faker.person.suffix(),
+                    accreditations: fkr.faker.company.position(),
+                    maidenName: fkr.faker.person.firstName(),
+                    preferredName: fkr.faker.person.firstName(),
+                    pronouns: fkr.faker.food.dish(),
+                  ),
+                  headline: fkr.faker.lorem.sentences(5).join(" "),
+                  position: fkr.faker.job.title(),
+                  department: fkr.faker.job.title(),
                   company: fkr.faker.company.name(),
-                  email: fkr.faker.internet.email(),
-                  address: fkr.faker.address.city(),
-                  mobileNumber: fkr.faker.phoneNumber.us(),
-                  website: fkr.faker.internet.httpsUrl(),
-                  goesBy: fkr.faker.person.name(),
+                  customLinks: [
+                    CustomLink(
+                      label: "Email",
+                      text: fkr.faker.internet.safeEmail(),
+                      type: 'email',
+                    ),
+                    CustomLink(
+                      label: "Address",
+                      text: fkr.faker.address.streetAddress(),
+                      type: 'address',
+                    ),
+                    CustomLink(
+                      label: "Phone Number",
+                      text: fkr.faker.phoneNumber.us(),
+                      type: 'phone_number',
+                    ),
+                    CustomLink(
+                      label: "Website",
+                      text: fkr.faker.internet.httpUrl(),
+                      type: 'website',
+                    )
+                  ],
                   color: fkr.random
                       .element(cardColors.map((e) => e.toHex()).toList()),
                   createdAt: DateTime.now(),

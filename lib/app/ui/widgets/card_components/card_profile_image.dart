@@ -1,7 +1,7 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ez_core/ez_core.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' as io;
 
@@ -9,6 +9,7 @@ class CardProfileImage extends StatelessWidget {
   final Color color;
   final String? image;
   final bool showOnError;
+  final String? heroTag;
   final Function()? onTap;
 
   const CardProfileImage({
@@ -17,6 +18,7 @@ class CardProfileImage extends StatelessWidget {
     required this.color,
     this.onTap,
     this.showOnError = true,
+    this.heroTag,
   }) : super(key: key);
 
   @override
@@ -30,30 +32,48 @@ class CardProfileImage extends StatelessWidget {
                   onTap!();
                 }
               : null,
-          child: Ink(
-            width: double.infinity,
-            height: 400,
-            decoration: BoxDecoration(
-              color: color,
-              image: DecorationImage(
-                image: imageProvider,
-                fit: BoxFit.cover,
+          child: AspectRatio(
+            aspectRatio: 1 / 1,
+            child: Ink(
+              decoration: BoxDecoration(
+                color: color,
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: ClipRRect(
+                // make sure we apply clip it properly
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                  child: Hero(
+                    tag: "$heroTag",
+                    child: Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
         );
       },
-      placeholder: (context, url) {
+/*       placeholder: (context, url) {
         return Container(
           width: double.infinity,
           height: 320,
           decoration: BoxDecoration(color: color.darken()),
         );
-      },
+      }, */
       errorWidget: (context, url, error) {
         if (showOnError == false) {
           return Container(
-            height: 140,
+            height: 0,
             decoration: BoxDecoration(
               color: color,
             ),
@@ -63,57 +83,68 @@ class CardProfileImage extends StatelessWidget {
         if (io.File("$image").existsSync()) {
           return InkWell(
             onTap: onTap != null ? () => onTap!() : null,
-            child: Container(
-              decoration: BoxDecoration(
+            child: AspectRatio(
+              aspectRatio: 1 / 1,
+              child: Ink(
+                decoration: BoxDecoration(
                   color: color,
                   image: DecorationImage(
-                      fit: BoxFit.cover, image: FileImage(File("$image")))),
-              width: double.infinity,
-              height: 320,
+                    image: FileImage(File("$image")),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: ClipRRect(
+                  // make sure we apply clip it properly
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: FileImage(File("$image")),
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
           );
         }
 
         return InkWell(
           onTap: onTap != null ? () => onTap!() : null,
-          child: Ink(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: color,
-              ),
-              height: 320,
-              child: Center(
-                child: Wrap(
-                  spacing: 10,
-                  alignment: WrapAlignment.center,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  direction: Axis.vertical,
-                  children: const [
-                    Icon(
-                      Icons.add,
-                      size: 20,
-                      /*    shadows: <Shadow>[
-                        Shadow(
-                            offset: const Offset(2, 2),
-                            color: Colors.black.withOpacity(0.2),
-                            blurRadius: 10.0)
-                      ], */
-                    ),
-                    Text(
-                      "ADD PROFILE IMAGE",
-                      style: TextStyle(
-                        fontSize: 15,
-                        /*    shadows: <Shadow>[
-                          Shadow(
-                              offset: const Offset(2, 2),
-                              color: Colors.black.withOpacity(0.2),
-                              blurRadius: 10.0)
-                        ], */
-                      ),
-                    )
-                  ],
+          child: AspectRatio(
+            aspectRatio: 1 / 1,
+            child: Ink(
+                decoration: BoxDecoration(
+                  color: color,
+                  image: DecorationImage(
+                    image: FileImage(File("$image")),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              )),
+                child: Center(
+                  child: Wrap(
+                    spacing: 10,
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    direction: Axis.vertical,
+                    children: const [
+                      Icon(
+                        Icons.add,
+                        size: 20,
+                      ),
+                      Text(
+                        "ADD PROFILE IMAGE",
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
+                      )
+                    ],
+                  ),
+                )),
+          ),
         );
       },
     );

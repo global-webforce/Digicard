@@ -28,7 +28,6 @@ mixin _$User {
   String? get mobileNumber => throw _privateConstructorUsedError;
   String? get profilePic => throw _privateConstructorUsedError;
   DateTime? get emailVerifiedAt => throw _privateConstructorUsedError;
-  Address? get address => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -48,10 +47,7 @@ abstract class $UserCopyWith<$Res> {
       String? gender,
       String? mobileNumber,
       String? profilePic,
-      DateTime? emailVerifiedAt,
-      Address? address});
-
-  $AddressCopyWith<$Res>? get address;
+      DateTime? emailVerifiedAt});
 }
 
 /// @nodoc
@@ -75,7 +71,6 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? mobileNumber = freezed,
     Object? profilePic = freezed,
     Object? emailVerifiedAt = freezed,
-    Object? address = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -110,23 +105,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.emailVerifiedAt
           : emailVerifiedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      address: freezed == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as Address?,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $AddressCopyWith<$Res>? get address {
-    if (_value.address == null) {
-      return null;
-    }
-
-    return $AddressCopyWith<$Res>(_value.address!, (value) {
-      return _then(_value.copyWith(address: value) as $Val);
-    });
   }
 }
 
@@ -144,11 +123,7 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       String? gender,
       String? mobileNumber,
       String? profilePic,
-      DateTime? emailVerifiedAt,
-      Address? address});
-
-  @override
-  $AddressCopyWith<$Res>? get address;
+      DateTime? emailVerifiedAt});
 }
 
 /// @nodoc
@@ -168,7 +143,6 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
     Object? mobileNumber = freezed,
     Object? profilePic = freezed,
     Object? emailVerifiedAt = freezed,
-    Object? address = freezed,
   }) {
     return _then(_$_User(
       id: null == id
@@ -203,10 +177,6 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
           ? _value.emailVerifiedAt
           : emailVerifiedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      address: freezed == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as Address?,
     ));
   }
 }
@@ -222,8 +192,7 @@ class _$_User implements _User {
       this.gender,
       this.mobileNumber,
       this.profilePic,
-      this.emailVerifiedAt,
-      this.address})
+      this.emailVerifiedAt})
       : assert(id != null, 'User id must be integer and not null'),
         assert(email.isNotEmpty, 'User email must be string and not null');
 
@@ -245,12 +214,10 @@ class _$_User implements _User {
   final String? profilePic;
   @override
   final DateTime? emailVerifiedAt;
-  @override
-  final Address? address;
 
   @override
   String toString() {
-    return 'User(id: $id, email: $email, firstName: $firstName, lastName: $lastName, gender: $gender, mobileNumber: $mobileNumber, profilePic: $profilePic, emailVerifiedAt: $emailVerifiedAt, address: $address)';
+    return 'User(id: $id, email: $email, firstName: $firstName, lastName: $lastName, gender: $gender, mobileNumber: $mobileNumber, profilePic: $profilePic, emailVerifiedAt: $emailVerifiedAt)';
   }
 
   @override
@@ -270,14 +237,13 @@ class _$_User implements _User {
             (identical(other.profilePic, profilePic) ||
                 other.profilePic == profilePic) &&
             (identical(other.emailVerifiedAt, emailVerifiedAt) ||
-                other.emailVerifiedAt == emailVerifiedAt) &&
-            (identical(other.address, address) || other.address == address));
+                other.emailVerifiedAt == emailVerifiedAt));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, email, firstName, lastName,
-      gender, mobileNumber, profilePic, emailVerifiedAt, address);
+      gender, mobileNumber, profilePic, emailVerifiedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -302,8 +268,7 @@ abstract class _User implements User {
       final String? gender,
       final String? mobileNumber,
       final String? profilePic,
-      final DateTime? emailVerifiedAt,
-      final Address? address}) = _$_User;
+      final DateTime? emailVerifiedAt}) = _$_User;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
 
@@ -323,8 +288,6 @@ abstract class _User implements User {
   String? get profilePic;
   @override
   DateTime? get emailVerifiedAt;
-  @override
-  Address? get address;
   @override
   @JsonKey(ignore: true)
   _$$_UserCopyWith<_$_User> get copyWith => throw _privateConstructorUsedError;

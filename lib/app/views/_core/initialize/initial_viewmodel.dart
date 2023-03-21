@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:digicard/app/app.locator.dart';
 
 import 'package:digicard/app/services/_core/app_service.dart';
@@ -14,7 +13,7 @@ class InitialViewModel extends ReactiveViewModel {
         _appService,
       ];
 
-  List<PageRouteInfo<dynamic>> isLoggedIn() {
+  dynamic isLoggedIn() {
     return _appService.isLoggedIn();
   }
 }

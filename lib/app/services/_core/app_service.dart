@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:auto_route/auto_route.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -24,8 +23,9 @@ class AppService with ListenableServiceMixin {
 
   final _apiService = locator<ApiService>();
   final _dialogService = locator<DialogService>();
-  final ReactiveValue<bool?> _isOnboarded = ReactiveValue<bool?>(null);
   final _localStorageService = locator<LocalStorageService>();
+  final ReactiveValue<bool?> _isOnboarded = ReactiveValue<bool?>(null);
+
   final ReactiveValue<User?> _user = ReactiveValue<User?>(null);
 
   DialogService get dialogService => _dialogService;
@@ -42,7 +42,7 @@ class AppService with ListenableServiceMixin {
     _isOnboarded.value = val;
   }
 
-  List<PageRouteInfo<dynamic>> isLoggedIn() {
+  dynamic isLoggedIn() {
     if (!kIsWeb) FlutterNativeSplash.remove();
 
     return [

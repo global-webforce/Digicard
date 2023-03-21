@@ -6,16 +6,17 @@
 
 // ignore_for_file: public_member_api_docs, implementation_imports, depend_on_referenced_packages
 
-import 'package:stacked_core/stacked_core.dart';
 import 'package:stacked_services/src/bottom_sheet/bottom_sheet_service.dart';
 import 'package:stacked_services/src/dialog/dialog_service.dart';
 import 'package:stacked_services/src/navigation/navigation_service.dart';
 import 'package:stacked_services/src/snackbar/snackbar_service.dart';
+import 'package:stacked_shared/stacked_shared.dart';
 import 'package:stacked_themes/src/theme_service.dart';
 
 import 'api/api_service.dart';
 import 'services/_core/app_service.dart';
 import 'services/_core/local_storage_service.dart';
+import 'services/contacts_service.dart';
 import 'services/digital_card_service.dart';
 import 'services/digital_card_service_laravel.dart';
 import 'ui/bottom_sheets/card_send_bottom_sheet_viewmodel.dart';
@@ -31,8 +32,10 @@ import 'views/settings/settings_view_view_model.dart';
 
 final locator = StackedLocator.instance;
 
-Future<void> setupLocator(
-    {String? environment, EnvironmentFilter? environmentFilter}) async {
+Future<void> setupLocator({
+  String? environment,
+  EnvironmentFilter? environmentFilter,
+}) async {
 // Register environments
   locator.registerEnvironment(
       environment: environment, environmentFilter: environmentFilter);
@@ -48,6 +51,7 @@ Future<void> setupLocator(
 
   locator.registerLazySingleton(() => ApiService());
   locator.registerLazySingleton(() => AppService());
+  locator.registerLazySingleton(() => ContactsService());
   locator.registerLazySingleton<DigitalCardService>(
       () => DigitalCardServiceLaravel());
   locator.registerSingleton(InitialViewModel());

@@ -1,3 +1,5 @@
+import 'package:digicard/app/models/custom_link.dart';
+import 'package:digicard/app/models/full_name.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
@@ -12,23 +14,16 @@ class DigitalCard with _$DigitalCard {
     @FormControlAnnotation<int>() int? id,
     @FormControlAnnotation<int>() int? userId,
     @FormControlAnnotation<String>() String? uuid,
-    @Default("New Card") @FormControlAnnotation<String>() String? title,
+    @FormControlAnnotation<String>() String? title,
     @FormControlAnnotation<String>() String? logoImage,
-    @FormControlAnnotation<String>() String? color,
     @FormControlAnnotation<String>() String? profileImage,
-    @FormControlAnnotation<String>() String? prefix,
-    @FormControlAnnotation<String>() String? firstName,
-    @FormControlAnnotation<String>() String? middleName,
-    @FormControlAnnotation<String>() String? lastName,
-    @FormControlAnnotation<String>() String? suffix,
-    @FormControlAnnotation<String>() String? shortBio,
+    @FormControlAnnotation<String>() String? color,
+    @FormGroupAnnotation() FullName? fullname,
     @FormControlAnnotation<String>() String? position,
+    @FormControlAnnotation<String>() String? department,
     @FormControlAnnotation<String>() String? company,
-    @FormControlAnnotation<String>() String? email,
-    @FormControlAnnotation<String>() String? address,
-    @FormControlAnnotation<String>() String? mobileNumber,
-    @FormControlAnnotation<String>() String? website,
-    @FormControlAnnotation<String>() String? goesBy,
+    @FormControlAnnotation<String>() String? headline,
+    @Default([]) @FormArrayAnnotation() List<CustomLink> customLinks,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) = _DigitalCard;

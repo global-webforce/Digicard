@@ -14,7 +14,7 @@
 import 'package:auto_route/auto_route.dart' as _i5;
 import 'package:flutter/material.dart' as _i6;
 
-import '../views/_core/dashboard/dashboard_view_stacked.dart' as _i2;
+import '../views/_core/dashboard/dashboard_view.dart' as _i2;
 import '../views/_core/login/auth_view.dart' as _i1;
 import '../views/_core/login/login_view.dart' as _i4;
 import '../views/_core/welcome/welcome_view.dart' as _i3;

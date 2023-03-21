@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:digicard/app/app.logger.dart';
-import 'package:digicard/app/models/address.dart';
+
 import 'package:digicard/app/models/user.dart';
-import 'package:flutter/services.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorageService {
@@ -27,18 +27,6 @@ class LocalStorageService {
     }
 
     return Future.value(_instance);
-  }
-
-  Future<List<Address>> placesInAustralia() async {
-    try {
-      var response =
-          await rootBundle.loadString('assets/json/au_postcodes.json');
-      return List<Address>.from(
-          jsonDecode(response).map((model) => Address.fromJson(model)));
-    } catch (e) {
-      log.e("Failed to load places in Australia");
-    }
-    return [];
   }
 
   List<String> get languages => _getFromDisk(appLanguagesKey);

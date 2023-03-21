@@ -5,6 +5,7 @@ import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/app.bottomsheet_ui.dart';
 import 'package:digicard/app/app.dialog_ui.dart';
 import 'package:digicard/app/app.snackbar_ui.dart';
+import 'package:digicard/app/services/contacts_service.dart';
 import 'package:digicard/app/ui/_shared/app_colors.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:digicard/app/views/card_open/card_open_view.dart';
@@ -24,9 +25,12 @@ import 'dart:ui' as ui;
 
 import 'package:uuid/uuid.dart';
 
-const String duplicateBusyKey = 'duplicate-busy-key';
-const String downloadQRBusyKey = 'downloadQR-busy-key';
-const String deleteBusyKey = 'delete-busy-key';
+const String duplicateBusyKey = 'duplicateBusyKey';
+const String downloadQRBusyKey = 'downloadQRBusyKey';
+const String deleteBusyKey = 'deleteBusyKey';
+const String shareBusyKey = 'shareBusyKey';
+const String saveToContactsBusyKey = 'saveToContactsBusyKey';
+const String doneBusyKey = 'doneBusyKey';
 
 class CardToolsBottomSheetViewModel extends ReactiveViewModel {
   final log = getLogger('CardToolsBottomSheetViewModel');
@@ -35,6 +39,7 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
   final _digitalCardsService = locator<DigitalCardService>();
   final _snackbarService = locator<SnackbarService>();
   final _navigationService = locator<NavigationService>();
+  final _contactsService = locator<ContactsService>();
 
   @override
   List<ListenableServiceMixin> get listenableServices => [_digitalCardsService];
@@ -76,6 +81,7 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
   }
 
   view(DigitalCard card) {
+    _bottomSheetService.completeSheet(SheetResponse());
     _navigationService.navigateToView(CardOpenView(
       actionType: ActionType.view,
       card: card,
@@ -105,6 +111,7 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
         .duplicate(digitalCard.copyWith(title: "${digitalCard.title} Copy"));
 
     await Future.delayed(const Duration(seconds: 1));
+
     setBusyForObject(duplicateBusyKey, false);
     _bottomSheetService.completeSheet(SheetResponse());
     _navigationService.navigateToView(CardOpenView(
@@ -118,6 +125,7 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
   ScreenshotController screenshotControllerDownload = ScreenshotController();
 
   Future<void> share() async {
+    setBusyForObject(shareBusyKey, true);
     await screenshotControllerShare
         .capture(
       pixelRatio: 10,
@@ -132,9 +140,12 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
       XFile filex = XFile(file.path);
       Share.shareXFiles([filex]);
     }).catchError((onError) {});
+    setBusyForObject(shareBusyKey, false);
   }
 
-  Future<void> downloadWithLogo() async {
+  Future downloadWithLogo() async {
+    setBusyForObject(downloadQRBusyKey, true);
+    await _contactsService.saveContact(card);
     setBusyForObject(downloadQRBusyKey, true);
     dynamic result;
     Uint8List? image = await screenshotControllerShare.capture(
@@ -150,16 +161,23 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
     }
     setBusyForObject(downloadQRBusyKey, false);
     if (result["isSuccess"] == true) {
-      rebuildUi();
-      _snackbarService.showCustomSnackBar(
-        message: "QR Code saved to Gallery",
-        duration: const Duration(seconds: 2),
-        variant: SnackbarType.successful,
-      );
+      setBusyForObject(downloadQRBusyKey, false);
+      setBusyForObject(doneBusyKey, true);
+      await Future.delayed(const Duration(seconds: 1));
+      setBusyForObject(doneBusyKey, false);
     }
   }
 
-  Future<void> downloadWithoutLogo(BuildContext context) async {
+  Future saveToContacts() async {
+    setBusyForObject(saveToContactsBusyKey, true);
+    await _contactsService.saveContact(card);
+    setBusyForObject(saveToContactsBusyKey, false);
+    setBusyForObject(doneBusyKey, true);
+    await Future.delayed(const Duration(seconds: 1));
+    setBusyForObject(doneBusyKey, false);
+  }
+
+  Future downloadWithoutLogo(BuildContext context) async {
     setBusyForObject(downloadQRBusyKey, true);
 
     final widget = ClipRRect(

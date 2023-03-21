@@ -5,7 +5,7 @@ import 'package:digicard/app/views/_core/welcome/welcome_view.dart';
 
 import 'package:flutter/material.dart';
 
-import '../views/_core/dashboard/dashboard_view_stacked.dart';
+import '../views/_core/dashboard/dashboard_view.dart';
 
 class HeroEmptyRouterPage extends StatelessWidget {
   const HeroEmptyRouterPage({super.key});

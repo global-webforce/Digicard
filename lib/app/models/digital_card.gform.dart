@@ -119,24 +119,16 @@ class DigitalCardFormBuilder extends StatefulWidget {
 }
 
 class _DigitalCardFormBuilderState extends State<DigitalCardFormBuilder> {
-  late FormGroup _form;
-
   late DigitalCardForm _formModel;
 
   @override
   void initState() {
-    _form = FormGroup({});
-    _formModel = DigitalCardForm(widget.model, _form, null);
+    _formModel = DigitalCardForm(
+        widget.model, DigitalCardForm.formElements(widget.model), null);
 
-    final elements = _formModel.formElements();
-    _form.setValidators(elements.validators);
-    _form.setAsyncValidators(elements.asyncValidators);
-
-    if (elements.disabled) {
-      _form.markAsDisabled();
+    if (_formModel.form.disabled) {
+      _formModel.form.markAsDisabled();
     }
-
-    _form.addAll(elements.controls);
 
     widget.initState?.call(context, _formModel);
 
@@ -146,12 +138,14 @@ class _DigitalCardFormBuilderState extends State<DigitalCardFormBuilder> {
   @override
   void didUpdateWidget(covariant DigitalCardFormBuilder oldWidget) {
     if (widget.model != oldWidget.model) {
-      _formModel = DigitalCardForm(widget.model, _form, null);
-      final elements = _formModel.formElements();
+      _formModel = DigitalCardForm(
+          widget.model, DigitalCardForm.formElements(widget.model), null);
 
-      _form.updateValue(elements.rawValue);
-      _form.setValidators(elements.validators);
-      _form.setAsyncValidators(elements.asyncValidators);
+      if (_formModel.form.disabled) {
+        _formModel.form.markAsDisabled();
+      }
+
+      widget.initState?.call(context, _formModel);
     }
 
     super.didUpdateWidget(oldWidget);
@@ -159,19 +153,20 @@ class _DigitalCardFormBuilderState extends State<DigitalCardFormBuilder> {
 
   @override
   void dispose() {
-    _form.dispose();
+    _formModel.form.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return ReactiveDigitalCardForm(
+      key: ObjectKey(_formModel),
       form: _formModel,
       onWillPop: widget.onWillPop,
       child: ReactiveFormBuilder(
-        form: () => _form,
+        form: () => _formModel.form,
         onWillPop: widget.onWillPop,
-        builder: (BuildContext context, FormGroup formGroup, Widget? child) =>
+        builder: (context, formGroup, child) =>
             widget.builder(context, _formModel, widget.child),
         child: widget.child,
       ),
@@ -184,7 +179,16 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     this.digitalCard,
     this.form,
     this.path,
-  ) {}
+  ) {
+    fullnameForm =
+        FullNameForm(digitalCard?.fullname, form, pathBuilder('fullname'));
+    customLinksCustomLinkForm = (digitalCard?.customLinks ?? [])
+        .asMap()
+        .map((k, v) =>
+            MapEntry(k, CustomLinkForm(v, form, pathBuilder("customLinks.$k"))))
+        .values
+        .toList();
+  }
 
   static String idControlName = "id";
 
@@ -196,35 +200,23 @@ class DigitalCardForm implements FormModel<DigitalCard> {
 
   static String logoImageControlName = "logoImage";
 
-  static String colorControlName = "color";
-
   static String profileImageControlName = "profileImage";
 
-  static String prefixControlName = "prefix";
+  static String colorControlName = "color";
 
-  static String firstNameControlName = "firstName";
-
-  static String middleNameControlName = "middleName";
-
-  static String lastNameControlName = "lastName";
-
-  static String suffixControlName = "suffix";
-
-  static String shortBioControlName = "shortBio";
+  static String fullnameControlName = "fullname";
 
   static String positionControlName = "position";
 
+  static String departmentControlName = "department";
+
   static String companyControlName = "company";
 
-  static String emailControlName = "email";
+  static String headlineControlName = "headline";
 
-  static String addressControlName = "address";
+  static String customLinksControlName = "customLinks";
 
-  static String mobileNumberControlName = "mobileNumber";
-
-  static String websiteControlName = "website";
-
-  static String goesByControlName = "goesBy";
+  late FullNameForm fullnameForm;
 
   final DigitalCard? digitalCard;
 
@@ -232,46 +224,47 @@ class DigitalCardForm implements FormModel<DigitalCard> {
 
   final String? path;
 
+  late List<CustomLinkForm> customLinksCustomLinkForm;
+
   String idControlPath() => pathBuilder(idControlName);
   String userIdControlPath() => pathBuilder(userIdControlName);
   String uuidControlPath() => pathBuilder(uuidControlName);
   String titleControlPath() => pathBuilder(titleControlName);
   String logoImageControlPath() => pathBuilder(logoImageControlName);
-  String colorControlPath() => pathBuilder(colorControlName);
   String profileImageControlPath() => pathBuilder(profileImageControlName);
-  String prefixControlPath() => pathBuilder(prefixControlName);
-  String firstNameControlPath() => pathBuilder(firstNameControlName);
-  String middleNameControlPath() => pathBuilder(middleNameControlName);
-  String lastNameControlPath() => pathBuilder(lastNameControlName);
-  String suffixControlPath() => pathBuilder(suffixControlName);
-  String shortBioControlPath() => pathBuilder(shortBioControlName);
+  String colorControlPath() => pathBuilder(colorControlName);
   String positionControlPath() => pathBuilder(positionControlName);
+  String departmentControlPath() => pathBuilder(departmentControlName);
   String companyControlPath() => pathBuilder(companyControlName);
-  String emailControlPath() => pathBuilder(emailControlName);
-  String addressControlPath() => pathBuilder(addressControlName);
-  String mobileNumberControlPath() => pathBuilder(mobileNumberControlName);
-  String websiteControlPath() => pathBuilder(websiteControlName);
-  String goesByControlPath() => pathBuilder(goesByControlName);
+  String headlineControlPath() => pathBuilder(headlineControlName);
+  String fullnameControlPath() => pathBuilder(fullnameControlName);
+  String customLinksControlPath() => pathBuilder(customLinksControlName);
   int? get _idValue => idControl?.value;
   int? get _userIdValue => userIdControl?.value;
   String? get _uuidValue => uuidControl?.value;
   String? get _titleValue => titleControl?.value;
   String? get _logoImageValue => logoImageControl?.value;
-  String? get _colorValue => colorControl?.value;
   String? get _profileImageValue => profileImageControl?.value;
-  String? get _prefixValue => prefixControl?.value;
-  String? get _firstNameValue => firstNameControl?.value;
-  String? get _middleNameValue => middleNameControl?.value;
-  String? get _lastNameValue => lastNameControl?.value;
-  String? get _suffixValue => suffixControl?.value;
-  String? get _shortBioValue => shortBioControl?.value;
+  String? get _colorValue => colorControl?.value;
   String? get _positionValue => positionControl?.value;
+  String? get _departmentValue => departmentControl?.value;
   String? get _companyValue => companyControl?.value;
-  String? get _emailValue => emailControl?.value;
-  String? get _addressValue => addressControl?.value;
-  String? get _mobileNumberValue => mobileNumberControl?.value;
-  String? get _websiteValue => websiteControl?.value;
-  String? get _goesByValue => goesByControl?.value;
+  String? get _headlineValue => headlineControl?.value;
+  FullName? get _fullnameValue => fullnameForm.model;
+  List<CustomLink> get _customLinksValue => customLinksCustomLinkForm
+      .asMap()
+      .map(
+        (k, v) => MapEntry(
+          k,
+          v
+              .copyWithPath(
+                pathBuilder("customLinks.$k"),
+              )
+              .model,
+        ),
+      )
+      .values
+      .toList();
   bool get containsId {
     try {
       form.control(idControlPath());
@@ -317,15 +310,6 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     }
   }
 
-  bool get containsColor {
-    try {
-      form.control(colorControlPath());
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
   bool get containsProfileImage {
     try {
       form.control(profileImageControlPath());
@@ -335,54 +319,9 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     }
   }
 
-  bool get containsPrefix {
+  bool get containsColor {
     try {
-      form.control(prefixControlPath());
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  bool get containsFirstName {
-    try {
-      form.control(firstNameControlPath());
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  bool get containsMiddleName {
-    try {
-      form.control(middleNameControlPath());
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  bool get containsLastName {
-    try {
-      form.control(lastNameControlPath());
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  bool get containsSuffix {
-    try {
-      form.control(suffixControlPath());
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  bool get containsShortBio {
-    try {
-      form.control(shortBioControlPath());
+      form.control(colorControlPath());
       return true;
     } catch (e) {
       return false;
@@ -398,6 +337,15 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     }
   }
 
+  bool get containsDepartment {
+    try {
+      form.control(departmentControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   bool get containsCompany {
     try {
       form.control(companyControlPath());
@@ -407,45 +355,27 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     }
   }
 
-  bool get containsEmail {
+  bool get containsHeadline {
     try {
-      form.control(emailControlPath());
+      form.control(headlineControlPath());
       return true;
     } catch (e) {
       return false;
     }
   }
 
-  bool get containsAddress {
+  bool get containsFullname {
     try {
-      form.control(addressControlPath());
+      form.control(fullnameControlPath());
       return true;
     } catch (e) {
       return false;
     }
   }
 
-  bool get containsMobileNumber {
+  bool get containsCustomLinks {
     try {
-      form.control(mobileNumberControlPath());
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  bool get containsWebsite {
-    try {
-      form.control(websiteControlPath());
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  bool get containsGoesBy {
-    try {
-      form.control(goesByControlPath());
+      form.control(customLinksControlPath());
       return true;
     } catch (e) {
       return false;
@@ -457,41 +387,27 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   Object? get uuidErrors => uuidControl?.errors;
   Object? get titleErrors => titleControl?.errors;
   Object? get logoImageErrors => logoImageControl?.errors;
-  Object? get colorErrors => colorControl?.errors;
   Object? get profileImageErrors => profileImageControl?.errors;
-  Object? get prefixErrors => prefixControl?.errors;
-  Object? get firstNameErrors => firstNameControl?.errors;
-  Object? get middleNameErrors => middleNameControl?.errors;
-  Object? get lastNameErrors => lastNameControl?.errors;
-  Object? get suffixErrors => suffixControl?.errors;
-  Object? get shortBioErrors => shortBioControl?.errors;
+  Object? get colorErrors => colorControl?.errors;
   Object? get positionErrors => positionControl?.errors;
+  Object? get departmentErrors => departmentControl?.errors;
   Object? get companyErrors => companyControl?.errors;
-  Object? get emailErrors => emailControl?.errors;
-  Object? get addressErrors => addressControl?.errors;
-  Object? get mobileNumberErrors => mobileNumberControl?.errors;
-  Object? get websiteErrors => websiteControl?.errors;
-  Object? get goesByErrors => goesByControl?.errors;
+  Object? get headlineErrors => headlineControl?.errors;
+  Object? get fullnameErrors => fullnameControl?.errors;
+  Object? get customLinksErrors => customLinksControl.errors;
   void get idFocus => form.focus(idControlPath());
   void get userIdFocus => form.focus(userIdControlPath());
   void get uuidFocus => form.focus(uuidControlPath());
   void get titleFocus => form.focus(titleControlPath());
   void get logoImageFocus => form.focus(logoImageControlPath());
-  void get colorFocus => form.focus(colorControlPath());
   void get profileImageFocus => form.focus(profileImageControlPath());
-  void get prefixFocus => form.focus(prefixControlPath());
-  void get firstNameFocus => form.focus(firstNameControlPath());
-  void get middleNameFocus => form.focus(middleNameControlPath());
-  void get lastNameFocus => form.focus(lastNameControlPath());
-  void get suffixFocus => form.focus(suffixControlPath());
-  void get shortBioFocus => form.focus(shortBioControlPath());
+  void get colorFocus => form.focus(colorControlPath());
   void get positionFocus => form.focus(positionControlPath());
+  void get departmentFocus => form.focus(departmentControlPath());
   void get companyFocus => form.focus(companyControlPath());
-  void get emailFocus => form.focus(emailControlPath());
-  void get addressFocus => form.focus(addressControlPath());
-  void get mobileNumberFocus => form.focus(mobileNumberControlPath());
-  void get websiteFocus => form.focus(websiteControlPath());
-  void get goesByFocus => form.focus(goesByControlPath());
+  void get headlineFocus => form.focus(headlineControlPath());
+  void get fullnameFocus => form.focus(fullnameControlPath());
+  void get customLinksFocus => form.focus(customLinksControlPath());
   void idRemove({
     bool updateParent = true,
     bool emitEvent = true,
@@ -622,32 +538,6 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     }
   }
 
-  void colorRemove({
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (containsColor) {
-      final controlPath = path;
-      if (controlPath == null) {
-        form.removeControl(
-          colorControlName,
-          updateParent: updateParent,
-          emitEvent: emitEvent,
-        );
-      } else {
-        final formGroup = form.control(controlPath);
-
-        if (formGroup is FormGroup) {
-          formGroup.removeControl(
-            colorControlName,
-            updateParent: updateParent,
-            emitEvent: emitEvent,
-          );
-        }
-      }
-    }
-  }
-
   void profileImageRemove({
     bool updateParent = true,
     bool emitEvent = true,
@@ -674,6 +564,1218 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     }
   }
 
+  void colorRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsColor) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          colorControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            colorControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
+  void positionRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsPosition) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          positionControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            positionControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
+  void departmentRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsDepartment) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          departmentControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            departmentControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
+  void companyRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsCompany) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          companyControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            companyControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
+  void headlineRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsHeadline) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          headlineControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            headlineControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
+  void fullnameRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsFullname) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          fullnameControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            fullnameControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
+  void idValueUpdate(
+    int? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    idControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void userIdValueUpdate(
+    int? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    userIdControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void uuidValueUpdate(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    uuidControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void titleValueUpdate(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    titleControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void logoImageValueUpdate(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    logoImageControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void profileImageValueUpdate(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    profileImageControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void colorValueUpdate(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    colorControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void positionValueUpdate(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    positionControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void departmentValueUpdate(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    departmentControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void companyValueUpdate(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    companyControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void headlineValueUpdate(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    headlineControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void fullnameValueUpdate(
+    FullName? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    fullnameControl?.updateValue(FullNameForm.formElements(value).rawValue,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void customLinksValueUpdate(
+    List<CustomLink> value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if ((value).isEmpty) {
+      customLinksClear(updateParent: updateParent, emitEvent: emitEvent);
+
+      return;
+    }
+
+    final updateList = (value)
+        .asMap()
+        .map(
+          (k, v) => MapEntry(
+            k,
+            CustomLinkForm(v, form, pathBuilder("customLinks.$k")),
+          ),
+        )
+        .values
+        .toList();
+
+    customLinksCustomLinkForm.clear();
+    customLinksCustomLinkForm.addAll(updateList);
+
+    final toUpdate = <CustomLinkForm>[];
+    final toAdd = <CustomLinkForm>[];
+
+    updateList.asMap().forEach((k, v) {
+      if (customLinksCustomLinkForm.asMap().containsKey(k) &&
+          (customLinksControl.value ?? []).asMap().containsKey(k)) {
+        toUpdate.add(v);
+      } else {
+        toAdd.add(v);
+      }
+    });
+
+    if (toUpdate.isNotEmpty) {
+      customLinksControl.updateValue(
+          toUpdate
+              .map((e) => CustomLinkForm.formElements(e.customLink).rawValue)
+              .toList(),
+          updateParent: updateParent,
+          emitEvent: emitEvent);
+    }
+
+    if (toAdd.isNotEmpty) {
+      toAdd.forEach((e) {
+        customLinksControl.add(CustomLinkForm.formElements(e.customLink),
+            updateParent: updateParent, emitEvent: emitEvent);
+      });
+    }
+  }
+
+  void customLinksInsert(
+    int i,
+    CustomLink value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (customLinksCustomLinkForm.length < i) {
+      addCustomLinksItem(value);
+      return;
+    }
+
+    final item = CustomLinkForm(
+      value,
+      form,
+      pathBuilder('customLinks.$i'),
+    );
+
+    customLinksCustomLinkForm.insert(i, item);
+
+    customLinksCustomLinkForm.asMap().forEach((k, v) {
+      if (k > i) {
+        customLinksCustomLinkForm[k] = v.copyWithPath(
+          pathBuilder("customLinks.$k"),
+        );
+      }
+    });
+
+    customLinksControl.insert(
+      i,
+      CustomLinkForm.formElements(value),
+      updateParent: updateParent,
+      emitEvent: emitEvent,
+    );
+  }
+
+  void customLinksClear({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    customLinksCustomLinkForm.clear();
+    customLinksControl.clear(updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void idValuePatch(
+    int? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    idControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void userIdValuePatch(
+    int? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    userIdControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void uuidValuePatch(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    uuidControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void titleValuePatch(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    titleControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void logoImageValuePatch(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    logoImageControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void profileImageValuePatch(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    profileImageControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void colorValuePatch(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    colorControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void positionValuePatch(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    positionControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void departmentValuePatch(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    departmentControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void companyValuePatch(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    companyControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void headlineValuePatch(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    headlineControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void fullnameValuePatch(
+    FullName? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    fullnameControl?.updateValue(FullNameForm.formElements(value).rawValue,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void customLinksValuePatch(
+    List<CustomLink> value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    final keys = customLinksCustomLinkForm.asMap().keys;
+
+    final toPatch = <CustomLinkForm>[];
+    (value).asMap().forEach(
+      (k, v) {
+        if (keys.contains(k)) {
+          final patch = CustomLinkForm(v, form, pathBuilder("customLinks.$k"));
+          customLinksCustomLinkForm[k] = patch;
+          toPatch.add(patch);
+        }
+      },
+    );
+
+    customLinksControl.patchValue(
+        toPatch
+            .map((e) => CustomLinkForm.formElements(e.customLink).rawValue)
+            .toList(),
+        updateParent: updateParent,
+        emitEvent: emitEvent);
+  }
+
+  void idValueReset(
+    int? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      idControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void userIdValueReset(
+    int? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      userIdControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void uuidValueReset(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      uuidControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void titleValueReset(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      titleControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void logoImageValueReset(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      logoImageControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void profileImageValueReset(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      profileImageControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void colorValueReset(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      colorControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void positionValueReset(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      positionControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void departmentValueReset(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      departmentControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void companyValueReset(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      companyControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void headlineValueReset(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      headlineControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void fullnameValueReset(
+    FullName? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      fullnameControl?.reset(
+          value: FullNameForm.formElements(value).rawValue,
+          updateParent: updateParent,
+          emitEvent: emitEvent);
+  void customLinksValueReset(
+    List<CustomLink> value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      customLinksControl.reset(
+          value: value
+              .map((e) => CustomLinkForm.formElements(e).rawValue)
+              .toList(),
+          updateParent: updateParent,
+          emitEvent: emitEvent);
+  FormControl<int>? get idControl =>
+      containsId ? form.control(idControlPath()) as FormControl<int>? : null;
+  FormControl<int>? get userIdControl => containsUserId
+      ? form.control(userIdControlPath()) as FormControl<int>?
+      : null;
+  FormControl<String>? get uuidControl => containsUuid
+      ? form.control(uuidControlPath()) as FormControl<String>?
+      : null;
+  FormControl<String>? get titleControl => containsTitle
+      ? form.control(titleControlPath()) as FormControl<String>?
+      : null;
+  FormControl<String>? get logoImageControl => containsLogoImage
+      ? form.control(logoImageControlPath()) as FormControl<String>?
+      : null;
+  FormControl<String>? get profileImageControl => containsProfileImage
+      ? form.control(profileImageControlPath()) as FormControl<String>?
+      : null;
+  FormControl<String>? get colorControl => containsColor
+      ? form.control(colorControlPath()) as FormControl<String>?
+      : null;
+  FormControl<String>? get positionControl => containsPosition
+      ? form.control(positionControlPath()) as FormControl<String>?
+      : null;
+  FormControl<String>? get departmentControl => containsDepartment
+      ? form.control(departmentControlPath()) as FormControl<String>?
+      : null;
+  FormControl<String>? get companyControl => containsCompany
+      ? form.control(companyControlPath()) as FormControl<String>?
+      : null;
+  FormControl<String>? get headlineControl => containsHeadline
+      ? form.control(headlineControlPath()) as FormControl<String>?
+      : null;
+  FormGroup? get fullnameControl => containsFullname
+      ? form.control(fullnameControlPath()) as FormGroup?
+      : null;
+  FormArray<Map<String, Object?>> get customLinksControl =>
+      form.control(customLinksControlPath()) as FormArray<Map<String, Object?>>;
+  void idSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      idControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      idControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void userIdSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      userIdControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      userIdControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void uuidSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      uuidControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      uuidControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void titleSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      titleControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      titleControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void logoImageSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      logoImageControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      logoImageControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void profileImageSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      profileImageControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      profileImageControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void colorSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      colorControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      colorControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void positionSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      positionControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      positionControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void departmentSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      departmentControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      departmentControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void companySetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      companyControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      companyControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void headlineSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      headlineControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      headlineControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void fullnameSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      fullnameControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      fullnameControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void customLinksSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      customLinksControl.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      customLinksControl.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  ExtendedControl<List<Map<String, Object?>?>, List<CustomLinkForm>>
+      get customLinksExtendedControl =>
+          ExtendedControl<List<Map<String, Object?>?>, List<CustomLinkForm>>(
+              form.control(customLinksControlPath())
+                  as FormArray<Map<String, Object?>>,
+              () => customLinksCustomLinkForm);
+  void addCustomLinksItem(CustomLink value) {
+    final formClass = CustomLinkForm(value, form,
+        pathBuilder('customLinks.${customLinksCustomLinkForm.length}'));
+
+    customLinksCustomLinkForm.add(formClass);
+    customLinksControl.add(CustomLinkForm.formElements(value));
+  }
+
+  void removeCustomLinksItemAtIndex(int i) {
+    if (customLinksCustomLinkForm.asMap().containsKey(i) &&
+        (customLinksControl.value ?? []).asMap().containsKey(i)) {
+      customLinksCustomLinkForm.removeAt(i);
+
+      customLinksCustomLinkForm.asMap().forEach((k, v) {
+        customLinksCustomLinkForm[k] =
+            v.copyWithPath(pathBuilder("customLinks.$k"));
+      });
+
+      customLinksControl.removeAt(i);
+    }
+  }
+
+  void addCustomLinksItemList(List<CustomLink> value) {
+    value.map((e) => addCustomLinksItem(e));
+  }
+
+  @override
+  DigitalCard get model {
+    if (!form.valid) {
+      debugPrint(
+        'Prefer not to call `model` on non-valid form it could cause unexpected exceptions in case you created a non-nullable field in model and expect it to be guarded by some kind of `required` validator.',
+      );
+    }
+    return DigitalCard(
+        id: _idValue,
+        userId: _userIdValue,
+        uuid: _uuidValue,
+        title: _titleValue,
+        logoImage: _logoImageValue,
+        profileImage: _profileImageValue,
+        color: _colorValue,
+        fullname: _fullnameValue,
+        position: _positionValue,
+        department: _departmentValue,
+        company: _companyValue,
+        headline: _headlineValue,
+        customLinks: _customLinksValue,
+        createdAt: digitalCard?.createdAt,
+        updatedAt: digitalCard?.updatedAt);
+  }
+
+  DigitalCardForm copyWithPath(String? path) {
+    return DigitalCardForm(digitalCard, form, path);
+  }
+
+  @override
+  void updateValue(
+    DigitalCard value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) =>
+      form.updateValue(DigitalCardForm.formElements(value).rawValue,
+          updateParent: updateParent, emitEvent: emitEvent);
+  @override
+  void reset({
+    DigitalCard? value,
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) =>
+      form.reset(
+          value: value != null ? formElements(value).rawValue : null,
+          updateParent: updateParent,
+          emitEvent: emitEvent);
+  String pathBuilder(String? pathItem) =>
+      [path, pathItem].whereType<String>().join(".");
+  static FormGroup formElements(DigitalCard? digitalCard) => FormGroup({
+        idControlName: FormControl<int>(
+            value: digitalCard?.id,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        userIdControlName: FormControl<int>(
+            value: digitalCard?.userId,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        uuidControlName: FormControl<String>(
+            value: digitalCard?.uuid,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        titleControlName: FormControl<String>(
+            value: digitalCard?.title,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        logoImageControlName: FormControl<String>(
+            value: digitalCard?.logoImage,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        profileImageControlName: FormControl<String>(
+            value: digitalCard?.profileImage,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        colorControlName: FormControl<String>(
+            value: digitalCard?.color,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        positionControlName: FormControl<String>(
+            value: digitalCard?.position,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        departmentControlName: FormControl<String>(
+            value: digitalCard?.department,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        companyControlName: FormControl<String>(
+            value: digitalCard?.company,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        headlineControlName: FormControl<String>(
+            value: digitalCard?.headline,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        customLinksControlName: FormArray(
+            (digitalCard?.customLinks ?? [])
+                .map((e) => CustomLinkForm.formElements(e))
+                .toList(),
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false),
+        fullnameControlName: FullNameForm.formElements(digitalCard?.fullname)
+      },
+          validators: [],
+          asyncValidators: [],
+          asyncValidatorsDebounceTime: 250,
+          disabled: false);
+}
+
+class FullNameForm implements FormModel<FullName> {
+  FullNameForm(
+    this.fullName,
+    this.form,
+    this.path,
+  ) {}
+
+  static String prefixControlName = "prefix";
+
+  static String firstNameControlName = "firstName";
+
+  static String middleNameControlName = "middleName";
+
+  static String lastNameControlName = "lastName";
+
+  static String suffixControlName = "suffix";
+
+  static String accreditationsControlName = "accreditations";
+
+  static String preferredNameControlName = "preferredName";
+
+  static String maidenNameControlName = "maidenName";
+
+  static String pronounsControlName = "pronouns";
+
+  final FullName? fullName;
+
+  final FormGroup form;
+
+  final String? path;
+
+  String prefixControlPath() => pathBuilder(prefixControlName);
+  String firstNameControlPath() => pathBuilder(firstNameControlName);
+  String middleNameControlPath() => pathBuilder(middleNameControlName);
+  String lastNameControlPath() => pathBuilder(lastNameControlName);
+  String suffixControlPath() => pathBuilder(suffixControlName);
+  String accreditationsControlPath() => pathBuilder(accreditationsControlName);
+  String preferredNameControlPath() => pathBuilder(preferredNameControlName);
+  String maidenNameControlPath() => pathBuilder(maidenNameControlName);
+  String pronounsControlPath() => pathBuilder(pronounsControlName);
+  String? get _prefixValue => prefixControl?.value;
+  String? get _firstNameValue => firstNameControl?.value;
+  String? get _middleNameValue => middleNameControl?.value;
+  String? get _lastNameValue => lastNameControl?.value;
+  String? get _suffixValue => suffixControl?.value;
+  String? get _accreditationsValue => accreditationsControl?.value;
+  String? get _preferredNameValue => preferredNameControl?.value;
+  String? get _maidenNameValue => maidenNameControl?.value;
+  String? get _pronounsValue => pronounsControl?.value;
+  bool get containsPrefix {
+    try {
+      form.control(prefixControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool get containsFirstName {
+    try {
+      form.control(firstNameControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool get containsMiddleName {
+    try {
+      form.control(middleNameControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool get containsLastName {
+    try {
+      form.control(lastNameControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool get containsSuffix {
+    try {
+      form.control(suffixControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool get containsAccreditations {
+    try {
+      form.control(accreditationsControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool get containsPreferredName {
+    try {
+      form.control(preferredNameControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool get containsMaidenName {
+    try {
+      form.control(maidenNameControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool get containsPronouns {
+    try {
+      form.control(pronounsControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Object? get prefixErrors => prefixControl?.errors;
+  Object? get firstNameErrors => firstNameControl?.errors;
+  Object? get middleNameErrors => middleNameControl?.errors;
+  Object? get lastNameErrors => lastNameControl?.errors;
+  Object? get suffixErrors => suffixControl?.errors;
+  Object? get accreditationsErrors => accreditationsControl?.errors;
+  Object? get preferredNameErrors => preferredNameControl?.errors;
+  Object? get maidenNameErrors => maidenNameControl?.errors;
+  Object? get pronounsErrors => pronounsControl?.errors;
+  void get prefixFocus => form.focus(prefixControlPath());
+  void get firstNameFocus => form.focus(firstNameControlPath());
+  void get middleNameFocus => form.focus(middleNameControlPath());
+  void get lastNameFocus => form.focus(lastNameControlPath());
+  void get suffixFocus => form.focus(suffixControlPath());
+  void get accreditationsFocus => form.focus(accreditationsControlPath());
+  void get preferredNameFocus => form.focus(preferredNameControlPath());
+  void get maidenNameFocus => form.focus(maidenNameControlPath());
+  void get pronounsFocus => form.focus(pronounsControlPath());
   void prefixRemove({
     bool updateParent = true,
     bool emitEvent = true,
@@ -804,15 +1906,15 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     }
   }
 
-  void shortBioRemove({
+  void accreditationsRemove({
     bool updateParent = true,
     bool emitEvent = true,
   }) {
-    if (containsShortBio) {
+    if (containsAccreditations) {
       final controlPath = path;
       if (controlPath == null) {
         form.removeControl(
-          shortBioControlName,
+          accreditationsControlName,
           updateParent: updateParent,
           emitEvent: emitEvent,
         );
@@ -821,7 +1923,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
 
         if (formGroup is FormGroup) {
           formGroup.removeControl(
-            shortBioControlName,
+            accreditationsControlName,
             updateParent: updateParent,
             emitEvent: emitEvent,
           );
@@ -830,15 +1932,15 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     }
   }
 
-  void positionRemove({
+  void preferredNameRemove({
     bool updateParent = true,
     bool emitEvent = true,
   }) {
-    if (containsPosition) {
+    if (containsPreferredName) {
       final controlPath = path;
       if (controlPath == null) {
         form.removeControl(
-          positionControlName,
+          preferredNameControlName,
           updateParent: updateParent,
           emitEvent: emitEvent,
         );
@@ -847,7 +1949,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
 
         if (formGroup is FormGroup) {
           formGroup.removeControl(
-            positionControlName,
+            preferredNameControlName,
             updateParent: updateParent,
             emitEvent: emitEvent,
           );
@@ -856,15 +1958,15 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     }
   }
 
-  void companyRemove({
+  void maidenNameRemove({
     bool updateParent = true,
     bool emitEvent = true,
   }) {
-    if (containsCompany) {
+    if (containsMaidenName) {
       final controlPath = path;
       if (controlPath == null) {
         form.removeControl(
-          companyControlName,
+          maidenNameControlName,
           updateParent: updateParent,
           emitEvent: emitEvent,
         );
@@ -873,7 +1975,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
 
         if (formGroup is FormGroup) {
           formGroup.removeControl(
-            companyControlName,
+            maidenNameControlName,
             updateParent: updateParent,
             emitEvent: emitEvent,
           );
@@ -882,15 +1984,15 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     }
   }
 
-  void emailRemove({
+  void pronounsRemove({
     bool updateParent = true,
     bool emitEvent = true,
   }) {
-    if (containsEmail) {
+    if (containsPronouns) {
       final controlPath = path;
       if (controlPath == null) {
         form.removeControl(
-          emailControlName,
+          pronounsControlName,
           updateParent: updateParent,
           emitEvent: emitEvent,
         );
@@ -899,180 +2001,13 @@ class DigitalCardForm implements FormModel<DigitalCard> {
 
         if (formGroup is FormGroup) {
           formGroup.removeControl(
-            emailControlName,
+            pronounsControlName,
             updateParent: updateParent,
             emitEvent: emitEvent,
           );
         }
       }
     }
-  }
-
-  void addressRemove({
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (containsAddress) {
-      final controlPath = path;
-      if (controlPath == null) {
-        form.removeControl(
-          addressControlName,
-          updateParent: updateParent,
-          emitEvent: emitEvent,
-        );
-      } else {
-        final formGroup = form.control(controlPath);
-
-        if (formGroup is FormGroup) {
-          formGroup.removeControl(
-            addressControlName,
-            updateParent: updateParent,
-            emitEvent: emitEvent,
-          );
-        }
-      }
-    }
-  }
-
-  void mobileNumberRemove({
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (containsMobileNumber) {
-      final controlPath = path;
-      if (controlPath == null) {
-        form.removeControl(
-          mobileNumberControlName,
-          updateParent: updateParent,
-          emitEvent: emitEvent,
-        );
-      } else {
-        final formGroup = form.control(controlPath);
-
-        if (formGroup is FormGroup) {
-          formGroup.removeControl(
-            mobileNumberControlName,
-            updateParent: updateParent,
-            emitEvent: emitEvent,
-          );
-        }
-      }
-    }
-  }
-
-  void websiteRemove({
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (containsWebsite) {
-      final controlPath = path;
-      if (controlPath == null) {
-        form.removeControl(
-          websiteControlName,
-          updateParent: updateParent,
-          emitEvent: emitEvent,
-        );
-      } else {
-        final formGroup = form.control(controlPath);
-
-        if (formGroup is FormGroup) {
-          formGroup.removeControl(
-            websiteControlName,
-            updateParent: updateParent,
-            emitEvent: emitEvent,
-          );
-        }
-      }
-    }
-  }
-
-  void goesByRemove({
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (containsGoesBy) {
-      final controlPath = path;
-      if (controlPath == null) {
-        form.removeControl(
-          goesByControlName,
-          updateParent: updateParent,
-          emitEvent: emitEvent,
-        );
-      } else {
-        final formGroup = form.control(controlPath);
-
-        if (formGroup is FormGroup) {
-          formGroup.removeControl(
-            goesByControlName,
-            updateParent: updateParent,
-            emitEvent: emitEvent,
-          );
-        }
-      }
-    }
-  }
-
-  void idValueUpdate(
-    int? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    idControl?.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void userIdValueUpdate(
-    int? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    userIdControl?.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void uuidValueUpdate(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    uuidControl?.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void titleValueUpdate(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    titleControl?.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void logoImageValueUpdate(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    logoImageControl?.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void colorValueUpdate(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    colorControl?.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void profileImageValueUpdate(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    profileImageControl?.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
   }
 
   void prefixValueUpdate(
@@ -1120,138 +2055,39 @@ class DigitalCardForm implements FormModel<DigitalCard> {
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
-  void shortBioValueUpdate(
+  void accreditationsValueUpdate(
     String? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
-    shortBioControl?.updateValue(value,
+    accreditationsControl?.updateValue(value,
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
-  void positionValueUpdate(
+  void preferredNameValueUpdate(
     String? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
-    positionControl?.updateValue(value,
+    preferredNameControl?.updateValue(value,
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
-  void companyValueUpdate(
+  void maidenNameValueUpdate(
     String? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
-    companyControl?.updateValue(value,
+    maidenNameControl?.updateValue(value,
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
-  void emailValueUpdate(
+  void pronounsValueUpdate(
     String? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
-    emailControl?.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void addressValueUpdate(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    addressControl?.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void mobileNumberValueUpdate(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    mobileNumberControl?.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void websiteValueUpdate(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    websiteControl?.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void goesByValueUpdate(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    goesByControl?.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void idValuePatch(
-    int? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    idControl?.patchValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void userIdValuePatch(
-    int? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    userIdControl?.patchValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void uuidValuePatch(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    uuidControl?.patchValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void titleValuePatch(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    titleControl?.patchValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void logoImageValuePatch(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    logoImageControl?.patchValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void colorValuePatch(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    colorControl?.patchValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void profileImageValuePatch(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    profileImageControl?.patchValue(value,
+    pronounsControl?.updateValue(value,
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
@@ -1300,141 +2136,42 @@ class DigitalCardForm implements FormModel<DigitalCard> {
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
-  void shortBioValuePatch(
+  void accreditationsValuePatch(
     String? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
-    shortBioControl?.patchValue(value,
+    accreditationsControl?.patchValue(value,
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
-  void positionValuePatch(
+  void preferredNameValuePatch(
     String? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
-    positionControl?.patchValue(value,
+    preferredNameControl?.patchValue(value,
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
-  void companyValuePatch(
+  void maidenNameValuePatch(
     String? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
-    companyControl?.patchValue(value,
+    maidenNameControl?.patchValue(value,
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
-  void emailValuePatch(
+  void pronounsValuePatch(
     String? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
-    emailControl?.patchValue(value,
+    pronounsControl?.patchValue(value,
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
-  void addressValuePatch(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    addressControl?.patchValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void mobileNumberValuePatch(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    mobileNumberControl?.patchValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void websiteValuePatch(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    websiteControl?.patchValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void goesByValuePatch(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    goesByControl?.patchValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void idValueReset(
-    int? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      idControl?.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void userIdValueReset(
-    int? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      userIdControl?.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void uuidValueReset(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      uuidControl?.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void titleValueReset(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      titleControl?.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void logoImageValueReset(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      logoImageControl?.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void colorValueReset(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      colorControl?.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void profileImageValueReset(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      profileImageControl?.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
   void prefixValueReset(
     String? value, {
     bool updateParent = true,
@@ -1480,98 +2217,42 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       suffixControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void shortBioValueReset(
+  void accreditationsValueReset(
     String? value, {
     bool updateParent = true,
     bool emitEvent = true,
     bool removeFocus = false,
     bool? disabled,
   }) =>
-      shortBioControl?.reset(
+      accreditationsControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void positionValueReset(
+  void preferredNameValueReset(
     String? value, {
     bool updateParent = true,
     bool emitEvent = true,
     bool removeFocus = false,
     bool? disabled,
   }) =>
-      positionControl?.reset(
+      preferredNameControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void companyValueReset(
+  void maidenNameValueReset(
     String? value, {
     bool updateParent = true,
     bool emitEvent = true,
     bool removeFocus = false,
     bool? disabled,
   }) =>
-      companyControl?.reset(
+      maidenNameControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void emailValueReset(
+  void pronounsValueReset(
     String? value, {
     bool updateParent = true,
     bool emitEvent = true,
     bool removeFocus = false,
     bool? disabled,
   }) =>
-      emailControl?.reset(
+      pronounsControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void addressValueReset(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      addressControl?.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void mobileNumberValueReset(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      mobileNumberControl?.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void websiteValueReset(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      websiteControl?.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void goesByValueReset(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      goesByControl?.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
-  FormControl<int>? get idControl =>
-      containsId ? form.control(idControlPath()) as FormControl<int>? : null;
-  FormControl<int>? get userIdControl => containsUserId
-      ? form.control(userIdControlPath()) as FormControl<int>?
-      : null;
-  FormControl<String>? get uuidControl => containsUuid
-      ? form.control(uuidControlPath()) as FormControl<String>?
-      : null;
-  FormControl<String>? get titleControl => containsTitle
-      ? form.control(titleControlPath()) as FormControl<String>?
-      : null;
-  FormControl<String>? get logoImageControl => containsLogoImage
-      ? form.control(logoImageControlPath()) as FormControl<String>?
-      : null;
-  FormControl<String>? get colorControl => containsColor
-      ? form.control(colorControlPath()) as FormControl<String>?
-      : null;
-  FormControl<String>? get profileImageControl => containsProfileImage
-      ? form.control(profileImageControlPath()) as FormControl<String>?
-      : null;
   FormControl<String>? get prefixControl => containsPrefix
       ? form.control(prefixControlPath()) as FormControl<String>?
       : null;
@@ -1587,156 +2268,18 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   FormControl<String>? get suffixControl => containsSuffix
       ? form.control(suffixControlPath()) as FormControl<String>?
       : null;
-  FormControl<String>? get shortBioControl => containsShortBio
-      ? form.control(shortBioControlPath()) as FormControl<String>?
+  FormControl<String>? get accreditationsControl => containsAccreditations
+      ? form.control(accreditationsControlPath()) as FormControl<String>?
       : null;
-  FormControl<String>? get positionControl => containsPosition
-      ? form.control(positionControlPath()) as FormControl<String>?
+  FormControl<String>? get preferredNameControl => containsPreferredName
+      ? form.control(preferredNameControlPath()) as FormControl<String>?
       : null;
-  FormControl<String>? get companyControl => containsCompany
-      ? form.control(companyControlPath()) as FormControl<String>?
+  FormControl<String>? get maidenNameControl => containsMaidenName
+      ? form.control(maidenNameControlPath()) as FormControl<String>?
       : null;
-  FormControl<String>? get emailControl => containsEmail
-      ? form.control(emailControlPath()) as FormControl<String>?
+  FormControl<String>? get pronounsControl => containsPronouns
+      ? form.control(pronounsControlPath()) as FormControl<String>?
       : null;
-  FormControl<String>? get addressControl => containsAddress
-      ? form.control(addressControlPath()) as FormControl<String>?
-      : null;
-  FormControl<String>? get mobileNumberControl => containsMobileNumber
-      ? form.control(mobileNumberControlPath()) as FormControl<String>?
-      : null;
-  FormControl<String>? get websiteControl => containsWebsite
-      ? form.control(websiteControlPath()) as FormControl<String>?
-      : null;
-  FormControl<String>? get goesByControl => containsGoesBy
-      ? form.control(goesByControlPath()) as FormControl<String>?
-      : null;
-  void idSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      idControl?.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      idControl?.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  void userIdSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      userIdControl?.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      userIdControl?.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  void uuidSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      uuidControl?.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      uuidControl?.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  void titleSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      titleControl?.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      titleControl?.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  void logoImageSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      logoImageControl?.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      logoImageControl?.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  void colorSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      colorControl?.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      colorControl?.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  void profileImageSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      profileImageControl?.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      profileImageControl?.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
   void prefixSetDisabled(
     bool disabled, {
     bool updateParent = true,
@@ -1827,144 +2370,72 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     }
   }
 
-  void shortBioSetDisabled(
+  void accreditationsSetDisabled(
     bool disabled, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
     if (disabled) {
-      shortBioControl?.markAsDisabled(
+      accreditationsControl?.markAsDisabled(
         updateParent: updateParent,
         emitEvent: emitEvent,
       );
     } else {
-      shortBioControl?.markAsEnabled(
+      accreditationsControl?.markAsEnabled(
         updateParent: updateParent,
         emitEvent: emitEvent,
       );
     }
   }
 
-  void positionSetDisabled(
+  void preferredNameSetDisabled(
     bool disabled, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
     if (disabled) {
-      positionControl?.markAsDisabled(
+      preferredNameControl?.markAsDisabled(
         updateParent: updateParent,
         emitEvent: emitEvent,
       );
     } else {
-      positionControl?.markAsEnabled(
+      preferredNameControl?.markAsEnabled(
         updateParent: updateParent,
         emitEvent: emitEvent,
       );
     }
   }
 
-  void companySetDisabled(
+  void maidenNameSetDisabled(
     bool disabled, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
     if (disabled) {
-      companyControl?.markAsDisabled(
+      maidenNameControl?.markAsDisabled(
         updateParent: updateParent,
         emitEvent: emitEvent,
       );
     } else {
-      companyControl?.markAsEnabled(
+      maidenNameControl?.markAsEnabled(
         updateParent: updateParent,
         emitEvent: emitEvent,
       );
     }
   }
 
-  void emailSetDisabled(
+  void pronounsSetDisabled(
     bool disabled, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
     if (disabled) {
-      emailControl?.markAsDisabled(
+      pronounsControl?.markAsDisabled(
         updateParent: updateParent,
         emitEvent: emitEvent,
       );
     } else {
-      emailControl?.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  void addressSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      addressControl?.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      addressControl?.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  void mobileNumberSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      mobileNumberControl?.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      mobileNumberControl?.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  void websiteSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      websiteControl?.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      websiteControl?.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  void goesBySetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      goesByControl?.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      goesByControl?.markAsEnabled(
+      pronounsControl?.markAsEnabled(
         updateParent: updateParent,
         emitEvent: emitEvent,
       );
@@ -1972,210 +2443,450 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }
 
   @override
-  DigitalCard get model {
+  FullName get model {
     if (!form.valid) {
       debugPrint(
         'Prefer not to call `model` on non-valid form it could cause unexpected exceptions in case you created a non-nullable field in model and expect it to be guarded by some kind of `required` validator.',
       );
     }
-    return DigitalCard(
-        id: _idValue,
-        userId: _userIdValue,
-        uuid: _uuidValue,
-        title: _titleValue,
-        logoImage: _logoImageValue,
-        color: _colorValue,
-        profileImage: _profileImageValue,
+    return FullName(
         prefix: _prefixValue,
         firstName: _firstNameValue,
         middleName: _middleNameValue,
         lastName: _lastNameValue,
         suffix: _suffixValue,
-        shortBio: _shortBioValue,
-        position: _positionValue,
-        company: _companyValue,
-        email: _emailValue,
-        address: _addressValue,
-        mobileNumber: _mobileNumberValue,
-        website: _websiteValue,
-        goesBy: _goesByValue,
-        createdAt: digitalCard?.createdAt,
-        updatedAt: digitalCard?.updatedAt);
+        accreditations: _accreditationsValue,
+        preferredName: _preferredNameValue,
+        maidenName: _maidenNameValue,
+        pronouns: _pronounsValue);
   }
 
-  DigitalCardForm copyWithPath(String? path) {
-    return DigitalCardForm(digitalCard, form, path);
+  FullNameForm copyWithPath(String? path) {
+    return FullNameForm(fullName, form, path);
   }
 
   @override
   void updateValue(
-    DigitalCard value, {
+    FullName? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) =>
-      form.updateValue(
-          DigitalCardForm(value, FormGroup({}), null).formElements().rawValue,
-          updateParent: updateParent,
-          emitEvent: emitEvent);
-  @override
-  void resetValue(
-    DigitalCard value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) =>
-      form.reset(
-          value: DigitalCardForm(value, FormGroup({}), null)
-              .formElements()
-              .rawValue,
-          updateParent: updateParent,
-          emitEvent: emitEvent);
+      form.updateValue(FullNameForm.formElements(value).rawValue,
+          updateParent: updateParent, emitEvent: emitEvent);
   @override
   void reset({
+    FullName? value,
     bool updateParent = true,
     bool emitEvent = true,
   }) =>
       form.reset(
-          value: formElements().rawValue,
+          value: value != null ? formElements(value).rawValue : null,
           updateParent: updateParent,
           emitEvent: emitEvent);
   String pathBuilder(String? pathItem) =>
       [path, pathItem].whereType<String>().join(".");
-  FormGroup formElements() => FormGroup({
-        idControlName: FormControl<int>(
-            value: digitalCard?.id,
-            validators: [],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false,
-            touched: false),
-        userIdControlName: FormControl<int>(
-            value: digitalCard?.userId,
-            validators: [],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false,
-            touched: false),
-        uuidControlName: FormControl<String>(
-            value: digitalCard?.uuid,
-            validators: [],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false,
-            touched: false),
-        titleControlName: FormControl<String>(
-            value: digitalCard?.title,
-            validators: [],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false,
-            touched: false),
-        logoImageControlName: FormControl<String>(
-            value: digitalCard?.logoImage,
-            validators: [],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false,
-            touched: false),
-        colorControlName: FormControl<String>(
-            value: digitalCard?.color,
-            validators: [],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false,
-            touched: false),
-        profileImageControlName: FormControl<String>(
-            value: digitalCard?.profileImage,
-            validators: [],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false,
-            touched: false),
+  static FormGroup formElements(FullName? fullName) => FormGroup({
         prefixControlName: FormControl<String>(
-            value: digitalCard?.prefix,
+            value: fullName?.prefix,
             validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
             disabled: false,
             touched: false),
         firstNameControlName: FormControl<String>(
-            value: digitalCard?.firstName,
+            value: fullName?.firstName,
             validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
             disabled: false,
             touched: false),
         middleNameControlName: FormControl<String>(
-            value: digitalCard?.middleName,
+            value: fullName?.middleName,
             validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
             disabled: false,
             touched: false),
         lastNameControlName: FormControl<String>(
-            value: digitalCard?.lastName,
+            value: fullName?.lastName,
             validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
             disabled: false,
             touched: false),
         suffixControlName: FormControl<String>(
-            value: digitalCard?.suffix,
+            value: fullName?.suffix,
             validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
             disabled: false,
             touched: false),
-        shortBioControlName: FormControl<String>(
-            value: digitalCard?.shortBio,
+        accreditationsControlName: FormControl<String>(
+            value: fullName?.accreditations,
             validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
             disabled: false,
             touched: false),
-        positionControlName: FormControl<String>(
-            value: digitalCard?.position,
+        preferredNameControlName: FormControl<String>(
+            value: fullName?.preferredName,
             validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
             disabled: false,
             touched: false),
-        companyControlName: FormControl<String>(
-            value: digitalCard?.company,
+        maidenNameControlName: FormControl<String>(
+            value: fullName?.maidenName,
             validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
             disabled: false,
             touched: false),
-        emailControlName: FormControl<String>(
-            value: digitalCard?.email,
+        pronounsControlName: FormControl<String>(
+            value: fullName?.pronouns,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false)
+      },
+          validators: [],
+          asyncValidators: [],
+          asyncValidatorsDebounceTime: 250,
+          disabled: false);
+}
+
+class CustomLinkForm implements FormModel<CustomLink> {
+  CustomLinkForm(
+    this.customLink,
+    this.form,
+    this.path,
+  ) {}
+
+  static String textControlName = "text";
+
+  static String labelControlName = "label";
+
+  static String typeControlName = "type";
+
+  final CustomLink? customLink;
+
+  final FormGroup form;
+
+  final String? path;
+
+  String textControlPath() => pathBuilder(textControlName);
+  String labelControlPath() => pathBuilder(labelControlName);
+  String typeControlPath() => pathBuilder(typeControlName);
+  String? get _textValue => textControl?.value;
+  String? get _labelValue => labelControl?.value;
+  String? get _typeValue => typeControl?.value;
+  bool get containsText {
+    try {
+      form.control(textControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool get containsLabel {
+    try {
+      form.control(labelControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool get containsType {
+    try {
+      form.control(typeControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Object? get textErrors => textControl?.errors;
+  Object? get labelErrors => labelControl?.errors;
+  Object? get typeErrors => typeControl?.errors;
+  void get textFocus => form.focus(textControlPath());
+  void get labelFocus => form.focus(labelControlPath());
+  void get typeFocus => form.focus(typeControlPath());
+  void textRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsText) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          textControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            textControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
+  void labelRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsLabel) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          labelControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            labelControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
+  void typeRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsType) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          typeControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            typeControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
+  void textValueUpdate(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    textControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void labelValueUpdate(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    labelControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void typeValueUpdate(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    typeControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void textValuePatch(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    textControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void labelValuePatch(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    labelControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void typeValuePatch(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    typeControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void textValueReset(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      textControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void labelValueReset(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      labelControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void typeValueReset(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      typeControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  FormControl<String>? get textControl => containsText
+      ? form.control(textControlPath()) as FormControl<String>?
+      : null;
+  FormControl<String>? get labelControl => containsLabel
+      ? form.control(labelControlPath()) as FormControl<String>?
+      : null;
+  FormControl<String>? get typeControl => containsType
+      ? form.control(typeControlPath()) as FormControl<String>?
+      : null;
+  void textSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      textControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      textControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void labelSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      labelControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      labelControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void typeSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      typeControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      typeControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  @override
+  CustomLink get model {
+    if (!form.valid) {
+      debugPrint(
+        'Prefer not to call `model` on non-valid form it could cause unexpected exceptions in case you created a non-nullable field in model and expect it to be guarded by some kind of `required` validator.',
+      );
+    }
+    return CustomLink(text: _textValue, label: _labelValue, type: _typeValue);
+  }
+
+  CustomLinkForm copyWithPath(String? path) {
+    return CustomLinkForm(customLink, form, path);
+  }
+
+  @override
+  void updateValue(
+    CustomLink value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) =>
+      form.updateValue(CustomLinkForm.formElements(value).rawValue,
+          updateParent: updateParent, emitEvent: emitEvent);
+  @override
+  void reset({
+    CustomLink? value,
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) =>
+      form.reset(
+          value: value != null ? formElements(value).rawValue : null,
+          updateParent: updateParent,
+          emitEvent: emitEvent);
+  String pathBuilder(String? pathItem) =>
+      [path, pathItem].whereType<String>().join(".");
+  static FormGroup formElements(CustomLink? customLink) => FormGroup({
+        textControlName: FormControl<String>(
+            value: customLink?.text,
             validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
             disabled: false,
             touched: false),
-        addressControlName: FormControl<String>(
-            value: digitalCard?.address,
+        labelControlName: FormControl<String>(
+            value: customLink?.label,
             validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
             disabled: false,
             touched: false),
-        mobileNumberControlName: FormControl<String>(
-            value: digitalCard?.mobileNumber,
-            validators: [],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false,
-            touched: false),
-        websiteControlName: FormControl<String>(
-            value: digitalCard?.website,
-            validators: [],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false,
-            touched: false),
-        goesByControlName: FormControl<String>(
-            value: digitalCard?.goesBy,
+        typeControlName: FormControl<String>(
+            value: customLink?.type,
             validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
