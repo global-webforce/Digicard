@@ -53,9 +53,9 @@ class InitialView extends StatelessWidget {
                   onSurface: Colors.white,
                   onBackground: Colors.white,
                   onError: Colors.white,
-                  brightness: Brightness.light,
+                  brightness: Brightness.dark,
                 ),
-                brightness: Brightness.light,
+                brightness: Brightness.dark,
                 elevatedButtonTheme: ElevatedButtonThemeData(
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,

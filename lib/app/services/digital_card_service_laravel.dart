@@ -32,7 +32,7 @@ class DigitalCardServiceLaravel
 
   @override
   Future create(DigitalCard card) async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
     digitalCards.add(
       card.copyWith(
         id: fkr.random.integer(999, min: 500),
@@ -55,7 +55,7 @@ class DigitalCardServiceLaravel
 
   @override
   Future update(DigitalCard card) async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
 
     try {
       final item = digitalCards.firstWhere((element) => element.id == card.id);
@@ -72,7 +72,6 @@ class DigitalCardServiceLaravel
       rethrow;
     }
 
-    notifyListeners();
     /*    await _apiService.post(
       ApiEndpoints.instance.addService(),
       requestBody: card.toJson(),
@@ -85,7 +84,7 @@ class DigitalCardServiceLaravel
 
   @override
   Future delete(DigitalCard card) async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
     digitalCards.removeWhere((e) => e.id == card.id);
     notifyListeners();
     /*  await _apiService.delete(
@@ -103,7 +102,7 @@ class DigitalCardServiceLaravel
       ApiEndpoints.instance.notifications(),
       onSuccess: (res) async {
         _digitalCards.value = List.generate(
-            6,
+            40,
             (index) => DigitalCard(
                   id: index,
                   uuid: uuid.v5(Uuid.NAMESPACE_URL, 'www.digicard.com'),
@@ -117,16 +116,19 @@ class DigitalCardServiceLaravel
                   ]),
                   logoImage: fkr.faker.randomGenerator.element([
                     "https://globalwebforce.com/wp-content/uploads/2021/06/cropped-nav-logo.png",
-                    "https://brandslogos.com/wp-content/uploads/thumbs/famous-amos-logo-vector.svg",
-                    "https://99designs-blog.imgix.net/blog/wp-content/uploads/2022/05/Shell_logo.svg-e1659037248878.png?auto=format&q=60&fit=max&w=930"
-                        "https://global-uploads.webflow.com/5e157548d6f7910beea4e2d6/611e17ec949adb702e521eb5_4Em9cry00PqgpP_mCCrgJ_OmdqSMCzQVgEYtfvDrfM3eBL3zBMvBZ4TxXHUVdgXWiwySmgYSFXmKx86BS10Yk2fVQhKTFOXTYlxKPsII1HBYjkvQ3d14PFsOfFbk51boJMEI6Ns7.png"
+                    "https://ezyworkforceandeducationpartners.com/wp-content/uploads/2023/02/ewep-svg-logo-original-with-tagline.png",
+                    "https://upload.wikimedia.org/wikipedia/commons/c/c7/Ford-Motor-Company-Logo.png",
+                    "https://upload.wikimedia.org/wikipedia/commons/4/4b/DiscoverCarscom-company-logo.png"
+                        "https://upload.wikimedia.org/wikipedia/en/a/a9/Philam_Life_logo.png",
+                    "https://upload.wikimedia.org/wikipedia/commons/a/a0/CC_United_Co_Logo.png",
                   ]),
                   profileImage: /* fkr.random.element([
                     "https://i.ibb.co/ZGvP38P/profile-1.png",
                   ]) */
                       fkr.faker.image.image(
                           random: true,
-                          width: 700,
+                          width: 400,
+                          height: 400,
                           keywords: ["face", "portrait"]),
                   fullname: FullName(
                     prefix: fkr.faker.person.prefix(),
@@ -147,22 +149,22 @@ class DigitalCardServiceLaravel
                     CustomLink(
                       label: "Email",
                       text: fkr.faker.internet.safeEmail(),
-                      type: 'email',
+                      type: 'Email',
                     ),
                     CustomLink(
                       label: "Address",
                       text: fkr.faker.address.streetAddress(),
-                      type: 'address',
+                      type: 'Address',
                     ),
                     CustomLink(
                       label: "Phone Number",
                       text: fkr.faker.phoneNumber.us(),
-                      type: 'phone_number',
+                      type: 'Phone Number',
                     ),
                     CustomLink(
                       label: "Website",
                       text: fkr.faker.internet.httpUrl(),
-                      type: 'website',
+                      type: 'Website',
                     )
                   ],
                   color: fkr.random
@@ -177,10 +179,6 @@ class DigitalCardServiceLaravel
 
   @override
   List<DigitalCard> get digitalCards {
-    _digitalCards.value.sort((a, b) {
-      return b.createdAt!
-          .compareTo(a.createdAt ?? DateTime.fromMicrosecondsSinceEpoch(0));
-    });
     return _digitalCards.value;
   }
 
@@ -193,6 +191,7 @@ class DigitalCardServiceLaravel
           digitalCard.copyWith(
             id: DateTime.now().millisecondsSinceEpoch,
           ));
+      notifyListeners();
     } catch (e) {
       rethrow;
     }

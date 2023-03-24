@@ -2563,6 +2563,8 @@ class CustomLinkForm implements FormModel<CustomLink> {
     this.path,
   ) {}
 
+  static String idControlName = "id";
+
   static String textControlName = "text";
 
   static String labelControlName = "label";
@@ -2575,12 +2577,23 @@ class CustomLinkForm implements FormModel<CustomLink> {
 
   final String? path;
 
+  String idControlPath() => pathBuilder(idControlName);
   String textControlPath() => pathBuilder(textControlName);
   String labelControlPath() => pathBuilder(labelControlName);
   String typeControlPath() => pathBuilder(typeControlName);
+  int? get _idValue => idControl?.value;
   String? get _textValue => textControl?.value;
   String? get _labelValue => labelControl?.value;
   String? get _typeValue => typeControl?.value;
+  bool get containsId {
+    try {
+      form.control(idControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   bool get containsText {
     try {
       form.control(textControlPath());
@@ -2608,12 +2621,40 @@ class CustomLinkForm implements FormModel<CustomLink> {
     }
   }
 
+  Object? get idErrors => idControl?.errors;
   Object? get textErrors => textControl?.errors;
   Object? get labelErrors => labelControl?.errors;
   Object? get typeErrors => typeControl?.errors;
+  void get idFocus => form.focus(idControlPath());
   void get textFocus => form.focus(textControlPath());
   void get labelFocus => form.focus(labelControlPath());
   void get typeFocus => form.focus(typeControlPath());
+  void idRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsId) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          idControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            idControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
   void textRemove({
     bool updateParent = true,
     bool emitEvent = true,
@@ -2692,6 +2733,15 @@ class CustomLinkForm implements FormModel<CustomLink> {
     }
   }
 
+  void idValueUpdate(
+    int? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    idControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
   void textValueUpdate(
     String? value, {
     bool updateParent = true,
@@ -2716,6 +2766,15 @@ class CustomLinkForm implements FormModel<CustomLink> {
     bool emitEvent = true,
   }) {
     typeControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void idValuePatch(
+    int? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    idControl?.patchValue(value,
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
@@ -2746,6 +2805,15 @@ class CustomLinkForm implements FormModel<CustomLink> {
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
+  void idValueReset(
+    int? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      idControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
   void textValueReset(
     String? value, {
     bool updateParent = true,
@@ -2773,6 +2841,8 @@ class CustomLinkForm implements FormModel<CustomLink> {
   }) =>
       typeControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+  FormControl<int>? get idControl =>
+      containsId ? form.control(idControlPath()) as FormControl<int>? : null;
   FormControl<String>? get textControl => containsText
       ? form.control(textControlPath()) as FormControl<String>?
       : null;
@@ -2782,6 +2852,24 @@ class CustomLinkForm implements FormModel<CustomLink> {
   FormControl<String>? get typeControl => containsType
       ? form.control(typeControlPath()) as FormControl<String>?
       : null;
+  void idSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      idControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      idControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
   void textSetDisabled(
     bool disabled, {
     bool updateParent = true,
@@ -2843,7 +2931,8 @@ class CustomLinkForm implements FormModel<CustomLink> {
         'Prefer not to call `model` on non-valid form it could cause unexpected exceptions in case you created a non-nullable field in model and expect it to be guarded by some kind of `required` validator.',
       );
     }
-    return CustomLink(text: _textValue, label: _labelValue, type: _typeValue);
+    return CustomLink(
+        id: _idValue, text: _textValue, label: _labelValue, type: _typeValue);
   }
 
   CustomLinkForm copyWithPath(String? path) {
@@ -2871,9 +2960,16 @@ class CustomLinkForm implements FormModel<CustomLink> {
   String pathBuilder(String? pathItem) =>
       [path, pathItem].whereType<String>().join(".");
   static FormGroup formElements(CustomLink? customLink) => FormGroup({
+        idControlName: FormControl<int>(
+            value: customLink?.id,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
         textControlName: FormControl<String>(
             value: customLink?.text,
-            validators: [],
+            validators: [requiredValidator],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
             disabled: false,

@@ -3,17 +3,18 @@ import 'package:flutter/material.dart';
 
 class CustomOverlay extends StatelessWidget {
   final String title;
-  const CustomOverlay({super.key, required this.title});
+  final Color? color;
+  const CustomOverlay({super.key, required this.title, this.color});
 
   @override
   Widget build(BuildContext context) => Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: CircularProgressIndicator(
-                color: kcPrimaryColor,
+                color: color ?? kcPrimaryColor,
               ),
             ),
             const SizedBox(height: 12),
@@ -27,12 +28,14 @@ class CustomOverlay extends StatelessWidget {
 }
 
 class DoneOverlay extends StatelessWidget {
+  final Color? color;
   final BuildContext ctx;
   final String title;
   const DoneOverlay(
     this.ctx, {
     super.key,
     required this.title,
+    this.color,
   });
 
   @override
@@ -43,7 +46,9 @@ class DoneOverlay extends StatelessWidget {
             Card(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15)),
-              color: kcPrimaryColor.withOpacity(0.8),
+              color: color != null
+                  ? color?.withOpacity(0.8)
+                  : kcPrimaryColor.withOpacity(0.8),
               child: Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 20.0, vertical: 10),

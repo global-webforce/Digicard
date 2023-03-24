@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-class Collapsible extends StatefulWidget {
+class CollapsibleField extends StatefulWidget {
   final String? value;
   final Widget body;
   final Function(bool expanded) onToggle;
-  const Collapsible(
+  const CollapsibleField(
       {Key? key, required this.body, this.value, required this.onToggle})
       : super(key: key);
 
   @override
-  State<Collapsible> createState() => _CollapsibleState();
+  State<CollapsibleField> createState() => _CollapsibleFieldState();
 }
 
-class _CollapsibleState extends State<Collapsible> {
+class _CollapsibleFieldState extends State<CollapsibleField> {
   double animatedHeight = 0;
   bool expanded = false;
 
@@ -28,7 +28,7 @@ class _CollapsibleState extends State<Collapsible> {
                   onTap: () {
                     setState(() {
                       expanded = !expanded;
-                      expanded ? animatedHeight = 560.0 : animatedHeight = 0.0;
+                      expanded ? animatedHeight = 550.0 : animatedHeight = 0.0;
                       widget.onToggle(expanded);
                     });
                   },
@@ -44,15 +44,23 @@ class _CollapsibleState extends State<Collapsible> {
                       enabledBorder: const UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey),
                       ),
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      floatingLabelBehavior: FloatingLabelBehavior.auto,
+                      suffixIconConstraints:
+                          const BoxConstraints(minWidth: 0, minHeight: 0),
                       suffixIcon: expanded
-                          ? const Icon(
-                              Icons.arrow_drop_down_rounded,
-                              size: 28,
+                          ? const Padding(
+                              padding: EdgeInsets.fromLTRB(15, 14, 8, 0),
+                              child: Icon(
+                                Icons.arrow_drop_down_rounded,
+                                size: 28,
+                              ),
                             )
-                          : const Icon(
-                              Icons.arrow_drop_up_rounded,
-                              size: 28,
+                          : const Padding(
+                              padding: EdgeInsets.fromLTRB(15, 14, 8, 0),
+                              child: Icon(
+                                Icons.arrow_drop_up_rounded,
+                                size: 28,
+                              ),
                             )))),
         ),
         AnimatedSize(
@@ -64,7 +72,12 @@ class _CollapsibleState extends State<Collapsible> {
               ? const SizedBox(
                   width: double.infinity,
                 )
-              : SizedBox(height: animatedHeight, child: widget.body),
+              : Column(
+                  children: [
+                    const SizedBox(height: 5),
+                    SizedBox(height: animatedHeight, child: widget.body),
+                  ],
+                ),
         ),
       ],
     );

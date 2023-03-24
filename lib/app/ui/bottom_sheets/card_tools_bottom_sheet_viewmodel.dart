@@ -106,17 +106,13 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
   }
 
   duplicate(DigitalCard digitalCard) async {
-    setBusyForObject(duplicateBusyKey, true);
-    _digitalCardsService
-        .duplicate(digitalCard.copyWith(title: "${digitalCard.title} Copy"));
-
+    /* setBusyForObject(duplicateBusyKey, true);
     await Future.delayed(const Duration(seconds: 1));
-
-    setBusyForObject(duplicateBusyKey, false);
+    setBusyForObject(duplicateBusyKey, false); */
     _bottomSheetService.completeSheet(SheetResponse());
     _navigationService.navigateToView(CardOpenView(
-      actionType: ActionType.edit,
-      card: card.copyWith(title: "${digitalCard.title} Copy"),
+      actionType: ActionType.duplicate,
+      card: digitalCard.copyWith(title: "${digitalCard.title} Copy"),
     ));
   }
 
@@ -126,6 +122,7 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
 
   Future<void> share() async {
     setBusyForObject(shareBusyKey, true);
+
     await screenshotControllerShare
         .capture(
       pixelRatio: 10,
@@ -284,10 +281,6 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
       await file.writeAsBytes(pngBytes);
       XFile filex = XFile(file.path);
       Share.shareXFiles([filex]);
-
-      print("CAPTURED");
-    } catch (e) {
-      print(e.toString());
-    }
+    } catch (e) {}
   }
 }

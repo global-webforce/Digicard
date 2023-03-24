@@ -19,7 +19,7 @@ class ImagePickerBottomSheetViewModel extends ReactiveViewModel {
   pickFromGallery() async {
     image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
-      await cropImage(image);
+      //await cropImage(image);
     }
 
     _bottomSheetService.completeSheet(

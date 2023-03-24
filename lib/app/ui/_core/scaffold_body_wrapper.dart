@@ -12,6 +12,7 @@ class ScaffoldBodyWrapper extends StatelessWidget {
   final bool isFullWidth;
   final bool neverScroll;
   final bool disableScrollView;
+  final EdgeInsets padding;
   const ScaffoldBodyWrapper({
     Key? key,
     this.onRefresh,
@@ -26,6 +27,7 @@ class ScaffoldBodyWrapper extends StatelessWidget {
     this.isFullWidth = false,
     this.neverScroll = false,
     this.disableScrollView = false,
+    this.padding = const EdgeInsets.all(15),
   }) : super(key: key);
 
   @override
@@ -57,7 +59,7 @@ class ScaffoldBodyWrapper extends StatelessWidget {
                     ? const NeverScrollableScrollPhysics()
                     : const AlwaysScrollableScrollPhysics(),
                 padding: isFullWidth
-                    ? const EdgeInsets.all(15)
+                    ? padding
                     : Dimens.sliverPadding1000(constraints),
                 child: builder(context, constraints));
       }

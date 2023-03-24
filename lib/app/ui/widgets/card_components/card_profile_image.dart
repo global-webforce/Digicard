@@ -9,7 +9,6 @@ class CardProfileImage extends StatelessWidget {
   final Color color;
   final String? image;
   final bool showOnError;
-  final String? heroTag;
   final Function()? onTap;
 
   const CardProfileImage({
@@ -18,7 +17,6 @@ class CardProfileImage extends StatelessWidget {
     required this.color,
     this.onTap,
     this.showOnError = true,
-    this.heroTag,
   }) : super(key: key);
 
   @override
@@ -32,24 +30,29 @@ class CardProfileImage extends StatelessWidget {
                   onTap!();
                 }
               : null,
-          child: AspectRatio(
-            aspectRatio: 1 / 1,
-            child: Ink(
-              decoration: BoxDecoration(
-                color: color,
-                image: DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.cover,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height,
+              minWidth: MediaQuery.of(context).size.width,
+            ),
+            child: AspectRatio(
+              aspectRatio: 1 / 1,
+              child: Ink(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(40),
+                  color: color,
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              child: ClipRRect(
-                // make sure we apply clip it properly
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                  child: Hero(
-                    tag: "$heroTag",
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(40),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
                     child: Container(
                       decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(40),
                         image: DecorationImage(
                           image: imageProvider,
                           fit: BoxFit.contain,
@@ -63,7 +66,7 @@ class CardProfileImage extends StatelessWidget {
           ),
         );
       },
-/*       placeholder: (context, url) {
+      /*       placeholder: (context, url) {
         return Container(
           width: double.infinity,
           height: 320,
@@ -73,7 +76,7 @@ class CardProfileImage extends StatelessWidget {
       errorWidget: (context, url, error) {
         if (showOnError == false) {
           return Container(
-            height: 0,
+            height: 100,
             decoration: BoxDecoration(
               color: color,
             ),

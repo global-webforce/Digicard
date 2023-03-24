@@ -1,5 +1,4 @@
 import 'package:digicard/app/constants/keys.dart';
-import 'package:digicard/app/extensions/color.dart';
 import 'package:digicard/app/ui/_shared/app_colors.dart';
 import 'package:digicard/app/ui/widgets/app_icon.dart';
 import 'package:digicard/app/views/_core/dashboard/dashboard_viewmodel.dart';
@@ -23,7 +22,7 @@ class DashboardView extends StatelessWidget {
 
   Widget divider() {
     return VerticalDivider(
-        width: 2, thickness: 2, color: HexColor.fromHex("#332D28"));
+        width: 2, thickness: 2, color: Colors.grey.withOpacity(0.1));
   }
 
   @override

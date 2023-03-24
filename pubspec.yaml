@@ -68,10 +68,12 @@ dependencies:
   url_launcher: ^6.1.2
   uuid: ^3.0.7
   faker: ^2.0.0
-#  vcard:
-#    git: https://github.com/markbulingit/vcard
+  collection: ^1.17.0
+  azlistview:
+    git: https://github.com/flutterchina/azlistview.git
 #UI
   font_awesome_flutter: ^10.3.0
+  alphabet_scroll_view: ^0.3.2
   
   #dotted_border: ^2.0.0+2
 #  flutter_form_builder: ^7.8.0

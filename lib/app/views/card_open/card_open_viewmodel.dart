@@ -5,6 +5,7 @@ import 'package:digicard/app/extensions/color.dart';
 import 'package:digicard/app/models/custom_link.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
+import 'package:digicard/app/views/custom_link/custom_link_view.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stacked/stacked.dart';
@@ -15,10 +16,12 @@ enum ActionType {
   view,
   create,
   edit,
+  duplicate,
   test,
 }
 
 const String saveBusyKey = 'save-busy-key';
+const String doneBusyKey = 'doneBusyKey';
 
 class CardOpenViewModel extends ReactiveViewModel {
   final log = getLogger('CardOpenViewModel');
@@ -30,6 +33,7 @@ class CardOpenViewModel extends ReactiveViewModel {
   @override
   List<ListenableServiceMixin> get listenableServices => [_digitalCardsService];
 
+  bool editorMode = false;
   late ActionType actionType;
   late DigitalCard model;
   late DigitalCardForm _formModel;
@@ -38,6 +42,9 @@ class CardOpenViewModel extends ReactiveViewModel {
   void initialize(DigitalCard m, ActionType action) {
     model = m;
     actionType = action;
+    editorMode = actionType == ActionType.duplicate ||
+        actionType == ActionType.create ||
+        actionType == ActionType.edit;
     initForm();
   }
 
@@ -51,12 +58,48 @@ class CardOpenViewModel extends ReactiveViewModel {
       _formModel.form.markAsDisabled();
     }
     _formModel.form.addAll(elements.controls);
-    notifyListeners();
   }
 
-  addNew() {
+  editCustomLink(CustomLink customLink, {int? index}) async {
+    var x = await _navigationService.navigateToView(CustomLinkView(
+      customLink,
+    ));
+    _formModel.customLinksControl.control("$index.id").value = x["id"].text;
+    _formModel.customLinksControl.control("$index.text").value =
+        x["customLink"].text;
+    _formModel.customLinksControl.control("$index.label").value =
+        x["customLink"].label;
+    _formModel.customLinksControl.control("$index.type").value =
+        x["customLink"].type;
+
+    _formModel.form.markAsDirty();
+  }
+
+  addCustomLink(CustomLink customLink) async {
+    formModel.form.unfocus();
+    var x = await _navigationService.navigateToView(CustomLinkView(customLink));
     _formModel.customLinksControl
-        .add(CustomLinkForm.formElements(CustomLink()));
+        .add(CustomLinkForm.formElements(x["customLink"]));
+    _formModel.form.markAsDirty();
+  }
+
+  removeCustomLink(int index) {
+    formModel.form.unfocus();
+    _dialogService
+        .showCustomDialog(
+      variant: DialogType.confirmation,
+      description:
+          "You sure you want to remove this ${_formModel.customLinksControl.control("$index.type").value}?",
+      mainButtonTitle: "Cancel",
+      secondaryButtonTitle: "Remove",
+      barrierDismissible: true,
+    )
+        .then((value) async {
+      if (value!.confirmed) {
+        _formModel.customLinksControl.removeAt(index);
+        _formModel.form.markAsDirty();
+      }
+    });
   }
 
   Future<DialogResponse<dynamic>?> confirmExit() async {
@@ -78,14 +121,20 @@ class CardOpenViewModel extends ReactiveViewModel {
       await _digitalCardsService
           .create(DigitalCard.fromJson(_formModel.form.value));
       _formModel.reset();
-      _formModel.form.markAsPristine(updateParent: true);
-      _navigationService.back();
     } else if (actionType == ActionType.edit) {
       await _digitalCardsService
           .update(DigitalCard.fromJson(_formModel.form.value));
-      _formModel.form.markAsPristine(updateParent: true);
+    } else if (actionType == ActionType.duplicate) {
+      await _digitalCardsService
+          .duplicate(DigitalCard.fromJson(_formModel.form.value));
     }
     setBusyForObject(saveBusyKey, false);
+    setBusyForObject(doneBusyKey, true);
+    await Future.delayed(const Duration(seconds: 1));
+    setBusyForObject(doneBusyKey, false);
+    _formModel.form.markAsPristine(updateParent: true);
+
+    _navigationService.back();
   }
 
   showImagePicker() async {
@@ -124,6 +173,11 @@ class CardOpenViewModel extends ReactiveViewModel {
         _formModel.form.markAsDirty();
       }
     });
+  }
+
+  setColor(Color value) {
+    _formModel.colorControl?.value = value.toHex();
+    _formModel.form.markAsDirty();
   }
 
   showColorPicker(Color value) async {

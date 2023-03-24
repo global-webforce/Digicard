@@ -18,6 +18,8 @@ import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 
+import 'views/custom_link/custom_link_view_model.dart';
+
 @StackedApp(
   logger: StackedLogger(),
   routes: [],
@@ -88,7 +90,9 @@ import 'package:stacked_themes/stacked_themes.dart';
     Singleton(classType: CardToolsBottomSheetViewModel),
     Singleton(classType: CardSendBottomSheetViewModel),
     Singleton(classType: CardOpenViewModel),
+    Singleton(classType: CustomLinkViewModel),
     Singleton(classType: ScanViewModel),
+
     Singleton(classType: ContactsViewModel),
     Singleton(classType: SettingsViewModel),
   ],

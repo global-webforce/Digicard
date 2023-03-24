@@ -31,7 +31,3 @@ class DigitalCard with _$DigitalCard {
   factory DigitalCard.fromJson(Map<String, dynamic> json) =>
       _$DigitalCardFromJson(json);
 }
-
-Map<String, dynamic>? requiredValidator(AbstractControl<dynamic> control) {
-  return Validators.required(control);
-}

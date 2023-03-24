@@ -21,6 +21,8 @@ CustomLink _$CustomLinkFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$CustomLink {
   @FormControlAnnotation()
+  int? get id => throw _privateConstructorUsedError;
+  @FormControlAnnotation(validators: [requiredValidator])
   String? get text => throw _privateConstructorUsedError;
   @FormControlAnnotation()
   String? get label => throw _privateConstructorUsedError;
@@ -40,7 +42,8 @@ abstract class $CustomLinkCopyWith<$Res> {
       _$CustomLinkCopyWithImpl<$Res, CustomLink>;
   @useResult
   $Res call(
-      {@FormControlAnnotation() String? text,
+      {@FormControlAnnotation() int? id,
+      @FormControlAnnotation(validators: [requiredValidator]) String? text,
       @FormControlAnnotation() String? label,
       @FormControlAnnotation() String? type});
 }
@@ -58,11 +61,16 @@ class _$CustomLinkCopyWithImpl<$Res, $Val extends CustomLink>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? text = freezed,
     Object? label = freezed,
     Object? type = freezed,
   }) {
     return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       text: freezed == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -88,7 +96,8 @@ abstract class _$$_CustomLinkCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@FormControlAnnotation() String? text,
+      {@FormControlAnnotation() int? id,
+      @FormControlAnnotation(validators: [requiredValidator]) String? text,
       @FormControlAnnotation() String? label,
       @FormControlAnnotation() String? type});
 }
@@ -104,11 +113,16 @@ class __$$_CustomLinkCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? text = freezed,
     Object? label = freezed,
     Object? type = freezed,
   }) {
     return _then(_$_CustomLink(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       text: freezed == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -129,7 +143,8 @@ class __$$_CustomLinkCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_CustomLink implements _CustomLink {
   _$_CustomLink(
-      {@FormControlAnnotation() this.text,
+      {@FormControlAnnotation() this.id,
+      @FormControlAnnotation(validators: [requiredValidator]) this.text,
       @FormControlAnnotation() this.label,
       @FormControlAnnotation() this.type});
 
@@ -138,6 +153,9 @@ class _$_CustomLink implements _CustomLink {
 
   @override
   @FormControlAnnotation()
+  final int? id;
+  @override
+  @FormControlAnnotation(validators: [requiredValidator])
   final String? text;
   @override
   @FormControlAnnotation()
@@ -148,7 +166,7 @@ class _$_CustomLink implements _CustomLink {
 
   @override
   String toString() {
-    return 'CustomLink(text: $text, label: $label, type: $type)';
+    return 'CustomLink(id: $id, text: $text, label: $label, type: $type)';
   }
 
   @override
@@ -156,6 +174,7 @@ class _$_CustomLink implements _CustomLink {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CustomLink &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.label, label) || other.label == label) &&
             (identical(other.type, type) || other.type == type));
@@ -163,7 +182,7 @@ class _$_CustomLink implements _CustomLink {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, text, label, type);
+  int get hashCode => Object.hash(runtimeType, id, text, label, type);
 
   @JsonKey(ignore: true)
   @override
@@ -181,15 +200,23 @@ class _$_CustomLink implements _CustomLink {
 
 abstract class _CustomLink implements CustomLink {
   factory _CustomLink(
-      {@FormControlAnnotation() final String? text,
-      @FormControlAnnotation() final String? label,
-      @FormControlAnnotation() final String? type}) = _$_CustomLink;
+      {@FormControlAnnotation()
+          final int? id,
+      @FormControlAnnotation(validators: [requiredValidator])
+          final String? text,
+      @FormControlAnnotation()
+          final String? label,
+      @FormControlAnnotation()
+          final String? type}) = _$_CustomLink;
 
   factory _CustomLink.fromJson(Map<String, dynamic> json) =
       _$_CustomLink.fromJson;
 
   @override
   @FormControlAnnotation()
+  int? get id;
+  @override
+  @FormControlAnnotation(validators: [requiredValidator])
   String? get text;
   @override
   @FormControlAnnotation()

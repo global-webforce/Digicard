@@ -18,26 +18,23 @@ class DigitalCardListItem extends StatelessWidget {
     Widget image() {
       return Container(
         color: HexColor.fromHex("${card.color}"),
-        child: Hero(
-          tag: "card-${card.id}}",
-          child: Material(
-            child: CachedNetworkImage(
-              imageUrl: "${card.profileImage}",
-              width: double.infinity,
-              height: 140,
-              fit: BoxFit.cover,
-              placeholder: (context, url) {
-                return Container(
-                  color: Colors.grey,
-                );
-              },
-              errorWidget: (context, url, error) {
-                return Image.asset(
-                  "assets/images/placeholder.png",
-                  fit: BoxFit.cover,
-                );
-              },
-            ),
+        child: Material(
+          child: CachedNetworkImage(
+            imageUrl: "${card.profileImage}",
+            width: double.infinity,
+            height: 140,
+            fit: BoxFit.cover,
+            placeholder: (context, url) {
+              return Container(
+                color: Colors.grey,
+              );
+            },
+            errorWidget: (context, url, error) {
+              return Image.asset(
+                "assets/images/placeholder.png",
+                fit: BoxFit.cover,
+              );
+            },
           ),
         ),
       );

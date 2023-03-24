@@ -1,6 +1,6 @@
 import 'package:digicard/app/models/full_name.dart';
 
-extension DigitalCardExt on FullName {
+extension FullnameExt on FullName {
   String fullName() {
     return [
       prefix ?? "",
