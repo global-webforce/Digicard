@@ -1,4 +1,4 @@
-import 'package:ez_ui/ez_ui.dart';
+import 'package:digicard/app/constants/typography.dart';
 import 'package:flutter/material.dart';
 
 class PanelButtons extends StatelessWidget {
@@ -94,7 +94,10 @@ class MinButtons extends StatelessWidget {
               children: [
                 icon,
                 const SizedBox(width: 10),
-                EzText.caption(title, align: TextAlign.left),
+                Text(
+                  title,
+                  style: caption,
+                )
               ],
             ),
           ),

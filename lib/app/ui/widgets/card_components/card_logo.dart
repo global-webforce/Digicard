@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'dart:io' as io;
+
+import 'card_profile_image.dart';
 
 class CardLogo extends StatefulWidget {
   final Color color;
@@ -57,7 +58,7 @@ class _CardLogoState extends State<CardLogo> {
           return const SizedBox.shrink();
         }
 
-        if (io.File("${widget.image}").existsSync()) {
+        if (isFileExistLocally("${widget.image}")) {
           return GestureDetector(
             onTap: widget.onTap != null
                 ? () {

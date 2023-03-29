@@ -1,11 +1,11 @@
-import 'package:digicard/app/extensions/color.dart';
+import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/extensions/custom_link_extension.dart';
+import 'package:digicard/app/helper/screen_size.dart';
 import 'package:digicard/app/models/custom_link.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/ui/_core/sliver_grid_delegate.dart';
+import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
-import 'package:ez_core/ez_core.dart';
-import 'package:ez_dashboard/screen_size_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -17,7 +17,7 @@ class CustomLinksButtonGroup extends StatelessWidget {
     final form = ReactiveDigitalCardForm.of(context);
     final viewModel =
         getParentViewModel<CardOpenViewModel>(context, listen: false);
-    final colorTheme = HexColor.fromHex("${form?.colorControl?.value}") ??
+    final colorTheme = ColorExtension.fromHex("${form?.colorControl?.value}") ??
         Theme.of(context).colorScheme.primary;
 
     final x = [

@@ -5,6 +5,18 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' as io;
 
+bool isFileExistLocally(String fileDir) {
+  bool res = false;
+  try {
+    if (fileDir != "null" || fileDir.isNotEmpty) {
+      res = io.File(fileDir).existsSync();
+    }
+  } catch (e) {
+    return false;
+  }
+  return res;
+}
+
 class CardProfileImage extends StatelessWidget {
   final Color color;
   final String? image;
@@ -83,7 +95,7 @@ class CardProfileImage extends StatelessWidget {
           );
         }
 
-        if (io.File("$image").existsSync()) {
+        if (isFileExistLocally("$image")) {
           return InkWell(
             onTap: onTap != null ? () => onTap!() : null,
             child: AspectRatio(
@@ -122,10 +134,6 @@ class CardProfileImage extends StatelessWidget {
             child: Ink(
                 decoration: BoxDecoration(
                   color: color,
-                  image: DecorationImage(
-                    image: FileImage(File("$image")),
-                    fit: BoxFit.cover,
-                  ),
                 ),
                 child: Center(
                   child: Wrap(

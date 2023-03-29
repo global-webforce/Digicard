@@ -1,8 +1,8 @@
+import 'package:digicard/app/ui/_core/ez_button.dart';
+import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/ui/_shared/app_colors.dart';
 import 'package:digicard/app/views/_core/login/login_viewmodel.dart';
 import 'package:digicard/app/ui/_shared/dimensions.dart';
-import 'package:ez_core/ez_core.dart';
-import 'package:ez_ui/ez_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

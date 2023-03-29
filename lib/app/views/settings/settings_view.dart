@@ -1,9 +1,9 @@
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/constants/keys.dart';
-import 'package:digicard/app/views/settings/settings_view_view_model.dart';
+import 'package:digicard/app/ui/_core/dashboard/ez_drawer_button.dart';
+import 'package:digicard/app/ui/_core/spacer.dart';
+import 'package:digicard/app/views/settings/settings_view_model.dart';
 import 'package:digicard/app/ui/_core/settings_ui.dart';
-import 'package:ez_core/ez_core.dart';
-import 'package:ez_dashboard/ez_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -19,7 +19,7 @@ class SettingsView extends StatelessWidget {
         builder: (context, viewModel, child) => Scaffold(
             appBar: AppBar(
               automaticallyImplyLeading: false,
-              leading: ezDrawerButton(context, dashboardScaffoldKey),
+              leading: EzDrawerMenu(context, scaffoldkey: scaffoldKey),
               title: Row(
                 children: const [
                   Icon(Icons.settings_rounded),

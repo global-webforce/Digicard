@@ -1,11 +1,11 @@
 import 'dart:math';
 
-import 'package:digicard/app/extensions/color.dart';
+import 'package:digicard/app/constants/typography.dart';
+import 'package:digicard/app/extensions/color_extension.dart';
+import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/ui/widgets/bottom_sheet_buttons.dart';
 import 'package:digicard/app/ui/overlays/custom_overlay.dart';
 import 'package:digicard/app/ui/bottom_sheets/card_tools_bottom_sheet_viewmodel.dart';
-import 'package:ez_core/ez_core.dart';
-import 'package:ez_ui/ez_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -44,7 +44,7 @@ class CardToolsBottomSheet extends StatelessWidget {
             context.loaderOverlay.hide();
           }
 
-          final color = HexColor.fromHex("${viewModel.card.color}");
+          final color = ColorExtension.fromHex("${viewModel.card.color}");
 
           return ClipRRect(
             borderRadius: const BorderRadius.only(
@@ -84,8 +84,8 @@ class CardToolsBottomSheet extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            EzText.title1("${viewModel.card.title}",
-                                align: TextAlign.center),
+                            Text("${viewModel.card.title}",
+                                style: headline, textAlign: TextAlign.center),
                             vSpaceRegular,
                             Row(
                               children: [

@@ -1,6 +1,5 @@
 import 'dart:math';
-
-import 'package:ez_dashboard/screen_size_helper.dart';
+import 'package:digicard/app/helper/screen_size.dart';
 import 'package:flutter/material.dart';
 
 class ScaffoldListWrapper extends StatelessWidget {
@@ -11,6 +10,7 @@ class ScaffoldListWrapper extends StatelessWidget {
   final Widget emptyIndicatorWidget;
   final Widget Function(BuildContext, BoxConstraints) builder;
   final bool fit;
+  final List<Widget> topWidgets;
   const ScaffoldListWrapper({
     Key? key,
     required this.onRefresh,
@@ -22,6 +22,7 @@ class ScaffoldListWrapper extends StatelessWidget {
     this.emptyIndicatorWidget = const Text("Empty Result"),
     required this.builder,
     this.fit = true,
+    this.topWidgets = const [Text("fdsfsf")],
   }) : super(key: key);
 
   @override
@@ -40,8 +41,8 @@ class ScaffoldListWrapper extends StatelessWidget {
             child: isBusy
                 ? busyIndicatorWidget
                 : !(itemCount > 0)
-                    ? CustomScrollView(
-                        slivers: [
+                    ? CustomScrollView(slivers: [
+                        ...[
                           SliverFillRemaining(
                             child: Padding(
                               padding: const EdgeInsets.all(16),
@@ -55,8 +56,8 @@ class ScaffoldListWrapper extends StatelessWidget {
                                       child: emptyIndicatorWidget)),
                             ),
                           )
-                        ],
-                      )
+                        ]
+                      ])
                     : builder(context, constraints),
           ));
     });

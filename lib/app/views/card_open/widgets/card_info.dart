@@ -1,9 +1,9 @@
-import 'package:digicard/app/extensions/color.dart';
+import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/extensions/custom_link_extension.dart';
 import 'package:digicard/app/models/custom_link.dart';
 import 'package:digicard/app/models/digital_card.dart';
+import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/ui/widgets/card_components/card_info.dart';
-import 'package:ez_core/ez_core.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -15,7 +15,7 @@ class CardInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final form = ReactiveDigitalCardForm.of(context, listen: false);
 
-    final colorTheme = HexColor.fromHex("${form?.colorControl?.value}") ??
+    final colorTheme = ColorExtension.fromHex("${form?.colorControl?.value}") ??
         Theme.of(context).colorScheme.primary;
 
     Future<void> _launchUrl(String? link) async {

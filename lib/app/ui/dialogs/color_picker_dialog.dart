@@ -1,4 +1,4 @@
-import 'package:digicard/app/constants/color_pallette.dart';
+import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/ui/_shared/app_colors.dart';
 import 'package:digicard/app/ui/dialogs/color_picker_dialog_viewmodel.dart';
 import 'package:flutter/material.dart';

@@ -28,6 +28,7 @@ mixin _$User {
   String? get mobileNumber => throw _privateConstructorUsedError;
   String? get profilePic => throw _privateConstructorUsedError;
   DateTime? get emailVerifiedAt => throw _privateConstructorUsedError;
+  String? get token => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,7 +48,8 @@ abstract class $UserCopyWith<$Res> {
       String? gender,
       String? mobileNumber,
       String? profilePic,
-      DateTime? emailVerifiedAt});
+      DateTime? emailVerifiedAt,
+      String? token});
 }
 
 /// @nodoc
@@ -71,6 +73,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? mobileNumber = freezed,
     Object? profilePic = freezed,
     Object? emailVerifiedAt = freezed,
+    Object? token = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -105,6 +108,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.emailVerifiedAt
           : emailVerifiedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      token: freezed == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -123,7 +130,8 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       String? gender,
       String? mobileNumber,
       String? profilePic,
-      DateTime? emailVerifiedAt});
+      DateTime? emailVerifiedAt,
+      String? token});
 }
 
 /// @nodoc
@@ -143,6 +151,7 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
     Object? mobileNumber = freezed,
     Object? profilePic = freezed,
     Object? emailVerifiedAt = freezed,
+    Object? token = freezed,
   }) {
     return _then(_$_User(
       id: null == id
@@ -177,6 +186,10 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
           ? _value.emailVerifiedAt
           : emailVerifiedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      token: freezed == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -192,7 +205,8 @@ class _$_User implements _User {
       this.gender,
       this.mobileNumber,
       this.profilePic,
-      this.emailVerifiedAt})
+      this.emailVerifiedAt,
+      this.token})
       : assert(id != null, 'User id must be integer and not null'),
         assert(email.isNotEmpty, 'User email must be string and not null');
 
@@ -214,10 +228,12 @@ class _$_User implements _User {
   final String? profilePic;
   @override
   final DateTime? emailVerifiedAt;
+  @override
+  final String? token;
 
   @override
   String toString() {
-    return 'User(id: $id, email: $email, firstName: $firstName, lastName: $lastName, gender: $gender, mobileNumber: $mobileNumber, profilePic: $profilePic, emailVerifiedAt: $emailVerifiedAt)';
+    return 'User(id: $id, email: $email, firstName: $firstName, lastName: $lastName, gender: $gender, mobileNumber: $mobileNumber, profilePic: $profilePic, emailVerifiedAt: $emailVerifiedAt, token: $token)';
   }
 
   @override
@@ -237,13 +253,14 @@ class _$_User implements _User {
             (identical(other.profilePic, profilePic) ||
                 other.profilePic == profilePic) &&
             (identical(other.emailVerifiedAt, emailVerifiedAt) ||
-                other.emailVerifiedAt == emailVerifiedAt));
+                other.emailVerifiedAt == emailVerifiedAt) &&
+            (identical(other.token, token) || other.token == token));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, email, firstName, lastName,
-      gender, mobileNumber, profilePic, emailVerifiedAt);
+      gender, mobileNumber, profilePic, emailVerifiedAt, token);
 
   @JsonKey(ignore: true)
   @override
@@ -268,7 +285,8 @@ abstract class _User implements User {
       final String? gender,
       final String? mobileNumber,
       final String? profilePic,
-      final DateTime? emailVerifiedAt}) = _$_User;
+      final DateTime? emailVerifiedAt,
+      final String? token}) = _$_User;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
 
@@ -288,6 +306,8 @@ abstract class _User implements User {
   String? get profilePic;
   @override
   DateTime? get emailVerifiedAt;
+  @override
+  String? get token;
   @override
   @JsonKey(ignore: true)
   _$$_UserCopyWith<_$_User> get copyWith => throw _privateConstructorUsedError;

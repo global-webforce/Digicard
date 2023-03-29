@@ -1,0 +1,84 @@
+import 'package:collection/collection.dart';
+import 'package:digicard/app/app.locator.dart';
+import 'package:digicard/app/models/digital_card.dart';
+import 'package:digicard/app/services/digital_card_service.dart';
+import 'package:digicard/app/views/card_open/card_open_view.dart';
+import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
+import 'package:flutter/material.dart';
+import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
+
+class ContactsViewModel extends ReactiveViewModel {
+  final _navigationService = locator<NavigationService>();
+  final _digitalCardsService = locator<DigitalCardService>();
+
+  @override
+  List<ListenableServiceMixin> get listenableServices => [_digitalCardsService];
+
+  TextEditingController editingController = TextEditingController();
+
+  Future init() async {
+    await runBusyFuture(Future.wait([
+      _digitalCardsService.getAll(),
+    ], eagerError: true));
+  }
+
+  final focusNode = FocusNode();
+
+  List<DigitalCard> _cards = [];
+
+  Map<String, List<DigitalCard>> get cards {
+    _cards = _digitalCardsService.digitalCards;
+
+    if (editingController.text.isNotEmpty) {
+      _cards = _cards
+          .where((e) =>
+              "${e.fullname?.firstName} ${e.fullname?.lastName}"
+                  .toLowerCase()
+                  .contains(editingController.text.toLowerCase()) ||
+              "${e.position} ${e.company}"
+                  .toLowerCase()
+                  .contains(editingController.text.toLowerCase()))
+          .toList();
+    } else {
+      _cards = _digitalCardsService.digitalCards;
+    }
+
+    Map<String, List<DigitalCard>> grouped = groupBy(
+        _cards,
+        (DigitalCard card) =>
+            "${card.fullname?.firstName} ${card.fullname?.lastName}"[0]);
+
+    return grouped;
+  }
+
+  view(DigitalCard card) {
+    _navigationService.navigateToView(CardOpenView(
+      actionType: ActionType.view,
+      card: card,
+    ));
+  }
+
+  void clearFilter() {
+    if (editingController.text.isNotEmpty) {
+      editingController.text = "";
+      notifyListeners();
+    }
+  }
+
+  void filter() {
+    notifyListeners();
+  }
+
+  int? selectedIndex;
+
+  select(int i) {
+    selectedIndex = i;
+    notifyListeners();
+  }
+
+  //
+}
+
+
+//

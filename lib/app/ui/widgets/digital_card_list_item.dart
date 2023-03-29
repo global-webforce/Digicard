@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:digicard/app/extensions/color.dart';
+import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +17,7 @@ class DigitalCardListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget image() {
       return Container(
-        color: HexColor.fromHex("${card.color}"),
+        color: ColorExtension.fromHex("${card.color}"),
         child: Material(
           child: CachedNetworkImage(
             imageUrl: "${card.profileImage}",
@@ -64,7 +64,7 @@ class DigitalCardListItem extends StatelessWidget {
               children: [
                 image(),
                 Container(
-                  color: HexColor.fromHex("${card.color}"),
+                  color: ColorExtension.fromHex("${card.color}"),
                   height: 5,
                 ),
                 Expanded(

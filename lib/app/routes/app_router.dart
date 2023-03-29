@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:digicard/app/views/_core/login/auth_view.dart';
 import 'package:digicard/app/views/_core/login/login_view.dart';
 import 'package:digicard/app/views/_core/welcome/welcome_view.dart';
 
@@ -19,22 +18,19 @@ class HeroEmptyRouterPage extends StatelessWidget {
   }
 }
 
+/*
+NEVER EVER DO PARENT CHILDREN ON ROUTING - BIGGEST MISTAKE EVER
+*/
+
 @MaterialAutoRouter(replaceInRouteName: 'View,Route', routes: [
   CustomRoute(
-    path: '/',
-    page: AuthView,
-    children: [
-      CustomRoute(
-        initial: true,
-        path: '',
-        page: WelcomeView,
-      ),
-      CustomRoute(
-        path: '',
-        page: LoginView,
-      ),
-      RedirectRoute(path: '*', redirectTo: ''),
-    ],
+    initial: true,
+    path: '',
+    page: WelcomeView,
+  ),
+  CustomRoute(
+    path: '',
+    page: LoginView,
   ),
   CustomRoute(
     path: "/",
@@ -59,5 +55,6 @@ class HeroEmptyRouterPage extends StatelessWidget {
       RedirectRoute(path: '*', redirectTo: ''),
     ], */
   ),
+  RedirectRoute(path: '*', redirectTo: ''),
 ])
 class $AppRoute {}

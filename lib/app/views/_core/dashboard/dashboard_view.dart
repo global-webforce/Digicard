@@ -1,33 +1,40 @@
 import 'package:digicard/app/constants/keys.dart';
+import 'package:digicard/app/helper/screen_size.dart';
+import 'package:digicard/app/ui/_core/dashboard/ez_appbar.dart';
+import 'package:digicard/app/ui/_core/dashboard/ez_bottom_navbar.dart';
+import 'package:digicard/app/ui/_core/dashboard/ez_drawer.dart';
 import 'package:digicard/app/ui/_shared/app_colors.dart';
 import 'package:digicard/app/ui/widgets/app_icon.dart';
 import 'package:digicard/app/views/_core/dashboard/dashboard_viewmodel.dart';
-import 'package:ez_dashboard/ez_dashboard.dart';
-import 'package:ez_dashboard/screen_size_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:stacked/stacked.dart';
 
-class DashboardView extends StatelessWidget {
+class DashboardView extends StatefulWidget {
   const DashboardView({Key? key}) : super(key: key);
 
+  @override
+  State<DashboardView> createState() => _DashboardViewState();
+}
+
+class _DashboardViewState extends State<DashboardView> {
   autoHideDrawer(BuildContext context) {
     return WidgetsBinding.instance.addPostFrameCallback((_) {
-      final scaffold = dashboardScaffoldKey.currentState;
+      final scaffold = scaffoldKey.currentState;
       if (scaffold!.isDrawerOpen || isDesktop(context)) {
         scaffold.closeDrawer();
       }
     });
   }
 
-  Widget divider() {
-    return VerticalDivider(
-        width: 2, thickness: 2, color: Colors.grey.withOpacity(0.1));
+  @override
+  void didUpdateWidget(covariant DashboardView oldWidget) {
+    autoHideDrawer(context);
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
   Widget build(BuildContext context) {
-    autoHideDrawer(context);
     return ViewModelBuilder<DashboardViewModel>.reactive(
       disposeViewModel: false,
       viewModelBuilder: () => DashboardViewModel(),
@@ -39,7 +46,7 @@ class DashboardView extends StatelessWidget {
               .then((value) => value!.confirmed);
         },
         child: Scaffold(
-            key: dashboardScaffoldKey,
+            key: scaffoldKey,
             body: Row(
               children: [
                 if (isDesktop(context))
@@ -71,7 +78,6 @@ class DashboardView extends StatelessWidget {
                       ),
                     ],
                   ),
-                if (isDesktop(context)) divider(),
                 Expanded(
                     child: viewModel.getViewForIndex(viewModel.currentIndex)),
               ],
@@ -82,7 +88,7 @@ class DashboardView extends StatelessWidget {
               currentIndex: viewModel.currentIndex,
               onTap: (i) {
                 viewModel.setIndex(i);
-                dashboardScaffoldKey.currentState?.closeDrawer();
+                scaffoldKey.currentState?.closeDrawer();
               },
               appBar: EZAppBar(
                 appName: appIcon(),

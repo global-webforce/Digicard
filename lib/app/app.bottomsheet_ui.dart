@@ -6,7 +6,7 @@ import 'package:digicard/app/ui/bottom_sheets/image_picker_bottom_sheet.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 //1. Create name/alias of custom dialog
-enum BottomSheetType { codeVerification, digitalCard, send, imagepicker }
+enum BottomSheetType { digitalCard, send, imagepicker }
 
 Future<void> setupBottomSheetUI() async {
   final bottomSheetService = locator<BottomSheetService>();

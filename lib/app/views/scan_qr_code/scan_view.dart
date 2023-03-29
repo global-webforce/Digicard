@@ -1,10 +1,10 @@
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/constants/keys.dart';
+import 'package:digicard/app/ui/_core/dashboard/ez_drawer_button.dart';
+import 'package:digicard/app/ui/_core/ez_button.dart';
 import 'package:digicard/app/ui/_core/scaffold_body_wrapper.dart';
+import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/views/scan_qr_code/scan_viewmodel.dart';
-import 'package:ez_core/ez_core.dart';
-import 'package:ez_dashboard/ez_drawer_button.dart';
-import 'package:ez_ui/ez_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -33,7 +33,7 @@ class ScanView extends StatelessWidget {
             ),
             appBar: AppBar(
               automaticallyImplyLeading: false,
-              leading: ezDrawerButton(context, dashboardScaffoldKey),
+              leading: EzDrawerMenu(context, scaffoldkey: scaffoldKey),
               title: Row(
                 children: const [
                   Icon(Icons.camera_roll_rounded),

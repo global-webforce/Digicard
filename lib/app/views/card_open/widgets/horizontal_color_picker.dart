@@ -1,4 +1,4 @@
-import 'package:digicard/app/constants/color_pallette.dart';
+import 'package:digicard/app/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class HorizontalColorPicker extends StatefulWidget {

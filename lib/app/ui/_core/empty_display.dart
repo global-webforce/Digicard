@@ -1,4 +1,5 @@
-import 'package:ez_core/ez_core.dart';
+import 'package:digicard/app/ui/_core/spacer.dart';
+
 import 'package:flutter/material.dart';
 
 class EmptyDisplay extends StatelessWidget {

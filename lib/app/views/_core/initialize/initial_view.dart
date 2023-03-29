@@ -1,5 +1,8 @@
+import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:digicard/app/ui/_shared/app_colors.dart';
 import 'package:digicard/app/views/_core/initialize/initial_viewmodel.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -13,12 +16,24 @@ class InitialView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<InitialViewModel>.reactive(
         viewModelBuilder: () => InitialViewModel(),
+        onViewModelReady: (viewModel) {
+          viewModel.authService.checkSession();
+        },
+        onDispose: (viewModel) {
+          viewModel.authService.x();
+        },
         fireOnViewModelReadyOnce: true,
+        createNewViewModelOnInsert: false,
         builder: (context, viewModel, child) {
           final r = viewModel.appRouter.declarativeDelegate(
             navigatorObservers: () => [HeroController()],
             routes: (handler) {
-              return viewModel.isLoggedIn();
+              if (!kIsWeb) FlutterNativeSplash.remove();
+              return [
+                if (viewModel.appService.session == null) const WelcomeRoute(),
+                if (viewModel.appService.session != null)
+                  const DashboardRoute(),
+              ];
             },
           );
 

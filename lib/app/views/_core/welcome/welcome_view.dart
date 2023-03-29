@@ -1,10 +1,11 @@
 // ignore_for_file: implementation_imports
 import 'dart:ui';
 import 'package:digicard/app/app.locator.dart';
+import 'package:digicard/app/ui/_core/ez_button.dart';
+import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/ui/_shared/dimensions.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
-import 'package:ez_core/ez_core.dart';
-import 'package:ez_ui/ez_ui.dart';
+import 'package:digicard/app/views/_core/login/login_view.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeView extends StatelessWidget {
@@ -76,7 +77,7 @@ class WelcomeView extends StatelessWidget {
                       EzButton.elevated(
                         title: "CREATE MY CARDS",
                         onTap: () {
-                          locator<AppRoute>().navigate(const LoginRoute());
+                          locator<AppRoute>().pushWidget(const LoginView());
                         },
                       ),
                       vSpaceRegular,

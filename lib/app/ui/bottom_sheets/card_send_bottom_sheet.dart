@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:digicard/app/extensions/color.dart';
+import 'package:digicard/app/extensions/color_extension.dart';
+import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/ui/widgets/bottom_sheet_buttons.dart';
 import 'package:digicard/app/ui/overlays/custom_overlay.dart';
-import 'package:ez_core/ez_core.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -71,7 +71,8 @@ class CardSendBottomSheet extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        color: HexColor.fromHex("${viewModel.card.color}"),
+                        color:
+                            ColorExtension.fromHex("${viewModel.card.color}"),
                         height: 25,
                         child: Center(
                           child: Container(
@@ -112,7 +113,7 @@ class CardSendBottomSheet extends StatelessWidget {
                                         version: QrVersions.auto,
                                         size: 250,
                                         foregroundColor: Colors.white,
-                                        backgroundColor: HexColor.fromHex(
+                                        backgroundColor: ColorExtension.fromHex(
                                                 "${viewModel.card.color}") ??
                                             Theme.of(context)
                                                 .colorScheme
@@ -158,7 +159,7 @@ class CardSendBottomSheet extends StatelessWidget {
                               Row(
                                 children: [
                                   MinButtons(
-                                      color: HexColor.fromHex(
+                                      color: ColorExtension.fromHex(
                                           "${viewModel.card.color}"),
                                       onTap: () async {
                                         await viewModel.share();
@@ -171,7 +172,7 @@ class CardSendBottomSheet extends StatelessWidget {
                               Row(
                                 children: [
                                   MinButtons(
-                                      color: HexColor.fromHex(
+                                      color: ColorExtension.fromHex(
                                           "${viewModel.card.color}"),
                                       onTap: () async {
                                         await viewModel.downloadWithLogo();
@@ -185,7 +186,7 @@ class CardSendBottomSheet extends StatelessWidget {
                               Row(
                                 children: [
                                   MinButtons(
-                                      color: HexColor.fromHex(
+                                      color: ColorExtension.fromHex(
                                           "${viewModel.card.color}"),
                                       onTap: () async {
                                         await viewModel.saveToContacts();

@@ -5,8 +5,6 @@ import 'package:http/http.dart';
 import 'package:digicard/app/api/api_interceptor.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_interceptor/http/intercepted_client.dart';
-import 'package:digicard/app/app.locator.dart';
-import 'package:digicard/app/services/_core/local_storage_service.dart';
 
 extension IsOk on http.Response {
   bool get ok {
@@ -20,8 +18,6 @@ class ApiService {
       ApiInterceptor(),
     ],
   );
-
-  final _localStorageService = locator<LocalStorageService>();
 
   errorMessage(String? message) {
     final String error = "$message";
@@ -95,11 +91,7 @@ class ApiService {
   }) async {
     try {
       var request = http.MultipartRequest('POST', Uri.parse(url));
-      request.headers.addAll({
-        'Content-type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer ${_localStorageService.token}'
-      });
+
       Map<String, String> s = <String, String>{};
       requestBody.forEach((key, value) => s[key] = value.toString());
 

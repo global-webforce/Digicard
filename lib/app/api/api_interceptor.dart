@@ -1,11 +1,10 @@
-import 'package:http_interceptor/http_interceptor.dart';
 import 'package:digicard/app/app.locator.dart';
+import 'package:digicard/app/services/_core/app_service.dart';
+import 'package:http_interceptor/http_interceptor.dart';
 import 'dart:io';
 
-import 'package:digicard/app/services/_core/local_storage_service.dart';
-
 class ApiInterceptor implements InterceptorContract {
-  final _localStorageService = locator<LocalStorageService>();
+  final _appService = locator<AppService>();
 
   @override
   Future<BaseRequest> interceptRequest({required BaseRequest request}) async {
@@ -14,7 +13,7 @@ class ApiInterceptor implements InterceptorContract {
       request.headers[HttpHeaders.acceptHeader] = "application/json";
       request.headers[HttpHeaders.accessControlAllowOriginHeader] = "*";
       request.headers[HttpHeaders.authorizationHeader] =
-          'Bearer ${_localStorageService.token}';
+          'Bearer ${_appService.session?.accessToken}';
     } catch (e) {
       rethrow;
     }

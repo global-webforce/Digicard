@@ -1,4 +1,3 @@
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'user.freezed.dart';
 part 'user.g.dart';
@@ -16,7 +15,7 @@ class User with _$User {
     String? mobileNumber,
     String? profilePic,
     DateTime? emailVerifiedAt,
- 
+    String? token,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

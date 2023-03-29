@@ -1,11 +1,11 @@
-import 'package:digicard/app/extensions/color.dart';
+import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/models/digital_card.dart';
+import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
 import 'package:digicard/app/views/card_open/widgets/collapsible_field.dart';
 import 'package:digicard/app/views/card_open/widgets/custom_links_button_group.dart';
 import 'package:digicard/app/views/card_open/widgets/custom_links_field_group.dart';
 import 'package:digicard/app/views/card_open/widgets/horizontal_color_picker.dart';
-import 'package:ez_core/ez_core.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 import 'package:stacked/stacked.dart';
@@ -34,7 +34,7 @@ class CardForm extends StatelessWidget {
         formControl: form?.colorControl,
         builder: (context, field, child) {
           return HorizontalColorPicker(
-            value: HexColor.fromHex("${field.value}"),
+            value: ColorExtension.fromHex("${field.value}"),
             onChange: (color) {
               viewModel.setColor(color);
             },

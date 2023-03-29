@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:digicard/app/app.locator.dart';
-import 'package:digicard/app/extensions/color.dart';
+import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/ui/_core/scaffold_body_wrapper.dart';
 import 'package:digicard/app/ui/overlays/custom_overlay.dart';
@@ -11,7 +11,6 @@ import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
 import 'package:digicard/app/views/card_open/widgets/card_form.dart';
 import 'package:digicard/app/views/card_open/widgets/card_info.dart';
 import 'package:digicard/app/views/card_open/widgets/waves.dart';
-import 'package:ez_core/ez_core.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -38,7 +37,7 @@ class CardOpenView extends StatelessWidget {
             child: ReactiveValueListenableBuilder<dynamic>(
                 formControl: viewModel.formModel.colorControl,
                 builder: (context, color, child) {
-                  final colorTheme = HexColor.fromHex("${color.value}") ??
+                  final colorTheme = ColorExtension.fromHex("${color.value}") ??
                       Theme.of(context).colorScheme.primary;
 
                   if (viewModel.busy(saveBusyKey)) {

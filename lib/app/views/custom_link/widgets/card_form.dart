@@ -1,8 +1,8 @@
 import 'package:digicard/app/extensions/custom_link_extension.dart';
 import 'package:digicard/app/models/custom_link.dart';
+import 'package:digicard/app/ui/_core/ez_button.dart';
+import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/views/custom_link/custom_link_view_model.dart';
-import 'package:ez_core/ez_core.dart';
-import 'package:ez_ui/ez_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 import 'package:stacked/stacked.dart';
@@ -53,10 +53,6 @@ class CLForm extends StatelessWidget {
                     size: 20,
                   ),
                   hSpaceRegular,
-                  /*  const Text(
-                    "@",
-                    style: TextStyle(fontSize: 16),
-                  ), */
                 ],
               ),
             ),
