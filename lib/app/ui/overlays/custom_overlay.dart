@@ -1,4 +1,4 @@
-import 'package:digicard/app/ui/_shared/app_colors.dart';
+import 'package:digicard/app/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomOverlay extends StatelessWidget {

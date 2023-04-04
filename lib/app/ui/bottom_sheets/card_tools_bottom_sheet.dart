@@ -1,7 +1,7 @@
 import 'dart:math';
 
+import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/constants/typography.dart';
-import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/ui/widgets/bottom_sheet_buttons.dart';
 import 'package:digicard/app/ui/overlays/custom_overlay.dart';
@@ -44,7 +44,7 @@ class CardToolsBottomSheet extends StatelessWidget {
             context.loaderOverlay.hide();
           }
 
-          final color = ColorExtension.fromHex("${viewModel.card.color}");
+          final colorTheme = Color(viewModel.card.color ?? kcPrimaryColorInt);
 
           return ClipRRect(
             borderRadius: const BorderRadius.only(
@@ -59,7 +59,7 @@ class CardToolsBottomSheet extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      color: color,
+                      color: colorTheme,
                       height: 25,
                       child: Center(
                         child: Container(
@@ -90,7 +90,7 @@ class CardToolsBottomSheet extends StatelessWidget {
                             Row(
                               children: [
                                 PanelButtons(
-                                  color: color,
+                                  color: colorTheme,
                                   onTap: () {
                                     viewModel.send();
                                   },
@@ -104,7 +104,7 @@ class CardToolsBottomSheet extends StatelessWidget {
                                 ),
                                 hSpaceSmall,
                                 PanelButtons(
-                                  color: color,
+                                  color: colorTheme,
                                   onTap: () {
                                     viewModel.view(request.data);
                                   },
@@ -121,7 +121,7 @@ class CardToolsBottomSheet extends StatelessWidget {
                             Row(
                               children: [
                                 PanelButtons(
-                                  color: color,
+                                  color: colorTheme,
                                   onTap: () {
                                     viewModel.update(request.data);
                                   },
@@ -134,7 +134,7 @@ class CardToolsBottomSheet extends StatelessWidget {
                                 ),
                                 hSpaceSmall,
                                 PanelButtons(
-                                  color: color,
+                                  color: colorTheme,
                                   onTap: () {},
                                   icon: const Icon(
                                     FontAwesomeIcons.gear,
@@ -149,7 +149,7 @@ class CardToolsBottomSheet extends StatelessWidget {
                             Row(
                               children: [
                                 MinButtons(
-                                    color: color,
+                                    color: colorTheme,
                                     onTap: () async {
                                       await viewModel.duplicate(request.data);
                                     },
@@ -157,7 +157,7 @@ class CardToolsBottomSheet extends StatelessWidget {
                                     title: "Dupicate"),
                                 hSpaceSmall,
                                 MinButtons(
-                                    color: color,
+                                    color: colorTheme,
                                     onTap: null,
                                     icon:
                                         const Icon(FontAwesomeIcons.nfcSymbol),
@@ -168,7 +168,7 @@ class CardToolsBottomSheet extends StatelessWidget {
                             Row(
                               children: [
                                 MinButtons(
-                                    color: color,
+                                    color: colorTheme,
                                     onTap: () async {
                                       await viewModel.delete(request.data.id);
                                     },
@@ -176,7 +176,7 @@ class CardToolsBottomSheet extends StatelessWidget {
                                     title: "Delete"),
                                 hSpaceSmall,
                                 MinButtons(
-                                    color: color,
+                                    color: colorTheme,
                                     onTap: null,
                                     icon: const Icon(
                                         FontAwesomeIcons.arrowsLeftRight),

@@ -7,16 +7,10 @@ part 'custom_link.g.dart';
 @FormGroupAnnotation()
 class CustomLink with _$CustomLink {
   factory CustomLink({
-    @FormControlAnnotation()
-        int? id,
-    @FormControlAnnotation(
-      validators: [requiredValidator],
-    )
-        String? text,
-    @FormControlAnnotation()
-        String? label,
-    @FormControlAnnotation()
-        String? type,
+    @FormControlAnnotation() int? id,
+    @FormControlAnnotation(validators: [requiredValidator]) String? text,
+    @FormControlAnnotation() String? label,
+    @FormControlAnnotation() String? type,
   }) = _CustomLink;
 
   factory CustomLink.fromJson(Map<String, dynamic> json) =>

@@ -2,11 +2,11 @@ import 'package:digicard/app/api/api_service.dart';
 import 'package:digicard/app/services/_core/app_service.dart';
 import 'package:digicard/app/services/_core/auth_service_supabase.dart';
 import 'package:digicard/app/services/contacts_service.dart';
+import 'package:digicard/app/services/digital_card_service_supabase.dart';
 import 'package:digicard/app/views/_core/login/login_viewmodel.dart';
 import 'package:digicard/app/views/_core/initialize/initial_viewmodel.dart';
 import 'package:digicard/app/services/_core/local_storage_service.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
-import 'package:digicard/app/services/digital_card_service_laravel.dart';
 import 'package:digicard/app/ui/bottom_sheets/card_send_bottom_sheet_viewmodel.dart';
 import 'package:digicard/app/ui/bottom_sheets/card_tools_bottom_sheet_viewmodel.dart';
 import 'package:digicard/app/views/_core/dashboard/dashboard_viewmodel.dart';
@@ -79,7 +79,7 @@ import 'views/custom_link/custom_link_view_model.dart';
     LazySingleton(classType: ContactsService),
 
     LazySingleton(
-      classType: DigitalCardServiceLaravel,
+      classType: DigitalCardServiceSupabase,
       asType: DigitalCardService,
     ),
 

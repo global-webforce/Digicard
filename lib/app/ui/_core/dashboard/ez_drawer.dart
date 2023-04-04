@@ -17,7 +17,7 @@ class EZDrawerMenuItem {
 class EZDrawer extends StatelessWidget {
   final Color colorTheme;
   final Widget? drawerHeader;
-  final EZAppBar appBar;
+  final EZAppBar? appBar;
   final List<EZDrawerMenuItem> items;
   final Function(int index) onTap;
   final int currentIndex;
@@ -25,7 +25,7 @@ class EZDrawer extends StatelessWidget {
       {Key? key,
       this.drawerHeader,
       required this.items,
-      required this.appBar,
+      this.appBar,
       required this.onTap,
       required this.currentIndex,
       this.colorTheme = Colors.blue})
@@ -78,7 +78,7 @@ class EZDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          appBar,
+          appBar ?? const SizedBox.shrink(),
           drawerHeader ?? const SizedBox.shrink(),
           ListView(
               padding: const EdgeInsets.all(10),

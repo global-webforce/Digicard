@@ -19,7 +19,7 @@ import 'services/_core/auth_service_supabase.dart';
 import 'services/_core/local_storage_service.dart';
 import 'services/contacts_service.dart';
 import 'services/digital_card_service.dart';
-import 'services/digital_card_service_laravel.dart';
+import 'services/digital_card_service_supabase.dart';
 import 'ui/bottom_sheets/card_send_bottom_sheet_viewmodel.dart';
 import 'ui/bottom_sheets/card_tools_bottom_sheet_viewmodel.dart';
 import 'views/_core/dashboard/dashboard_viewmodel.dart';
@@ -56,7 +56,7 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => AuthService());
   locator.registerLazySingleton(() => ContactsService());
   locator.registerLazySingleton<DigitalCardService>(
-      () => DigitalCardServiceLaravel());
+      () => DigitalCardServiceSupabase());
   locator.registerSingleton(InitialViewModel());
   locator.registerSingleton(LoginViewModel());
   locator.registerSingleton(DashboardViewModel());

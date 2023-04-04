@@ -1,5 +1,5 @@
 import 'package:digicard/app/routes/app_router.gr.dart';
-import 'package:digicard/app/ui/_shared/app_colors.dart';
+import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/views/_core/initialize/initial_viewmodel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -50,14 +50,16 @@ class InitialView extends StatelessWidget {
             child: MaterialApp.router(
               title: "Digicard",
               theme: ThemeData(
-                primaryColor: kcPrimaryColor,
+                useMaterial3: true,
+                //  primaryColor: kcPrimaryColor,
                 cardTheme: CardTheme(
                   margin: const EdgeInsets.all(0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                colorScheme: ColorScheme(
+                colorSchemeSeed: kcPrimaryColor,
+                /*      colorScheme: ColorScheme(
                   primary: Colors.orange,
                   secondary: Colors.orangeAccent,
                   surface: Colors.grey.shade800,
@@ -68,8 +70,8 @@ class InitialView extends StatelessWidget {
                   onSurface: Colors.white,
                   onBackground: Colors.white,
                   onError: Colors.white,
-                  brightness: Brightness.dark,
-                ),
+                  brightness: Brightness.light,
+                ), */
                 brightness: Brightness.dark,
                 elevatedButtonTheme: ElevatedButtonThemeData(
                   style: ElevatedButton.styleFrom(

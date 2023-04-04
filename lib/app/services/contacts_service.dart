@@ -13,7 +13,6 @@ class ContactsService {
     Map<String, List<CustomLink>> customLinks =
         groupBy(card.customLinks, (e) => "${e.type}");
 
-    print(customLinks);
     if (await FlutterContacts.requestPermission()) {
       Uint8List bytes =
           await apiService.getBytesFromUrl("${card.profileImage}");
@@ -21,9 +20,9 @@ class ContactsService {
       final newContact = Contact()
         ..photo = bytes
         ..displayName =
-            "${card.fullname?.prefix} ${card.fullname?.firstName} ${card.fullname?.middleName} ${card.fullname?.lastName} ${card.fullname?.suffix}"
-        ..name.first = "${card.fullname?.firstName}"
-        ..name.last = "${card.fullname?.lastName}"
+            "${card.prefix} ${card.firstName} ${card.middleName} ${card.lastName} ${card.suffix}"
+        ..name.first = "${card.firstName}"
+        ..name.last = "${card.lastName}"
         ..organizations = [
           Organization(
             title: "${card.position}",

@@ -83,7 +83,7 @@ class MinButtons extends StatelessWidget {
         clipBehavior: Clip.hardEdge,
         margin: EdgeInsets.zero,
         color:
-            onTap != null ? color?.withOpacity(0.3) : color?.withOpacity(0.1),
+            onTap != null ? color?.withOpacity(0.3) : color?.withOpacity(0.2),
         child: InkWell(
           onTap: onTap != null ? () => onTap!() : null,
           child: Container(

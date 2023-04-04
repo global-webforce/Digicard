@@ -1,5 +1,5 @@
 import 'package:digicard/app/app.locator.dart';
-import 'package:digicard/app/ui/_shared/app_colors.dart';
+import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/views/scan_qr_code/scan_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';

@@ -12,8 +12,6 @@ class AuthService {
 
   checkSession() async {
     _authSubscription = _supabase.auth.onAuthStateChange.listen((data) {
-      print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-      print(data.event);
       final Session? session = data.session;
       _appService.user = session;
     });
@@ -52,16 +50,34 @@ class AuthService {
         password: formData["password"],
       )
           .then((value) {
-        if (value.session == null) {
+        final x = value.user?.identities ?? [];
+        if (x.isEmpty) {
           return Future.error(
-            "We've already sent confirmation link to your email, Please check",
+            "This user already exists",
           );
         }
       });
     } catch (e) {
       if (e is AuthException) {
         return Future.error(e.message);
-      } else if (e.toString().toLowerCase().contains("confirmation link")) {
+      } else if (e.toString().toLowerCase().contains("already exists")) {
+        return Future.error(e);
+      }
+      return Future.error("Unknown error occured");
+    }
+  }
+
+  Future resetPassword(Map<String, dynamic> formData) async {
+    try {
+      return await _supabase.auth
+          .resetPasswordForEmail(
+            formData["email"],
+          )
+          .then((value) {});
+    } catch (e) {
+      if (e is AuthException) {
+        return Future.error(e.message);
+      } else if (e.toString().toLowerCase().contains("already exists")) {
         return Future.error(e);
       }
       return Future.error("Unknown error occured");

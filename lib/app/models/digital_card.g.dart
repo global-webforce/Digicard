@@ -9,46 +9,60 @@ part of 'digital_card.dart';
 _$_DigitalCard _$$_DigitalCardFromJson(Map<String, dynamic> json) =>
     _$_DigitalCard(
       id: json['id'] as int?,
-      userId: json['userId'] as int?,
+      userId: json['user_id'] as String?,
       uuid: json['uuid'] as String?,
       title: json['title'] as String?,
-      logoImage: json['logoImage'] as String?,
-      profileImage: json['profileImage'] as String?,
-      color: json['color'] as String?,
-      fullname: json['fullname'] == null
-          ? null
-          : FullName.fromJson(json['fullname'] as Map<String, dynamic>),
+      prefix: json['prefix'] as String?,
+      firstName: json['first_name'] as String?,
+      middleName: json['middle_name'] as String?,
+      lastName: json['last_name'] as String?,
+      suffix: json['suffix'] as String?,
+      accreditations: json['accreditations'] as String?,
+      preferredName: json['preferred_name'] as String?,
+      maidenName: json['maiden_name'] as String?,
+      pronouns: json['pronouns'] as String?,
+      logoImage: json['logo_image'] as String?,
+      profileImage: json['profile_image'] as String?,
+      color: json['color'] as int?,
       position: json['position'] as String?,
       department: json['department'] as String?,
       company: json['company'] as String?,
       headline: json['headline'] as String?,
-      customLinks: (json['customLinks'] as List<dynamic>?)
+      customLinks: (json['custom_links'] as List<dynamic>?)
               ?.map((e) => CustomLink.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      createdAt: json['createdAt'] == null
+      createdAt: json['created_at'] == null
           ? null
-          : DateTime.parse(json['createdAt'] as String),
-      updatedAt: json['updatedAt'] == null
+          : DateTime.parse(json['created_at'] as String),
+      updatedAt: json['updated_at'] == null
           ? null
-          : DateTime.parse(json['updatedAt'] as String),
+          : DateTime.parse(json['updated_at'] as String),
     );
 
 Map<String, dynamic> _$$_DigitalCardToJson(_$_DigitalCard instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'userId': instance.userId,
+      'user_id': instance.userId,
       'uuid': instance.uuid,
       'title': instance.title,
-      'logoImage': instance.logoImage,
-      'profileImage': instance.profileImage,
+      'prefix': instance.prefix,
+      'first_name': instance.firstName,
+      'middle_name': instance.middleName,
+      'last_name': instance.lastName,
+      'suffix': instance.suffix,
+      'accreditations': instance.accreditations,
+      'preferred_name': instance.preferredName,
+      'maiden_name': instance.maidenName,
+      'pronouns': instance.pronouns,
+      'logo_image': instance.logoImage,
+      'profile_image': instance.profileImage,
       'color': instance.color,
-      'fullname': instance.fullname,
       'position': instance.position,
       'department': instance.department,
       'company': instance.company,
       'headline': instance.headline,
-      'customLinks': instance.customLinks,
-      'createdAt': instance.createdAt?.toIso8601String(),
-      'updatedAt': instance.updatedAt?.toIso8601String(),
+      'custom_links': instance.customLinks,
+      'created_at': instance.createdAt?.toIso8601String(),
+      'updated_at': instance.updatedAt?.toIso8601String(),
     };

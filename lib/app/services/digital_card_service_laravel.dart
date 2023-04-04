@@ -2,10 +2,8 @@ import 'dart:async';
 import 'package:digicard/app/api/api_service.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/constants/colors.dart';
-import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/models/custom_link.dart';
 import 'package:digicard/app/models/digital_card.dart';
-import 'package:digicard/app/models/full_name.dart';
 import 'package:digicard/app/services/_core/app_service.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:stacked/stacked.dart';
@@ -35,7 +33,7 @@ class DigitalCardServiceLaravel
     digitalCards.add(
       card.copyWith(
         id: fkr.random.integer(999, min: 500),
-        userId: int.tryParse("${_appService.session?.user.id}"),
+        userId: _appService.session?.user.id,
         uuid: uuid.v5(Uuid.NAMESPACE_URL, 'www.digicard.com'),
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
@@ -99,11 +97,11 @@ class DigitalCardServiceLaravel
   Future getAll() async {
     await Future.delayed(const Duration(seconds: 1));
     _digitalCards.value = List.generate(
-        40,
+        20,
         (index) => DigitalCard(
               id: index,
               uuid: uuid.v5(Uuid.NAMESPACE_URL, 'www.digicard.com'),
-              userId: index + 1,
+              userId: "fdsfsf45",
               title: fkr.random.element([
                 "PERSONAL EVENTS",
                 "WORK EVENTS",
@@ -127,17 +125,15 @@ class DigitalCardServiceLaravel
                       width: 400,
                       height: 400,
                       keywords: ["face", "portrait"]),
-              fullname: FullName(
-                prefix: fkr.faker.person.prefix(),
-                firstName: fkr.faker.person.firstName(),
-                middleName: fkr.faker.person.lastName(),
-                lastName: fkr.faker.person.lastName(),
-                suffix: fkr.faker.person.suffix(),
-                accreditations: fkr.faker.company.position(),
-                maidenName: fkr.faker.person.firstName(),
-                preferredName: fkr.faker.person.firstName(),
-                pronouns: fkr.faker.food.dish(),
-              ),
+              prefix: fkr.faker.person.prefix(),
+              firstName: fkr.faker.person.firstName(),
+              middleName: fkr.faker.person.lastName(),
+              lastName: fkr.faker.person.lastName(),
+              suffix: fkr.faker.person.suffix(),
+              accreditations: fkr.faker.company.position(),
+              maidenName: fkr.faker.person.firstName(),
+              preferredName: fkr.faker.person.firstName(),
+              pronouns: fkr.faker.food.dish(),
               headline: fkr.faker.lorem.sentences(5).join(" "),
               position: fkr.faker.job.title(),
               department: fkr.faker.job.title(),
@@ -164,8 +160,7 @@ class DigitalCardServiceLaravel
                   type: 'Website',
                 )
               ],
-              color:
-                  fkr.random.element(cardColors.map((e) => e.toHex()).toList()),
+              color: fkr.random.element(cardColors.map((e) => e).toList()),
               createdAt: DateTime.now(),
               updatedAt: DateTime.now(),
             ));

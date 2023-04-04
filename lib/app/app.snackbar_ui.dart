@@ -32,7 +32,9 @@ Future<void> setupSnackBarUI() async {
       padding: const EdgeInsets.all(18),
       backgroundColor: Colors.red,
       textColor: Colors.white,
-      snackPosition: SnackPosition.BOTTOM,
+      snackPosition: SnackPosition.TOP,
+      margin: const EdgeInsets.all(15),
+
       snackStyle: SnackStyle.FLOATING,
       borderRadius: 10,
       //borderRadius: 48,

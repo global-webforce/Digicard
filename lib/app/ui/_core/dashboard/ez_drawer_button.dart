@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 class EzDrawerMenu extends StatelessWidget {
   final BuildContext context;
   final GlobalKey<ScaffoldState> scaffoldkey;
-  final Function()? onTap;
-  const EzDrawerMenu(this.context,
-      {super.key, required this.scaffoldkey, this.onTap});
+
+  const EzDrawerMenu(this.context, {super.key, required this.scaffoldkey});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +14,6 @@ class EzDrawerMenu extends StatelessWidget {
         : IconButton(
             icon: const Icon(Icons.menu),
             onPressed: () {
-              if (onTap != null) onTap!();
               scaffoldkey.currentState?.openDrawer();
             },
           );

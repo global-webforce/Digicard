@@ -68,14 +68,32 @@ class LoginViewModel extends ReactiveViewModel {
     if (!form.hasErrors) {
       await runBusyFuture(_authService.register(form.value),
           throwException: true);
+      _dialogService.showCustomDialog(
+          variant: DialogType.simple,
+          barrierDismissible: true,
+          description:
+              "We've sent a confirmation link to your email. Please check.");
       form.reset();
+    }
+  }
+
+  Future resetPassword() async {
+    if (!form.hasErrors) {
+      await runBusyFuture(_authService.resetPassword(form.value),
+          throwException: true);
     }
   }
 
   Future forgotPassword() async {
     if (!form.control('email').hasErrors) {
-      await runBusyFuture(Future.delayed(const Duration(seconds: 1)),
+      await runBusyFuture(_authService.resetPassword(form.value),
           throwException: true);
+      form.reset();
+      _dialogService.showCustomDialog(
+          variant: DialogType.simple,
+          barrierDismissible: true,
+          description:
+              "We've sent reset password link to your email. Please check");
     } else {
       _dialogService.showCustomDialog(
           variant: DialogType.simple,

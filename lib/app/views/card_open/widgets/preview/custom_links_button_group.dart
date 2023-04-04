@@ -1,4 +1,4 @@
-import 'package:digicard/app/extensions/color_extension.dart';
+import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/extensions/custom_link_extension.dart';
 import 'package:digicard/app/helper/screen_size.dart';
 import 'package:digicard/app/models/custom_link.dart';
@@ -17,8 +17,7 @@ class CustomLinksButtonGroup extends StatelessWidget {
     final form = ReactiveDigitalCardForm.of(context);
     final viewModel =
         getParentViewModel<CardOpenViewModel>(context, listen: false);
-    final colorTheme = ColorExtension.fromHex("${form?.colorControl?.value}") ??
-        Theme.of(context).colorScheme.primary;
+    final colorTheme = Color(form?.colorControl?.value ?? kcPrimaryColorInt);
 
     final x = [
       CustomLink(
@@ -63,7 +62,7 @@ class CustomLinksButtonGroup extends StatelessWidget {
             crossAxisCount: isMobile(context) ? 3 : 3,
             crossAxisSpacing: 10,
             mainAxisSpacing: 30,
-            height: 52),
+            height: 54),
         itemBuilder: (context, index) {
           return CustomLinkBtn(x[index],
               onTap: x[index].type == "More soon!"

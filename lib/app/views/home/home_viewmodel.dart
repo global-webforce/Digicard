@@ -8,6 +8,7 @@ import 'package:digicard/app/services/_core/app_service.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:digicard/app/views/card_open/card_open_view.dart';
 import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
+import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -42,11 +43,15 @@ class HomeViewModel extends ReactiveViewModel {
         actionType: ActionType.view,
         card: card,
       ),
+      transitionStyle: Transition.zoom,
+      curve: Curves.easeIn,
     );
   }
 
   show(DigitalCard? digitalCard) async {
     await _bottomSheetService.showCustomSheet(
+      enterBottomSheetDuration: const Duration(milliseconds: 350),
+      exitBottomSheetDuration: const Duration(milliseconds: 350),
       variant: BottomSheetType.digitalCard,
       data: digitalCard,
       isScrollControlled: true,
@@ -55,10 +60,14 @@ class HomeViewModel extends ReactiveViewModel {
   }
 
   create() {
-    _navigationService.navigateToView(CardOpenView(
-      actionType: ActionType.create,
-      card: DigitalCard(),
-    ));
+    _navigationService.navigateToView(
+      CardOpenView(
+        actionType: ActionType.create,
+        card: DigitalCard(),
+      ),
+      transitionStyle: Transition.fade,
+      curve: Curves.easeIn,
+    );
   }
 
   Future init() async {

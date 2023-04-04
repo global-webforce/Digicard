@@ -1,12 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:digicard/app/app.bottomsheet_ui.dart';
 import 'package:digicard/app/app.dialog_ui.dart';
 import 'package:digicard/app/app.logger.dart';
-import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/models/custom_link.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:digicard/app/views/custom_link/custom_link_view.dart';
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
@@ -29,6 +28,25 @@ class CardOpenViewModel extends ReactiveViewModel {
   final _bottomSheetService = locator<BottomSheetService>();
   final _digitalCardsService = locator<DigitalCardService>();
   final _navigationService = locator<NavigationService>();
+
+  final b = CachedNetworkImage(
+    height: 200,
+    width: 200,
+    memCacheHeight: 200,
+    imageUrl: "fdsfsfsf",
+  );
+
+  @override
+  void onFutureError(error, Object? key) {
+    log.e(error);
+    {
+      _dialogService.showCustomDialog(
+          variant: DialogType.error,
+          barrierDismissible: true,
+          description: error.toString());
+    }
+    super.onFutureError(error, key);
+  }
 
   @override
   List<ListenableServiceMixin> get listenableServices => [_digitalCardsService];
@@ -115,18 +133,18 @@ class CardOpenViewModel extends ReactiveViewModel {
   }
 
   save() async {
-    setBusyForObject(saveBusyKey, true);
     _formModel.form.unfocus();
+    final formValue = _formModel.model;
+
     if (actionType == ActionType.create) {
-      await _digitalCardsService
-          .create(DigitalCard.fromJson(_formModel.form.value));
-      _formModel.reset();
+      await runBusyFuture(_digitalCardsService.create(formValue),
+          throwException: true, busyObject: saveBusyKey);
     } else if (actionType == ActionType.edit) {
-      await _digitalCardsService
-          .update(DigitalCard.fromJson(_formModel.form.value));
+      await runBusyFuture(_digitalCardsService.update(formValue),
+          throwException: true, busyObject: saveBusyKey);
     } else if (actionType == ActionType.duplicate) {
-      await _digitalCardsService
-          .duplicate(DigitalCard.fromJson(_formModel.form.value));
+      await runBusyFuture(_digitalCardsService.duplicate(formValue),
+          throwException: true, busyObject: saveBusyKey);
     }
     setBusyForObject(saveBusyKey, false);
     setBusyForObject(doneBusyKey, true);
@@ -170,27 +188,6 @@ class CardOpenViewModel extends ReactiveViewModel {
       }
       if (res?.data is bool) {
         _formModel.logoImageControl?.value = null;
-        _formModel.form.markAsDirty();
-      }
-    });
-  }
-
-  setColor(Color value) {
-    _formModel.colorControl?.value = value.toHex();
-    _formModel.form.markAsDirty();
-  }
-
-  showColorPicker(Color value) async {
-    await _dialogService
-        .showCustomDialog(
-            barrierDismissible: true,
-            variant: DialogType.colorPicker,
-            data: value)
-        .then((res) {
-      if (res?.data is Color) {
-        final Color color = res?.data;
-
-        _formModel.colorControl?.value = color.toHex();
         _formModel.form.markAsDirty();
       }
     });

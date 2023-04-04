@@ -1,12 +1,12 @@
 import 'dart:io';
 
 import 'package:digicard/app/app.logger.dart';
+import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/app.bottomsheet_ui.dart';
 import 'package:digicard/app/app.dialog_ui.dart';
 import 'package:digicard/app/app.snackbar_ui.dart';
 import 'package:digicard/app/services/contacts_service.dart';
-import 'package:digicard/app/ui/_shared/app_colors.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:digicard/app/views/card_open/card_open_view.dart';
 import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
@@ -42,31 +42,37 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
   final _contactsService = locator<ContactsService>();
 
   @override
+  void onFutureError(error, Object? key) {
+    log.e(error);
+    {
+      _dialogService.showCustomDialog(
+          variant: DialogType.error,
+          barrierDismissible: true,
+          description: error.toString());
+    }
+    super.onFutureError(error, key);
+  }
+
+  @override
   List<ListenableServiceMixin> get listenableServices => [_digitalCardsService];
 
   late BuildContext context;
   late DigitalCard card;
 
-  Future<DialogResponse<dynamic>?> delete(int? id) async {
-    _dialogService
-        .showCustomDialog(
+  delete(int? id) async {
+    final value = await _dialogService.showCustomDialog(
       variant: DialogType.confirmation,
       title: "Card Delete",
       description: "You sure you want to delete this card?",
       mainButtonTitle: "Cancel",
       secondaryButtonTitle: "Delete",
       barrierDismissible: true,
-    )
-        .then((value) async {
-      if (value!.confirmed) {
-        setBusyForObject(deleteBusyKey, true);
-        await _digitalCardsService.delete(card);
-        setBusyForObject(deleteBusyKey, false);
-        _bottomSheetService.completeSheet(SheetResponse());
-      }
-
-      return value;
-    });
+    );
+    if (value!.confirmed) {
+      await runBusyFuture(_digitalCardsService.delete(card),
+          busyObject: deleteBusyKey, throwException: true);
+      _bottomSheetService.completeSheet(SheetResponse());
+    }
     return null;
   }
 
@@ -82,18 +88,26 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
 
   view(DigitalCard card) {
     _bottomSheetService.completeSheet(SheetResponse());
-    _navigationService.navigateToView(CardOpenView(
-      actionType: ActionType.view,
-      card: card,
-    ));
+    _navigationService.navigateToView(
+      CardOpenView(
+        actionType: ActionType.view,
+        card: card,
+      ),
+      transitionStyle: Transition.fade,
+      curve: Curves.easeIn,
+    );
   }
 
   update(DigitalCard card) {
     _bottomSheetService.completeSheet(SheetResponse());
-    _navigationService.navigateToView(CardOpenView(
-      actionType: ActionType.edit,
-      card: card,
-    ));
+    _navigationService.navigateToView(
+      CardOpenView(
+        actionType: ActionType.edit,
+        card: card,
+      ),
+      transitionStyle: Transition.rightToLeftWithFade,
+      curve: Curves.easeIn,
+    );
   }
 
   show(DigitalCard digitalCard) async {
@@ -106,14 +120,15 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
   }
 
   duplicate(DigitalCard digitalCard) async {
-    /* setBusyForObject(duplicateBusyKey, true);
-    await Future.delayed(const Duration(seconds: 1));
-    setBusyForObject(duplicateBusyKey, false); */
     _bottomSheetService.completeSheet(SheetResponse());
-    _navigationService.navigateToView(CardOpenView(
-      actionType: ActionType.duplicate,
-      card: digitalCard.copyWith(title: "${digitalCard.title} Copy"),
-    ));
+    _navigationService.navigateToView(
+      CardOpenView(
+        actionType: ActionType.duplicate,
+        card: digitalCard.copyWith(title: "${digitalCard.title} Copy"),
+      ),
+      transitionStyle: Transition.zoom,
+      curve: Curves.easeIn,
+    );
   }
 
   //Create an instance of ScreenshotController
@@ -172,6 +187,7 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
     setBusyForObject(doneBusyKey, true);
     await Future.delayed(const Duration(seconds: 1));
     setBusyForObject(doneBusyKey, false);
+    _snackbarService.showSnackbar(message: "TESTING!");
   }
 
   Future downloadWithoutLogo(BuildContext context) async {

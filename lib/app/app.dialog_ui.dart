@@ -1,11 +1,10 @@
 import 'package:digicard/app/app.locator.dart';
-import 'package:digicard/app/ui/dialogs/color_picker_dialog.dart';
 import 'package:digicard/app/ui/dialogs/confirmation_dialog.dart';
 import 'package:digicard/app/ui/dialogs/error_dialog.dart';
 import 'package:digicard/app/ui/dialogs/simple_dialog.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-enum DialogType { simple, confirmation, error, colorPicker }
+enum DialogType { simple, confirmation, error }
 
 Future<void> setupDialogUI() async {
   final dialogService = locator<DialogService>();
@@ -17,8 +16,6 @@ Future<void> setupDialogUI() async {
         ConfirmationDialog(request: sheetRequest, completer: completer),
     DialogType.error: (context, sheetRequest, completer) =>
         ErrorDialog(request: sheetRequest, completer: completer),
-    DialogType.colorPicker: (context, sheetRequest, completer) =>
-        ColorPickerDialog(request: sheetRequest, completer: completer),
   };
   dialogService.registerCustomDialogBuilders(builders);
 }
