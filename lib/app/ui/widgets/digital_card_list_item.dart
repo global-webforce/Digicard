@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class DigitalCardListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget image() {
       return Container(
-        color: ColorExtension.fromHex("${card.color}"),
+        color: Color(card.color ?? kcPrimaryColorInt),
         child: Material(
           child: CachedNetworkImage(
             imageUrl: "${card.profileImage}",
@@ -25,14 +26,13 @@ class DigitalCardListItem extends StatelessWidget {
             height: 140,
             fit: BoxFit.cover,
             placeholder: (context, url) {
-              return Container(
-                color: Colors.grey,
-              );
+              return Container(color: Color(card.color ?? kcPrimaryColorInt));
             },
             errorWidget: (context, url, error) {
-              return Image.asset(
-                "assets/images/placeholder.png",
-                fit: BoxFit.cover,
+              return Container(
+                width: double.infinity,
+                height: 140,
+                color: Color(card.color ?? kcPrimaryColorInt).darken(0.1),
               );
             },
           ),
@@ -41,12 +41,14 @@ class DigitalCardListItem extends StatelessWidget {
     }
 
     Widget title() {
-      return Text(
-        "${card.title}",
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        maxLines: 3,
-        overflow: TextOverflow.ellipsis,
-      );
+      return "${card.title}".isEmpty || "${card.title}" == "null"
+          ? const SizedBox.shrink()
+          : Text(
+              "${card.title}",
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            );
     }
 
     return SizedBox(
@@ -64,7 +66,7 @@ class DigitalCardListItem extends StatelessWidget {
               children: [
                 image(),
                 Container(
-                  color: ColorExtension.fromHex("${card.color}"),
+                  color: Color(card.color ?? kcPrimaryColorInt),
                   height: 5,
                 ),
                 Expanded(

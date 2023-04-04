@@ -1,11 +1,12 @@
-import 'package:digicard/app/extensions/color_extension.dart';
+import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
-import 'package:digicard/app/views/card_open/widgets/collapsible_field.dart';
-import 'package:digicard/app/views/card_open/widgets/custom_links_button_group.dart';
-import 'package:digicard/app/views/card_open/widgets/custom_links_field_group.dart';
-import 'package:digicard/app/views/card_open/widgets/horizontal_color_picker.dart';
+import 'package:digicard/app/views/card_open/widgets/edit/collapsible_field.dart';
+
+import 'package:digicard/app/views/card_open/widgets/edit/custom_links_field_group.dart';
+import 'package:digicard/app/views/card_open/widgets/edit/horizontal_color_picker.dart';
+import 'package:digicard/app/views/card_open/widgets/preview/custom_links_button_group.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 import 'package:stacked/stacked.dart';
@@ -30,16 +31,13 @@ class CardForm extends StatelessWidget {
         floatingLabelBehavior: FloatingLabelBehavior.auto);
 
     Widget colorPickerField() {
-      return ReactiveValueListenableBuilder<String>(
-        formControl: form?.colorControl,
-        builder: (context, field, child) {
-          return HorizontalColorPicker(
-            value: ColorExtension.fromHex("${field.value}"),
-            onChange: (color) {
-              viewModel.setColor(color);
-            },
-          );
-        },
+      return Column(
+        children: [
+          ReactiveColorPicker(
+            colors: cardColors,
+            formControl: form?.colorControl,
+          ),
+        ],
       );
     }
 
@@ -49,8 +47,8 @@ class CardForm extends StatelessWidget {
         child: ReactiveTextField(
           showErrors: (control) => false,
           formControl: form?.titleControl,
-          textInputAction: TextInputAction.next,
-          decoration: inputStyle.copyWith(label: const Text("TITLE")),
+          textInputAction: TextInputAction.done,
+          decoration: inputStyle.copyWith(label: const Text("Title")),
         ),
       );
     }
@@ -60,7 +58,7 @@ class CardForm extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControl: form?.fullnameForm.prefixControl,
+          formControl: form?.prefixControl,
           textInputAction: TextInputAction.next,
           decoration: inputStyle.copyWith(label: const Text("Prefix")),
         ),
@@ -72,7 +70,7 @@ class CardForm extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControl: form?.fullnameForm.firstNameControl,
+          formControl: form?.firstNameControl,
           textInputAction: TextInputAction.next,
           decoration: inputStyle.copyWith(label: const Text("First name")),
         ),
@@ -84,7 +82,7 @@ class CardForm extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControl: form?.fullnameForm.middleNameControl,
+          formControl: form?.middleNameControl,
           textInputAction: TextInputAction.next,
           decoration: inputStyle.copyWith(label: const Text("Middle name")),
         ),
@@ -96,7 +94,7 @@ class CardForm extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControl: form?.fullnameForm.lastNameControl,
+          formControl: form?.lastNameControl,
           textInputAction: TextInputAction.next,
           decoration: inputStyle.copyWith(label: const Text("Last name")),
         ),
@@ -108,7 +106,7 @@ class CardForm extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControl: form?.fullnameForm.suffixControl,
+          formControl: form?.suffixControl,
           textInputAction: TextInputAction.next,
           decoration: inputStyle.copyWith(label: const Text("Suffix")),
         ),
@@ -120,7 +118,7 @@ class CardForm extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControl: form?.fullnameForm.accreditationsControl,
+          formControl: form?.accreditationsControl,
           textInputAction: TextInputAction.next,
           decoration: inputStyle.copyWith(label: const Text("Accreditations")),
         ),
@@ -132,7 +130,7 @@ class CardForm extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControl: form?.fullnameForm.preferredNameControl,
+          formControl: form?.preferredNameControl,
           textInputAction: TextInputAction.next,
           decoration: inputStyle.copyWith(label: const Text("Preferred Name")),
         ),
@@ -144,7 +142,7 @@ class CardForm extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControl: form?.fullnameForm.maidenNameControl,
+          formControl: form?.maidenNameControl,
           textInputAction: TextInputAction.next,
           decoration: inputStyle.copyWith(label: const Text("Maiden Name")),
         ),
@@ -156,7 +154,7 @@ class CardForm extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControl: form?.fullnameForm.pronounsControl,
+          formControl: form?.pronounsControl,
           textInputAction: TextInputAction.next,
           decoration: inputStyle.copyWith(label: const Text("Pronouns")),
         ),
@@ -237,7 +235,7 @@ class CardForm extends StatelessWidget {
                         viewModel.formModel.form.unfocus();
                       },
                       value:
-                          "${form?.fullnameForm.prefixControl?.value ?? ""} ${form?.fullnameForm.firstNameControl?.value ?? ""} ${form?.fullnameForm.middleNameControl?.value ?? ""} ${form?.fullnameForm.lastNameControl?.value ?? ""} ${form?.fullnameForm.suffixControl?.value ?? ""}"
+                          "${form?.prefixControl?.value ?? ""} ${form?.firstNameControl?.value ?? ""} ${form?.middleNameControl?.value ?? ""} ${form?.lastNameControl?.value ?? ""} ${form?.suffixControl?.value ?? ""}"
                               .trim(),
                       body: Padding(
                         padding: const EdgeInsets.only(left: 30),
@@ -278,7 +276,7 @@ class CardForm extends StatelessWidget {
               ],
             ),
           ),
-          const CustomLinksButtonGroup()
+          const CustomLinksButtonGroup(),
         ],
       ),
     );

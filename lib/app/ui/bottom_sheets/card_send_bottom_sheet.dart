@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:digicard/app/extensions/color_extension.dart';
+import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/ui/widgets/bottom_sheet_buttons.dart';
 import 'package:digicard/app/ui/overlays/custom_overlay.dart';
@@ -33,6 +33,10 @@ class CardSendBottomSheet extends StatelessWidget {
           viewModel.context = context;
         },
         builder: (context, viewModel, child) {
+          final colorTheme = viewModel.card.color != null
+              ? Color(viewModel.card.color ?? kcPrimaryColorInt)
+              : Theme.of(context).primaryColor;
+
           if (viewModel.busy(duplicateBusyKey)) {
             context.loaderOverlay
                 .show(widget: const CustomOverlay(title: "Duplicating..."));
@@ -71,8 +75,7 @@ class CardSendBottomSheet extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        color:
-                            ColorExtension.fromHex("${viewModel.card.color}"),
+                        color: colorTheme,
                         height: 25,
                         child: Center(
                           child: Container(
@@ -113,11 +116,7 @@ class CardSendBottomSheet extends StatelessWidget {
                                         version: QrVersions.auto,
                                         size: 250,
                                         foregroundColor: Colors.white,
-                                        backgroundColor: ColorExtension.fromHex(
-                                                "${viewModel.card.color}") ??
-                                            Theme.of(context)
-                                                .colorScheme
-                                                .primary,
+                                        backgroundColor: colorTheme,
                                         gapless: false,
                                       ),
                                       Positioned(
@@ -159,8 +158,7 @@ class CardSendBottomSheet extends StatelessWidget {
                               Row(
                                 children: [
                                   MinButtons(
-                                      color: ColorExtension.fromHex(
-                                          "${viewModel.card.color}"),
+                                      color: colorTheme,
                                       onTap: () async {
                                         await viewModel.share();
                                       },
@@ -172,8 +170,7 @@ class CardSendBottomSheet extends StatelessWidget {
                               Row(
                                 children: [
                                   MinButtons(
-                                      color: ColorExtension.fromHex(
-                                          "${viewModel.card.color}"),
+                                      color: colorTheme,
                                       onTap: () async {
                                         await viewModel.downloadWithLogo();
                                       },
@@ -186,8 +183,7 @@ class CardSendBottomSheet extends StatelessWidget {
                               Row(
                                 children: [
                                   MinButtons(
-                                      color: ColorExtension.fromHex(
-                                          "${viewModel.card.color}"),
+                                      color: colorTheme,
                                       onTap: () async {
                                         await viewModel.saveToContacts();
                                       },

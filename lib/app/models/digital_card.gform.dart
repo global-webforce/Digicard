@@ -180,8 +180,6 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     this.form,
     this.path,
   ) {
-    fullnameForm =
-        FullNameForm(digitalCard?.fullname, form, pathBuilder('fullname'));
     customLinksCustomLinkForm = (digitalCard?.customLinks ?? [])
         .asMap()
         .map((k, v) =>
@@ -198,13 +196,29 @@ class DigitalCardForm implements FormModel<DigitalCard> {
 
   static String titleControlName = "title";
 
+  static String prefixControlName = "prefix";
+
+  static String firstNameControlName = "firstName";
+
+  static String middleNameControlName = "middleName";
+
+  static String lastNameControlName = "lastName";
+
+  static String suffixControlName = "suffix";
+
+  static String accreditationsControlName = "accreditations";
+
+  static String preferredNameControlName = "preferredName";
+
+  static String maidenNameControlName = "maidenName";
+
+  static String pronounsControlName = "pronouns";
+
   static String logoImageControlName = "logoImage";
 
   static String profileImageControlName = "profileImage";
 
   static String colorControlName = "color";
-
-  static String fullnameControlName = "fullname";
 
   static String positionControlName = "position";
 
@@ -215,8 +229,6 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   static String headlineControlName = "headline";
 
   static String customLinksControlName = "customLinks";
-
-  late FullNameForm fullnameForm;
 
   final DigitalCard? digitalCard;
 
@@ -230,6 +242,15 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   String userIdControlPath() => pathBuilder(userIdControlName);
   String uuidControlPath() => pathBuilder(uuidControlName);
   String titleControlPath() => pathBuilder(titleControlName);
+  String prefixControlPath() => pathBuilder(prefixControlName);
+  String firstNameControlPath() => pathBuilder(firstNameControlName);
+  String middleNameControlPath() => pathBuilder(middleNameControlName);
+  String lastNameControlPath() => pathBuilder(lastNameControlName);
+  String suffixControlPath() => pathBuilder(suffixControlName);
+  String accreditationsControlPath() => pathBuilder(accreditationsControlName);
+  String preferredNameControlPath() => pathBuilder(preferredNameControlName);
+  String maidenNameControlPath() => pathBuilder(maidenNameControlName);
+  String pronounsControlPath() => pathBuilder(pronounsControlName);
   String logoImageControlPath() => pathBuilder(logoImageControlName);
   String profileImageControlPath() => pathBuilder(profileImageControlName);
   String colorControlPath() => pathBuilder(colorControlName);
@@ -237,20 +258,27 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   String departmentControlPath() => pathBuilder(departmentControlName);
   String companyControlPath() => pathBuilder(companyControlName);
   String headlineControlPath() => pathBuilder(headlineControlName);
-  String fullnameControlPath() => pathBuilder(fullnameControlName);
   String customLinksControlPath() => pathBuilder(customLinksControlName);
   int? get _idValue => idControl?.value;
-  int? get _userIdValue => userIdControl?.value;
+  String? get _userIdValue => userIdControl?.value;
   String? get _uuidValue => uuidControl?.value;
   String? get _titleValue => titleControl?.value;
+  String? get _prefixValue => prefixControl?.value;
+  String? get _firstNameValue => firstNameControl?.value;
+  String? get _middleNameValue => middleNameControl?.value;
+  String? get _lastNameValue => lastNameControl?.value;
+  String? get _suffixValue => suffixControl?.value;
+  String? get _accreditationsValue => accreditationsControl?.value;
+  String? get _preferredNameValue => preferredNameControl?.value;
+  String? get _maidenNameValue => maidenNameControl?.value;
+  String? get _pronounsValue => pronounsControl?.value;
   String? get _logoImageValue => logoImageControl?.value;
   String? get _profileImageValue => profileImageControl?.value;
-  String? get _colorValue => colorControl?.value;
+  int? get _colorValue => colorControl?.value;
   String? get _positionValue => positionControl?.value;
   String? get _departmentValue => departmentControl?.value;
   String? get _companyValue => companyControl?.value;
   String? get _headlineValue => headlineControl?.value;
-  FullName? get _fullnameValue => fullnameForm.model;
   List<CustomLink> get _customLinksValue => customLinksCustomLinkForm
       .asMap()
       .map(
@@ -295,6 +323,87 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   bool get containsTitle {
     try {
       form.control(titleControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool get containsPrefix {
+    try {
+      form.control(prefixControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool get containsFirstName {
+    try {
+      form.control(firstNameControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool get containsMiddleName {
+    try {
+      form.control(middleNameControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool get containsLastName {
+    try {
+      form.control(lastNameControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool get containsSuffix {
+    try {
+      form.control(suffixControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool get containsAccreditations {
+    try {
+      form.control(accreditationsControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool get containsPreferredName {
+    try {
+      form.control(preferredNameControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool get containsMaidenName {
+    try {
+      form.control(maidenNameControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool get containsPronouns {
+    try {
+      form.control(pronounsControlPath());
       return true;
     } catch (e) {
       return false;
@@ -364,15 +473,6 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     }
   }
 
-  bool get containsFullname {
-    try {
-      form.control(fullnameControlPath());
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
   bool get containsCustomLinks {
     try {
       form.control(customLinksControlPath());
@@ -386,6 +486,15 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   Object? get userIdErrors => userIdControl?.errors;
   Object? get uuidErrors => uuidControl?.errors;
   Object? get titleErrors => titleControl?.errors;
+  Object? get prefixErrors => prefixControl?.errors;
+  Object? get firstNameErrors => firstNameControl?.errors;
+  Object? get middleNameErrors => middleNameControl?.errors;
+  Object? get lastNameErrors => lastNameControl?.errors;
+  Object? get suffixErrors => suffixControl?.errors;
+  Object? get accreditationsErrors => accreditationsControl?.errors;
+  Object? get preferredNameErrors => preferredNameControl?.errors;
+  Object? get maidenNameErrors => maidenNameControl?.errors;
+  Object? get pronounsErrors => pronounsControl?.errors;
   Object? get logoImageErrors => logoImageControl?.errors;
   Object? get profileImageErrors => profileImageControl?.errors;
   Object? get colorErrors => colorControl?.errors;
@@ -393,12 +502,20 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   Object? get departmentErrors => departmentControl?.errors;
   Object? get companyErrors => companyControl?.errors;
   Object? get headlineErrors => headlineControl?.errors;
-  Object? get fullnameErrors => fullnameControl?.errors;
   Object? get customLinksErrors => customLinksControl.errors;
   void get idFocus => form.focus(idControlPath());
   void get userIdFocus => form.focus(userIdControlPath());
   void get uuidFocus => form.focus(uuidControlPath());
   void get titleFocus => form.focus(titleControlPath());
+  void get prefixFocus => form.focus(prefixControlPath());
+  void get firstNameFocus => form.focus(firstNameControlPath());
+  void get middleNameFocus => form.focus(middleNameControlPath());
+  void get lastNameFocus => form.focus(lastNameControlPath());
+  void get suffixFocus => form.focus(suffixControlPath());
+  void get accreditationsFocus => form.focus(accreditationsControlPath());
+  void get preferredNameFocus => form.focus(preferredNameControlPath());
+  void get maidenNameFocus => form.focus(maidenNameControlPath());
+  void get pronounsFocus => form.focus(pronounsControlPath());
   void get logoImageFocus => form.focus(logoImageControlPath());
   void get profileImageFocus => form.focus(profileImageControlPath());
   void get colorFocus => form.focus(colorControlPath());
@@ -406,7 +523,6 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   void get departmentFocus => form.focus(departmentControlPath());
   void get companyFocus => form.focus(companyControlPath());
   void get headlineFocus => form.focus(headlineControlPath());
-  void get fullnameFocus => form.focus(fullnameControlPath());
   void get customLinksFocus => form.focus(customLinksControlPath());
   void idRemove({
     bool updateParent = true,
@@ -512,1270 +628,6 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     }
   }
 
-  void logoImageRemove({
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (containsLogoImage) {
-      final controlPath = path;
-      if (controlPath == null) {
-        form.removeControl(
-          logoImageControlName,
-          updateParent: updateParent,
-          emitEvent: emitEvent,
-        );
-      } else {
-        final formGroup = form.control(controlPath);
-
-        if (formGroup is FormGroup) {
-          formGroup.removeControl(
-            logoImageControlName,
-            updateParent: updateParent,
-            emitEvent: emitEvent,
-          );
-        }
-      }
-    }
-  }
-
-  void profileImageRemove({
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (containsProfileImage) {
-      final controlPath = path;
-      if (controlPath == null) {
-        form.removeControl(
-          profileImageControlName,
-          updateParent: updateParent,
-          emitEvent: emitEvent,
-        );
-      } else {
-        final formGroup = form.control(controlPath);
-
-        if (formGroup is FormGroup) {
-          formGroup.removeControl(
-            profileImageControlName,
-            updateParent: updateParent,
-            emitEvent: emitEvent,
-          );
-        }
-      }
-    }
-  }
-
-  void colorRemove({
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (containsColor) {
-      final controlPath = path;
-      if (controlPath == null) {
-        form.removeControl(
-          colorControlName,
-          updateParent: updateParent,
-          emitEvent: emitEvent,
-        );
-      } else {
-        final formGroup = form.control(controlPath);
-
-        if (formGroup is FormGroup) {
-          formGroup.removeControl(
-            colorControlName,
-            updateParent: updateParent,
-            emitEvent: emitEvent,
-          );
-        }
-      }
-    }
-  }
-
-  void positionRemove({
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (containsPosition) {
-      final controlPath = path;
-      if (controlPath == null) {
-        form.removeControl(
-          positionControlName,
-          updateParent: updateParent,
-          emitEvent: emitEvent,
-        );
-      } else {
-        final formGroup = form.control(controlPath);
-
-        if (formGroup is FormGroup) {
-          formGroup.removeControl(
-            positionControlName,
-            updateParent: updateParent,
-            emitEvent: emitEvent,
-          );
-        }
-      }
-    }
-  }
-
-  void departmentRemove({
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (containsDepartment) {
-      final controlPath = path;
-      if (controlPath == null) {
-        form.removeControl(
-          departmentControlName,
-          updateParent: updateParent,
-          emitEvent: emitEvent,
-        );
-      } else {
-        final formGroup = form.control(controlPath);
-
-        if (formGroup is FormGroup) {
-          formGroup.removeControl(
-            departmentControlName,
-            updateParent: updateParent,
-            emitEvent: emitEvent,
-          );
-        }
-      }
-    }
-  }
-
-  void companyRemove({
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (containsCompany) {
-      final controlPath = path;
-      if (controlPath == null) {
-        form.removeControl(
-          companyControlName,
-          updateParent: updateParent,
-          emitEvent: emitEvent,
-        );
-      } else {
-        final formGroup = form.control(controlPath);
-
-        if (formGroup is FormGroup) {
-          formGroup.removeControl(
-            companyControlName,
-            updateParent: updateParent,
-            emitEvent: emitEvent,
-          );
-        }
-      }
-    }
-  }
-
-  void headlineRemove({
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (containsHeadline) {
-      final controlPath = path;
-      if (controlPath == null) {
-        form.removeControl(
-          headlineControlName,
-          updateParent: updateParent,
-          emitEvent: emitEvent,
-        );
-      } else {
-        final formGroup = form.control(controlPath);
-
-        if (formGroup is FormGroup) {
-          formGroup.removeControl(
-            headlineControlName,
-            updateParent: updateParent,
-            emitEvent: emitEvent,
-          );
-        }
-      }
-    }
-  }
-
-  void fullnameRemove({
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (containsFullname) {
-      final controlPath = path;
-      if (controlPath == null) {
-        form.removeControl(
-          fullnameControlName,
-          updateParent: updateParent,
-          emitEvent: emitEvent,
-        );
-      } else {
-        final formGroup = form.control(controlPath);
-
-        if (formGroup is FormGroup) {
-          formGroup.removeControl(
-            fullnameControlName,
-            updateParent: updateParent,
-            emitEvent: emitEvent,
-          );
-        }
-      }
-    }
-  }
-
-  void idValueUpdate(
-    int? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    idControl?.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void userIdValueUpdate(
-    int? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    userIdControl?.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void uuidValueUpdate(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    uuidControl?.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void titleValueUpdate(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    titleControl?.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void logoImageValueUpdate(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    logoImageControl?.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void profileImageValueUpdate(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    profileImageControl?.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void colorValueUpdate(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    colorControl?.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void positionValueUpdate(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    positionControl?.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void departmentValueUpdate(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    departmentControl?.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void companyValueUpdate(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    companyControl?.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void headlineValueUpdate(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    headlineControl?.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void fullnameValueUpdate(
-    FullName? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    fullnameControl?.updateValue(FullNameForm.formElements(value).rawValue,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void customLinksValueUpdate(
-    List<CustomLink> value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if ((value).isEmpty) {
-      customLinksClear(updateParent: updateParent, emitEvent: emitEvent);
-
-      return;
-    }
-
-    final updateList = (value)
-        .asMap()
-        .map(
-          (k, v) => MapEntry(
-            k,
-            CustomLinkForm(v, form, pathBuilder("customLinks.$k")),
-          ),
-        )
-        .values
-        .toList();
-
-    customLinksCustomLinkForm.clear();
-    customLinksCustomLinkForm.addAll(updateList);
-
-    final toUpdate = <CustomLinkForm>[];
-    final toAdd = <CustomLinkForm>[];
-
-    updateList.asMap().forEach((k, v) {
-      if (customLinksCustomLinkForm.asMap().containsKey(k) &&
-          (customLinksControl.value ?? []).asMap().containsKey(k)) {
-        toUpdate.add(v);
-      } else {
-        toAdd.add(v);
-      }
-    });
-
-    if (toUpdate.isNotEmpty) {
-      customLinksControl.updateValue(
-          toUpdate
-              .map((e) => CustomLinkForm.formElements(e.customLink).rawValue)
-              .toList(),
-          updateParent: updateParent,
-          emitEvent: emitEvent);
-    }
-
-    if (toAdd.isNotEmpty) {
-      toAdd.forEach((e) {
-        customLinksControl.add(CustomLinkForm.formElements(e.customLink),
-            updateParent: updateParent, emitEvent: emitEvent);
-      });
-    }
-  }
-
-  void customLinksInsert(
-    int i,
-    CustomLink value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (customLinksCustomLinkForm.length < i) {
-      addCustomLinksItem(value);
-      return;
-    }
-
-    final item = CustomLinkForm(
-      value,
-      form,
-      pathBuilder('customLinks.$i'),
-    );
-
-    customLinksCustomLinkForm.insert(i, item);
-
-    customLinksCustomLinkForm.asMap().forEach((k, v) {
-      if (k > i) {
-        customLinksCustomLinkForm[k] = v.copyWithPath(
-          pathBuilder("customLinks.$k"),
-        );
-      }
-    });
-
-    customLinksControl.insert(
-      i,
-      CustomLinkForm.formElements(value),
-      updateParent: updateParent,
-      emitEvent: emitEvent,
-    );
-  }
-
-  void customLinksClear({
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    customLinksCustomLinkForm.clear();
-    customLinksControl.clear(updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void idValuePatch(
-    int? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    idControl?.patchValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void userIdValuePatch(
-    int? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    userIdControl?.patchValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void uuidValuePatch(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    uuidControl?.patchValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void titleValuePatch(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    titleControl?.patchValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void logoImageValuePatch(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    logoImageControl?.patchValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void profileImageValuePatch(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    profileImageControl?.patchValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void colorValuePatch(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    colorControl?.patchValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void positionValuePatch(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    positionControl?.patchValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void departmentValuePatch(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    departmentControl?.patchValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void companyValuePatch(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    companyControl?.patchValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void headlineValuePatch(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    headlineControl?.patchValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void fullnameValuePatch(
-    FullName? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    fullnameControl?.updateValue(FullNameForm.formElements(value).rawValue,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void customLinksValuePatch(
-    List<CustomLink> value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    final keys = customLinksCustomLinkForm.asMap().keys;
-
-    final toPatch = <CustomLinkForm>[];
-    (value).asMap().forEach(
-      (k, v) {
-        if (keys.contains(k)) {
-          final patch = CustomLinkForm(v, form, pathBuilder("customLinks.$k"));
-          customLinksCustomLinkForm[k] = patch;
-          toPatch.add(patch);
-        }
-      },
-    );
-
-    customLinksControl.patchValue(
-        toPatch
-            .map((e) => CustomLinkForm.formElements(e.customLink).rawValue)
-            .toList(),
-        updateParent: updateParent,
-        emitEvent: emitEvent);
-  }
-
-  void idValueReset(
-    int? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      idControl?.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void userIdValueReset(
-    int? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      userIdControl?.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void uuidValueReset(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      uuidControl?.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void titleValueReset(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      titleControl?.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void logoImageValueReset(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      logoImageControl?.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void profileImageValueReset(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      profileImageControl?.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void colorValueReset(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      colorControl?.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void positionValueReset(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      positionControl?.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void departmentValueReset(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      departmentControl?.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void companyValueReset(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      companyControl?.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void headlineValueReset(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      headlineControl?.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void fullnameValueReset(
-    FullName? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      fullnameControl?.reset(
-          value: FullNameForm.formElements(value).rawValue,
-          updateParent: updateParent,
-          emitEvent: emitEvent);
-  void customLinksValueReset(
-    List<CustomLink> value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      customLinksControl.reset(
-          value: value
-              .map((e) => CustomLinkForm.formElements(e).rawValue)
-              .toList(),
-          updateParent: updateParent,
-          emitEvent: emitEvent);
-  FormControl<int>? get idControl =>
-      containsId ? form.control(idControlPath()) as FormControl<int>? : null;
-  FormControl<int>? get userIdControl => containsUserId
-      ? form.control(userIdControlPath()) as FormControl<int>?
-      : null;
-  FormControl<String>? get uuidControl => containsUuid
-      ? form.control(uuidControlPath()) as FormControl<String>?
-      : null;
-  FormControl<String>? get titleControl => containsTitle
-      ? form.control(titleControlPath()) as FormControl<String>?
-      : null;
-  FormControl<String>? get logoImageControl => containsLogoImage
-      ? form.control(logoImageControlPath()) as FormControl<String>?
-      : null;
-  FormControl<String>? get profileImageControl => containsProfileImage
-      ? form.control(profileImageControlPath()) as FormControl<String>?
-      : null;
-  FormControl<String>? get colorControl => containsColor
-      ? form.control(colorControlPath()) as FormControl<String>?
-      : null;
-  FormControl<String>? get positionControl => containsPosition
-      ? form.control(positionControlPath()) as FormControl<String>?
-      : null;
-  FormControl<String>? get departmentControl => containsDepartment
-      ? form.control(departmentControlPath()) as FormControl<String>?
-      : null;
-  FormControl<String>? get companyControl => containsCompany
-      ? form.control(companyControlPath()) as FormControl<String>?
-      : null;
-  FormControl<String>? get headlineControl => containsHeadline
-      ? form.control(headlineControlPath()) as FormControl<String>?
-      : null;
-  FormGroup? get fullnameControl => containsFullname
-      ? form.control(fullnameControlPath()) as FormGroup?
-      : null;
-  FormArray<Map<String, Object?>> get customLinksControl =>
-      form.control(customLinksControlPath()) as FormArray<Map<String, Object?>>;
-  void idSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      idControl?.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      idControl?.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  void userIdSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      userIdControl?.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      userIdControl?.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  void uuidSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      uuidControl?.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      uuidControl?.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  void titleSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      titleControl?.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      titleControl?.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  void logoImageSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      logoImageControl?.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      logoImageControl?.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  void profileImageSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      profileImageControl?.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      profileImageControl?.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  void colorSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      colorControl?.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      colorControl?.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  void positionSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      positionControl?.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      positionControl?.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  void departmentSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      departmentControl?.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      departmentControl?.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  void companySetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      companyControl?.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      companyControl?.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  void headlineSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      headlineControl?.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      headlineControl?.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  void fullnameSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      fullnameControl?.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      fullnameControl?.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  void customLinksSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      customLinksControl.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      customLinksControl.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  ExtendedControl<List<Map<String, Object?>?>, List<CustomLinkForm>>
-      get customLinksExtendedControl =>
-          ExtendedControl<List<Map<String, Object?>?>, List<CustomLinkForm>>(
-              form.control(customLinksControlPath())
-                  as FormArray<Map<String, Object?>>,
-              () => customLinksCustomLinkForm);
-  void addCustomLinksItem(CustomLink value) {
-    final formClass = CustomLinkForm(value, form,
-        pathBuilder('customLinks.${customLinksCustomLinkForm.length}'));
-
-    customLinksCustomLinkForm.add(formClass);
-    customLinksControl.add(CustomLinkForm.formElements(value));
-  }
-
-  void removeCustomLinksItemAtIndex(int i) {
-    if (customLinksCustomLinkForm.asMap().containsKey(i) &&
-        (customLinksControl.value ?? []).asMap().containsKey(i)) {
-      customLinksCustomLinkForm.removeAt(i);
-
-      customLinksCustomLinkForm.asMap().forEach((k, v) {
-        customLinksCustomLinkForm[k] =
-            v.copyWithPath(pathBuilder("customLinks.$k"));
-      });
-
-      customLinksControl.removeAt(i);
-    }
-  }
-
-  void addCustomLinksItemList(List<CustomLink> value) {
-    value.map((e) => addCustomLinksItem(e));
-  }
-
-  @override
-  DigitalCard get model {
-    if (!form.valid) {
-      debugPrint(
-        'Prefer not to call `model` on non-valid form it could cause unexpected exceptions in case you created a non-nullable field in model and expect it to be guarded by some kind of `required` validator.',
-      );
-    }
-    return DigitalCard(
-        id: _idValue,
-        userId: _userIdValue,
-        uuid: _uuidValue,
-        title: _titleValue,
-        logoImage: _logoImageValue,
-        profileImage: _profileImageValue,
-        color: _colorValue,
-        fullname: _fullnameValue,
-        position: _positionValue,
-        department: _departmentValue,
-        company: _companyValue,
-        headline: _headlineValue,
-        customLinks: _customLinksValue,
-        createdAt: digitalCard?.createdAt,
-        updatedAt: digitalCard?.updatedAt);
-  }
-
-  DigitalCardForm copyWithPath(String? path) {
-    return DigitalCardForm(digitalCard, form, path);
-  }
-
-  @override
-  void updateValue(
-    DigitalCard value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) =>
-      form.updateValue(DigitalCardForm.formElements(value).rawValue,
-          updateParent: updateParent, emitEvent: emitEvent);
-  @override
-  void reset({
-    DigitalCard? value,
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) =>
-      form.reset(
-          value: value != null ? formElements(value).rawValue : null,
-          updateParent: updateParent,
-          emitEvent: emitEvent);
-  String pathBuilder(String? pathItem) =>
-      [path, pathItem].whereType<String>().join(".");
-  static FormGroup formElements(DigitalCard? digitalCard) => FormGroup({
-        idControlName: FormControl<int>(
-            value: digitalCard?.id,
-            validators: [],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false,
-            touched: false),
-        userIdControlName: FormControl<int>(
-            value: digitalCard?.userId,
-            validators: [],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false,
-            touched: false),
-        uuidControlName: FormControl<String>(
-            value: digitalCard?.uuid,
-            validators: [],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false,
-            touched: false),
-        titleControlName: FormControl<String>(
-            value: digitalCard?.title,
-            validators: [],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false,
-            touched: false),
-        logoImageControlName: FormControl<String>(
-            value: digitalCard?.logoImage,
-            validators: [],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false,
-            touched: false),
-        profileImageControlName: FormControl<String>(
-            value: digitalCard?.profileImage,
-            validators: [],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false,
-            touched: false),
-        colorControlName: FormControl<String>(
-            value: digitalCard?.color,
-            validators: [],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false,
-            touched: false),
-        positionControlName: FormControl<String>(
-            value: digitalCard?.position,
-            validators: [],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false,
-            touched: false),
-        departmentControlName: FormControl<String>(
-            value: digitalCard?.department,
-            validators: [],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false,
-            touched: false),
-        companyControlName: FormControl<String>(
-            value: digitalCard?.company,
-            validators: [],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false,
-            touched: false),
-        headlineControlName: FormControl<String>(
-            value: digitalCard?.headline,
-            validators: [],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false,
-            touched: false),
-        customLinksControlName: FormArray(
-            (digitalCard?.customLinks ?? [])
-                .map((e) => CustomLinkForm.formElements(e))
-                .toList(),
-            validators: [],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false),
-        fullnameControlName: FullNameForm.formElements(digitalCard?.fullname)
-      },
-          validators: [],
-          asyncValidators: [],
-          asyncValidatorsDebounceTime: 250,
-          disabled: false);
-}
-
-class FullNameForm implements FormModel<FullName> {
-  FullNameForm(
-    this.fullName,
-    this.form,
-    this.path,
-  ) {}
-
-  static String prefixControlName = "prefix";
-
-  static String firstNameControlName = "firstName";
-
-  static String middleNameControlName = "middleName";
-
-  static String lastNameControlName = "lastName";
-
-  static String suffixControlName = "suffix";
-
-  static String accreditationsControlName = "accreditations";
-
-  static String preferredNameControlName = "preferredName";
-
-  static String maidenNameControlName = "maidenName";
-
-  static String pronounsControlName = "pronouns";
-
-  final FullName? fullName;
-
-  final FormGroup form;
-
-  final String? path;
-
-  String prefixControlPath() => pathBuilder(prefixControlName);
-  String firstNameControlPath() => pathBuilder(firstNameControlName);
-  String middleNameControlPath() => pathBuilder(middleNameControlName);
-  String lastNameControlPath() => pathBuilder(lastNameControlName);
-  String suffixControlPath() => pathBuilder(suffixControlName);
-  String accreditationsControlPath() => pathBuilder(accreditationsControlName);
-  String preferredNameControlPath() => pathBuilder(preferredNameControlName);
-  String maidenNameControlPath() => pathBuilder(maidenNameControlName);
-  String pronounsControlPath() => pathBuilder(pronounsControlName);
-  String? get _prefixValue => prefixControl?.value;
-  String? get _firstNameValue => firstNameControl?.value;
-  String? get _middleNameValue => middleNameControl?.value;
-  String? get _lastNameValue => lastNameControl?.value;
-  String? get _suffixValue => suffixControl?.value;
-  String? get _accreditationsValue => accreditationsControl?.value;
-  String? get _preferredNameValue => preferredNameControl?.value;
-  String? get _maidenNameValue => maidenNameControl?.value;
-  String? get _pronounsValue => pronounsControl?.value;
-  bool get containsPrefix {
-    try {
-      form.control(prefixControlPath());
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  bool get containsFirstName {
-    try {
-      form.control(firstNameControlPath());
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  bool get containsMiddleName {
-    try {
-      form.control(middleNameControlPath());
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  bool get containsLastName {
-    try {
-      form.control(lastNameControlPath());
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  bool get containsSuffix {
-    try {
-      form.control(suffixControlPath());
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  bool get containsAccreditations {
-    try {
-      form.control(accreditationsControlPath());
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  bool get containsPreferredName {
-    try {
-      form.control(preferredNameControlPath());
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  bool get containsMaidenName {
-    try {
-      form.control(maidenNameControlPath());
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  bool get containsPronouns {
-    try {
-      form.control(pronounsControlPath());
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  Object? get prefixErrors => prefixControl?.errors;
-  Object? get firstNameErrors => firstNameControl?.errors;
-  Object? get middleNameErrors => middleNameControl?.errors;
-  Object? get lastNameErrors => lastNameControl?.errors;
-  Object? get suffixErrors => suffixControl?.errors;
-  Object? get accreditationsErrors => accreditationsControl?.errors;
-  Object? get preferredNameErrors => preferredNameControl?.errors;
-  Object? get maidenNameErrors => maidenNameControl?.errors;
-  Object? get pronounsErrors => pronounsControl?.errors;
-  void get prefixFocus => form.focus(prefixControlPath());
-  void get firstNameFocus => form.focus(firstNameControlPath());
-  void get middleNameFocus => form.focus(middleNameControlPath());
-  void get lastNameFocus => form.focus(lastNameControlPath());
-  void get suffixFocus => form.focus(suffixControlPath());
-  void get accreditationsFocus => form.focus(accreditationsControlPath());
-  void get preferredNameFocus => form.focus(preferredNameControlPath());
-  void get maidenNameFocus => form.focus(maidenNameControlPath());
-  void get pronounsFocus => form.focus(pronounsControlPath());
   void prefixRemove({
     bool updateParent = true,
     bool emitEvent = true,
@@ -2010,6 +862,224 @@ class FullNameForm implements FormModel<FullName> {
     }
   }
 
+  void logoImageRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsLogoImage) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          logoImageControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            logoImageControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
+  void profileImageRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsProfileImage) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          profileImageControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            profileImageControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
+  void colorRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsColor) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          colorControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            colorControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
+  void positionRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsPosition) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          positionControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            positionControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
+  void departmentRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsDepartment) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          departmentControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            departmentControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
+  void companyRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsCompany) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          companyControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            companyControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
+  void headlineRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsHeadline) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          headlineControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            headlineControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
+  void idValueUpdate(
+    int? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    idControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void userIdValueUpdate(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    userIdControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void uuidValueUpdate(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    uuidControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void titleValueUpdate(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    titleControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
   void prefixValueUpdate(
     String? value, {
     bool updateParent = true,
@@ -2088,6 +1158,202 @@ class FullNameForm implements FormModel<FullName> {
     bool emitEvent = true,
   }) {
     pronounsControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void logoImageValueUpdate(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    logoImageControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void profileImageValueUpdate(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    profileImageControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void colorValueUpdate(
+    int? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    colorControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void positionValueUpdate(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    positionControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void departmentValueUpdate(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    departmentControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void companyValueUpdate(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    companyControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void headlineValueUpdate(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    headlineControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void customLinksValueUpdate(
+    List<CustomLink> value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if ((value).isEmpty) {
+      customLinksClear(updateParent: updateParent, emitEvent: emitEvent);
+
+      return;
+    }
+
+    final updateList = (value)
+        .asMap()
+        .map(
+          (k, v) => MapEntry(
+            k,
+            CustomLinkForm(v, form, pathBuilder("customLinks.$k")),
+          ),
+        )
+        .values
+        .toList();
+
+    customLinksCustomLinkForm.clear();
+    customLinksCustomLinkForm.addAll(updateList);
+
+    final toUpdate = <CustomLinkForm>[];
+    final toAdd = <CustomLinkForm>[];
+
+    updateList.asMap().forEach((k, v) {
+      if (customLinksCustomLinkForm.asMap().containsKey(k) &&
+          (customLinksControl.value ?? []).asMap().containsKey(k)) {
+        toUpdate.add(v);
+      } else {
+        toAdd.add(v);
+      }
+    });
+
+    if (toUpdate.isNotEmpty) {
+      customLinksControl.updateValue(
+          toUpdate
+              .map((e) => CustomLinkForm.formElements(e.customLink).rawValue)
+              .toList(),
+          updateParent: updateParent,
+          emitEvent: emitEvent);
+    }
+
+    if (toAdd.isNotEmpty) {
+      toAdd.forEach((e) {
+        customLinksControl.add(CustomLinkForm.formElements(e.customLink),
+            updateParent: updateParent, emitEvent: emitEvent);
+      });
+    }
+  }
+
+  void customLinksInsert(
+    int i,
+    CustomLink value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (customLinksCustomLinkForm.length < i) {
+      addCustomLinksItem(value);
+      return;
+    }
+
+    final item = CustomLinkForm(
+      value,
+      form,
+      pathBuilder('customLinks.$i'),
+    );
+
+    customLinksCustomLinkForm.insert(i, item);
+
+    customLinksCustomLinkForm.asMap().forEach((k, v) {
+      if (k > i) {
+        customLinksCustomLinkForm[k] = v.copyWithPath(
+          pathBuilder("customLinks.$k"),
+        );
+      }
+    });
+
+    customLinksControl.insert(
+      i,
+      CustomLinkForm.formElements(value),
+      updateParent: updateParent,
+      emitEvent: emitEvent,
+    );
+  }
+
+  void customLinksClear({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    customLinksCustomLinkForm.clear();
+    customLinksControl.clear(updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void idValuePatch(
+    int? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    idControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void userIdValuePatch(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    userIdControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void uuidValuePatch(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    uuidControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void titleValuePatch(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    titleControl?.patchValue(value,
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
@@ -2172,6 +1438,131 @@ class FullNameForm implements FormModel<FullName> {
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
+  void logoImageValuePatch(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    logoImageControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void profileImageValuePatch(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    profileImageControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void colorValuePatch(
+    int? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    colorControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void positionValuePatch(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    positionControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void departmentValuePatch(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    departmentControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void companyValuePatch(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    companyControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void headlineValuePatch(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    headlineControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void customLinksValuePatch(
+    List<CustomLink> value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    final keys = customLinksCustomLinkForm.asMap().keys;
+
+    final toPatch = <CustomLinkForm>[];
+    (value).asMap().forEach(
+      (k, v) {
+        if (keys.contains(k)) {
+          final patch = CustomLinkForm(v, form, pathBuilder("customLinks.$k"));
+          customLinksCustomLinkForm[k] = patch;
+          toPatch.add(patch);
+        }
+      },
+    );
+
+    customLinksControl.patchValue(
+        toPatch
+            .map((e) => CustomLinkForm.formElements(e.customLink).rawValue)
+            .toList(),
+        updateParent: updateParent,
+        emitEvent: emitEvent);
+  }
+
+  void idValueReset(
+    int? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      idControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void userIdValueReset(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      userIdControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void uuidValueReset(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      uuidControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void titleValueReset(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      titleControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
   void prefixValueReset(
     String? value, {
     bool updateParent = true,
@@ -2253,6 +1644,93 @@ class FullNameForm implements FormModel<FullName> {
   }) =>
       pronounsControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void logoImageValueReset(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      logoImageControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void profileImageValueReset(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      profileImageControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void colorValueReset(
+    int? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      colorControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void positionValueReset(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      positionControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void departmentValueReset(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      departmentControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void companyValueReset(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      companyControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void headlineValueReset(
+    String? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      headlineControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void customLinksValueReset(
+    List<CustomLink> value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      customLinksControl.reset(
+          value: value
+              .map((e) => CustomLinkForm.formElements(e).rawValue)
+              .toList(),
+          updateParent: updateParent,
+          emitEvent: emitEvent);
+  FormControl<int>? get idControl =>
+      containsId ? form.control(idControlPath()) as FormControl<int>? : null;
+  FormControl<String>? get userIdControl => containsUserId
+      ? form.control(userIdControlPath()) as FormControl<String>?
+      : null;
+  FormControl<String>? get uuidControl => containsUuid
+      ? form.control(uuidControlPath()) as FormControl<String>?
+      : null;
+  FormControl<String>? get titleControl => containsTitle
+      ? form.control(titleControlPath()) as FormControl<String>?
+      : null;
   FormControl<String>? get prefixControl => containsPrefix
       ? form.control(prefixControlPath()) as FormControl<String>?
       : null;
@@ -2280,6 +1758,101 @@ class FullNameForm implements FormModel<FullName> {
   FormControl<String>? get pronounsControl => containsPronouns
       ? form.control(pronounsControlPath()) as FormControl<String>?
       : null;
+  FormControl<String>? get logoImageControl => containsLogoImage
+      ? form.control(logoImageControlPath()) as FormControl<String>?
+      : null;
+  FormControl<String>? get profileImageControl => containsProfileImage
+      ? form.control(profileImageControlPath()) as FormControl<String>?
+      : null;
+  FormControl<int>? get colorControl => containsColor
+      ? form.control(colorControlPath()) as FormControl<int>?
+      : null;
+  FormControl<String>? get positionControl => containsPosition
+      ? form.control(positionControlPath()) as FormControl<String>?
+      : null;
+  FormControl<String>? get departmentControl => containsDepartment
+      ? form.control(departmentControlPath()) as FormControl<String>?
+      : null;
+  FormControl<String>? get companyControl => containsCompany
+      ? form.control(companyControlPath()) as FormControl<String>?
+      : null;
+  FormControl<String>? get headlineControl => containsHeadline
+      ? form.control(headlineControlPath()) as FormControl<String>?
+      : null;
+  FormArray<Map<String, Object?>> get customLinksControl =>
+      form.control(customLinksControlPath()) as FormArray<Map<String, Object?>>;
+  void idSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      idControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      idControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void userIdSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      userIdControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      userIdControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void uuidSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      uuidControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      uuidControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void titleSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      titleControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      titleControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
   void prefixSetDisabled(
     bool disabled, {
     bool updateParent = true,
@@ -2442,14 +2015,194 @@ class FullNameForm implements FormModel<FullName> {
     }
   }
 
+  void logoImageSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      logoImageControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      logoImageControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void profileImageSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      profileImageControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      profileImageControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void colorSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      colorControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      colorControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void positionSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      positionControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      positionControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void departmentSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      departmentControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      departmentControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void companySetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      companyControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      companyControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void headlineSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      headlineControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      headlineControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void customLinksSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      customLinksControl.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      customLinksControl.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  ExtendedControl<List<Map<String, Object?>?>, List<CustomLinkForm>>
+      get customLinksExtendedControl =>
+          ExtendedControl<List<Map<String, Object?>?>, List<CustomLinkForm>>(
+              form.control(customLinksControlPath())
+                  as FormArray<Map<String, Object?>>,
+              () => customLinksCustomLinkForm);
+  void addCustomLinksItem(CustomLink value) {
+    final formClass = CustomLinkForm(value, form,
+        pathBuilder('customLinks.${customLinksCustomLinkForm.length}'));
+
+    customLinksCustomLinkForm.add(formClass);
+    customLinksControl.add(CustomLinkForm.formElements(value));
+  }
+
+  void removeCustomLinksItemAtIndex(int i) {
+    if (customLinksCustomLinkForm.asMap().containsKey(i) &&
+        (customLinksControl.value ?? []).asMap().containsKey(i)) {
+      customLinksCustomLinkForm.removeAt(i);
+
+      customLinksCustomLinkForm.asMap().forEach((k, v) {
+        customLinksCustomLinkForm[k] =
+            v.copyWithPath(pathBuilder("customLinks.$k"));
+      });
+
+      customLinksControl.removeAt(i);
+    }
+  }
+
+  void addCustomLinksItemList(List<CustomLink> value) {
+    value.map((e) => addCustomLinksItem(e));
+  }
+
   @override
-  FullName get model {
+  DigitalCard get model {
     if (!form.valid) {
       debugPrint(
         'Prefer not to call `model` on non-valid form it could cause unexpected exceptions in case you created a non-nullable field in model and expect it to be guarded by some kind of `required` validator.',
       );
     }
-    return FullName(
+    return DigitalCard(
+        id: _idValue,
+        userId: _userIdValue,
+        uuid: _uuidValue,
+        title: _titleValue,
         prefix: _prefixValue,
         firstName: _firstNameValue,
         middleName: _middleNameValue,
@@ -2458,24 +2211,34 @@ class FullNameForm implements FormModel<FullName> {
         accreditations: _accreditationsValue,
         preferredName: _preferredNameValue,
         maidenName: _maidenNameValue,
-        pronouns: _pronounsValue);
+        pronouns: _pronounsValue,
+        logoImage: _logoImageValue,
+        profileImage: _profileImageValue,
+        color: _colorValue,
+        position: _positionValue,
+        department: _departmentValue,
+        company: _companyValue,
+        headline: _headlineValue,
+        customLinks: _customLinksValue,
+        createdAt: digitalCard?.createdAt,
+        updatedAt: digitalCard?.updatedAt);
   }
 
-  FullNameForm copyWithPath(String? path) {
-    return FullNameForm(fullName, form, path);
+  DigitalCardForm copyWithPath(String? path) {
+    return DigitalCardForm(digitalCard, form, path);
   }
 
   @override
   void updateValue(
-    FullName? value, {
+    DigitalCard value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) =>
-      form.updateValue(FullNameForm.formElements(value).rawValue,
+      form.updateValue(DigitalCardForm.formElements(value).rawValue,
           updateParent: updateParent, emitEvent: emitEvent);
   @override
   void reset({
-    FullName? value,
+    DigitalCard? value,
     bool updateParent = true,
     bool emitEvent = true,
   }) =>
@@ -2485,70 +2248,155 @@ class FullNameForm implements FormModel<FullName> {
           emitEvent: emitEvent);
   String pathBuilder(String? pathItem) =>
       [path, pathItem].whereType<String>().join(".");
-  static FormGroup formElements(FullName? fullName) => FormGroup({
+  static FormGroup formElements(DigitalCard? digitalCard) => FormGroup({
+        idControlName: FormControl<int>(
+            value: digitalCard?.id,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        userIdControlName: FormControl<String>(
+            value: digitalCard?.userId,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        uuidControlName: FormControl<String>(
+            value: digitalCard?.uuid,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        titleControlName: FormControl<String>(
+            value: digitalCard?.title,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
         prefixControlName: FormControl<String>(
-            value: fullName?.prefix,
+            value: digitalCard?.prefix,
             validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
             disabled: false,
             touched: false),
         firstNameControlName: FormControl<String>(
-            value: fullName?.firstName,
+            value: digitalCard?.firstName,
             validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
             disabled: false,
             touched: false),
         middleNameControlName: FormControl<String>(
-            value: fullName?.middleName,
+            value: digitalCard?.middleName,
             validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
             disabled: false,
             touched: false),
         lastNameControlName: FormControl<String>(
-            value: fullName?.lastName,
+            value: digitalCard?.lastName,
             validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
             disabled: false,
             touched: false),
         suffixControlName: FormControl<String>(
-            value: fullName?.suffix,
+            value: digitalCard?.suffix,
             validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
             disabled: false,
             touched: false),
         accreditationsControlName: FormControl<String>(
-            value: fullName?.accreditations,
+            value: digitalCard?.accreditations,
             validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
             disabled: false,
             touched: false),
         preferredNameControlName: FormControl<String>(
-            value: fullName?.preferredName,
+            value: digitalCard?.preferredName,
             validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
             disabled: false,
             touched: false),
         maidenNameControlName: FormControl<String>(
-            value: fullName?.maidenName,
+            value: digitalCard?.maidenName,
             validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
             disabled: false,
             touched: false),
         pronounsControlName: FormControl<String>(
-            value: fullName?.pronouns,
+            value: digitalCard?.pronouns,
             validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
             disabled: false,
-            touched: false)
+            touched: false),
+        logoImageControlName: FormControl<String>(
+            value: digitalCard?.logoImage,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        profileImageControlName: FormControl<String>(
+            value: digitalCard?.profileImage,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        colorControlName: FormControl<int>(
+            value: digitalCard?.color,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        positionControlName: FormControl<String>(
+            value: digitalCard?.position,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        departmentControlName: FormControl<String>(
+            value: digitalCard?.department,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        companyControlName: FormControl<String>(
+            value: digitalCard?.company,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        headlineControlName: FormControl<String>(
+            value: digitalCard?.headline,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        customLinksControlName: FormArray(
+            (digitalCard?.customLinks ?? [])
+                .map((e) => CustomLinkForm.formElements(e))
+                .toList(),
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false)
       },
           validators: [],
           asyncValidators: [],

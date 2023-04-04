@@ -10,15 +10,26 @@ part 'digital_card.gform.dart';
 @freezed
 @ReactiveFormAnnotation()
 class DigitalCard with _$DigitalCard {
+  @JsonSerializable(
+    fieldRename: FieldRename.snake,
+  )
   factory DigitalCard({
     @FormControlAnnotation<int>() int? id,
-    @FormControlAnnotation<int>() int? userId,
+    @FormControlAnnotation<String>() String? userId,
     @FormControlAnnotation<String>() String? uuid,
     @FormControlAnnotation<String>() String? title,
+    @FormControlAnnotation<String>() String? prefix,
+    @FormControlAnnotation<String>() String? firstName,
+    @FormControlAnnotation<String>() String? middleName,
+    @FormControlAnnotation<String>() String? lastName,
+    @FormControlAnnotation<String>() String? suffix,
+    @FormControlAnnotation<String>() String? accreditations,
+    @FormControlAnnotation<String>() String? preferredName,
+    @FormControlAnnotation<String>() String? maidenName,
+    @FormControlAnnotation<String>() String? pronouns,
     @FormControlAnnotation<String>() String? logoImage,
     @FormControlAnnotation<String>() String? profileImage,
-    @FormControlAnnotation<String>() String? color,
-    @FormGroupAnnotation() FullName? fullname,
+    @FormControlAnnotation<int>() int? color,
     @FormControlAnnotation<String>() String? position,
     @FormControlAnnotation<String>() String? department,
     @FormControlAnnotation<String>() String? company,

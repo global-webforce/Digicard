@@ -1,6 +1,6 @@
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/app.logger.dart';
-import 'package:digicard/app/ui/_shared/app_colors.dart';
+import 'package:digicard/app/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -19,7 +19,7 @@ class ImagePickerBottomSheetViewModel extends ReactiveViewModel {
   pickFromGallery() async {
     image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
-      //await cropImage(image);
+      await cropImage(image);
     }
 
     _bottomSheetService.completeSheet(
