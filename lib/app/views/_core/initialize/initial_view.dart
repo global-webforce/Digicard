@@ -31,7 +31,7 @@ class InitialView extends StatelessWidget {
               if (!kIsWeb) FlutterNativeSplash.remove();
               return [
                 if (viewModel.appService.session == null) const WelcomeRoute(),
-                if (viewModel.appService.session != null)
+                if (viewModel.appService.session?.user.identities != null)
                   const DashboardRoute(),
               ];
             },
