@@ -1,6 +1,5 @@
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/helper/screen_size.dart';
-import 'package:digicard/app/ui/_core/scaffold_list_wrapper.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/views/_core/dashboard/dashboard_view.dart';
 import 'package:digicard/app/views/contacts/contacts_view_model.dart';
@@ -29,7 +28,7 @@ class ContactsView extends StatelessWidget {
               automaticallyImplyLeading: false,
               title: Center(
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+                  borderRadius: const BorderRadius.all(Radius.circular(5.0)),
                   child: TextField(
                     onChanged: (value) {
                       viewModel.filter();
@@ -37,7 +36,7 @@ class ContactsView extends StatelessWidget {
                     controller: viewModel.editingController,
                     textAlign: TextAlign.left,
                     decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(24, 12, 24, 12),
+                      contentPadding: EdgeInsets.fromLTRB(16, 12, 16, 12),
                       hintText: 'Search',
                       border: InputBorder.none,
                     ),

@@ -47,10 +47,34 @@ class SettingsView extends StatelessWidget {
                     SettingsTile(
                       icon: RoundedIcon(
                         const Icon(
+                          Icons.account_box_rounded,
+                          color: Colors.white,
+                        ),
+                        background: Colors.orange.withOpacity(0.6),
+                      ),
+                      title: "User Profile",
+                      subtitle: "Update your account profile here",
+                      onTap: () {},
+                    ),
+                    SettingsTile(
+                      icon: RoundedIcon(
+                        const Icon(
+                          Icons.delete_forever_rounded,
+                          color: Colors.white,
+                        ),
+                        background: Colors.orange.withOpacity(0.6),
+                      ),
+                      title: "Delete Account",
+                      subtitle: "Permanently delete your account",
+                      onTap: () {},
+                    ),
+                    SettingsTile(
+                      icon: RoundedIcon(
+                        const Icon(
                           Icons.logout,
                           color: Colors.white,
                         ),
-                        background: Colors.red.shade400,
+                        background: Colors.red.withOpacity(0.6),
                       ),
                       title: "Logout",
                       onTap: () async {

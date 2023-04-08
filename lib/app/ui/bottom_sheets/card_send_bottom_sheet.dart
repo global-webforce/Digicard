@@ -128,7 +128,7 @@ class CardSendBottomSheet extends StatelessWidget {
                                                   const EdgeInsets.all(2.0),
                                               child: CachedNetworkImage(
                                                   imageUrl:
-                                                      "${viewModel.card.logoImage}",
+                                                      "${viewModel.card.logoUrl}",
                                                   imageBuilder: (context,
                                                           imageProvider) =>
                                                       Image(

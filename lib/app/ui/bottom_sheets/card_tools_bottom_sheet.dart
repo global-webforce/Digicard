@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/constants/typography.dart';
+import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/ui/widgets/bottom_sheet_buttons.dart';
 import 'package:digicard/app/ui/overlays/custom_overlay.dart';
@@ -84,8 +85,9 @@ class CardToolsBottomSheet extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            Text("${viewModel.card.title}",
-                                style: headline, textAlign: TextAlign.center),
+                            if ("${viewModel.card.title}".isNotNullOrEmpty())
+                              Text("${viewModel.card.title}",
+                                  style: headline, textAlign: TextAlign.center),
                             vSpaceRegular,
                             Row(
                               children: [

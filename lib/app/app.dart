@@ -1,5 +1,3 @@
-import 'package:digicard/app/api/api_service.dart';
-import 'package:digicard/app/services/_core/app_service.dart';
 import 'package:digicard/app/services/_core/auth_service_supabase.dart';
 import 'package:digicard/app/services/contacts_service.dart';
 import 'package:digicard/app/services/digital_card_service_supabase.dart';
@@ -69,8 +67,7 @@ import 'views/custom_link/custom_link_view_model.dart';
       presolveUsing: LocalStorageService.getInstance,
     ),
 
-    LazySingleton(classType: ApiService),
-    LazySingleton(classType: AppService),
+    //   LazySingleton(classType: ApiService),
 
     LazySingleton(
       classType: AuthService,

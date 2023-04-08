@@ -29,7 +29,7 @@ Widget appIcon() {
               color: kcPrimaryColor,
               borderRadius: BorderRadius.circular(10)),
           child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
             child: Center(
               child: Text(
                 "PRO",

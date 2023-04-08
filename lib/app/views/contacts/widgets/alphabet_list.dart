@@ -79,7 +79,7 @@ class AlphabetList extends StatelessWidget {
                           child: CachedNetworkImage(
                             width: 50,
                             height: 50,
-                            imageUrl: "${card.profileImage}",
+                            imageUrl: "${card.avatarUrl}",
                             imageBuilder: (context, imageProvider) {
                               return Center(
                                 child: Container(
@@ -106,7 +106,8 @@ class AlphabetList extends StatelessWidget {
                       style: const TextStyle(fontSize: 16),
                     ),
                     subtitle: Text(
-                      "${card.position} @ ${card.company}",
+                      "${card.position ?? ''}   ${card.company != null ? '@ ${card.company}' : ''}"
+                          .trim(),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(),

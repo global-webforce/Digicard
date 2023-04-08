@@ -30,11 +30,13 @@ class EmptyDisplay extends StatelessWidget {
               color: iconColor,
               size: 30,
             ),
-            vSpaceSmall,
+            vSpaceRegular,
             Text(
               title,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                fontSize: 20,
+              ),
             ),
             if (subtitle.isNotEmpty)
               Text(

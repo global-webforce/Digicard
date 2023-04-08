@@ -1,5 +1,4 @@
 import 'package:digicard/app/models/custom_link.dart';
-import 'package:digicard/app/models/full_name.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 
@@ -27,8 +26,8 @@ class DigitalCard with _$DigitalCard {
     @FormControlAnnotation<String>() String? preferredName,
     @FormControlAnnotation<String>() String? maidenName,
     @FormControlAnnotation<String>() String? pronouns,
-    @FormControlAnnotation<String>() String? logoImage,
-    @FormControlAnnotation<String>() String? profileImage,
+    @FormControlAnnotation<String>() String? logoUrl,
+    @FormControlAnnotation<String>() String? avatarUrl,
     @FormControlAnnotation<int>() int? color,
     @FormControlAnnotation<String>() String? position,
     @FormControlAnnotation<String>() String? department,

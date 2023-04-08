@@ -5,6 +5,7 @@ import 'package:digicard/app/ui/_core/dashboard/ez_drawer.dart';
 import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/ui/widgets/app_icon.dart';
 import 'package:digicard/app/views/_core/dashboard/dashboard_viewmodel.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:stacked/stacked.dart';
@@ -23,7 +24,7 @@ class $EZBottomNavbar extends StatelessWidget {
       },
       items: [
         EZBottomNavbarItem(
-          icon: FontAwesomeIcons.solidIdCard,
+          icon: FluentIcons.contact_card_16_regular,
           title: "CARDS",
         ),
         EZBottomNavbarItem(
@@ -94,7 +95,7 @@ class DashboardView extends StatelessWidget {
           onWillPop: () async {
             return await viewModel
                 .confirmExit()
-                .then((value) => value!.confirmed);
+                .then((value) => value?.confirmed ?? true);
           },
           child: isDesktop(context)
               ? Row(

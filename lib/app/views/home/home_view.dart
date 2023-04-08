@@ -10,18 +10,7 @@ import 'package:digicard/app/ui/widgets/digital_card_list_item.dart';
 import 'package:digicard/app/views/_core/dashboard/dashboard_view.dart';
 import 'package:digicard/app/views/home/home_viewmodel.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:stacked/stacked.dart';
-
-class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
-  const HomeAppBar({super.key});
-  @override
-  Size get preferredSize => const Size.fromHeight(56);
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(title: isDesktop(context) ? null : appIcon());
-  }
-}
 
 class HomeFloatingActionButton extends StatelessWidget {
   const HomeFloatingActionButton({
@@ -29,7 +18,7 @@ class HomeFloatingActionButton extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    final viewModel = getParentViewModel<HomeViewModel>(context);
+    final viewModel = getParentViewModel<HomeViewModel>(context, listen: false);
     return FloatingActionButton(
         backgroundColor: kcPrimaryColor,
         onPressed: () {
@@ -50,19 +39,22 @@ class HomeView extends StatelessWidget {
           await viewModel.init();
         },
         fireOnViewModelReadyOnce: true,
+        createNewViewModelOnInsert: true,
         disposeViewModel: false,
         builder: (context, viewModel, child) {
           return Scaffold(
             drawer: isDesktop(context) ? null : const $EzDrawer(),
             bottomNavigationBar: const $EZBottomNavbar(),
-            appBar: const HomeAppBar(),
+            appBar: AppBar(
+              title: isDesktop(context) ? null : appIcon(),
+            ),
+            bottomSheet:
+                Text("${viewModel.authService.authState?.session?.user.email}"),
             floatingActionButton: const HomeFloatingActionButton(),
             body: ScaffoldListWrapper(
               isBusy: viewModel.isBusy,
               emptyIndicatorWidget: const EmptyDisplay(
-                icon: FontAwesomeIcons.addressCard,
-                title: "No Cards",
-              ),
+                  icon: Icons.card_giftcard_rounded, title: "No Cards"),
               onRefresh: () async {
                 await viewModel.init();
               },

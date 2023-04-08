@@ -13,8 +13,6 @@ import 'package:stacked_services/src/snackbar/snackbar_service.dart';
 import 'package:stacked_shared/stacked_shared.dart';
 import 'package:stacked_themes/src/theme_service.dart';
 
-import 'api/api_service.dart';
-import 'services/_core/app_service.dart';
 import 'services/_core/auth_service_supabase.dart';
 import 'services/_core/local_storage_service.dart';
 import 'services/contacts_service.dart';
@@ -51,8 +49,6 @@ Future<void> setupLocator({
   final localStorageService = await LocalStorageService.getInstance();
   locator.registerSingleton(localStorageService);
 
-  locator.registerLazySingleton(() => ApiService());
-  locator.registerLazySingleton(() => AppService());
   locator.registerLazySingleton(() => AuthService());
   locator.registerLazySingleton(() => ContactsService());
   locator.registerLazySingleton<DigitalCardService>(

@@ -1,10 +1,11 @@
 import 'dart:async';
+import 'package:digicard/app/app.dialog_ui.dart';
 import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/app.bottomsheet_ui.dart';
-import 'package:digicard/app/app.dialog_ui.dart';
-import 'package:digicard/app/services/_core/app_service.dart';
+import 'package:digicard/app/services/_core/auth_service_supabase.dart';
+
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:digicard/app/views/card_open/card_open_view.dart';
 import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
@@ -14,12 +15,12 @@ import 'package:stacked_services/stacked_services.dart';
 
 class HomeViewModel extends ReactiveViewModel {
   final log = getLogger('HomeViewModel');
-  final appService = locator<AppService>();
+
   final _dialogService = locator<DialogService>();
   final _bottomSheetService = locator<BottomSheetService>();
   final _digitalCardService = locator<DigitalCardService>();
   final _navigationService = locator<NavigationService>();
-
+  final authService = locator<AuthService>();
   @override
   List<ListenableServiceMixin> get listenableServices => [
         _digitalCardService,
@@ -30,11 +31,14 @@ class HomeViewModel extends ReactiveViewModel {
   @override
   void onFutureError(error, Object? key) {
     log.e(error);
-    _dialogService.showCustomDialog(
+    super.onFutureError(error, key);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _dialogService.showCustomDialog(
         variant: DialogType.error,
         barrierDismissible: true,
-        description: error.toString());
-    super.onFutureError(error, key);
+        description: error.toString(),
+      );
+    });
   }
 
   view(DigitalCard card) {
@@ -43,7 +47,7 @@ class HomeViewModel extends ReactiveViewModel {
         actionType: ActionType.view,
         card: card,
       ),
-      transitionStyle: Transition.zoom,
+      transitionStyle: Transition.fade,
       curve: Curves.easeIn,
     );
   }
@@ -71,8 +75,11 @@ class HomeViewModel extends ReactiveViewModel {
   }
 
   Future init() async {
-    await runBusyFuture(Future.wait([
-      _digitalCardService.getAll(),
-    ], eagerError: true));
+    try {
+      await runBusyFuture(
+        _digitalCardService.getAll(),
+        throwException: true,
+      );
+    } catch (e) {}
   }
 }

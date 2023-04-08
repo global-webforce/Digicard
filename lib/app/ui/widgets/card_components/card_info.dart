@@ -32,8 +32,8 @@ class InfoItem extends StatelessWidget {
               child: Padding(
                 padding: padding,
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Center(child: icon),
                     const SizedBox(width: 15),

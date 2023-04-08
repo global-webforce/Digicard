@@ -1,4 +1,4 @@
-import 'package:digicard/app/app.locator.dart';
+/* import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/services/_core/app_service.dart';
 
 class ApiEndpoints {
@@ -81,3 +81,4 @@ class ApiEndpoints {
   String updateAlarm(int? id) => "$baseUrl/alarm/$id";
   String deleteAlarm(int? id) => "$baseUrl/alarm/$id";
 }
+ */

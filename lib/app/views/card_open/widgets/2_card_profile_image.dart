@@ -26,6 +26,8 @@ class CardProfileImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final avatar = File("$imagePath");
+
     Widget errorWidget() {
       return readOnly
           ? Container(
@@ -67,65 +69,7 @@ class CardProfileImage extends StatelessWidget {
     }
 
     if ("$imagePath".isNotNullOrEmpty()) {
-      if ("$imagePath".isValidUrl()) {
-        return InkWell(
-          onTap: onTap != null ? () => onTap!() : null,
-          child: CachedNetworkImage(
-            imageUrl: "$imagePath",
-            imageBuilder: (context, imageProvider) {
-              return InkWell(
-                onTap: onTap != null
-                    ? () {
-                        onTap!();
-                      }
-                    : null,
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxHeight: MediaQuery.of(context).size.height,
-                    minWidth: MediaQuery.of(context).size.width,
-                  ),
-                  child: AspectRatio(
-                    aspectRatio: 1 / 1,
-                    child: Ink(
-                      decoration: BoxDecoration(
-                        color: color,
-                        image: DecorationImage(
-                          image: imageProvider,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: imageProvider,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            },
-            placeholder: (context, url) {
-              return Container(
-                height: 100,
-                decoration: BoxDecoration(
-                  color: color.darken(0.2),
-                ),
-              );
-            },
-            errorWidget: (context, url, error) {
-              return errorWidget();
-            },
-          ),
-        );
-      }
-
-      if ("$imagePath".isFileExistLocally()) {
+      if (avatar.existsSync()) {
         return InkWell(
           onTap: onTap != null ? () => onTap!() : null,
           child: AspectRatio(
@@ -155,6 +99,63 @@ class CardProfileImage extends StatelessWidget {
           ),
         );
       }
+
+      return InkWell(
+        onTap: onTap != null ? () => onTap!() : null,
+        child: CachedNetworkImage(
+          imageUrl:
+              "https://kbetklswsjdfouluglbr.supabase.co/storage/v1/object/public/images/avatars/$imagePath",
+          imageBuilder: (context, imageProvider) {
+            return InkWell(
+              onTap: onTap != null
+                  ? () {
+                      onTap!();
+                    }
+                  : null,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height,
+                  minWidth: MediaQuery.of(context).size.width,
+                ),
+                child: AspectRatio(
+                  aspectRatio: 1 / 1,
+                  child: Ink(
+                    decoration: BoxDecoration(
+                      color: color,
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+          placeholder: (context, url) {
+            return Container(
+              height: 100,
+              decoration: BoxDecoration(
+                color: color.darken(0.2),
+              ),
+            );
+          },
+          errorWidget: (context, url, error) {
+            return errorWidget();
+          },
+        ),
+      );
     }
     return errorWidget();
   }

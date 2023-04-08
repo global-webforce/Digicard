@@ -1,7 +1,7 @@
 import 'package:digicard/app/app.dialog_ui.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/app.logger.dart';
-import 'package:digicard/app/services/_core/app_service.dart';
+
 import 'package:digicard/app/services/_core/auth_service_supabase.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:stacked/stacked.dart';
@@ -15,7 +15,6 @@ class LoginViewModel extends ReactiveViewModel {
   final log = getLogger('LoginViewModel');
   final _dialogService = locator<DialogService>();
   final _authService = locator<AuthService>();
-  final _appService = locator<AppService>();
 
   @override
   void onFutureError(error, Object? key) {
@@ -30,9 +29,7 @@ class LoginViewModel extends ReactiveViewModel {
   }
 
   @override
-  List<ListenableServiceMixin> get listenableServices => [
-        _appService,
-      ];
+  List<ListenableServiceMixin> get listenableServices => [];
 
   final FormGroup _form = FormGroup({
     'email': FormControl<String>(validators: [

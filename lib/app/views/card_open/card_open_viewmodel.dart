@@ -164,11 +164,11 @@ class CardOpenViewModel extends ReactiveViewModel {
         .then((res) {
       if (res?.data is XFile) {
         final XFile? temp = res?.data;
-        _formModel.profileImageControl?.value = temp?.path;
+        _formModel.avatarUrlControl?.value = temp?.path;
         _formModel.form.markAsDirty();
       }
       if (res?.data is bool) {
-        _formModel.profileImageControl?.value = null;
+        _formModel.avatarUrlControl?.value = null;
         _formModel.form.markAsDirty();
       }
     });
@@ -183,11 +183,11 @@ class CardOpenViewModel extends ReactiveViewModel {
         .then((res) {
       if (res?.data is XFile) {
         final XFile? temp = res?.data;
-        _formModel.logoImageControl?.value = temp?.path;
+        _formModel.logoUrlControl?.value = temp?.path;
         _formModel.form.markAsDirty();
       }
       if (res?.data is bool) {
-        _formModel.logoImageControl?.value = null;
+        _formModel.logoUrlControl?.value = null;
         _formModel.form.markAsDirty();
       }
     });

@@ -21,7 +21,8 @@ class DigitalCardListItem extends StatelessWidget {
         color: Color(card.color ?? kcPrimaryColorInt),
         child: Material(
           child: CachedNetworkImage(
-            imageUrl: "${card.profileImage}",
+            imageUrl:
+                "https://kbetklswsjdfouluglbr.supabase.co/storage/v1/object/public/images/avatars/${card.avatarUrl}",
             width: double.infinity,
             height: 140,
             fit: BoxFit.cover,

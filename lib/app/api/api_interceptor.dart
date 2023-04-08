@@ -1,4 +1,4 @@
-import 'package:digicard/app/app.locator.dart';
+/* import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/services/_core/app_service.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'dart:io';
@@ -47,3 +47,4 @@ class ExpiredTokenRetryPolicy extends RetryPolicy {
     return false;
   }
 }
+ */

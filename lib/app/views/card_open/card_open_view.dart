@@ -63,9 +63,9 @@ class CardOpenView extends StatelessWidget {
                   return Builder(builder: (context) {
                     final formModel = viewModel.formModel;
 
-                    Widget profileImage() {
+                    Widget avatarUrl() {
                       return ReactiveValueListenableBuilder<dynamic>(
-                          formControl: formModel.profileImageControl,
+                          formControl: formModel.avatarUrlControl,
                           builder: (context, image, child) {
                             return CardProfileImage(
                               readOnly: !viewModel.editorMode,
@@ -121,7 +121,7 @@ class CardOpenView extends StatelessWidget {
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     bottom: 18),
-                                                child: profileImage(),
+                                                child: avatarUrl(),
                                               ),
                                               Positioned(
                                                   bottom: 0,

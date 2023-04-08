@@ -20,7 +20,7 @@ class SearchField extends StatelessWidget with PreferredSizeWidget {
           height: 20,
           decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(50),
+            borderRadius: BorderRadius.circular(0),
           ),
           child: Center(
             child: Padding(
@@ -36,7 +36,7 @@ class SearchField extends StatelessWidget with PreferredSizeWidget {
                     border: InputBorder.none,
                     errorBorder: InputBorder.none,
                     enabledBorder: InputBorder.none,
-                    hintText: 'Search'),
+                    hintText: 'Searchx'),
               ),
             ),
           ),

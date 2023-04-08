@@ -1,21 +1,35 @@
 import 'dart:typed_data';
 
 import 'package:collection/collection.dart';
-import 'package:digicard/app/api/api_service.dart';
-import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/models/custom_link.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:http/http.dart' as http;
 
 class ContactsService {
-  final apiService = locator<ApiService>();
+  Future<Uint8List> getBytesFromUrl(String url) async {
+    // Make a GET request to the URL
+    final response = await http.get(Uri.parse(url));
+
+    // Check if the response is successful
+    if (response.statusCode == 200) {
+      // Convert the response body to a Uint8List
+      final bytes = response.bodyBytes;
+
+      // Return the bytes
+      return bytes;
+    } else {
+      // return errorMessage("Failed to load image");
+      return Future.error("ee");
+    }
+  }
+
   Future saveContact(DigitalCard card) async {
     Map<String, List<CustomLink>> customLinks =
         groupBy(card.customLinks, (e) => "${e.type}");
 
     if (await FlutterContacts.requestPermission()) {
-      Uint8List bytes =
-          await apiService.getBytesFromUrl("${card.profileImage}");
+      Uint8List bytes = await getBytesFromUrl("${card.avatarUrl}");
 
       final newContact = Contact()
         ..photo = bytes

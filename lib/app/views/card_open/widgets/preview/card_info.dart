@@ -36,10 +36,12 @@ class CardInfo extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              vSpaceRegular,
               Wrap(
                 spacing: 5,
                 runSpacing: 5,
                 crossAxisAlignment: WrapCrossAlignment.start,
+                runAlignment: WrapAlignment.start,
                 direction: Axis.vertical,
                 children: [
                   if ("${form?.model.fullName()}".isNotNullOrEmpty())
@@ -64,6 +66,7 @@ class CardInfo extends StatelessWidget {
                     ),
                 ],
               ),
+              vSpaceRegular,
               InfoItem(
                 padding: EdgeInsets.zero,
                 icon: const Icon(
@@ -77,6 +80,7 @@ class CardInfo extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     fontStyle: FontStyle.italic),
               ),
+              vSpaceSmall,
               InfoItem(
                 padding: EdgeInsets.zero,
                 icon: Padding(
@@ -88,6 +92,7 @@ class CardInfo extends StatelessWidget {
                 ),
                 title: "${form?.headlineControl?.value}",
               ),
+              vSpaceSmall,
               InfoItem(
                 padding: EdgeInsets.zero,
                 icon: const Icon(
@@ -97,6 +102,7 @@ class CardInfo extends StatelessWidget {
                 title:
                     "Goes By \"${form?.preferredNameControl?.value}\" (${form?.pronounsControl?.value})",
               ),
+              vSpaceRegular,
               form?.model.customLinks != null
                   ? const SizedBox.shrink()
                   : Card(

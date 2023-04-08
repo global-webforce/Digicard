@@ -101,6 +101,9 @@ dependencies:
   reactive_forms: ^14.2.0
   reactive_forms_annotations: ^1.0.0
   reactive_image_picker: ^0.13.0
+  internet_connection_checker: ^1.0.0+1
+
+  fluentui_system_icons: ^1.1.198
 
   flutter_contacts: ^1.1.6
   supabase_flutter: ^1.5.0

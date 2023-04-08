@@ -63,7 +63,7 @@ class CardDivider extends StatelessWidget {
                   height: logoMaxHeight,
                   color: Colors.red.withOpacity(0.0),
                   child: CardLogo(
-                      imagePath: "${formModel?.model.logoImage}",
+                      imagePath: "${formModel?.model.logoUrl}",
                       readOnly: !viewModel.editorMode,
                       color: colorTheme,
                       onTap: !viewModel.editorMode

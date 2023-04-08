@@ -1,20 +1,34 @@
 import 'dart:async';
-import 'package:digicard/app/services/_core/app_service.dart';
-import 'package:digicard/app/app.locator.dart';
-
+import 'package:stacked/stacked.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class AuthService {
+class AuthService with ListenableServiceMixin {
   late final StreamSubscription<AuthState> _authSubscription;
 
-  final _appService = locator<AppService>();
   final _supabase = Supabase.instance.client;
 
-  checkSession() async {
-    _authSubscription = _supabase.auth.onAuthStateChange.listen((data) {
-      final Session? session = data.session;
-      _appService.user = session;
-    });
+  SupabaseClient get supabase => _supabase;
+  AuthState? get authState => _authState.value;
+
+  final ReactiveValue<AuthState?> _authState = ReactiveValue<AuthState?>(null);
+
+  AuthService() {
+    listenToReactiveValues([
+      _authState,
+    ]);
+  }
+
+  Future checkSession() async {
+    try {
+      _supabase.auth.onAuthStateChange.listen((event) {
+        _authState.value = event;
+      });
+    } catch (e) {
+      if (e is AuthException) {
+        return Future.error(e.message);
+      }
+      return Future.error("Unknown error occured");
+    }
   }
 
   Future login(Map<String, dynamic> formData) async {

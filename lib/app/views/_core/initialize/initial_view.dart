@@ -16,23 +16,26 @@ class InitialView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<InitialViewModel>.reactive(
         viewModelBuilder: () => InitialViewModel(),
-        onViewModelReady: (viewModel) {
-          viewModel.authService.checkSession();
+        onViewModelReady: (viewModel) async {
+          await viewModel.checkSession();
+          if (viewModel.user == null) {
+            print("WALANG USER");
+          }
+          if (viewModel.user != null) {
+            print("MAY USER");
+          }
         },
-        onDispose: (viewModel) {
-          viewModel.authService.x();
-        },
-        fireOnViewModelReadyOnce: true,
-        createNewViewModelOnInsert: false,
+        onDispose: (viewModel) {},
+        //  fireOnViewModelReadyOnce: true,
+        // createNewViewModelOnInsert: false,
         builder: (context, viewModel, child) {
           final r = viewModel.appRouter.declarativeDelegate(
             navigatorObservers: () => [HeroController()],
             routes: (handler) {
               if (!kIsWeb) FlutterNativeSplash.remove();
               return [
-                if (viewModel.appService.session == null) const WelcomeRoute(),
-                if (viewModel.appService.session?.user.identities != null)
-                  const DashboardRoute(),
+                if (viewModel.user != null) const DashboardRoute(),
+                if (viewModel.user == null) const WelcomeRoute(),
               ];
             },
           );
