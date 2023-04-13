@@ -46,10 +46,9 @@ class HomeView extends StatelessWidget {
             drawer: isDesktop(context) ? null : const $EzDrawer(),
             bottomNavigationBar: const $EZBottomNavbar(),
             appBar: AppBar(
+              titleSpacing: 0,
               title: isDesktop(context) ? null : appIcon(),
             ),
-            bottomSheet:
-                Text("${viewModel.authService.authState?.session?.user.email}"),
             floatingActionButton: const HomeFloatingActionButton(),
             body: ScaffoldListWrapper(
               isBusy: viewModel.isBusy,

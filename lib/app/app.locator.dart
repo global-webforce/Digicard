@@ -41,14 +41,14 @@ Future<void> setupLocator({
       environment: environment, environmentFilter: environmentFilter);
 
 // Register dependencies
+  final localStorageService = await LocalStorageService.getInstance();
+  locator.registerSingleton(localStorageService);
+
   locator.registerLazySingleton(() => ThemeService.getInstance());
   locator.registerLazySingleton(() => DialogService());
   locator.registerLazySingleton(() => SnackbarService());
   locator.registerLazySingleton(() => BottomSheetService());
   locator.registerLazySingleton(() => NavigationService());
-  final localStorageService = await LocalStorageService.getInstance();
-  locator.registerSingleton(localStorageService);
-
   locator.registerLazySingleton(() => AuthService());
   locator.registerLazySingleton(() => ContactsService());
   locator.registerLazySingleton<DigitalCardService>(

@@ -30,7 +30,7 @@ mixin _$DigitalCard {
   String? get title => throw _privateConstructorUsedError;
   @FormControlAnnotation<String>()
   String? get prefix => throw _privateConstructorUsedError;
-  @FormControlAnnotation<String>()
+  @FormControlAnnotation<String>(validators: [requiredValidator])
   String? get firstName => throw _privateConstructorUsedError;
   @FormControlAnnotation<String>()
   String? get middleName => throw _privateConstructorUsedError;
@@ -78,27 +78,48 @@ abstract class $DigitalCardCopyWith<$Res> {
       _$DigitalCardCopyWithImpl<$Res, DigitalCard>;
   @useResult
   $Res call(
-      {@FormControlAnnotation<int>() int? id,
-      @FormControlAnnotation<String>() String? userId,
-      @FormControlAnnotation<String>() String? uuid,
-      @FormControlAnnotation<String>() String? title,
-      @FormControlAnnotation<String>() String? prefix,
-      @FormControlAnnotation<String>() String? firstName,
-      @FormControlAnnotation<String>() String? middleName,
-      @FormControlAnnotation<String>() String? lastName,
-      @FormControlAnnotation<String>() String? suffix,
-      @FormControlAnnotation<String>() String? accreditations,
-      @FormControlAnnotation<String>() String? preferredName,
-      @FormControlAnnotation<String>() String? maidenName,
-      @FormControlAnnotation<String>() String? pronouns,
-      @FormControlAnnotation<String>() String? logoUrl,
-      @FormControlAnnotation<String>() String? avatarUrl,
-      @FormControlAnnotation<int>() int? color,
-      @FormControlAnnotation<String>() String? position,
-      @FormControlAnnotation<String>() String? department,
-      @FormControlAnnotation<String>() String? company,
-      @FormControlAnnotation<String>() String? headline,
-      @FormArrayAnnotation() List<CustomLink> customLinks,
+      {@FormControlAnnotation<int>()
+          int? id,
+      @FormControlAnnotation<String>()
+          String? userId,
+      @FormControlAnnotation<String>()
+          String? uuid,
+      @FormControlAnnotation<String>()
+          String? title,
+      @FormControlAnnotation<String>()
+          String? prefix,
+      @FormControlAnnotation<String>(validators: [requiredValidator])
+          String? firstName,
+      @FormControlAnnotation<String>()
+          String? middleName,
+      @FormControlAnnotation<String>()
+          String? lastName,
+      @FormControlAnnotation<String>()
+          String? suffix,
+      @FormControlAnnotation<String>()
+          String? accreditations,
+      @FormControlAnnotation<String>()
+          String? preferredName,
+      @FormControlAnnotation<String>()
+          String? maidenName,
+      @FormControlAnnotation<String>()
+          String? pronouns,
+      @FormControlAnnotation<String>()
+          String? logoUrl,
+      @FormControlAnnotation<String>()
+          String? avatarUrl,
+      @FormControlAnnotation<int>()
+          int? color,
+      @FormControlAnnotation<String>()
+          String? position,
+      @FormControlAnnotation<String>()
+          String? department,
+      @FormControlAnnotation<String>()
+          String? company,
+      @FormControlAnnotation<String>()
+          String? headline,
+      @FormArrayAnnotation()
+          List<CustomLink> customLinks,
       DateTime? createdAt,
       DateTime? updatedAt});
 }
@@ -246,27 +267,48 @@ abstract class _$$_DigitalCardCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@FormControlAnnotation<int>() int? id,
-      @FormControlAnnotation<String>() String? userId,
-      @FormControlAnnotation<String>() String? uuid,
-      @FormControlAnnotation<String>() String? title,
-      @FormControlAnnotation<String>() String? prefix,
-      @FormControlAnnotation<String>() String? firstName,
-      @FormControlAnnotation<String>() String? middleName,
-      @FormControlAnnotation<String>() String? lastName,
-      @FormControlAnnotation<String>() String? suffix,
-      @FormControlAnnotation<String>() String? accreditations,
-      @FormControlAnnotation<String>() String? preferredName,
-      @FormControlAnnotation<String>() String? maidenName,
-      @FormControlAnnotation<String>() String? pronouns,
-      @FormControlAnnotation<String>() String? logoUrl,
-      @FormControlAnnotation<String>() String? avatarUrl,
-      @FormControlAnnotation<int>() int? color,
-      @FormControlAnnotation<String>() String? position,
-      @FormControlAnnotation<String>() String? department,
-      @FormControlAnnotation<String>() String? company,
-      @FormControlAnnotation<String>() String? headline,
-      @FormArrayAnnotation() List<CustomLink> customLinks,
+      {@FormControlAnnotation<int>()
+          int? id,
+      @FormControlAnnotation<String>()
+          String? userId,
+      @FormControlAnnotation<String>()
+          String? uuid,
+      @FormControlAnnotation<String>()
+          String? title,
+      @FormControlAnnotation<String>()
+          String? prefix,
+      @FormControlAnnotation<String>(validators: [requiredValidator])
+          String? firstName,
+      @FormControlAnnotation<String>()
+          String? middleName,
+      @FormControlAnnotation<String>()
+          String? lastName,
+      @FormControlAnnotation<String>()
+          String? suffix,
+      @FormControlAnnotation<String>()
+          String? accreditations,
+      @FormControlAnnotation<String>()
+          String? preferredName,
+      @FormControlAnnotation<String>()
+          String? maidenName,
+      @FormControlAnnotation<String>()
+          String? pronouns,
+      @FormControlAnnotation<String>()
+          String? logoUrl,
+      @FormControlAnnotation<String>()
+          String? avatarUrl,
+      @FormControlAnnotation<int>()
+          int? color,
+      @FormControlAnnotation<String>()
+          String? position,
+      @FormControlAnnotation<String>()
+          String? department,
+      @FormControlAnnotation<String>()
+          String? company,
+      @FormControlAnnotation<String>()
+          String? headline,
+      @FormArrayAnnotation()
+          List<CustomLink> customLinks,
       DateTime? createdAt,
       DateTime? updatedAt});
 }
@@ -408,27 +450,48 @@ class __$$_DigitalCardCopyWithImpl<$Res>
 @JsonSerializable(fieldRename: FieldRename.snake)
 class _$_DigitalCard implements _DigitalCard {
   _$_DigitalCard(
-      {@FormControlAnnotation<int>() this.id,
-      @FormControlAnnotation<String>() this.userId,
-      @FormControlAnnotation<String>() this.uuid,
-      @FormControlAnnotation<String>() this.title,
-      @FormControlAnnotation<String>() this.prefix,
-      @FormControlAnnotation<String>() this.firstName,
-      @FormControlAnnotation<String>() this.middleName,
-      @FormControlAnnotation<String>() this.lastName,
-      @FormControlAnnotation<String>() this.suffix,
-      @FormControlAnnotation<String>() this.accreditations,
-      @FormControlAnnotation<String>() this.preferredName,
-      @FormControlAnnotation<String>() this.maidenName,
-      @FormControlAnnotation<String>() this.pronouns,
-      @FormControlAnnotation<String>() this.logoUrl,
-      @FormControlAnnotation<String>() this.avatarUrl,
-      @FormControlAnnotation<int>() this.color,
-      @FormControlAnnotation<String>() this.position,
-      @FormControlAnnotation<String>() this.department,
-      @FormControlAnnotation<String>() this.company,
-      @FormControlAnnotation<String>() this.headline,
-      @FormArrayAnnotation() final List<CustomLink> customLinks = const [],
+      {@FormControlAnnotation<int>()
+          this.id,
+      @FormControlAnnotation<String>()
+          this.userId,
+      @FormControlAnnotation<String>()
+          this.uuid,
+      @FormControlAnnotation<String>()
+          this.title = "New Card",
+      @FormControlAnnotation<String>()
+          this.prefix,
+      @FormControlAnnotation<String>(validators: [requiredValidator])
+          this.firstName,
+      @FormControlAnnotation<String>()
+          this.middleName,
+      @FormControlAnnotation<String>()
+          this.lastName,
+      @FormControlAnnotation<String>()
+          this.suffix,
+      @FormControlAnnotation<String>()
+          this.accreditations,
+      @FormControlAnnotation<String>()
+          this.preferredName,
+      @FormControlAnnotation<String>()
+          this.maidenName,
+      @FormControlAnnotation<String>()
+          this.pronouns,
+      @FormControlAnnotation<String>()
+          this.logoUrl,
+      @FormControlAnnotation<String>()
+          this.avatarUrl,
+      @FormControlAnnotation<int>()
+          this.color,
+      @FormControlAnnotation<String>()
+          this.position,
+      @FormControlAnnotation<String>()
+          this.department,
+      @FormControlAnnotation<String>()
+          this.company,
+      @FormControlAnnotation<String>()
+          this.headline,
+      @FormArrayAnnotation()
+          final List<CustomLink> customLinks = const [],
       this.createdAt,
       this.updatedAt})
       : _customLinks = customLinks;
@@ -446,13 +509,14 @@ class _$_DigitalCard implements _DigitalCard {
   @FormControlAnnotation<String>()
   final String? uuid;
   @override
+  @JsonKey()
   @FormControlAnnotation<String>()
   final String? title;
   @override
   @FormControlAnnotation<String>()
   final String? prefix;
   @override
-  @FormControlAnnotation<String>()
+  @FormControlAnnotation<String>(validators: [requiredValidator])
   final String? firstName;
   @override
   @FormControlAnnotation<String>()
@@ -605,27 +669,48 @@ class _$_DigitalCard implements _DigitalCard {
 
 abstract class _DigitalCard implements DigitalCard {
   factory _DigitalCard(
-      {@FormControlAnnotation<int>() final int? id,
-      @FormControlAnnotation<String>() final String? userId,
-      @FormControlAnnotation<String>() final String? uuid,
-      @FormControlAnnotation<String>() final String? title,
-      @FormControlAnnotation<String>() final String? prefix,
-      @FormControlAnnotation<String>() final String? firstName,
-      @FormControlAnnotation<String>() final String? middleName,
-      @FormControlAnnotation<String>() final String? lastName,
-      @FormControlAnnotation<String>() final String? suffix,
-      @FormControlAnnotation<String>() final String? accreditations,
-      @FormControlAnnotation<String>() final String? preferredName,
-      @FormControlAnnotation<String>() final String? maidenName,
-      @FormControlAnnotation<String>() final String? pronouns,
-      @FormControlAnnotation<String>() final String? logoUrl,
-      @FormControlAnnotation<String>() final String? avatarUrl,
-      @FormControlAnnotation<int>() final int? color,
-      @FormControlAnnotation<String>() final String? position,
-      @FormControlAnnotation<String>() final String? department,
-      @FormControlAnnotation<String>() final String? company,
-      @FormControlAnnotation<String>() final String? headline,
-      @FormArrayAnnotation() final List<CustomLink> customLinks,
+      {@FormControlAnnotation<int>()
+          final int? id,
+      @FormControlAnnotation<String>()
+          final String? userId,
+      @FormControlAnnotation<String>()
+          final String? uuid,
+      @FormControlAnnotation<String>()
+          final String? title,
+      @FormControlAnnotation<String>()
+          final String? prefix,
+      @FormControlAnnotation<String>(validators: [requiredValidator])
+          final String? firstName,
+      @FormControlAnnotation<String>()
+          final String? middleName,
+      @FormControlAnnotation<String>()
+          final String? lastName,
+      @FormControlAnnotation<String>()
+          final String? suffix,
+      @FormControlAnnotation<String>()
+          final String? accreditations,
+      @FormControlAnnotation<String>()
+          final String? preferredName,
+      @FormControlAnnotation<String>()
+          final String? maidenName,
+      @FormControlAnnotation<String>()
+          final String? pronouns,
+      @FormControlAnnotation<String>()
+          final String? logoUrl,
+      @FormControlAnnotation<String>()
+          final String? avatarUrl,
+      @FormControlAnnotation<int>()
+          final int? color,
+      @FormControlAnnotation<String>()
+          final String? position,
+      @FormControlAnnotation<String>()
+          final String? department,
+      @FormControlAnnotation<String>()
+          final String? company,
+      @FormControlAnnotation<String>()
+          final String? headline,
+      @FormArrayAnnotation()
+          final List<CustomLink> customLinks,
       final DateTime? createdAt,
       final DateTime? updatedAt}) = _$_DigitalCard;
 
@@ -648,7 +733,7 @@ abstract class _DigitalCard implements DigitalCard {
   @FormControlAnnotation<String>()
   String? get prefix;
   @override
-  @FormControlAnnotation<String>()
+  @FormControlAnnotation<String>(validators: [requiredValidator])
   String? get firstName;
   @override
   @FormControlAnnotation<String>()

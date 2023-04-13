@@ -83,13 +83,7 @@ class CardOpenView extends StatelessWidget {
 
                     return WillPopScope(
                       onWillPop: () async {
-                        if (!viewModel.formModel.form.pristine) {
-                          return await viewModel
-                              .confirmExit()
-                              .then((value) => value!.confirmed);
-                        }
-
-                        return Future.value(true);
+                        return await viewModel.confirmExit();
                       },
                       child: SafeArea(
                         top: viewModel.editorMode ? false : false,

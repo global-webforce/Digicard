@@ -1,20 +1,9 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:digicard/app/constants/env.dart';
+import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
-import 'dart:io' as io;
-
-bool isFileExistLocally(String fileDir) {
-  bool res = false;
-  try {
-    if (fileDir.trim() != "null" && fileDir.trim() != "") {
-      res = io.File(fileDir).existsSync();
-    }
-  } catch (e) {
-    return false;
-  }
-  return res;
-}
 
 class CardLogo extends StatelessWidget {
   final Color color;
@@ -36,6 +25,7 @@ class CardLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final logo = File("$imagePath");
     Widget errorWidget() {
       return readOnly
           ? const SizedBox.shrink()
@@ -65,34 +55,8 @@ class CardLogo extends StatelessWidget {
             );
     }
 
-    if (imagePath?.trim() != "null" && imagePath?.trim() != "") {
-      if (Uri.parse("$imagePath").isAbsolute) {
-        return InkWell(
-          onTap: onTap != null ? () => onTap!() : null,
-          child: CachedNetworkImage(
-            imageUrl: "$imagePath",
-            imageBuilder: (context, imageProvider) {
-              return Container(
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              );
-            },
-            placeholder: (context, url) {
-              return errorWidget();
-            },
-            errorWidget: (context, url, error) {
-              return errorWidget();
-            },
-          ),
-        );
-      }
-
-      if (isFileExistLocally("$imagePath")) {
+    if ("$imagePath".isNotNullOrEmpty()) {
+      if (logo.existsSync()) {
         return InkWell(
           onTap: onTap != null ? () => onTap!() : null,
           child: AspectRatio(
@@ -108,6 +72,30 @@ class CardLogo extends StatelessWidget {
           ),
         );
       }
+
+      return InkWell(
+        onTap: onTap != null ? () => onTap!() : null,
+        child: CachedNetworkImage(
+          imageUrl: "$logoUrlPrefix$imagePath",
+          imageBuilder: (context, imageProvider) {
+            return Container(
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.contain,
+                ),
+              ),
+            );
+          },
+          placeholder: (context, url) {
+            return errorWidget();
+          },
+          errorWidget: (context, url, error) {
+            return errorWidget();
+          },
+        ),
+      );
     }
     return errorWidget();
   }

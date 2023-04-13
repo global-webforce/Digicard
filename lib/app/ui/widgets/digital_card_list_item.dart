@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/models/digital_card.dart';
+import 'package:digicard/app/ui/_core/value_widget.dart';
 import 'package:flutter/material.dart';
 
 class DigitalCardListItem extends StatelessWidget {
@@ -42,14 +43,21 @@ class DigitalCardListItem extends StatelessWidget {
     }
 
     Widget title() {
-      return "${card.title}".isEmpty || "${card.title}" == "null"
-          ? const SizedBox.shrink()
-          : Text(
-              "${card.title}",
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-            );
+      return StringWidget(
+        ["${card.title}"],
+        textCase: TextCase.title,
+        builder: (value) {
+          return Text(
+            value,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+          );
+        },
+      );
     }
 
     return SizedBox(

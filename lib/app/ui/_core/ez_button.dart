@@ -46,7 +46,7 @@ class EzButton extends StatelessWidget {
     final defaultButtonColor = MaterialStateProperty.all(
         Theme.of(context).buttonTheme.colorScheme?.primary);
     final defaultDisabledButtonColor = MaterialStateProperty.all(
-        Theme.of(context).buttonTheme.colorScheme?.primary.darken());
+        Theme.of(context).buttonTheme.colorScheme?.primary.darken(0.05));
 
     final customButtonColor = MaterialStateProperty.all(background);
     final customDisabledButtonColor =
@@ -150,8 +150,8 @@ class EzButton extends StatelessWidget {
 
     return ConstrainedBox(
       constraints: const BoxConstraints(
-        minHeight: 50,
-        maxHeight: 50,
+        minHeight: 48,
+        maxHeight: 48,
         minWidth: 120,
         maxWidth: double.infinity,
       ),

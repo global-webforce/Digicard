@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:digicard/app/app.locator.dart';
+import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:stacked/stacked.dart';
@@ -44,6 +45,7 @@ class DigitalCardServiceSupabase
         .copyWith(userId: "${_authService.authState?.session?.user.id}")
         .toJson();
     data.remove("id");
+    data.remove("uuid");
     data.remove("created_at");
     data.remove("updated_at");
     data.remove("custom_links");
@@ -68,10 +70,26 @@ class DigitalCardServiceSupabase
           data["avatar_url"] = avatarName;
         });
       }
-      final x = await _supabase
-          .from('cards')
-          .upsert(data, onConflict: 'avatar_url')
-          .select();
+      final logo = File("${card.logoUrl}");
+      if (logo.existsSync()) {
+        final logoName = '${uuid.v4()}${path.extension(logo.path)}';
+
+        await _supabase.storage
+            .from('images')
+            .upload(
+              "logos/$logoName",
+              logo,
+              fileOptions: const FileOptions(
+                cacheControl: '3600',
+                upsert: true,
+              ),
+            )
+            .then((value) {
+          data["logo_url"] = logoName;
+        });
+      }
+      final x =
+          await _supabase.from('cards').upsert(data, onConflict: 'id').select();
 
       if (x is List<dynamic>) {
         _digitalCards.value.add(DigitalCard.fromJson(x[0]));
@@ -88,6 +106,7 @@ class DigitalCardServiceSupabase
         .copyWith(userId: "${_authService.authState?.session?.user.id}")
         .toJson();
     data.remove("id");
+
     data.remove("created_at");
     data.remove("updated_at");
     data.remove("custom_links");
@@ -110,6 +129,25 @@ class DigitalCardServiceSupabase
             )
             .then((value) {
           data["avatar_url"] = avatarName;
+        });
+      }
+
+      final logo = File("${card.logoUrl}");
+      if (logo.existsSync()) {
+        final logoName = '${uuid.v4()}${path.extension(logo.path)}';
+
+        await _supabase.storage
+            .from('images')
+            .upload(
+              "logos/$logoName",
+              logo,
+              fileOptions: const FileOptions(
+                cacheControl: '3600',
+                upsert: true,
+              ),
+            )
+            .then((value) {
+          data["logo_url"] = logoName;
         });
       }
 
@@ -157,7 +195,97 @@ class DigitalCardServiceSupabase
   }
 
   @override
-  duplicate(DigitalCard digitalCard) async {
-    await create(digitalCard);
+  duplicate(DigitalCard card) async {
+    final data = card.toJson();
+    data.remove("id");
+    data.remove("uuid");
+    data.remove("created_at");
+    data.remove("updated_at");
+    data.remove("custom_links");
+    data.remove("full_name");
+
+    try {
+      final og = _digitalCards.value.firstWhere((e) => e.id == card.id);
+      if (og.avatarUrl == card.avatarUrl &&
+          "${card.avatarUrl}".isNotNullOrEmpty()) {
+        final avatarName = "${uuid.v4()}${path.extension('${og.avatarUrl}')}";
+
+        try {
+          await _supabase.storage.from("images").copy(
+                "avatars/${og.avatarUrl}",
+                "avatars/$avatarName",
+              );
+        } catch (e) {
+          if (e.toString().contains(
+              "type 'Null' is not a subtype of type 'String' in type cast")) {
+            data["avatar_url"] = avatarName;
+          }
+        }
+      } else {
+        final avatar = File("${card.avatarUrl}");
+        if (avatar.existsSync()) {
+          final avatarName = "${uuid.v4()}${path.extension(avatar.path)}";
+
+          await _supabase.storage
+              .from('images')
+              .upload(
+                "avatars/$avatarName",
+                avatar,
+                fileOptions: const FileOptions(
+                  cacheControl: '3600',
+                  upsert: true,
+                ),
+              )
+              .then((value) {
+            data["avatar_url"] = avatarName;
+          });
+        }
+      }
+
+//LOGO
+      if (og.logoUrl == card.logoUrl && "${card.logoUrl}".isNotNullOrEmpty()) {
+        final logoName = "${uuid.v4()}${path.extension('${og.logoUrl}')}";
+
+        try {
+          await _supabase.storage.from("images").copy(
+                "logos/${og.logoUrl}",
+                "logos/$logoName",
+              );
+        } catch (e) {
+          if (e.toString().contains(
+              "type 'Null' is not a subtype of type 'String' in type cast")) {
+            data["logo_url"] = logoName;
+          }
+        }
+      } else {
+        final logo = File("${card.logoUrl}");
+        if (logo.existsSync()) {
+          final logoName = "${uuid.v4()}${path.extension(logo.path)}";
+
+          await _supabase.storage
+              .from('images')
+              .upload(
+                "logos/$logoName",
+                logo,
+                fileOptions: const FileOptions(
+                  cacheControl: '3600',
+                  upsert: true,
+                ),
+              )
+              .then((value) {
+            data["logo_url"] = logoName;
+          });
+        }
+      }
+
+      final x = await _supabase.from("cards").insert(data).select();
+
+      if (x is List<dynamic>) {
+        _digitalCards.value.add(DigitalCard.fromJson(x[0]));
+        notifyListeners();
+      }
+    } catch (e) {
+      return Future.error(e.toString());
+    }
   }
 }

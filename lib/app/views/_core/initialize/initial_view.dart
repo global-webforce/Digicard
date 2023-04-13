@@ -4,7 +4,6 @@ import 'package:digicard/app/views/_core/initialize/initial_viewmodel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:stacked/stacked.dart';
@@ -18,16 +17,8 @@ class InitialView extends StatelessWidget {
         viewModelBuilder: () => InitialViewModel(),
         onViewModelReady: (viewModel) async {
           await viewModel.checkSession();
-          if (viewModel.user == null) {
-            print("WALANG USER");
-          }
-          if (viewModel.user != null) {
-            print("MAY USER");
-          }
         },
         onDispose: (viewModel) {},
-        //  fireOnViewModelReadyOnce: true,
-        // createNewViewModelOnInsert: false,
         builder: (context, viewModel, child) {
           final r = viewModel.appRouter.declarativeDelegate(
             navigatorObservers: () => [HeroController()],
@@ -54,7 +45,6 @@ class InitialView extends StatelessWidget {
               title: "Digicard",
               theme: ThemeData(
                 useMaterial3: true,
-                //  primaryColor: kcPrimaryColor,
                 cardTheme: CardTheme(
                   margin: const EdgeInsets.all(0),
                   shape: RoundedRectangleBorder(
@@ -90,7 +80,7 @@ class InitialView extends StatelessWidget {
                   ),
                 ),
               ),
-              scrollBehavior: MyCustomScrollBehavior(),
+              //scrollBehavior: MyCustomScrollBehavior(),
               debugShowCheckedModeBanner: false,
               routeInformationParser: viewModel.appRouter.defaultRouteParser(),
               routerDelegate: r,
@@ -100,10 +90,10 @@ class InitialView extends StatelessWidget {
   }
 }
 
-class MyCustomScrollBehavior extends MaterialScrollBehavior {
+/* class MyCustomScrollBehavior extends MaterialScrollBehavior {
   @override
   Set<PointerDeviceKind> get dragDevices => {
         PointerDeviceKind.touch,
         PointerDeviceKind.mouse,
       };
-}
+} */

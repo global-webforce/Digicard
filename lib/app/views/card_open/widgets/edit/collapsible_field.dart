@@ -28,7 +28,7 @@ class _CollapsibleFieldState extends State<CollapsibleField> {
                   onTap: () {
                     setState(() {
                       expanded = !expanded;
-                      expanded ? animatedHeight = 568.0 : animatedHeight = 0.0;
+                      expanded ? animatedHeight = 595 : animatedHeight = 0.0;
                       widget.onToggle(expanded);
                     });
                   },
@@ -36,7 +36,7 @@ class _CollapsibleFieldState extends State<CollapsibleField> {
                   readOnly: true,
                   enableInteractiveSelection: true,
                   decoration: InputDecoration(
-                      label: const Text("No Name"),
+                      label: const Text("Name*"),
                       alignLabelWithHint: true,
                       filled: false,
                       fillColor: Colors.transparent,

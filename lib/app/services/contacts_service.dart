@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:collection/collection.dart';
+import 'package:digicard/app/constants/env.dart';
 import 'package:digicard/app/models/custom_link.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
@@ -29,7 +30,8 @@ class ContactsService {
         groupBy(card.customLinks, (e) => "${e.type}");
 
     if (await FlutterContacts.requestPermission()) {
-      Uint8List bytes = await getBytesFromUrl("${card.avatarUrl}");
+      Uint8List bytes =
+          await getBytesFromUrl("$avatarUrlPrefix${card.avatarUrl}");
 
       final newContact = Contact()
         ..photo = bytes

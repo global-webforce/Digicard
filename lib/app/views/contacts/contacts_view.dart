@@ -47,15 +47,8 @@ class ContactsView extends StatelessWidget {
           }
 
           return Scaffold(
-              appBar: AppBar(
-                  title: Row(
-                    children: const [
-                      Icon(Icons.contacts_rounded),
-                      hSpaceRegular,
-                      Text("CONTACTS")
-                    ],
-                  ),
-                  bottom: searchField()),
+              appBar:
+                  AppBar(title: const Text("CONTACTS"), bottom: searchField()),
               drawer: isDesktop(context) ? null : const $EzDrawer(),
               bottomNavigationBar: const $EZBottomNavbar(),
               body: const AlphabetList());

@@ -18,7 +18,7 @@ class CardForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final form = ReactiveDigitalCardForm.of(context);
     final viewModel =
-        getParentViewModel<CardOpenViewModel>(context, listen: false);
+        getParentViewModel<CardOpenViewModel>(context, listen: true);
 
     const inputStyle = InputDecoration(
         alignLabelWithHint: true,
@@ -72,7 +72,7 @@ class CardForm extends StatelessWidget {
           showErrors: (control) => false,
           formControl: form?.firstNameControl,
           textInputAction: TextInputAction.next,
-          decoration: inputStyle.copyWith(label: const Text("First name")),
+          decoration: inputStyle.copyWith(label: const Text("First name*")),
         ),
       );
     }

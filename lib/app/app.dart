@@ -22,35 +22,11 @@ import 'views/custom_link/custom_link_view_model.dart';
 @StackedApp(
   logger: StackedLogger(),
   routes: [],
-/*   routes: [
-    MaterialRoute(
-      page: InitialView,
-      initial: true,
-      maintainState: false,
-      path: "#",
-    ),
-    MaterialRoute(
-      page: AuthView,
-      maintainState: false,
-      children: [
-        MaterialRoute(
-          page: WelcomeView,
-          initial: true,
-          maintainState: false,
-        ),
-        MaterialRoute(
-          page: LoginView,
-          maintainState: false,
-        ),
-      ],
-    ),
-    MaterialRoute(
-      page: DashboardView,
-      maintainState: false,
-    ),
-  ], */
   dependencies: [
-    //stacked services
+    Presolve(
+      classType: LocalStorageService,
+      presolveUsing: LocalStorageService.getInstance,
+    ),
     LazySingleton(
       classType: ThemeService,
       resolveUsing: ThemeService.getInstance,
@@ -59,34 +35,14 @@ import 'views/custom_link/custom_link_view_model.dart';
     LazySingleton(classType: SnackbarService),
     LazySingleton(classType: BottomSheetService),
     LazySingleton(classType: NavigationService),
-
-    //my-services
-
-    Presolve(
-      classType: LocalStorageService,
-      presolveUsing: LocalStorageService.getInstance,
-    ),
-
-    //   LazySingleton(classType: ApiService),
-
-    LazySingleton(
-      classType: AuthService,
-    ),
-
+    LazySingleton(classType: AuthService),
     LazySingleton(classType: ContactsService),
-
     LazySingleton(
       classType: DigitalCardServiceSupabase,
       asType: DigitalCardService,
     ),
-
-    //my-viewmodels
-
     Singleton(classType: InitialViewModel),
     Singleton(classType: LoginViewModel),
-    //Singleton(classType: BasicProfileViewModel),
-
-    /*end of core registration*/
     Singleton(classType: DashboardViewModel),
     Singleton(classType: HomeViewModel),
     Singleton(classType: CardToolsBottomSheetViewModel),
@@ -94,7 +50,6 @@ import 'views/custom_link/custom_link_view_model.dart';
     Singleton(classType: CardOpenViewModel),
     Singleton(classType: CustomLinkViewModel),
     Singleton(classType: ScanViewModel),
-
     Singleton(classType: ContactsViewModel),
     Singleton(classType: SettingsViewModel),
   ],

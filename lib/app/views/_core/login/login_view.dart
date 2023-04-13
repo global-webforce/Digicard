@@ -96,10 +96,16 @@ class _LoginForm extends StatelessWidget {
         formControlName: 'email',
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
-        maxLength: 70,
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           labelText: "Email",
-          counterText: "",
+          floatingLabelBehavior: FloatingLabelBehavior.never,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(
+              width: 0,
+              style: BorderStyle.none,
+            ),
+          ),
         ),
       );
     }
@@ -109,10 +115,18 @@ class _LoginForm extends StatelessWidget {
         showErrors: (control) => false,
         formControlName: 'password',
         keyboardType: TextInputType.visiblePassword,
-        textInputAction: TextInputAction.next,
+        textInputAction: TextInputAction.done,
         obscureText: true,
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           labelText: "Password",
+          floatingLabelBehavior: FloatingLabelBehavior.never,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(
+              width: 0,
+              style: BorderStyle.none,
+            ),
+          ),
         ),
       );
     }
@@ -137,6 +151,14 @@ class _LoginForm extends StatelessWidget {
 
     Widget secondaryButton() {
       return TextButton(
+        style: TextButton.styleFrom(
+          minimumSize: Size.zero,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 12,
+            vertical: 4,
+          ),
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
         onPressed: () async {
           if (!currentFocus.hasPrimaryFocus) {
             currentFocus.unfocus();
@@ -157,6 +179,14 @@ class _LoginForm extends StatelessWidget {
 
     Widget forgotPasswordButton() {
       return TextButton(
+        style: TextButton.styleFrom(
+          minimumSize: Size.zero,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 12,
+            vertical: 4,
+          ),
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
         onPressed: () async {
           if (!currentFocus.hasPrimaryFocus) {
             currentFocus.unfocus();
@@ -192,51 +222,63 @@ class _LoginForm extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (!isKeyboardVisible)
-            const Text(
-              "Enter your email & password \nto login",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20),
-            ),
-          if (!isKeyboardVisible) vSpaceRegular,
-          if (!isKeyboardVisible)
-            Wrap(
-              spacing: 10,
-              children: [
-                socialIcon(const Icon(FontAwesomeIcons.google)),
-                socialIcon(const Icon(FontAwesomeIcons.twitter)),
-                socialIcon(const Icon(FontAwesomeIcons.facebook)),
-                socialIcon(const Icon(FontAwesomeIcons.apple)),
-                socialIcon(const Icon(FontAwesomeIcons.microsoft)),
-              ],
-            ),
-          if (!isKeyboardVisible)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Row(
-                children: const [
-                  Expanded(
-                    child: Divider(
-                      color: Colors.white,
-                      thickness: 1,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'OR',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                  Expanded(
-                    child: Divider(
-                      color: Colors.white,
-                      thickness: 1,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 500),
+            child: !isKeyboardVisible
+                ? Column(
+                    children: [
+                      const Text(
+                        "SIGN-IN WITH",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      vSpaceRegular,
+                      Wrap(
+                        spacing: 10,
+                        children: [
+                          socialIcon(const Icon(FontAwesomeIcons.google)),
+                          socialIcon(const Icon(FontAwesomeIcons.twitter)),
+                          socialIcon(const Icon(FontAwesomeIcons.facebook)),
+                          socialIcon(const Icon(FontAwesomeIcons.apple)),
+                          socialIcon(const Icon(FontAwesomeIcons.microsoft)),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Row(
+                          children: const [
+                            Expanded(
+                              child: Divider(
+                                color: Colors.white,
+                                thickness: 1,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                'OR',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Divider(
+                                color: Colors.white,
+                                thickness: 1,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+                : const SizedBox.shrink(),
+          ),
           emailField(),
           vSpaceRegular,
           passwordField(),
@@ -244,6 +286,7 @@ class _LoginForm extends StatelessWidget {
           mainButton(),
           vSpaceRegular,
           secondaryButton(),
+          vSpaceTiny,
           forgotPasswordButton(),
         ],
       );

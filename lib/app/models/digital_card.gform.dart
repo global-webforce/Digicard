@@ -2286,7 +2286,9 @@ class DigitalCardForm implements FormModel<DigitalCard> {
             touched: false),
         firstNameControlName: FormControl<String>(
             value: digitalCard?.firstName,
-            validators: [],
+            validators: [
+              (control) => requiredValidator(control as FormControl<String>)
+            ],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
             disabled: false,

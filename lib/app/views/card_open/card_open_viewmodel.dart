@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:digicard/app/app.bottomsheet_ui.dart';
 import 'package:digicard/app/app.dialog_ui.dart';
 import 'package:digicard/app/app.logger.dart';
@@ -29,13 +28,6 @@ class CardOpenViewModel extends ReactiveViewModel {
   final _digitalCardsService = locator<DigitalCardService>();
   final _navigationService = locator<NavigationService>();
 
-  final b = CachedNetworkImage(
-    height: 200,
-    width: 200,
-    memCacheHeight: 200,
-    imageUrl: "fdsfsfsf",
-  );
-
   @override
   void onFutureError(error, Object? key) {
     log.e(error);
@@ -56,6 +48,8 @@ class CardOpenViewModel extends ReactiveViewModel {
   late DigitalCard model;
   late DigitalCardForm _formModel;
   DigitalCardForm get formModel => _formModel;
+
+  bool formSubmitAttempt = false;
 
   void initialize(DigitalCard m, ActionType action) {
     model = m;
@@ -120,12 +114,41 @@ class CardOpenViewModel extends ReactiveViewModel {
     });
   }
 
-  Future<DialogResponse<dynamic>?> confirmExit() async {
+  Future<bool> confirmExit() async {
+    _formModel.form.unfocus();
+    if (formModel.form.pristine == true && actionType == ActionType.duplicate) {
+      DialogResponse? res = await _dialogService.showCustomDialog(
+        variant: DialogType.confirmation,
+        title: "Discard",
+        description: "Are you sure you want to dispose this card?",
+        mainButtonTitle: "Yes",
+        secondaryButtonTitle: "Cancel",
+        barrierDismissible: true,
+      );
+      return res?.confirmed ?? false;
+    }
+
+    if (formModel.form.pristine == false) {
+      DialogResponse? res = await _dialogService.showCustomDialog(
+        variant: DialogType.confirmation,
+        title: "Unsaved Changes",
+        description: "Are you sure you want to leave without saving?",
+        mainButtonTitle: "Yes",
+        secondaryButtonTitle: "Cancel",
+        barrierDismissible: true,
+      );
+      return res?.confirmed ?? false;
+    }
+    return Future.value(true);
+  }
+
+  Future<DialogResponse<dynamic>?> confirmDuplicateExit() async {
     _formModel.form.unfocus();
     return _dialogService.showCustomDialog(
       variant: DialogType.confirmation,
       title: "Unsaved Changes",
-      description: "Are you sure you want to discard changes?",
+      description:
+          "You didn't make any changes, this card copy will be disposed",
       mainButtonTitle: "Cancel",
       secondaryButtonTitle: "Discard",
       barrierDismissible: true,
@@ -133,26 +156,35 @@ class CardOpenViewModel extends ReactiveViewModel {
   }
 
   save() async {
+    formSubmitAttempt = true;
     _formModel.form.unfocus();
-    final formValue = _formModel.model;
+    if (_formModel.firstNameControl?.hasErrors ?? false) {
+      _dialogService.showCustomDialog(
+          variant: DialogType.simple,
+          description: "First name is required",
+          barrierDismissible: true);
+    } else {
+      final formValue = _formModel.model;
 
-    if (actionType == ActionType.create) {
-      await runBusyFuture(_digitalCardsService.create(formValue),
-          throwException: true, busyObject: saveBusyKey);
-    } else if (actionType == ActionType.edit) {
-      await runBusyFuture(_digitalCardsService.update(formValue),
-          throwException: true, busyObject: saveBusyKey);
-    } else if (actionType == ActionType.duplicate) {
-      await runBusyFuture(_digitalCardsService.duplicate(formValue),
-          throwException: true, busyObject: saveBusyKey);
+      if (actionType == ActionType.create) {
+        await runBusyFuture(_digitalCardsService.create(formValue),
+            throwException: true, busyObject: saveBusyKey);
+      } else if (actionType == ActionType.edit) {
+        await runBusyFuture(_digitalCardsService.update(formValue),
+            throwException: true, busyObject: saveBusyKey);
+      } else if (actionType == ActionType.duplicate) {
+        await runBusyFuture(_digitalCardsService.duplicate(formValue),
+            throwException: true, busyObject: saveBusyKey);
+      }
+      setBusyForObject(saveBusyKey, false);
+      setBusyForObject(doneBusyKey, true);
+      await Future.delayed(const Duration(seconds: 1));
+      setBusyForObject(doneBusyKey, false);
+      _formModel.form.markAsPristine(updateParent: true);
+
+      _navigationService.back();
     }
-    setBusyForObject(saveBusyKey, false);
-    setBusyForObject(doneBusyKey, true);
-    await Future.delayed(const Duration(seconds: 1));
-    setBusyForObject(doneBusyKey, false);
-    _formModel.form.markAsPristine(updateParent: true);
-
-    _navigationService.back();
+    notifyListeners();
   }
 
   showImagePicker() async {

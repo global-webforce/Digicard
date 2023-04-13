@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:digicard/app/constants/env.dart';
 import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class CardProfileImage extends StatelessWidget {
     Widget errorWidget() {
       return readOnly
           ? Container(
-              height: 100,
+              height: 130,
               decoration: BoxDecoration(
                 color: color.darken(0.2),
               ),
@@ -99,12 +100,10 @@ class CardProfileImage extends StatelessWidget {
           ),
         );
       }
-
       return InkWell(
         onTap: onTap != null ? () => onTap!() : null,
         child: CachedNetworkImage(
-          imageUrl:
-              "https://kbetklswsjdfouluglbr.supabase.co/storage/v1/object/public/images/avatars/$imagePath",
+          imageUrl: "$avatarUrlPrefix$imagePath",
           imageBuilder: (context, imageProvider) {
             return InkWell(
               onTap: onTap != null
@@ -145,7 +144,7 @@ class CardProfileImage extends StatelessWidget {
           },
           placeholder: (context, url) {
             return Container(
-              height: 100,
+              height: 130,
               decoration: BoxDecoration(
                 color: color.darken(0.2),
               ),

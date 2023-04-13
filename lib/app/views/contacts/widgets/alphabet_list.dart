@@ -1,5 +1,6 @@
 import 'package:alphabet_list_view/alphabet_list_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:digicard/app/constants/env.dart';
 import 'package:digicard/app/constants/typography.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/constants/colors.dart';
@@ -40,19 +41,20 @@ class AlphabetList extends StatelessWidget {
         symbols: DefaultScrollbarSymbols.alphabet,
         jumpToSymbolsWithNoEntries: false,
         padding: const EdgeInsets.all(5),
+        mainAxisAlignment: MainAxisAlignment.start,
         symbolBuilder: (context, symbol, state) {
           return state.name == "deactivated"
               ? const SizedBox.shrink()
-              : Center(
-                  child: Text(
+              : Text(
                   symbol,
+                  overflow: TextOverflow.clip,
                   style: TextStyle(
                       color: state.name == "active"
                           ? kcPrimaryColor
                           : state.name == "inactive"
                               ? null
                               : Colors.grey),
-                ));
+                );
         },
       ),
       overlayOptions: const OverlayOptions(
@@ -66,59 +68,79 @@ class AlphabetList extends StatelessWidget {
           return AlphabetListViewItemGroup(
               tag: entry.key,
               children: entry.value.map((card) {
-                return ListTile(
-                    onTap: () {
-                      viewModel.view(card);
-                    },
-                    leading: Ink(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(5),
-                          child: CachedNetworkImage(
-                            width: 50,
-                            height: 50,
-                            imageUrl: "${card.avatarUrl}",
-                            imageBuilder: (context, imageProvider) {
-                              return Center(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: imageProvider)),
+                return InkWell(
+                  onTap: () {
+                    viewModel.view(card);
+                  },
+                  child: Ink(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 7),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(5),
+                            child: CachedNetworkImage(
+                              width: 65,
+                              height: 65,
+                              imageUrl: "$avatarUrlPrefix${card.avatarUrl}",
+                              imageBuilder: (context, imageProvider) {
+                                print("$avatarUrlPrefix${card.avatarUrl}");
+                                return Center(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: imageProvider)),
+                                  ),
+                                );
+                              },
+                              placeholder: (context, url) {
+                                return Container(
+                                  color: Colors.grey,
+                                );
+                              },
+                              errorWidget: (context, url, error) {
+                                return Container(
+                                  color: Colors.grey,
+                                );
+                              },
+                            ),
+                          ),
+                          hSpaceRegular,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "${card.firstName ?? ""} ${card.lastName ?? ""}",
+                                  style: const TextStyle(fontSize: 16),
                                 ),
-                              );
-                            },
-                            placeholder: (context, url) {
-                              return Container(
-                                color: Colors.grey,
-                              );
-                            },
-                            errorWidget: (context, url, error) {
-                              return Container(
-                                color: Colors.grey,
-                              );
-                            },
-                          )),
+                                Text(
+                                  "${card.position ?? ''} ${card.company != null ? '@ ${card.company}' : ''}"
+                                      .trim(),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(),
+                                ),
+                              ],
+                            ),
+                          ),
+                          hSpaceRegular,
+                          Padding(
+                            padding: const EdgeInsets.only(top: 2.0),
+                            child: CircleAvatar(
+                                radius: 6,
+                                backgroundColor:
+                                    Color(card.color ?? kcPrimaryColorInt)),
+                          )
+                        ],
+                      ),
                     ),
-                    title: Text(
-                      "${card.firstName} ${card.lastName}",
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    subtitle: Text(
-                      "${card.position ?? ''}   ${card.company != null ? '@ ${card.company}' : ''}"
-                          .trim(),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(),
-                    ),
-                    trailing: Padding(
-                      padding: const EdgeInsets.only(right: 15.0),
-                      child: CircleAvatar(
-                          radius: 6,
-                          backgroundColor:
-                              Color(card.color ?? kcPrimaryColorInt)),
-                    ));
+                  ),
+                );
               }));
         }).toList());
   }

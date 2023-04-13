@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:digicard/app/constants/colors.dart';
+import 'package:digicard/app/constants/env.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/ui/widgets/bottom_sheet_buttons.dart';
 import 'package:digicard/app/ui/overlays/custom_overlay.dart';
@@ -100,60 +101,63 @@ class CardSendBottomSheet extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: Screenshot(
-                                  key: UniqueKey(),
-                                  controller:
-                                      viewModel.screenshotControllerShare,
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    fit: StackFit.loose,
-                                    children: [
-                                      QrImage(
+                              Screenshot(
+                                key: UniqueKey(),
+                                controller: viewModel.screenshotControllerShare,
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  fit: StackFit.loose,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: QrImage(
                                         data:
-                                            "https://www.digicard.com/me/${viewModel.card.uuid}",
+                                            "https://www.digicard.me/${request.data.uuid}",
                                         version: QrVersions.auto,
-                                        size: 250,
-                                        foregroundColor: Colors.white,
-                                        backgroundColor: colorTheme,
-                                        gapless: false,
+                                        errorCorrectionLevel:
+                                            QrErrorCorrectLevel.M,
+                                        size: 200,
+                                        foregroundColor: Colors.black,
+                                        backgroundColor: Colors.white,
+                                        gapless: true,
                                       ),
-                                      Positioned(
-                                        child: Center(
-                                          child: Container(
-                                            color: Colors.white,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(2.0),
-                                              child: CachedNetworkImage(
-                                                  imageUrl:
-                                                      "${viewModel.card.logoUrl}",
-                                                  imageBuilder: (context,
-                                                          imageProvider) =>
-                                                      Image(
-                                                        image: imageProvider,
-                                                        width: 60,
-                                                      ),
-                                                  placeholder: (context, url) {
-                                                    return const SizedBox
-                                                        .shrink();
-                                                  },
-                                                  errorWidget:
-                                                      (context, url, error) {
-                                                    return const SizedBox
-                                                        .shrink();
-                                                  }),
-                                            ),
+                                    ),
+                                    Positioned(
+                                      child: Center(
+                                        child: Container(
+                                          color: Colors.white,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(3),
+                                            child: CachedNetworkImage(
+                                                imageUrl:
+                                                    "$logoUrlPrefix${request.data.logoUrl}",
+                                                imageBuilder:
+                                                    (context, imageProvider) =>
+                                                        Image(
+                                                          image: imageProvider,
+                                                          width: 45,
+                                                          height: 45,
+                                                        ),
+                                                placeholder: (context, url) {
+                                                  return const SizedBox
+                                                      .shrink();
+                                                },
+                                                errorWidget:
+                                                    (context, url, error) {
+                                                  return const SizedBox
+                                                      .shrink();
+                                                }),
                                           ),
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
                               vSpaceRegular,
                               const Text("Point your camera at the QR Code."),
+                              Text(
+                                  "https://www.digicard.me/${request.data.uuid}"),
                               vSpaceRegular,
                               Row(
                                 children: [

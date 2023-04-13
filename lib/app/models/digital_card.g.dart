@@ -11,7 +11,7 @@ _$_DigitalCard _$$_DigitalCardFromJson(Map<String, dynamic> json) =>
       id: json['id'] as int?,
       userId: json['user_id'] as String?,
       uuid: json['uuid'] as String?,
-      title: json['title'] as String?,
+      title: json['title'] as String? ?? "New Card",
       prefix: json['prefix'] as String?,
       firstName: json['first_name'] as String?,
       middleName: json['middle_name'] as String?,

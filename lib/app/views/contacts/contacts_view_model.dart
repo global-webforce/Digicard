@@ -47,7 +47,7 @@ class ContactsViewModel extends ReactiveViewModel {
 
   Map<String, List<DigitalCard>> get cards {
     _cards = _digitalCardsService.digitalCards;
-/* 
+
     if (editingController.text.isNotEmpty) {
       _cards = _cards
           .where((e) =>
@@ -60,7 +60,7 @@ class ContactsViewModel extends ReactiveViewModel {
           .toList();
     } else {
       _cards = _digitalCardsService.digitalCards;
-    } */
+    }
 
     Map<String, List<DigitalCard>> grouped = groupBy(
         _cards, (DigitalCard card) => "${card.firstName} ${card.lastName}"[0]);

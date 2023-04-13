@@ -1,7 +1,6 @@
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/helper/screen_size.dart';
 import 'package:digicard/app/ui/_core/scaffold_body_wrapper.dart';
-import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/views/_core/dashboard/dashboard_view.dart';
 import 'package:digicard/app/views/settings/settings_view_model.dart';
 import 'package:digicard/app/ui/_core/settings_ui.dart';
@@ -15,13 +14,7 @@ class SettingsAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Row(
-        children: const [
-          Icon(Icons.settings_rounded),
-          hSpaceRegular,
-          Text("SETTINGS")
-        ],
-      ),
+      title: const Text("SETTINGS"),
     );
   }
 }

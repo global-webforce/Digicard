@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/constants/typography.dart';
-import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
+import 'package:digicard/app/ui/_core/value_widget.dart';
 import 'package:digicard/app/ui/widgets/bottom_sheet_buttons.dart';
 import 'package:digicard/app/ui/overlays/custom_overlay.dart';
 import 'package:digicard/app/ui/bottom_sheets/card_tools_bottom_sheet_viewmodel.dart';
@@ -85,10 +85,20 @@ class CardToolsBottomSheet extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            if ("${viewModel.card.title}".isNotNullOrEmpty())
-                              Text("${viewModel.card.title}",
-                                  style: headline, textAlign: TextAlign.center),
-                            vSpaceRegular,
+                            StringWidget(
+                              ["${viewModel.card.title}"],
+                              textCase: TextCase.title,
+                              builder: (value) {
+                                return Column(
+                                  children: [
+                                    Text(value,
+                                        style: headline,
+                                        textAlign: TextAlign.center),
+                                    vSpaceRegular,
+                                  ],
+                                );
+                              },
+                            ),
                             Row(
                               children: [
                                 PanelButtons(
@@ -156,7 +166,7 @@ class CardToolsBottomSheet extends StatelessWidget {
                                       await viewModel.duplicate(request.data);
                                     },
                                     icon: const Icon(FontAwesomeIcons.copy),
-                                    title: "Dupicate"),
+                                    title: "Copy"),
                                 hSpaceSmall,
                                 MinButtons(
                                     color: colorTheme,

@@ -14,8 +14,6 @@ class ScanQRCodeView extends StatelessWidget {
     return ViewModelBuilder<ScanViewModel>.reactive(
         viewModelBuilder: () => locator<ScanViewModel>(),
         disposeViewModel: false,
-        createNewViewModelOnInsert: true,
-        onViewModelReady: (viewModel) {},
         onDispose: (viewModel) {
           viewModel.controller?.dispose();
         },

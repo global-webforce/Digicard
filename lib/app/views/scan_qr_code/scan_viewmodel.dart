@@ -1,6 +1,5 @@
 import 'package:digicard/app/app.dialog_ui.dart';
 import 'package:digicard/app/app.logger.dart';
-import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:digicard/app/views/scan_qr_code/scan_qr_code_view.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -11,8 +10,6 @@ import 'package:stacked_services/stacked_services.dart';
 class ScanViewModel extends ReactiveViewModel {
   final log = getLogger('ScanViewModel');
 
-  final _digitalCardsService = locator<DigitalCardService>();
-  final _snackbarService = locator<SnackbarService>();
   final _navService = locator<NavigationService>();
   final _dialogService = locator<DialogService>();
 

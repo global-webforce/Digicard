@@ -3,6 +3,7 @@ import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/app.logger.dart';
 
 import 'package:digicard/app/services/_core/auth_service_supabase.dart';
+import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -20,10 +21,12 @@ class LoginViewModel extends ReactiveViewModel {
   void onFutureError(error, Object? key) {
     log.e(error);
     {
-      _dialogService.showCustomDialog(
-          variant: DialogType.error,
-          barrierDismissible: true,
-          description: error.toString());
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _dialogService.showCustomDialog(
+            variant: DialogType.error,
+            barrierDismissible: true,
+            description: error.toString());
+      });
     }
     super.onFutureError(error, key);
   }

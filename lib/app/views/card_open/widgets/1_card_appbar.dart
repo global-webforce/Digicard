@@ -47,7 +47,7 @@ class CardAppBar extends StatelessWidget with PreferredSizeWidget {
             title: Text(viewModel.actionType == ActionType.edit
                 ? "Edit Card"
                 : viewModel.actionType == ActionType.duplicate
-                    ? "Edit Card Copy"
+                    ? "Copy Card "
                     : "Create Card"),
             foregroundColor: Theme.of(context).textTheme.bodyLarge?.color,
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,

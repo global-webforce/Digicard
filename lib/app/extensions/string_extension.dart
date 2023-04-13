@@ -8,4 +8,10 @@ extension StringExtension on String {
   bool isValidUrl() {
     return Uri.parse(this).isAbsolute;
   }
+
+  String clean() {
+    return isNotNullOrEmpty() == true
+        ? replaceAll(RegExp(r"\s+"), " ").trim()
+        : "";
+  }
 }

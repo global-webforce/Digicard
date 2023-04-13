@@ -15,15 +15,7 @@ class ScanAppBar extends StatelessWidget with PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(56);
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      title: Row(
-        children: const [
-          Icon(Icons.camera_roll_rounded),
-          hSpaceRegular,
-          Text("SCAN")
-        ],
-      ),
-    );
+    return AppBar(title: const Text("SCAN"));
   }
 }
 
@@ -45,7 +37,8 @@ class ScanView extends StatelessWidget {
             bottomNavigationBar: const $EZBottomNavbar(),
             appBar: const ScanAppBar(),
             bottomSheet: Container(
-                padding: const EdgeInsets.all(15),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 child: EzButton.elevated(
                   title: "OPEN QR SCANNER",
                   onTap: () {

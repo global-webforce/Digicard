@@ -64,11 +64,10 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
       variant: DialogType.confirmation,
       title: "Card Delete",
       description: "You sure you want to delete this card?",
-      mainButtonTitle: "Cancel",
-      secondaryButtonTitle: "Delete",
+      mainButtonTitle: "Delete",
       barrierDismissible: true,
     );
-    if (value!.confirmed) {
+    if (value?.confirmed ?? false) {
       await runBusyFuture(_digitalCardsService.delete(card),
           busyObject: deleteBusyKey, throwException: true);
       _bottomSheetService.completeSheet(SheetResponse());
@@ -157,8 +156,7 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
 
   Future downloadWithLogo() async {
     setBusyForObject(downloadQRBusyKey, true);
-    await _contactsService.saveContact(card);
-    setBusyForObject(downloadQRBusyKey, true);
+
     dynamic result;
     Uint8List? image = await screenshotControllerShare.capture(
       pixelRatio: 10,
@@ -171,6 +169,7 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
         name: "${DateTime.now().microsecondsSinceEpoch}_hello",
       );
     }
+
     setBusyForObject(downloadQRBusyKey, false);
     if (result["isSuccess"] == true) {
       setBusyForObject(downloadQRBusyKey, false);
