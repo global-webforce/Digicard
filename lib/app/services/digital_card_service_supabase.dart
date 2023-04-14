@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
@@ -8,16 +7,16 @@ import 'package:stacked/stacked.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
-import '_core/auth_service_supabase.dart';
 import 'package:path/path.dart' as path;
 
 class DigitalCardServiceSupabase
     with ListenableServiceMixin
     implements DigitalCardService {
-  var uuid = const Uuid();
-
-  final _authService = locator<AuthService>();
   final _supabase = Supabase.instance.client;
+
+  String? userId;
+
+  var uuid = const Uuid();
 
   errorMessage(String? message) {
     final String error = "$message".trim();
@@ -31,6 +30,7 @@ class DigitalCardServiceSupabase
   }
 
   DigitalCardServiceSupabase() {
+    userId = _supabase.auth.currentUser?.id;
     listenToReactiveValues([
       _digitalCards,
     ]);
@@ -41,9 +41,7 @@ class DigitalCardServiceSupabase
 
   @override
   Future create(DigitalCard card) async {
-    final data = card
-        .copyWith(userId: "${_authService.authState?.session?.user.id}")
-        .toJson();
+    final data = card.copyWith(userId: userId).toJson();
     data.remove("id");
     data.remove("uuid");
     data.remove("created_at");
@@ -102,9 +100,7 @@ class DigitalCardServiceSupabase
 
   @override
   Future update(DigitalCard card) async {
-    final data = card
-        .copyWith(userId: "${_authService.authState?.session?.user.id}")
-        .toJson();
+    final data = card.copyWith(userId: userId).toJson();
     data.remove("id");
 
     data.remove("created_at");
@@ -178,9 +174,10 @@ class DigitalCardServiceSupabase
   @override
   Future getAll() async {
     try {
-      final data = await _supabase.from('cards').select('*').in_('user_id', [
-        "${_authService.authState?.session?.user.id}"
-      ]).order('created_at', ascending: true);
+      final data = await _supabase
+          .from('cards')
+          .select('*')
+          .in_('user_id', [userId]).order('created_at', ascending: true);
       if (data is List) {
         _digitalCards.value = data.map((e) => DigitalCard.fromJson(e)).toList();
       }
@@ -287,5 +284,19 @@ class DigitalCardServiceSupabase
     } catch (e) {
       return Future.error(e.toString());
     }
+  }
+
+  @override
+  Future<DigitalCard?> findOne(String uuid) async {
+    final data = await _supabase.from('cards').select().eq('uuid', uuid);
+    if (data is List && data.isNotEmpty) {
+      return DigitalCard.fromJson(data[0]);
+    }
+    return null;
+  }
+
+  @override
+  clean() {
+    _digitalCards.value = [];
   }
 }

@@ -8,6 +8,8 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+const String loadingBusyKey = 'loadingBusyKey';
+
 class InitialViewModel extends ReactiveViewModel {
   final log = getLogger('CardOpenViewModel');
 
@@ -33,6 +35,7 @@ class InitialViewModel extends ReactiveViewModel {
   List<ListenableServiceMixin> get listenableServices => [_authService];
 
   checkSession() async {
-    await runBusyFuture(_authService.checkSession(), throwException: true);
+    await runBusyFuture(_authService.checkSession(),
+        throwException: true, busyObject: loadingBusyKey);
   }
 }

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/models/digital_card.dart';
+import 'package:digicard/app/ui/_core/ez_button.dart';
 import 'package:digicard/app/ui/_core/scaffold_body_wrapper.dart';
 import 'package:digicard/app/ui/overlays/custom_overlay.dart';
 import 'package:digicard/app/views/card_open/widgets/2_card_profile_image.dart';
@@ -90,6 +91,25 @@ class CardOpenView extends StatelessWidget {
                         child: Scaffold(
                           extendBodyBehindAppBar: !viewModel.editorMode,
                           appBar: const CardAppBar(),
+                          bottomSheet: viewModel.actionType == ActionType.test
+                              ? Container(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(15, 15, 15, 10),
+                                  child:
+                                      "${viewModel.formModel.model.userId}" ==
+                                              "${viewModel.user?.id}"
+                                          ? EzButton.elevated(
+                                              background: colorTheme,
+                                              title: " You own this card",
+                                              onTap: () {},
+                                            )
+                                          : EzButton.elevated(
+                                              background: colorTheme,
+                                              title: "Connect",
+                                              onTap: () {},
+                                            ),
+                                )
+                              : const SizedBox.shrink(),
                           body: LayoutBuilder(builder: (context, size) {
                             return Material(
                               color: Theme.of(context).cardColor,

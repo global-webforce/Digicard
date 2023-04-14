@@ -18,12 +18,12 @@ class AlphabetList extends StatelessWidget {
 
     final AlphabetListViewOptions options = AlphabetListViewOptions(
       listOptions: ListOptions(
-        topOffset: 15,
+        topOffset: 0,
         stickySectionHeader: false,
         afterList: vSpaceRegular,
         listHeaderBuilder: (context, symbol) {
           return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
             decoration: BoxDecoration(
               color: null,
               borderRadius: BorderRadius.circular(100),
@@ -36,7 +36,7 @@ class AlphabetList extends StatelessWidget {
         },
       ),
       scrollbarOptions: ScrollbarOptions(
-        width: 30,
+        width: 0,
         backgroundColor: Colors.transparent,
         symbols: DefaultScrollbarSymbols.alphabet,
         jumpToSymbolsWithNoEntries: false,
@@ -44,8 +44,9 @@ class AlphabetList extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         symbolBuilder: (context, symbol, state) {
           return state.name == "deactivated"
-              ? const SizedBox.shrink()
-              : Text(
+                  ? const SizedBox.shrink()
+                  : const SizedBox
+                      .shrink() /* Text(
                   symbol,
                   overflow: TextOverflow.clip,
                   style: TextStyle(
@@ -54,7 +55,8 @@ class AlphabetList extends StatelessWidget {
                           : state.name == "inactive"
                               ? null
                               : Colors.grey),
-                );
+                ) */
+              ;
         },
       ),
       overlayOptions: const OverlayOptions(
@@ -74,20 +76,30 @@ class AlphabetList extends StatelessWidget {
                   },
                   child: Ink(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 7),
+                      padding: const EdgeInsets.fromLTRB(18, 7, 15, 7),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 18.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
+                              child: Container(
+                                  height: 25,
+                                  width: 5,
+                                  color:
+                                      Color(card.color ?? kcPrimaryColorInt)),
+                            ),
+                          ),
+                          hSpaceSmall,
                           ClipRRect(
                             borderRadius: BorderRadius.circular(5),
                             child: CachedNetworkImage(
-                              width: 65,
-                              height: 65,
+                              width: 60,
+                              height: 60,
                               imageUrl: "$avatarUrlPrefix${card.avatarUrl}",
                               imageBuilder: (context, imageProvider) {
-                                print("$avatarUrlPrefix${card.avatarUrl}");
                                 return Center(
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -116,7 +128,7 @@ class AlphabetList extends StatelessWidget {
                               children: [
                                 Text(
                                   "${card.firstName ?? ""} ${card.lastName ?? ""}",
-                                  style: const TextStyle(fontSize: 16),
+                                  style: const TextStyle(fontSize: 17),
                                 ),
                                 Text(
                                   "${card.position ?? ''} ${card.company != null ? '@ ${card.company}' : ''}"
@@ -128,14 +140,6 @@ class AlphabetList extends StatelessWidget {
                               ],
                             ),
                           ),
-                          hSpaceRegular,
-                          Padding(
-                            padding: const EdgeInsets.only(top: 2.0),
-                            child: CircleAvatar(
-                                radius: 6,
-                                backgroundColor:
-                                    Color(card.color ?? kcPrimaryColorInt)),
-                          )
                         ],
                       ),
                     ),

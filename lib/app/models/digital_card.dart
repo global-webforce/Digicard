@@ -1,3 +1,4 @@
+import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/models/custom_link.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
@@ -46,6 +47,7 @@ class DigitalCard with _$DigitalCard {
         String? logoUrl,
     @FormControlAnnotation<String>()
         String? avatarUrl,
+    @Default(kcPrimaryColorInt)
     @FormControlAnnotation<int>()
         int? color,
     @FormControlAnnotation<String>()

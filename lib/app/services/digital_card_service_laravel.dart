@@ -192,4 +192,14 @@ class DigitalCardServiceLaravel
       rethrow;
     }
   }
+
+  @override
+  Future findOne(String uuid) {
+    return Future.value();
+  }
+
+  @override
+  clean() {
+    _digitalCards.value = [];
+  }
 }

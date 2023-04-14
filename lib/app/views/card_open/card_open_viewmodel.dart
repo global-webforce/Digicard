@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 enum ActionType {
   view,
@@ -22,6 +23,10 @@ const String saveBusyKey = 'save-busy-key';
 const String doneBusyKey = 'doneBusyKey';
 
 class CardOpenViewModel extends ReactiveViewModel {
+  final _supabase = Supabase.instance.client;
+
+  User? get user => _supabase.auth.currentUser;
+
   final log = getLogger('CardOpenViewModel');
   final _dialogService = locator<DialogService>();
   final _bottomSheetService = locator<BottomSheetService>();

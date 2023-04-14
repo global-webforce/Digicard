@@ -45,6 +45,7 @@ class CardForm extends StatelessWidget {
       return ClipRRect(
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
+          onSubmitted: (control) {},
           showErrors: (control) => false,
           formControl: form?.titleControl,
           textInputAction: TextInputAction.done,

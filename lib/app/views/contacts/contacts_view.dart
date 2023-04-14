@@ -1,6 +1,5 @@
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/helper/screen_size.dart';
-import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/views/_core/dashboard/dashboard_view.dart';
 import 'package:digicard/app/views/contacts/contacts_view_model.dart';
 import 'package:digicard/app/views/contacts/widgets/alphabet_list.dart';
@@ -24,7 +23,7 @@ class ContactsView extends StatelessWidget {
         builder: (context, viewModel, child) {
           PreferredSizeWidget searchField() {
             return AppBar(
-              toolbarHeight: 60,
+              toolbarHeight: 70,
               automaticallyImplyLeading: false,
               title: Center(
                 child: ClipRRect(
@@ -35,9 +34,26 @@ class ContactsView extends StatelessWidget {
                     },
                     controller: viewModel.editingController,
                     textAlign: TextAlign.left,
-                    decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(16, 12, 16, 12),
+                    decoration: InputDecoration(
+                      prefixIcon: const Padding(
+                        padding: EdgeInsets.only(top: 2.0),
+                        child: Icon(
+                          Icons.search_rounded,
+                          size: 25,
+                        ),
+                      ),
+                      contentPadding: const EdgeInsets.fromLTRB(16, 13, 16, 8),
                       hintText: 'Search',
+                      suffixIcon: GestureDetector(
+                        onTap: () {
+                          viewModel.removeFocus(context);
+                          viewModel.clearFilter();
+                        },
+                        child: const Icon(
+                          Icons.close_rounded,
+                          size: 25,
+                        ),
+                      ),
                       border: InputBorder.none,
                     ),
                   ),
@@ -51,7 +67,15 @@ class ContactsView extends StatelessWidget {
                   AppBar(title: const Text("CONTACTS"), bottom: searchField()),
               drawer: isDesktop(context) ? null : const $EzDrawer(),
               bottomNavigationBar: const $EZBottomNavbar(),
-              body: const AlphabetList());
+              body: Padding(
+                padding: const EdgeInsets.only(top: 0),
+                child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onPanDown: (_) {
+                      viewModel.removeFocus(context);
+                    },
+                    child: const AlphabetList()),
+              ));
         });
   }
 }

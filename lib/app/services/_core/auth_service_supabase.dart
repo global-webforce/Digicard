@@ -20,7 +20,7 @@ class AuthService with ListenableServiceMixin {
 
   Future checkSession() async {
     try {
-      _supabase.auth.onAuthStateChange.listen((event) {
+      _supabase.auth.onAuthStateChange.listen((event) async {
         _authState.value = event;
       });
     } catch (e) {
@@ -38,7 +38,7 @@ class AuthService with ListenableServiceMixin {
         email: formData["email"],
         password: formData["password"],
       )
-          .then((value) {
+          .then((value) async {
         if (value.session == null) {
           return Future.error(
             "We've already sent confirmation link to your email, Please check",

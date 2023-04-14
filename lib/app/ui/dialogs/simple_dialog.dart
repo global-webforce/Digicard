@@ -1,4 +1,5 @@
 import 'package:digicard/app/constants/colors.dart';
+import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -23,6 +24,17 @@ class SimpleDialog extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                if ("${request.title}".isNotNullOrEmpty())
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 5),
+                    child: Text(
+                      "${request.title}",
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
+                          color: kcPrimaryColor),
+                    ),
+                  ),
                 Text(
                   "${request.description}",
                   style: const TextStyle(

@@ -31,6 +31,8 @@ class EZBottomNavbar extends StatelessWidget {
                 selectedItemColor: colorTheme,
                 unselectedItemColor: Theme.of(context).disabledColor,
                 type: BottomNavigationBarType.fixed,
+                unselectedLabelStyle: const TextStyle(fontSize: 12),
+                selectedLabelStyle: const TextStyle(fontSize: 12),
                 showUnselectedLabels: true,
                 onTap: (i) {
                   onTap(i);

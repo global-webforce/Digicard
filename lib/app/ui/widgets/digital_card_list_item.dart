@@ -28,7 +28,8 @@ class DigitalCardListItem extends StatelessWidget {
             height: 140,
             fit: BoxFit.cover,
             placeholder: (context, url) {
-              return Container(color: Color(card.color ?? kcPrimaryColorInt));
+              return Container(
+                  color: Color(card.color ?? kcPrimaryColorInt).darken(0.1));
             },
             errorWidget: (context, url, error) {
               return Container(

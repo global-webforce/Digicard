@@ -75,6 +75,13 @@ class ContactsViewModel extends ReactiveViewModel {
     ));
   }
 
+  removeFocus(BuildContext context) {
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
+  }
+
   void clearFilter() {
     if (editingController.text.isNotEmpty) {
       editingController.text = "";

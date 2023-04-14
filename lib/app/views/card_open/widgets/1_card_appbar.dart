@@ -31,10 +31,9 @@ class CardAppBar extends StatelessWidget with PreferredSizeWidget {
           child: InkWell(
             customBorder: const CircleBorder(),
             onTap: () => Navigator.maybePop(context),
-            child: Padding(
-              padding: const EdgeInsets.all(6),
-              child: Icon(Icons.close_rounded,
-                  color: Theme.of(context).colorScheme.onPrimary),
+            child: const Padding(
+              padding: EdgeInsets.all(5),
+              child: Icon(Icons.close_rounded, color: Colors.white),
             ),
           ),
         ),

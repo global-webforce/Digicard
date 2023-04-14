@@ -23,7 +23,7 @@ _$_DigitalCard _$$_DigitalCardFromJson(Map<String, dynamic> json) =>
       pronouns: json['pronouns'] as String?,
       logoUrl: json['logo_url'] as String?,
       avatarUrl: json['avatar_url'] as String?,
-      color: json['color'] as int?,
+      color: json['color'] as int? ?? kcPrimaryColorInt,
       position: json['position'] as String?,
       department: json['department'] as String?,
       company: json['company'] as String?,

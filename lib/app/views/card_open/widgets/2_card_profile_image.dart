@@ -143,10 +143,12 @@ class CardProfileImage extends StatelessWidget {
             );
           },
           placeholder: (context, url) {
-            return Container(
-              height: 130,
-              decoration: BoxDecoration(
-                color: color.darken(0.2),
+            return AspectRatio(
+              aspectRatio: 1 / 1,
+              child: Ink(
+                decoration: BoxDecoration(
+                  color: color.darken(0.2),
+                ),
               ),
             );
           },

@@ -481,7 +481,7 @@ class _$_DigitalCard implements _DigitalCard {
       @FormControlAnnotation<String>()
           this.avatarUrl,
       @FormControlAnnotation<int>()
-          this.color,
+          this.color = kcPrimaryColorInt,
       @FormControlAnnotation<String>()
           this.position,
       @FormControlAnnotation<String>()
@@ -546,6 +546,7 @@ class _$_DigitalCard implements _DigitalCard {
   @FormControlAnnotation<String>()
   final String? avatarUrl;
   @override
+  @JsonKey()
   @FormControlAnnotation<int>()
   final int? color;
   @override
