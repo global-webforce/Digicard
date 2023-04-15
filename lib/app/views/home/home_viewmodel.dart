@@ -4,7 +4,7 @@ import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/app.bottomsheet_ui.dart';
-import 'package:digicard/app/services/_core/auth_service_supabase.dart';
+import 'package:digicard/app/services/_core/user_service.dart';
 
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:digicard/app/views/card_open/card_open_view.dart';
@@ -20,7 +20,7 @@ class HomeViewModel extends ReactiveViewModel {
   final _bottomSheetService = locator<BottomSheetService>();
   final _digitalCardService = locator<DigitalCardService>();
   final _navigationService = locator<NavigationService>();
-  final authService = locator<AuthService>();
+  final userService = locator<UserService>();
   @override
   List<ListenableServiceMixin> get listenableServices => [
         _digitalCardService,
@@ -75,11 +75,9 @@ class HomeViewModel extends ReactiveViewModel {
   }
 
   Future init() async {
-    try {
-      await runBusyFuture(
-        _digitalCardService.getAll(),
-        throwException: true,
-      );
-    } catch (e) {}
+    await runBusyFuture(
+      _digitalCardService.getAll(),
+      throwException: true,
+    );
   }
 }

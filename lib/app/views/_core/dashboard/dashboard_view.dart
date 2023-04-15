@@ -88,8 +88,10 @@ class DashboardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<DashboardViewModel>.reactive(
       disposeViewModel: false,
+      onDispose: (viewModel) {
+        viewModel.virgin = true;
+      },
       viewModelBuilder: () => DashboardViewModel(),
-      onViewModelReady: (viewModel) {},
       builder: (context, viewModel, child) => WillPopScope(
           onWillPop: () async {
             return await viewModel

@@ -60,6 +60,7 @@ class LoginViewModel extends ReactiveViewModel {
   Future login() async {
     if (!form.hasErrors) {
       await runBusyFuture(_authService.login(form.value), throwException: true);
+
       form.reset();
     }
   }

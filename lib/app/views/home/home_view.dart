@@ -8,6 +8,7 @@ import 'package:digicard/app/ui/_shared/dimensions.dart';
 import 'package:digicard/app/ui/widgets/app_icon.dart';
 import 'package:digicard/app/ui/widgets/digital_card_list_item.dart';
 import 'package:digicard/app/views/_core/dashboard/dashboard_view.dart';
+import 'package:digicard/app/views/_core/dashboard/dashboard_viewmodel.dart';
 import 'package:digicard/app/views/home/home_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -35,17 +36,22 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<HomeViewModel>.reactive(
         viewModelBuilder: () => locator<HomeViewModel>(),
-        fireOnViewModelReadyOnce: true,
-        /*   onViewModelReady: (viewModel) async {
-          await viewModel.init();
-        }, */
-        onDispose: (viewModel) {},
+        onViewModelReady: (viewModel) async {
+          if (getParentViewModel<DashboardViewModel>(context, listen: false)
+                  .virgin ==
+              true) {
+            await viewModel.init();
+          }
+        },
         key: UniqueKey(),
         disposeViewModel: false,
         builder: (context, viewModel, child) {
+          getParentViewModel<DashboardViewModel>(context, listen: false)
+              .virgin = false;
           return Scaffold(
             drawer: isDesktop(context) ? null : const $EzDrawer(),
             bottomNavigationBar: const $EZBottomNavbar(),
+            bottomSheet: Text("${viewModel.userService.user?.email}"),
             appBar: AppBar(
               titleSpacing: 0,
               title: isDesktop(context) ? null : appIcon(),

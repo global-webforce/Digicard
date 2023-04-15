@@ -3,19 +3,20 @@ import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/app.logger.dart';
 
 import 'package:digicard/app/routes/app_router.gr.dart';
-import 'package:digicard/app/services/_core/auth_service_supabase.dart';
+import 'package:digicard/app/services/_core/user_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 const String loadingBusyKey = 'loadingBusyKey';
 
 class InitialViewModel extends ReactiveViewModel {
-  final log = getLogger('CardOpenViewModel');
+  final log = getLogger('InitialViewModel');
 
-  final _authService = locator<AuthService>();
+  final _userService = locator<UserService>();
   final appRouter = locator<AppRoute>();
   final _dialogService = locator<DialogService>();
+
+  get isPresent => _userService.isPresent;
 
   @override
   void onFutureError(error, Object? key) {
@@ -29,13 +30,6 @@ class InitialViewModel extends ReactiveViewModel {
     super.onFutureError(error, key);
   }
 
-  User? get user => _authService.authState?.session?.user;
-
   @override
-  List<ListenableServiceMixin> get listenableServices => [_authService];
-
-  checkSession() async {
-    await runBusyFuture(_authService.checkSession(),
-        throwException: true, busyObject: loadingBusyKey);
-  }
+  List<ListenableServiceMixin> get listenableServices => [_userService];
 }

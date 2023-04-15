@@ -9,12 +9,14 @@ import 'package:uuid/uuid.dart';
 
 import 'package:path/path.dart' as path;
 
+import '../app.locator.dart';
+import '_core/user_service.dart';
+
 class DigitalCardServiceSupabase
     with ListenableServiceMixin
     implements DigitalCardService {
   final _supabase = Supabase.instance.client;
-
-  String? userId;
+  final _userService = locator<UserService>();
 
   var uuid = const Uuid();
 
@@ -30,8 +32,8 @@ class DigitalCardServiceSupabase
   }
 
   DigitalCardServiceSupabase() {
-    userId = _supabase.auth.currentUser?.id;
     listenToReactiveValues([
+      _userService,
       _digitalCards,
     ]);
   }
@@ -41,7 +43,7 @@ class DigitalCardServiceSupabase
 
   @override
   Future create(DigitalCard card) async {
-    final data = card.copyWith(userId: userId).toJson();
+    final data = card.copyWith(userId: _userService.id).toJson();
     data.remove("id");
     data.remove("uuid");
     data.remove("created_at");
@@ -100,7 +102,7 @@ class DigitalCardServiceSupabase
 
   @override
   Future update(DigitalCard card) async {
-    final data = card.copyWith(userId: userId).toJson();
+    final data = card.copyWith(userId: _userService.id).toJson();
     data.remove("id");
 
     data.remove("created_at");
@@ -174,10 +176,8 @@ class DigitalCardServiceSupabase
   @override
   Future getAll() async {
     try {
-      final data = await _supabase
-          .from('cards')
-          .select('*')
-          .in_('user_id', [userId]).order('created_at', ascending: true);
+      final data = await _supabase.from('cards').select('*').in_(
+          'user_id', [_userService.id]).order('created_at', ascending: true);
       if (data is List) {
         _digitalCards.value = data.map((e) => DigitalCard.fromJson(e)).toList();
       }

@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'package:digicard/app/api/api_service.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/models/custom_link.dart';
 import 'package:digicard/app/models/digital_card.dart';
-import 'package:digicard/app/services/_core/auth_service_supabase.dart';
+import 'package:digicard/app/services/_core/user_service.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:faker/faker.dart' as fkr;
@@ -13,8 +12,7 @@ import 'package:uuid/uuid.dart';
 class DigitalCardServiceLaravel
     with ListenableServiceMixin
     implements DigitalCardService {
-  final _apiService = locator<ApiService>();
-  final _authService = locator<AuthService>();
+  final _userService = locator<UserService>();
 
   DigitalCardServiceLaravel() {
     listenToReactiveValues([
@@ -33,7 +31,7 @@ class DigitalCardServiceLaravel
     digitalCards.add(
       card.copyWith(
         id: fkr.random.integer(999, min: 500),
-        userId: _authService.supabase.auth.currentUser?.id,
+        userId: _userService.id,
         uuid: uuid.v5(Uuid.NAMESPACE_URL, 'www.digicard.com'),
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),

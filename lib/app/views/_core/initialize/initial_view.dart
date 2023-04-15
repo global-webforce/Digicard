@@ -1,8 +1,8 @@
 import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:digicard/app/constants/colors.dart';
-import 'package:digicard/app/ui/overlays/custom_overlay.dart';
 import 'package:digicard/app/views/_core/initialize/initial_viewmodel.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
@@ -16,9 +16,7 @@ class InitialView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<InitialViewModel>.reactive(
         viewModelBuilder: () => InitialViewModel(),
-        onViewModelReady: (viewModel) async {
-          await viewModel.checkSession();
-        },
+        onViewModelReady: (viewModel) async {},
         onDispose: (viewModel) {},
         builder: (context, viewModel, child) {
           final r = viewModel.appRouter.declarativeDelegate(
@@ -26,8 +24,8 @@ class InitialView extends StatelessWidget {
             routes: (handler) {
               if (!kIsWeb) FlutterNativeSplash.remove();
               return [
-                if (viewModel.user != null) const DashboardRoute(),
-                if (viewModel.user == null) const WelcomeRoute(),
+                if (viewModel.isPresent) const DashboardRoute(),
+                if (!viewModel.isPresent) const WelcomeRoute(),
               ];
             },
           );
@@ -42,71 +40,59 @@ class InitialView extends StatelessWidget {
                 child: CircularProgressIndicator(
               color: kcPrimaryColor,
             )),
-            child: Builder(builder: (context) {
-              if (viewModel.busy(loadingBusyKey)) {
-                context.loaderOverlay.show(
-                    widget: const CustomOverlay(
-                  title: "Saving...",
-                ));
-              } else {
-                context.loaderOverlay.hide();
-              }
-
-              return MaterialApp.router(
-                title: "Digicard",
-                theme: ThemeData(
-                  useMaterial3: true,
-                  cardTheme: CardTheme(
-                    margin: const EdgeInsets.all(0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  colorSchemeSeed: kcPrimaryColor,
-                  /*      colorScheme: ColorScheme(
-                      primary: Colors.orange,
-                      secondary: Colors.orangeAccent,
-                      surface: Colors.grey.shade800,
-                      background: Colors.grey.shade900,
-                      error: Colors.red,
-                      onPrimary: Colors.white,
-                      onSecondary: Colors.white,
-                      onSurface: Colors.white,
-                      onBackground: Colors.white,
-                      onError: Colors.white,
-                      brightness: Brightness.light,
-                    ), */
-                  brightness: Brightness.dark,
-                  elevatedButtonTheme: ElevatedButtonThemeData(
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                    ),
-                  ),
-                  fontFamily: GoogleFonts.nunito().fontFamily,
-                  inputDecorationTheme: InputDecorationTheme(
-                    isDense: true,
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+            child: MaterialApp.router(
+              title: "Digicard",
+              theme: ThemeData(
+                useMaterial3: true,
+                cardTheme: CardTheme(
+                  margin: const EdgeInsets.all(0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                //scrollBehavior: MyCustomScrollBehavior(),
-                debugShowCheckedModeBanner: false,
-                routeInformationParser:
-                    viewModel.appRouter.defaultRouteParser(),
-                routerDelegate: r,
-              );
-            }),
+                colorSchemeSeed: kcPrimaryColor,
+                /*      colorScheme: ColorScheme(
+                    primary: Colors.orange,
+                    secondary: Colors.orangeAccent,
+                    surface: Colors.grey.shade800,
+                    background: Colors.grey.shade900,
+                    error: Colors.red,
+                    onPrimary: Colors.white,
+                    onSecondary: Colors.white,
+                    onSurface: Colors.white,
+                    onBackground: Colors.white,
+                    onError: Colors.white,
+                    brightness: Brightness.light,
+                  ), */
+                brightness: Brightness.dark,
+                elevatedButtonTheme: ElevatedButtonThemeData(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+                fontFamily: GoogleFonts.nunito().fontFamily,
+                inputDecorationTheme: InputDecorationTheme(
+                  isDense: true,
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+              scrollBehavior: MyCustomScrollBehavior(),
+              debugShowCheckedModeBanner: false,
+              routeInformationParser: viewModel.appRouter.defaultRouteParser(),
+              routerDelegate: r,
+            ),
           );
         });
   }
 }
 
-/* class MyCustomScrollBehavior extends MaterialScrollBehavior {
+class MyCustomScrollBehavior extends MaterialScrollBehavior {
   @override
   Set<PointerDeviceKind> get dragDevices => {
         PointerDeviceKind.touch,
         PointerDeviceKind.mouse,
       };
-} */
+}

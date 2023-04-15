@@ -1,39 +1,41 @@
 import 'dart:async';
-import 'package:stacked/stacked.dart';
+import 'package:digicard/app/services/_core/user_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class AuthService with ListenableServiceMixin {
-  late final StreamSubscription<AuthState> _authSubscription;
+import '../../app.locator.dart';
 
+class AuthService {
   final _supabase = Supabase.instance.client;
-
-  SupabaseClient get supabase => _supabase;
-  AuthState? get authState => _authState.value;
-
-  final ReactiveValue<AuthState?> _authState = ReactiveValue<AuthState?>(null);
+  final _userService = locator<UserService>();
 
   AuthService() {
-    listenToReactiveValues([
-      _authState,
-    ]);
+    _supabase.auth.onAuthStateChange.listen((event) async {
+      _userService.user = event.session?.user;
+      if (event.session != null) {
+        final expiresAt = DateTime.fromMillisecondsSinceEpoch(
+            event.session!.expiresAt! * 1000);
+        if (expiresAt
+            .isBefore(DateTime.now().subtract(const Duration(seconds: 2)))) {
+          await _supabase.auth.refreshSession();
+        }
+      }
+    });
   }
 
-  Future checkSession() async {
+  /*  Future checkSession() async {
     try {
-      _supabase.auth.onAuthStateChange.listen((event) async {
-        _authState.value = event;
-      });
+      _supabase.auth.onAuthStateChange.listen((event) async {});
     } catch (e) {
       if (e is AuthException) {
         return Future.error(e.message);
       }
       return Future.error("Unknown error occured");
     }
-  }
+  } */
 
   Future login(Map<String, dynamic> formData) async {
     try {
-      return await _supabase.auth
+      await _supabase.auth
           .signInWithPassword(
         email: formData["email"],
         password: formData["password"],
@@ -99,10 +101,6 @@ class AuthService with ListenableServiceMixin {
   }
 
   Future updateProfile(Map<String, dynamic> formData) async {}
-
-  x() {
-    _authSubscription.cancel();
-  }
 
   Future<void> logOut() async {
     await _supabase.auth.signOut();

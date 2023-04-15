@@ -54,11 +54,11 @@ class AppRoute extends _i4.RootStackRouter {
   List<_i4.RouteConfig> get routes => [
         _i4.RouteConfig(
           WelcomeRoute.name,
-          path: '',
+          path: '/',
         ),
         _i4.RouteConfig(
           LoginRoute.name,
-          path: '',
+          path: '/',
         ),
         _i4.RouteConfig(
           DashboardRoute.name,
@@ -79,7 +79,7 @@ class WelcomeRoute extends _i4.PageRouteInfo<void> {
   const WelcomeRoute()
       : super(
           WelcomeRoute.name,
-          path: '',
+          path: '/',
         );
 
   static const String name = 'WelcomeRoute';
@@ -91,7 +91,7 @@ class LoginRoute extends _i4.PageRouteInfo<void> {
   const LoginRoute()
       : super(
           LoginRoute.name,
-          path: '',
+          path: '/',
         );
 
   static const String name = 'LoginRoute';

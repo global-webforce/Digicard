@@ -38,25 +38,34 @@ class ScaffoldListWrapper extends StatelessWidget {
             strokeWidth: 3,
             triggerMode: RefreshIndicatorTriggerMode.onEdge,
             onRefresh: () => onRefresh(),
-            child: !(itemCount > 0)
-                ? CustomScrollView(slivers: [
-                    ...[
-                      SliverFillRemaining(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Center(
-                              child: SingleChildScrollView(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 15,
-                                      horizontal: max(
-                                          (screenWidth(context) - 800) / 2,
-                                          15)),
-                                  child: emptyIndicatorWidget)),
-                        ),
-                      )
-                    ]
-                  ])
-                : builder(context, constraints),
+            child: AnimatedSwitcher(
+              key: UniqueKey(),
+              duration: const Duration(milliseconds: 500),
+              child: Container(
+                child: isBusy
+                    ? busyIndicatorWidget
+                    : !(itemCount > 0)
+                        ? CustomScrollView(slivers: [
+                            ...[
+                              SliverFillRemaining(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16),
+                                  child: Center(
+                                      child: SingleChildScrollView(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 15,
+                                              horizontal: max(
+                                                  (screenWidth(context) - 800) /
+                                                      2,
+                                                  15)),
+                                          child: emptyIndicatorWidget)),
+                                ),
+                              )
+                            ]
+                          ])
+                        : builder(context, constraints),
+              ),
+            ),
           ));
     });
   }

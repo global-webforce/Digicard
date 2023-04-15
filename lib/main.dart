@@ -14,6 +14,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 void main() async {
   // GoogleFonts.config.allowRuntimeFetching = false;
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  if (!kIsWeb) FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   try {
     await Supabase.initialize(
       url: "https://kbetklswsjdfouluglbr.supabase.co",
@@ -21,11 +22,10 @@ void main() async {
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtiZXRrbHN3c2pkZm91bHVnbGJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzczNTU3NDcsImV4cCI6MTk5MjkzMTc0N30.8Ce3XIm1bQco_ntU4ssnnnfdvASNZOIsyQrxanvEVVk",
     );
   } catch (e) {
-    return Future.error("OH SNAP!!");
+    rethrow;
   }
 
   setupLocator();
-  if (!kIsWeb) FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   locator.registerSingleton(AppRoute(StackedService.navigatorKey));
   await ThemeManager.initialise();

@@ -1,4 +1,5 @@
 import 'package:digicard/app/services/_core/auth_service_supabase.dart';
+import 'package:digicard/app/services/_core/user_service.dart';
 import 'package:digicard/app/services/contacts_service.dart';
 import 'package:digicard/app/services/digital_card_service_supabase.dart';
 import 'package:digicard/app/views/_core/login/login_viewmodel.dart';
@@ -36,6 +37,7 @@ import 'views/custom_link/custom_link_view_model.dart';
     LazySingleton(classType: BottomSheetService),
     LazySingleton(classType: NavigationService),
     LazySingleton(classType: AuthService),
+    LazySingleton(classType: UserService),
     LazySingleton(classType: ContactsService),
     LazySingleton(
       classType: DigitalCardServiceSupabase,

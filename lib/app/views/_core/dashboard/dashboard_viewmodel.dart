@@ -11,6 +11,8 @@ import 'package:stacked_services/stacked_services.dart';
 class DashboardViewModel extends BaseViewModel {
   final _dialogService = locator<DialogService>();
 
+  bool virgin = true;
+
   Future<DialogResponse<dynamic>?> confirmExit() async {
     return _dialogService.showCustomDialog(
       variant: DialogType.confirmation,

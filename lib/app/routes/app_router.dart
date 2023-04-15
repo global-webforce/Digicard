@@ -25,11 +25,11 @@ NEVER EVER DO PARENT CHILDREN ON ROUTING - BIGGEST MISTAKE EVER
 @MaterialAutoRouter(replaceInRouteName: 'View,Route', routes: [
   CustomRoute(
     initial: true,
-    path: '',
+    path: '/',
     page: WelcomeView,
   ),
   CustomRoute(
-    path: '',
+    path: '/',
     page: LoginView,
   ),
   CustomRoute(

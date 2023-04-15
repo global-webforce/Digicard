@@ -6,10 +6,23 @@ import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/ui/_shared/dimensions.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:digicard/app/views/_core/login/login_view.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
-class WelcomeView extends StatelessWidget {
+class WelcomeView extends StatefulWidget {
   const WelcomeView({Key? key}) : super(key: key);
+
+  @override
+  State<WelcomeView> createState() => _WelcomeViewState();
+}
+
+class _WelcomeViewState extends State<WelcomeView> {
+  @override
+  void initState() {
+    if (!kIsWeb) FlutterNativeSplash.remove();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
