@@ -3,6 +3,7 @@ import 'package:digicard/app/app.dialog_ui.dart';
 import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/models/custom_link.dart';
 import 'package:digicard/app/models/digital_card.dart';
+import 'package:digicard/app/services/contacts_service.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:digicard/app/views/custom_link/custom_link_view.dart';
 import 'package:image_picker/image_picker.dart';
@@ -31,6 +32,7 @@ class CardOpenViewModel extends ReactiveViewModel {
   final _dialogService = locator<DialogService>();
   final _bottomSheetService = locator<BottomSheetService>();
   final _digitalCardsService = locator<DigitalCardService>();
+  final _contactsService = locator<ContactsService>();
   final _navigationService = locator<NavigationService>();
 
   @override
@@ -77,11 +79,19 @@ class CardOpenViewModel extends ReactiveViewModel {
     _formModel.form.addAll(elements.controls);
   }
 
+  Future saveToContacts(DigitalCard card) async {
+    runBusyFuture(_contactsService.create(card),
+        throwException: true, busyObject: saveBusyKey);
+  }
+
   editCustomLink(CustomLink customLink, {int? index}) async {
     var x = await _navigationService.navigateToView(CustomLinkView(
       customLink,
     ));
-    _formModel.customLinksControl.control("$index.id").value = x["id"].text;
+    _formModel.customLinksControl.control("$index.id").value =
+        x["customLink"].id;
+    _formModel.customLinksControl.control("$index.cardId").value =
+        x["customLink"].cardId;
     _formModel.customLinksControl.control("$index.text").value =
         x["customLink"].text;
     _formModel.customLinksControl.control("$index.label").value =
@@ -90,6 +100,7 @@ class CardOpenViewModel extends ReactiveViewModel {
         x["customLink"].type;
 
     _formModel.form.markAsDirty();
+    notifyListeners();
   }
 
   addCustomLink(CustomLink customLink) async {
@@ -107,8 +118,8 @@ class CardOpenViewModel extends ReactiveViewModel {
       variant: DialogType.confirmation,
       description:
           "You sure you want to remove this ${_formModel.customLinksControl.control("$index.type").value}?",
-      mainButtonTitle: "Cancel",
-      secondaryButtonTitle: "Remove",
+      mainButtonTitle: "Remove",
+      secondaryButtonTitle: "Cancel",
       barrierDismissible: true,
     )
         .then((value) async {
@@ -169,7 +180,10 @@ class CardOpenViewModel extends ReactiveViewModel {
           description: "First name is required",
           barrierDismissible: true);
     } else {
-      final formValue = _formModel.model;
+      final customLinks = _formModel.customLinksControl.value ?? [];
+      final formValue = _formModel.model.copyWith(
+          customLinks:
+              customLinks.map((e) => CustomLink.fromJson(e!)).toList());
 
       if (actionType == ActionType.create) {
         await runBusyFuture(_digitalCardsService.create(formValue),

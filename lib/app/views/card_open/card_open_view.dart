@@ -106,7 +106,10 @@ class CardOpenView extends StatelessWidget {
                                           : EzButton.elevated(
                                               background: colorTheme,
                                               title: "Connect",
-                                              onTap: () {},
+                                              onTap: () async {
+                                                await viewModel
+                                                    .saveToContacts(card);
+                                              },
                                             ),
                                 )
                               : const SizedBox.shrink(),

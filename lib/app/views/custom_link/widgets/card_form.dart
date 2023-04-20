@@ -35,7 +35,7 @@ class CLForm extends StatelessWidget {
           showErrors: (control) => false,
           formControl: viewModel.formModel.textControl,
           decoration: inputStyle.copyWith(
-            label: Text("${viewModel.formModel.typeControl?.value}"),
+            label: Text("${viewModel.formModel.typeControl?.value} "),
             alignLabelWithHint: false,
             helperText:
                 "${CustomLink(type: '${viewModel.formModel.typeControl?.value}').url()}${viewModel.formModel.textControl?.value ?? ''}",

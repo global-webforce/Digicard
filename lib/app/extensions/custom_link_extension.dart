@@ -3,10 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 extension CustomLinkExt on CustomLink {
-  String url({String? val}) {
-    final x = val ?? type;
+  Uri uri() {
+    switch (type) {
+      case "Email":
+        return Uri.parse("mailto:$text");
 
-    switch (x) {
+      case "Phone":
+        return Uri.parse("sms:$text");
+
+      case "Address":
+        return Uri.parse("https://maps.google.com/?q=$text");
+
+      case "Website":
+        return Uri.parse("https://www.$text");
+
+      case "More soon!":
+        return Uri.parse("");
+
+      default:
+        return Uri.parse("");
+    }
+  }
+
+  String url() {
+    switch (type) {
       case "Email":
         return "mailto:";
 

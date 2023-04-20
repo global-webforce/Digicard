@@ -13,7 +13,7 @@ class CustomLinksFieldGroup extends StatelessWidget {
   Widget build(BuildContext context) {
     final form = ReactiveDigitalCardForm.of(context);
     final viewModel =
-        getParentViewModel<CardOpenViewModel>(context, listen: false);
+        getParentViewModel<CardOpenViewModel>(context, listen: true);
     return ReactiveFormArray<Map<String, Object?>>(
       formArray: form?.customLinksControl,
       builder: (context, formArray, child) {
@@ -23,8 +23,16 @@ class CustomLinksFieldGroup extends StatelessWidget {
             children: formArray.value != null
                 ? formArray.value!.asMap().entries.map((menu) {
                     final index = menu.key;
-                    final customLink =
-                        CustomLink.fromJson(menu.value as Map<String, dynamic>);
+                    final customLink = CustomLink(
+                      id: int.tryParse(
+                          "${formArray.control('$index.id').value}"),
+                      text: "${formArray.control('$index.text').value}",
+                      cardId: int.tryParse(
+                          "${formArray.control('$index.cardId').value}"),
+                      label: "${formArray.control('$index.label').value}",
+                      type: "${formArray.control('$index.type').value}",
+                    );
+
                     Widget linkField() {
                       return ReactiveTextField<String>(
                         keyboardType: TextInputType.none,
@@ -64,8 +72,7 @@ class CustomLinksFieldGroup extends StatelessWidget {
                             enabledBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.grey),
                             ),
-                            labelText:
-                                "${formArray.control('$index.label').value}",
+                            labelText: "${customLink.type}",
                             floatingLabelBehavior: FloatingLabelBehavior.auto),
                       );
                     }

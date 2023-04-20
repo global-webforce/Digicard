@@ -181,12 +181,11 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
 
   Future saveToContacts() async {
     setBusyForObject(saveToContactsBusyKey, true);
-    await _contactsService.saveContact(card);
+    await _contactsService.save(card);
     setBusyForObject(saveToContactsBusyKey, false);
     setBusyForObject(doneBusyKey, true);
     await Future.delayed(const Duration(seconds: 1));
     setBusyForObject(doneBusyKey, false);
-    _snackbarService.showSnackbar(message: "TESTING!");
   }
 
   Future downloadWithoutLogo(BuildContext context) async {

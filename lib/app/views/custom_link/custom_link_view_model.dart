@@ -31,9 +31,8 @@ class CustomLinkViewModel extends BaseViewModel {
   }
 
   save() {
-    _navigationService.back(result: {
-      'index': i,
-      'customLink': CustomLink.fromJson(_formModel.form.value)
-    });
+    print("------------------- $i ${_formModel.model}");
+    _navigationService
+        .back(result: {'index': i, 'customLink': _formModel.model});
   }
 }

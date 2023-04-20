@@ -6,6 +6,7 @@ import 'package:digicard/app/models/custom_link.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/ui/widgets/card_components/card_info.dart';
+import 'package:digicard/app/views/card_open/widgets/edit/custom_links_group.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -37,16 +38,14 @@ class CardInfo extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               vSpaceRegular,
-              Wrap(
-                spacing: 5,
-                runSpacing: 5,
-                crossAxisAlignment: WrapCrossAlignment.start,
-                runAlignment: WrapAlignment.start,
-                direction: Axis.vertical,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   if ("${form?.model.fullName()}".isNotNullOrEmpty())
                     Text(
                       "${form?.model.fullName()}",
+                      overflow: TextOverflow.visible,
                       style: const TextStyle(
                           fontSize: 22, fontWeight: FontWeight.bold),
                     ),
@@ -73,7 +72,7 @@ class CardInfo extends StatelessWidget {
                   FontAwesomeIcons.solidBuilding,
                   size: 17,
                 ),
-                title: "${form?.companyControl?.value}",
+                title: "${form?.companyControl?.value}".toUpperCase(),
                 titleTextStyle: TextStyle(
                     color: colorTheme,
                     fontSize: 16,
@@ -165,7 +164,8 @@ class CardInfo extends StatelessWidget {
                               ),
                             ),
                           ]),
-                    )
+                    ),
+              const CustomLinksGroup()
             ],
           ),
         ),

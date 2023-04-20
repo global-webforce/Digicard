@@ -2415,6 +2415,8 @@ class CustomLinkForm implements FormModel<CustomLink> {
 
   static String idControlName = "id";
 
+  static String cardIdControlName = "cardId";
+
   static String textControlName = "text";
 
   static String labelControlName = "label";
@@ -2428,16 +2430,27 @@ class CustomLinkForm implements FormModel<CustomLink> {
   final String? path;
 
   String idControlPath() => pathBuilder(idControlName);
+  String cardIdControlPath() => pathBuilder(cardIdControlName);
   String textControlPath() => pathBuilder(textControlName);
   String labelControlPath() => pathBuilder(labelControlName);
   String typeControlPath() => pathBuilder(typeControlName);
   int? get _idValue => idControl?.value;
+  int? get _cardIdValue => cardIdControl?.value;
   String? get _textValue => textControl?.value;
   String? get _labelValue => labelControl?.value;
   String? get _typeValue => typeControl?.value;
   bool get containsId {
     try {
       form.control(idControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool get containsCardId {
+    try {
+      form.control(cardIdControlPath());
       return true;
     } catch (e) {
       return false;
@@ -2472,10 +2485,12 @@ class CustomLinkForm implements FormModel<CustomLink> {
   }
 
   Object? get idErrors => idControl?.errors;
+  Object? get cardIdErrors => cardIdControl?.errors;
   Object? get textErrors => textControl?.errors;
   Object? get labelErrors => labelControl?.errors;
   Object? get typeErrors => typeControl?.errors;
   void get idFocus => form.focus(idControlPath());
+  void get cardIdFocus => form.focus(cardIdControlPath());
   void get textFocus => form.focus(textControlPath());
   void get labelFocus => form.focus(labelControlPath());
   void get typeFocus => form.focus(typeControlPath());
@@ -2497,6 +2512,32 @@ class CustomLinkForm implements FormModel<CustomLink> {
         if (formGroup is FormGroup) {
           formGroup.removeControl(
             idControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
+  void cardIdRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsCardId) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          cardIdControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            cardIdControlName,
             updateParent: updateParent,
             emitEvent: emitEvent,
           );
@@ -2592,6 +2633,15 @@ class CustomLinkForm implements FormModel<CustomLink> {
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
+  void cardIdValueUpdate(
+    int? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    cardIdControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
   void textValueUpdate(
     String? value, {
     bool updateParent = true,
@@ -2625,6 +2675,15 @@ class CustomLinkForm implements FormModel<CustomLink> {
     bool emitEvent = true,
   }) {
     idControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void cardIdValuePatch(
+    int? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    cardIdControl?.patchValue(value,
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
@@ -2664,6 +2723,15 @@ class CustomLinkForm implements FormModel<CustomLink> {
   }) =>
       idControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void cardIdValueReset(
+    int? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      cardIdControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
   void textValueReset(
     String? value, {
     bool updateParent = true,
@@ -2693,6 +2761,9 @@ class CustomLinkForm implements FormModel<CustomLink> {
           value: value, updateParent: updateParent, emitEvent: emitEvent);
   FormControl<int>? get idControl =>
       containsId ? form.control(idControlPath()) as FormControl<int>? : null;
+  FormControl<int>? get cardIdControl => containsCardId
+      ? form.control(cardIdControlPath()) as FormControl<int>?
+      : null;
   FormControl<String>? get textControl => containsText
       ? form.control(textControlPath()) as FormControl<String>?
       : null;
@@ -2714,6 +2785,24 @@ class CustomLinkForm implements FormModel<CustomLink> {
       );
     } else {
       idControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void cardIdSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      cardIdControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      cardIdControl?.markAsEnabled(
         updateParent: updateParent,
         emitEvent: emitEvent,
       );
@@ -2782,7 +2871,11 @@ class CustomLinkForm implements FormModel<CustomLink> {
       );
     }
     return CustomLink(
-        id: _idValue, text: _textValue, label: _labelValue, type: _typeValue);
+        id: _idValue,
+        cardId: _cardIdValue,
+        text: _textValue,
+        label: _labelValue,
+        type: _typeValue);
   }
 
   CustomLinkForm copyWithPath(String? path) {
@@ -2812,6 +2905,13 @@ class CustomLinkForm implements FormModel<CustomLink> {
   static FormGroup formElements(CustomLink? customLink) => FormGroup({
         idControlName: FormControl<int>(
             value: customLink?.id,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        cardIdControlName: FormControl<int>(
+            value: customLink?.cardId,
             validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,

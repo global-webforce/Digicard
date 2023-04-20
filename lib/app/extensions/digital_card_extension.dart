@@ -6,4 +6,21 @@ extension DigitalCardExtension on DigitalCard {
         .replaceAll(RegExp(r"\s+"), " ")
         .trim();
   }
+
+  static Map<String, dynamic> create(Map<String, dynamic> value) {
+    value.remove("id");
+    value.remove("uuid");
+    value.remove("created_at");
+    value.remove("updated_at");
+    value.remove("custom_links");
+    value.remove("full_name");
+    return value;
+  }
+
+  static Map<String, dynamic> update(Map<String, dynamic> value) {
+    value.remove("id");
+    value.remove("created_at");
+    value.remove("updated_at");
+    return value;
+  }
 }

@@ -6,7 +6,6 @@
 
 // ignore_for_file: public_member_api_docs, implementation_imports, depend_on_referenced_packages
 
-import 'package:digicard/app/services/_core/user_service.dart';
 import 'package:stacked_services/src/bottom_sheet/bottom_sheet_service.dart';
 import 'package:stacked_services/src/dialog/dialog_service.dart';
 import 'package:stacked_services/src/navigation/navigation_service.dart';
@@ -16,9 +15,9 @@ import 'package:stacked_themes/src/theme_service.dart';
 
 import 'services/_core/auth_service_supabase.dart';
 import 'services/_core/local_storage_service.dart';
+import 'services/_core/user_service.dart';
 import 'services/contacts_service.dart';
 import 'services/digital_card_service.dart';
-import 'services/digital_card_service_supabase.dart';
 import 'ui/bottom_sheets/card_send_bottom_sheet_viewmodel.dart';
 import 'ui/bottom_sheets/card_tools_bottom_sheet_viewmodel.dart';
 import 'views/_core/dashboard/dashboard_viewmodel.dart';
@@ -53,8 +52,7 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => AuthService());
   locator.registerLazySingleton(() => UserService());
   locator.registerLazySingleton(() => ContactsService());
-  locator.registerLazySingleton<DigitalCardService>(
-      () => DigitalCardServiceSupabase());
+  locator.registerLazySingleton(() => DigitalCardService());
   locator.registerSingleton(InitialViewModel());
   locator.registerSingleton(LoginViewModel());
   locator.registerSingleton(DashboardViewModel());

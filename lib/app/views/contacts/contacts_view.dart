@@ -15,7 +15,6 @@ class ContactsView extends StatelessWidget {
         onViewModelReady: (viewModel) async {
           await viewModel.init();
         },
-        fireOnViewModelReadyOnce: true,
         onDispose: (viewModel) {
           viewModel.clearFilter();
         },
@@ -63,19 +62,17 @@ class ContactsView extends StatelessWidget {
           }
 
           return Scaffold(
-              appBar:
-                  AppBar(title: const Text("CONTACTS"), bottom: searchField()),
-              drawer: isDesktop(context) ? null : const $EzDrawer(),
-              bottomNavigationBar: const $EZBottomNavbar(),
-              body: Padding(
-                padding: const EdgeInsets.only(top: 0),
-                child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onPanDown: (_) {
-                      viewModel.removeFocus(context);
-                    },
-                    child: const AlphabetList()),
-              ));
+            appBar:
+                AppBar(title: const Text("CONTACTS"), bottom: searchField()),
+            drawer: isDesktop(context) ? null : const $EzDrawer(),
+            bottomNavigationBar: const $EZBottomNavbar(),
+            body: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onPanDown: (_) {
+                  viewModel.removeFocus(context);
+                },
+                child: const AlphabetList()),
+          );
         });
   }
 }
