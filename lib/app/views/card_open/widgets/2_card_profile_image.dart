@@ -9,11 +9,7 @@ import 'package:flutter/material.dart';
 
 class CardProfileImage extends StatelessWidget {
   final Color color;
-
-  /// Can be String (network-based image) orXFile (local upload)
   final String? imagePath;
-
-  /// When set to true the widget will just display a plain colored container
   final bool readOnly;
   final Function()? onTap;
 
@@ -100,64 +96,67 @@ class CardProfileImage extends StatelessWidget {
           ),
         );
       }
-      return InkWell(
-        onTap: onTap != null ? () => onTap!() : null,
-        child: CachedNetworkImage(
-          imageUrl: "$avatarUrlPrefix$imagePath",
-          imageBuilder: (context, imageProvider) {
-            return InkWell(
-              onTap: onTap != null
-                  ? () {
-                      onTap!();
-                    }
-                  : null,
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height,
-                  minWidth: MediaQuery.of(context).size.width,
-                ),
-                child: AspectRatio(
-                  aspectRatio: 1 / 1,
-                  child: Ink(
-                    decoration: BoxDecoration(
-                      color: color,
-                      image: DecorationImage(
-                        image: imageProvider,
-                        fit: BoxFit.cover,
+      if ("$avatarUrlPrefix$imagePath".isValidUrl()) {
+        return InkWell(
+          onTap: onTap != null ? () => onTap!() : null,
+          child: CachedNetworkImage(
+            imageUrl: "$avatarUrlPrefix$imagePath",
+            imageBuilder: (context, imageProvider) {
+              return InkWell(
+                onTap: onTap != null
+                    ? () {
+                        onTap!();
+                      }
+                    : null,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: MediaQuery.of(context).size.height,
+                    minWidth: MediaQuery.of(context).size.width,
+                  ),
+                  child: AspectRatio(
+                    aspectRatio: 1 / 1,
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        color: color,
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.contain,
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.contain,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            );
-          },
-          placeholder: (context, url) {
-            return AspectRatio(
-              aspectRatio: 1 / 1,
-              child: Ink(
-                decoration: BoxDecoration(
-                  color: color.darken(0.2),
+              );
+            },
+            placeholder: (context, url) {
+              return AspectRatio(
+                aspectRatio: 1 / 1,
+                child: Ink(
+                  decoration: BoxDecoration(
+                    color: color.darken(0.2),
+                  ),
                 ),
-              ),
-            );
-          },
-          errorWidget: (context, url, error) {
-            return errorWidget();
-          },
-        ),
-      );
+              );
+            },
+            errorWidget: (context, url, error) {
+              return errorWidget();
+            },
+          ),
+        );
+      }
     }
+
     return errorWidget();
   }
 }

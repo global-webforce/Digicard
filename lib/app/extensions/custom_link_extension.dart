@@ -66,7 +66,7 @@ extension CustomLinkExt on CustomLink {
         return FontAwesomeIcons.gift;
 
       default:
-        return FontAwesomeIcons.link;
+        return FontAwesomeIcons.circleQuestion;
     }
   }
 }

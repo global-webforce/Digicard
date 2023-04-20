@@ -73,29 +73,31 @@ class CardLogo extends StatelessWidget {
         );
       }
 
-      return InkWell(
-        onTap: onTap != null ? () => onTap!() : null,
-        child: CachedNetworkImage(
-          imageUrl: "$logoUrlPrefix$imagePath",
-          imageBuilder: (context, imageProvider) {
-            return Container(
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                image: DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.contain,
+      if ("$logoUrlPrefix$imagePath".isValidUrl()) {
+        return InkWell(
+          onTap: onTap != null ? () => onTap!() : null,
+          child: CachedNetworkImage(
+            imageUrl: "$logoUrlPrefix$imagePath",
+            imageBuilder: (context, imageProvider) {
+              return Container(
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.contain,
+                  ),
                 ),
-              ),
-            );
-          },
-          placeholder: (context, url) {
-            return errorWidget();
-          },
-          errorWidget: (context, url, error) {
-            return errorWidget();
-          },
-        ),
-      );
+              );
+            },
+            placeholder: (context, url) {
+              return errorWidget();
+            },
+            errorWidget: (context, url, error) {
+              return errorWidget();
+            },
+          ),
+        );
+      }
     }
     return errorWidget();
   }

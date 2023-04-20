@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/extensions/color_extension.dart';
+import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/ui/_core/value_widget.dart';
 import 'package:flutter/material.dart';
@@ -21,24 +22,31 @@ class DigitalCardListItem extends StatelessWidget {
       return Container(
         color: Color(card.color ?? kcPrimaryColorInt),
         child: Material(
-          child: CachedNetworkImage(
-            imageUrl:
-                "https://kbetklswsjdfouluglbr.supabase.co/storage/v1/object/public/images/avatars/${card.avatarUrl}",
-            width: double.infinity,
-            height: 140,
-            fit: BoxFit.cover,
-            placeholder: (context, url) {
-              return Container(
-                  color: Color(card.color ?? kcPrimaryColorInt).darken(0.1));
-            },
-            errorWidget: (context, url, error) {
-              return Container(
-                width: double.infinity,
-                height: 140,
-                color: Color(card.color ?? kcPrimaryColorInt).darken(0.1),
-              );
-            },
-          ),
+          child: ("${card.avatarUrl}".isNotNullOrEmpty())
+              ? CachedNetworkImage(
+                  imageUrl:
+                      "https://kbetklswsjdfouluglbr.supabase.co/storage/v1/object/public/images/avatars/${card.avatarUrl}",
+                  width: double.infinity,
+                  height: 140,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) {
+                    return Container(
+                        color:
+                            Color(card.color ?? kcPrimaryColorInt).darken(0.1));
+                  },
+                  errorWidget: (context, url, error) {
+                    return Container(
+                      width: double.infinity,
+                      height: 140,
+                      color: Color(card.color ?? kcPrimaryColorInt).darken(0.1),
+                    );
+                  },
+                )
+              : Container(
+                  width: double.infinity,
+                  height: 140,
+                  color: Color(card.color ?? kcPrimaryColorInt).darken(0.1),
+                ),
         ),
       );
     }

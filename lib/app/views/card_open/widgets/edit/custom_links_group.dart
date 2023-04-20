@@ -1,3 +1,5 @@
+import 'package:digicard/app/constants/colors.dart';
+import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/extensions/custom_link_extension.dart';
 import 'package:digicard/app/models/custom_link.dart';
 import 'package:digicard/app/models/digital_card.dart';
@@ -43,13 +45,23 @@ class CustomLinksGroup extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 5.0),
                           child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Icon(customLink.icon(), size: 20),
+                              CircleAvatar(
+                                  radius: 18,
+                                  backgroundColor: Color(form?.model.color ??
+                                          kcPrimaryColorInt)
+                                      .darken(),
+                                  child: Icon(
+                                    customLink.icon(),
+                                    size: 18,
+                                    color: Colors.white,
+                                  )),
                               hSpaceRegular,
                               Expanded(
                                 child: Text(
                                   "${customLink.text}",
-                                  style: const TextStyle(fontSize: 16),
                                 ),
                               )
                             ],
