@@ -29,8 +29,8 @@ class CustomLinksButtonGroup extends StatelessWidget {
         label: "Address",
       ),
       CustomLink(
-        type: "Phone",
-        label: "Phone",
+        type: "Phone Number",
+        label: "Phone Number",
       ),
       CustomLink(
         type: "Website",

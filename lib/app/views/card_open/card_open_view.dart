@@ -64,32 +64,14 @@ class CardOpenView extends StatelessWidget {
                   return Builder(builder: (context) {
                     final formModel = viewModel.formModel;
 
-                    Widget avatarUrl() {
-                      return ReactiveValueListenableBuilder<dynamic>(
-                          formControl: formModel.avatarUrlControl,
-                          builder: (context, image, child) {
-                            return CardProfileImage(
-                              readOnly: !viewModel.editorMode,
-                              imagePath: image.value,
-                              color: colorTheme,
-                              onTap: !viewModel.editorMode
-                                  ? null
-                                  : () async {
-                                      formModel.form.unfocus();
-                                      await viewModel.showImagePicker();
-                                    },
-                            );
-                          });
-                    }
-
                     return WillPopScope(
                       onWillPop: () async {
                         return await viewModel.confirmExit();
                       },
                       child: SafeArea(
-                        top: viewModel.editorMode ? false : false,
+                        top: viewModel.editMode ? false : false,
                         child: Scaffold(
-                          extendBodyBehindAppBar: !viewModel.editorMode,
+                          extendBodyBehindAppBar: !viewModel.editMode,
                           appBar: const CardAppBar(),
                           bottomSheet: viewModel.actionType == ActionType.test
                               ? Container(
@@ -138,7 +120,20 @@ class CardOpenView extends StatelessWidget {
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     bottom: 18),
-                                                child: avatarUrl(),
+                                                child: ReactiveAvatarPicker(
+                                                  formControl: formModel
+                                                      .avatarUrlControl,
+                                                  readOnly: !viewModel.editMode,
+                                                  backgroundColor: colorTheme,
+                                                  onTap: !viewModel.editMode
+                                                      ? null
+                                                      : () async {
+                                                          formModel.form
+                                                              .unfocus();
+                                                          await viewModel
+                                                              .showAvatarPicker();
+                                                        },
+                                                ),
                                               ),
                                               Positioned(
                                                   bottom: 0,
@@ -150,9 +145,9 @@ class CardOpenView extends StatelessWidget {
                                             ],
                                           ),
                                         ),
-                                        if (!viewModel.editorMode)
+                                        if (!viewModel.editMode)
                                           const CardInfo(),
-                                        if (viewModel.editorMode)
+                                        if (viewModel.editMode)
                                           const CardForm(),
                                       ],
                                     );

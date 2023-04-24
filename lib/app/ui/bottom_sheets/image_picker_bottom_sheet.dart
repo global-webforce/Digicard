@@ -63,16 +63,37 @@ class ImagePickerBottomSheet extends StatelessWidget {
                           children: <Widget>[
                             Row(
                               children: [
-                                MinButtons(
-                                    color: kcPrimaryColor,
-                                    onTap: () async {
-                                      await viewModel.pickFromCamera();
-                                    },
-                                    icon: const Icon(FontAwesomeIcons.camera),
-                                    title: "Take from Camera"),
+                                if (request.data["assetType"] == "avatar")
+                                  const Text(
+                                    "Pick Avatar Image",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                if (request.data["assetType"] == "logo")
+                                  const Text(
+                                    "Pick Logo Image",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
                               ],
                             ),
                             vSpaceSmall,
+                            if (request.data["assetType"] == "avatar")
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: Row(
+                                  children: [
+                                    MinButtons(
+                                        color: kcPrimaryColor,
+                                        onTap: () async {
+                                          await viewModel.pickFromCamera();
+                                        },
+                                        icon:
+                                            const Icon(FontAwesomeIcons.camera),
+                                        title: "Take from Camera"),
+                                  ],
+                                ),
+                              ),
                             Row(
                               children: [
                                 MinButtons(

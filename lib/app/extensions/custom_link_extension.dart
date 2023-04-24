@@ -8,7 +8,7 @@ extension CustomLinkExt on CustomLink {
       case "Email":
         return Uri.parse("mailto:$text");
 
-      case "Phone":
+      case "Phone Number":
         return Uri.parse("sms:$text");
 
       case "Address":
