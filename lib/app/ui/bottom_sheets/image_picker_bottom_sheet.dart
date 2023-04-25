@@ -94,29 +94,47 @@ class ImagePickerBottomSheet extends StatelessWidget {
                                   ],
                                 ),
                               ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: Row(
+                                children: [
+                                  MinButtons(
+                                      color: kcPrimaryColor,
+                                      onTap: () async {
+                                        await viewModel.pickFromGallery();
+                                      },
+                                      icon: const Icon(FontAwesomeIcons.image),
+                                      title: "Pick from Gallery"),
+                                ],
+                              ),
+                            ),
+                            if (request.data["removeOption"] == true)
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: Row(
+                                  children: [
+                                    MinButtons(
+                                        color: kcPrimaryColor,
+                                        onTap: () async {
+                                          viewModel.removeImage();
+                                        },
+                                        icon:
+                                            const Icon(FontAwesomeIcons.xmark),
+                                        title: "Remove image"),
+                                  ],
+                                ),
+                              ),
                             Row(
                               children: [
                                 MinButtons(
                                     color: kcPrimaryColor,
                                     onTap: () async {
-                                      await viewModel.pickFromGallery();
+                                      viewModel.cancel();
                                     },
-                                    icon: const Icon(FontAwesomeIcons.image),
-                                    title: "Pick from Gallery"),
+                                    icon: const Icon(FontAwesomeIcons.ban),
+                                    title: "Cancel"),
                               ],
                             ),
-                            vSpaceSmall,
-                            Row(
-                              children: [
-                                MinButtons(
-                                    color: kcPrimaryColor,
-                                    onTap: () async {
-                                      viewModel.removeImage();
-                                    },
-                                    icon: const Icon(FontAwesomeIcons.xmark),
-                                    title: "Remove image"),
-                              ],
-                            )
                           ],
                         ),
                       ),

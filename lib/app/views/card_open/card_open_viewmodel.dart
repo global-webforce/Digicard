@@ -197,9 +197,6 @@ class CardOpenViewModel extends ReactiveViewModel {
     notifyListeners();
   }
 
-  /// *
-  ///
-  ///
   cropImage(XFile? src) async {
     return await ImageCropper().cropImage(
       sourcePath: src!.path,
@@ -230,7 +227,10 @@ class CardOpenViewModel extends ReactiveViewModel {
 
   showAvatarPicker() async {
     await _bottomSheetService.showCustomSheet(
-        data: {'assetType': 'avatar'},
+        data: {
+          'assetType': 'avatar',
+          'removeOption': _formModel.avatarUrlControl?.value != null
+        },
         isScrollControlled: false,
         barrierDismissible: true,
         variant: BottomSheetType.imagepicker).then((res) async {

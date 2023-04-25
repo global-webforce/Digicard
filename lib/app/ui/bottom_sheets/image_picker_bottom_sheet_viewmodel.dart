@@ -23,4 +23,10 @@ class ImagePickerBottomSheetViewModel extends ReactiveViewModel {
       SheetResponse(data: ImagePickerType.remove),
     );
   }
+
+  cancel() {
+    _bottomSheetService.completeSheet(
+      SheetResponse(),
+    );
+  }
 }
