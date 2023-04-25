@@ -261,7 +261,10 @@ class CardOpenViewModel extends ReactiveViewModel {
 
   showLogoPicker() async {
     await _bottomSheetService.showCustomSheet(
-        data: {'assetType': 'logo'},
+        data: {
+          'assetType': 'logo',
+          'removeOption': _formModel.logoUrlControl?.value != null
+        },
         isScrollControlled: false,
         barrierDismissible: true,
         variant: BottomSheetType.imagepicker).then((res) async {
