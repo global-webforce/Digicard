@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/constants/env.dart';
 import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 
 class CardLogo extends StatelessWidget {
   final Color color;
@@ -101,4 +103,36 @@ class CardLogo extends StatelessWidget {
     }
     return errorWidget();
   }
+}
+
+class ReactiveLogoPicker extends ReactiveFormField<String, String> {
+  ReactiveLogoPicker({
+    Key? key,
+    bool? readOnly,
+    Function()? onTap,
+    Color backgroundColor = kcPrimaryColor,
+    String? formControlName,
+    FormControl<String>? formControl,
+  }) : super(
+          key: key,
+          formControlName: formControlName,
+          formControl: formControl,
+          builder: (field) {
+            return CardLogo(
+              imagePath: field.value,
+              color: backgroundColor,
+              readOnly: readOnly ?? true,
+              onTap: (onTap != null) ? () => onTap() : null,
+            );
+          },
+        ) {
+    if (this.formControlName == null && this.formControl == null) {
+      assert(this.formControlName == null && this.formControl == null,
+          'ReactiveLogoPicker requires atleast a formControlName or formControl');
+    }
+  }
+
+  @override
+  ReactiveFormFieldState<String, String> createState() =>
+      ReactiveFormFieldState<String, String>();
 }

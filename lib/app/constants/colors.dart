@@ -16,6 +16,6 @@ const List<int> cardColors = [
   0xFF4CAF50, // green
   0xFF8BC34A, // lightGreen
   0xFFCDDC39, // lime
-  0xFFFFFF00, // yellow
+
   0xFFFFC107, // amber
 ];

@@ -59,19 +59,21 @@ class CardDivider extends StatelessWidget {
             child: Padding(
               padding: logoPadding,
               child: Container(
-                  width: logoMaxWidth,
-                  height: logoMaxHeight,
-                  color: Colors.red.withOpacity(0.0),
-                  child: CardLogo(
-                      imagePath: "${formModel?.model.logoUrl}",
-                      readOnly: !viewModel.editorMode,
-                      color: colorTheme,
-                      onTap: !viewModel.editorMode
-                          ? null
-                          : () async {
-                              formModel?.form.unfocus();
-                              await viewModel.showLogoPicker();
-                            })),
+                width: logoMaxWidth,
+                height: logoMaxHeight,
+                color: Colors.red.withOpacity(0.0),
+                child: ReactiveLogoPicker(
+                  formControl: formModel?.logoUrlControl,
+                  readOnly: !viewModel.editMode,
+                  backgroundColor: colorTheme,
+                  onTap: !viewModel.editMode
+                      ? null
+                      : () async {
+                          formModel?.form.unfocus();
+                          await viewModel.showLogoPicker();
+                        },
+                ),
+              ),
             )),
       ],
     );

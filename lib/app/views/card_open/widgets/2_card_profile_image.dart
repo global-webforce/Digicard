@@ -2,10 +2,12 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/constants/env.dart';
 import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 
 class CardProfileImage extends StatelessWidget {
   final Color color;
@@ -159,4 +161,36 @@ class CardProfileImage extends StatelessWidget {
 
     return errorWidget();
   }
+}
+
+class ReactiveAvatarPicker extends ReactiveFormField<String, String> {
+  ReactiveAvatarPicker({
+    Key? key,
+    bool? readOnly,
+    Function()? onTap,
+    Color backgroundColor = kcPrimaryColor,
+    String? formControlName,
+    FormControl<String>? formControl,
+  }) : super(
+          key: key,
+          formControlName: formControlName,
+          formControl: formControl,
+          builder: (field) {
+            return CardProfileImage(
+              imagePath: field.value,
+              color: backgroundColor,
+              readOnly: readOnly ?? true,
+              onTap: (onTap != null) ? () => onTap() : null,
+            );
+          },
+        ) {
+    if (this.formControlName == null && this.formControl == null) {
+      assert(this.formControlName == null && this.formControl == null,
+          'ReactiveAvatarPicker requires atleast a formControlName or formControl');
+    }
+  }
+
+  @override
+  ReactiveFormFieldState<String, String> createState() =>
+      ReactiveFormFieldState<String, String>();
 }

@@ -1,11 +1,14 @@
 import 'package:digicard/app/app.bottomsheet_ui.dart';
 import 'package:digicard/app/app.dialog_ui.dart';
 import 'package:digicard/app/app.logger.dart';
+import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/models/custom_link.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/services/contacts_service.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:digicard/app/views/custom_link/custom_link_view.dart';
+import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
@@ -20,15 +23,16 @@ enum ActionType {
   test,
 }
 
+enum ImagePickerType { gallery, camera, remove }
+
 const String saveBusyKey = 'save-busy-key';
 const String doneBusyKey = 'doneBusyKey';
 
 class CardOpenViewModel extends ReactiveViewModel {
+  final log = getLogger('CardOpenViewModel');
   final _supabase = Supabase.instance.client;
-
   User? get user => _supabase.auth.currentUser;
 
-  final log = getLogger('CardOpenViewModel');
   final _dialogService = locator<DialogService>();
   final _bottomSheetService = locator<BottomSheetService>();
   final _digitalCardsService = locator<DigitalCardService>();
@@ -38,19 +42,19 @@ class CardOpenViewModel extends ReactiveViewModel {
   @override
   void onFutureError(error, Object? key) {
     log.e(error);
-    {
-      _dialogService.showCustomDialog(
-          variant: DialogType.error,
-          barrierDismissible: true,
-          description: error.toString());
-    }
+
+    _dialogService.showCustomDialog(
+        variant: DialogType.error,
+        barrierDismissible: true,
+        description: error.toString());
+
     super.onFutureError(error, key);
   }
 
   @override
   List<ListenableServiceMixin> get listenableServices => [_digitalCardsService];
 
-  bool editorMode = false;
+  bool editMode = false;
   late ActionType actionType;
   late DigitalCard model;
   late DigitalCardForm _formModel;
@@ -61,9 +65,8 @@ class CardOpenViewModel extends ReactiveViewModel {
   void initialize(DigitalCard m, ActionType action) {
     model = m;
     actionType = action;
-    editorMode = actionType == ActionType.duplicate ||
-        actionType == ActionType.create ||
-        actionType == ActionType.edit;
+    editMode = [ActionType.create, ActionType.edit, ActionType.duplicate]
+        .contains(actionType);
     initForm();
   }
 
@@ -158,22 +161,10 @@ class CardOpenViewModel extends ReactiveViewModel {
     return Future.value(true);
   }
 
-  Future<DialogResponse<dynamic>?> confirmDuplicateExit() async {
-    _formModel.form.unfocus();
-    return _dialogService.showCustomDialog(
-      variant: DialogType.confirmation,
-      title: "Unsaved Changes",
-      description:
-          "You didn't make any changes, this card copy will be disposed",
-      mainButtonTitle: "Cancel",
-      secondaryButtonTitle: "Discard",
-      barrierDismissible: true,
-    );
-  }
-
   save() async {
-    formSubmitAttempt = true;
     _formModel.form.unfocus();
+    formSubmitAttempt = true;
+
     if (_formModel.firstNameControl?.hasErrors ?? false) {
       _dialogService.showCustomDialog(
           variant: DialogType.simple,
@@ -206,40 +197,95 @@ class CardOpenViewModel extends ReactiveViewModel {
     notifyListeners();
   }
 
-  showImagePicker() async {
-    await _bottomSheetService
-        .showCustomSheet(
-            isScrollControlled: false,
-            barrierDismissible: true,
-            variant: BottomSheetType.imagepicker)
-        .then((res) {
-      if (res?.data is XFile) {
-        final XFile? temp = res?.data;
-        _formModel.avatarUrlControl?.value = temp?.path;
+  cropImage(XFile? src) async {
+    return await ImageCropper().cropImage(
+      sourcePath: src!.path,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+      ],
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: kcPrimaryColor,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(
+          title: 'Cropper',
+        ),
+      ],
+    ).then((croppedFile) {
+      return XFile(croppedFile!.path);
+    });
+  }
+
+  final ImagePicker _avatarPicker = ImagePicker();
+  XFile? _avatarImageFile;
+
+  final ImagePicker _logoPicker = ImagePicker();
+  XFile? _logoImageFile;
+
+  showAvatarPicker() async {
+    await _bottomSheetService.showCustomSheet(
+        data: {
+          'assetType': 'avatar',
+          'removeOption': _formModel.avatarUrlControl?.value != null
+        },
+        isScrollControlled: false,
+        barrierDismissible: true,
+        variant: BottomSheetType.imagepicker).then((res) async {
+      var result = res?.data;
+      if (result is ImagePickerType) {
+        if (result == ImagePickerType.gallery) {
+          await _avatarPicker
+              .pickImage(source: ImageSource.gallery)
+              .then((value) async {
+            _avatarImageFile = await cropImage(value);
+          });
+        } else if (result == ImagePickerType.camera) {
+          await _avatarPicker
+              .pickImage(source: ImageSource.camera)
+              .then((value) async {
+            _avatarImageFile = await cropImage(value);
+          });
+        } else if (result == ImagePickerType.remove) {
+          _avatarImageFile = null;
+        }
+
+        _formModel.avatarUrlControl?.value = _avatarImageFile?.path;
         _formModel.form.markAsDirty();
-      }
-      if (res?.data is bool) {
-        _formModel.avatarUrlControl?.value = null;
-        _formModel.form.markAsDirty();
+        notifyListeners();
       }
     });
   }
 
   showLogoPicker() async {
-    await _bottomSheetService
-        .showCustomSheet(
-            isScrollControlled: false,
-            barrierDismissible: true,
-            variant: BottomSheetType.imagepicker)
-        .then((res) {
-      if (res?.data is XFile) {
-        final XFile? temp = res?.data;
-        _formModel.logoUrlControl?.value = temp?.path;
+    await _bottomSheetService.showCustomSheet(
+        data: {'assetType': 'logo'},
+        isScrollControlled: false,
+        barrierDismissible: true,
+        variant: BottomSheetType.imagepicker).then((res) async {
+      var result = res?.data;
+      if (result is ImagePickerType) {
+        if (result == ImagePickerType.gallery) {
+          await _logoPicker
+              .pickImage(source: ImageSource.gallery)
+              .then((value) async {
+            _logoImageFile = await cropImage(value);
+          });
+        } else if (result == ImagePickerType.camera) {
+          await _logoPicker
+              .pickImage(source: ImageSource.camera)
+              .then((value) async {
+            _logoImageFile = await cropImage(value);
+          });
+        } else if (result == ImagePickerType.remove) {
+          _logoImageFile = null;
+        }
+
+        _formModel.logoUrlControl?.value = _logoImageFile?.path;
         _formModel.form.markAsDirty();
-      }
-      if (res?.data is bool) {
-        _formModel.logoUrlControl?.value = null;
-        _formModel.form.markAsDirty();
+        notifyListeners();
       }
     });
   }

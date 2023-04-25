@@ -9,15 +9,10 @@ class CardAppBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = getParentViewModel<CardOpenViewModel>(
-      context,
-      listen: false,
-    );
+    final viewModel =
+        getParentViewModel<CardOpenViewModel>(context, listen: false);
 
-    final formModel = ReactiveDigitalCardForm.of(
-      context,
-      listen: false,
-    );
+    final formModel = ReactiveDigitalCardForm.of(context, listen: true);
 
     final colorTheme =
         Color(formModel?.colorControl?.value ?? kcPrimaryColorInt);
@@ -40,7 +35,7 @@ class CardAppBar extends StatelessWidget with PreferredSizeWidget {
       );
     }
 
-    return viewModel.editorMode
+    return viewModel.editMode
         ? AppBar(
             leading: const BackButton(),
             title: Text(viewModel.actionType == ActionType.edit
@@ -48,11 +43,9 @@ class CardAppBar extends StatelessWidget with PreferredSizeWidget {
                 : viewModel.actionType == ActionType.duplicate
                     ? "Copy Card "
                     : "Create Card"),
-            foregroundColor: Theme.of(context).textTheme.bodyLarge?.color,
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             actions: [
               ReactiveDigitalCardFormConsumer(builder: (context, f, w) {
-                return ((viewModel.editorMode) &&
+                return ((viewModel.editMode) &&
                         viewModel.formModel.form.pristine != true)
                     ? TextButton(
                         onPressed: () async {
