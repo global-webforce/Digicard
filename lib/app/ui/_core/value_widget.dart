@@ -1,13 +1,5 @@
+import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
-
-extension StringCasingExtension on String {
-  String toCapitalCase() =>
-      length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';
-  String toTitleCase() => replaceAll(RegExp(' +'), ' ')
-      .split(' ')
-      .map((str) => str.toCapitalCase())
-      .join(' ');
-}
 
 enum TextCase { capitalized, title, uppercase, lowercase }
 

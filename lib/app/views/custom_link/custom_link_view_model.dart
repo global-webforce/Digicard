@@ -1,4 +1,5 @@
 import 'package:digicard/app/app.locator.dart';
+import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:digicard/app/models/custom_link.dart';
 import 'package:digicard/app/models/digital_card.dart';
 
@@ -9,8 +10,6 @@ class CustomLinkViewModel extends BaseViewModel {
   final _navigationService = locator<NavigationService>();
   int? i;
   late CustomLink model;
-  late CustomLinkForm _formModel;
-  CustomLinkForm get formModel => _formModel;
 
   void initialize(CustomLink m, {int? index}) {
     i = index;
@@ -18,21 +17,22 @@ class CustomLinkViewModel extends BaseViewModel {
     initForm();
   }
 
+  final formModel = CustomLinkForm(
+      CustomLink(), CustomLinkForm.formElements(CustomLink()), null);
+
   initForm() {
-    _formModel = CustomLinkForm(
-        CustomLink(), CustomLinkForm.formElements(CustomLink()), null);
     final elements = CustomLinkForm.formElements(model);
-    _formModel.form.setValidators(elements.validators);
-    _formModel.form.setAsyncValidators(elements.asyncValidators);
+    formModel.form.setValidators(elements.validators);
+    formModel.form.setAsyncValidators(elements.asyncValidators);
     if (elements.disabled) {
-      _formModel.form.markAsDisabled();
+      formModel.form.markAsDisabled();
     }
-    _formModel.form.addAll(elements.controls);
+    formModel.form.addAll(elements.controls);
   }
 
   save() {
-    print("------------------- $i ${_formModel.model}");
+    formModel.textControl?.value = formModel.textControl?.value.clean();
     _navigationService
-        .back(result: {'index': i, 'customLink': _formModel.model});
+        .back(result: {'index': i, 'customLink': formModel.model});
   }
 }

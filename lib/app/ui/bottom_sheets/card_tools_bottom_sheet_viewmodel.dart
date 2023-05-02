@@ -104,7 +104,7 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
         actionType: ActionType.edit,
         card: card,
       ),
-      transitionStyle: Transition.rightToLeftWithFade,
+      transitionStyle: Transition.fade,
       curve: Curves.easeIn,
     );
   }

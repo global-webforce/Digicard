@@ -74,14 +74,13 @@ class EZDrawer extends StatelessWidget {
       );
     }).toList();
     return Drawer(
-      elevation: 0,
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           appBar ?? const SizedBox.shrink(),
           drawerHeader ?? const SizedBox.shrink(),
           ListView(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
               shrinkWrap: true,
               physics: const ClampingScrollPhysics(),
               children: menus)

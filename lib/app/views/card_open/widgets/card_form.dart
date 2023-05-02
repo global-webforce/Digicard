@@ -1,12 +1,13 @@
 import 'package:digicard/app/constants/colors.dart';
+import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
-import 'package:digicard/app/views/card_open/widgets/edit/collapsible_field.dart';
-
-import 'package:digicard/app/views/card_open/widgets/edit/custom_links_field_group.dart';
-import 'package:digicard/app/views/card_open/widgets/edit/horizontal_color_picker.dart';
-import 'package:digicard/app/views/card_open/widgets/preview/custom_links_button_group.dart';
+import 'package:digicard/app/views/card_open/widgets/card.avatar_picker.dart';
+import 'package:digicard/app/views/card_open/widgets/card.custom_links.fields.dart';
+import 'package:digicard/app/views/card_open/widgets/card.custom_links.options.dart';
+import 'package:digicard/app/views/card_open/widgets/collapsible_field.dart';
+import 'package:digicard/app/views/card_open/widgets/card.color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 import 'package:stacked/stacked.dart';
@@ -16,9 +17,13 @@ class CardForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final form = ReactiveDigitalCardForm.of(context);
+    ReactiveDigitalCardForm.of(context);
     final viewModel =
         getParentViewModel<CardOpenViewModel>(context, listen: true);
+    final formModel = viewModel.formModel;
+
+    final colorTheme =
+        Color(formModel.colorControl?.value ?? kcPrimaryColorInt);
 
     const inputStyle = InputDecoration(
         alignLabelWithHint: true,
@@ -30,12 +35,40 @@ class CardForm extends StatelessWidget {
         ),
         floatingLabelBehavior: FloatingLabelBehavior.auto);
 
+    Widget avatarField() {
+      return ReactiveAvatarPicker(
+        formControl: formModel.avatarUrlControl,
+        readOnly: !viewModel.editMode,
+        backgroundColor: colorTheme,
+        onTap: !viewModel.editMode
+            ? null
+            : () async {
+                formModel.form.unfocus();
+                await viewModel.showAvatarPicker();
+              },
+      );
+    }
+
+/*     Widget logoField() {
+      return ReactiveLogoPicker(
+        formControl: formModel.logoUrlControl,
+        readOnly: !viewModel.editMode,
+        backgroundColor: colorTheme,
+        onTap: !viewModel.editMode
+            ? null
+            : () async {
+                formModel.form.unfocus();
+                await viewModel.showLogoPicker();
+              },
+      );
+    } */
+
     Widget colorPickerField() {
       return Column(
         children: [
           ReactiveColorPicker(
             colors: cardColors,
-            formControl: form?.colorControl,
+            formControl: formModel.colorControl,
           ),
         ],
       );
@@ -45,9 +78,13 @@ class CardForm extends StatelessWidget {
       return ClipRRect(
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
-          onSubmitted: (control) {},
+          onSubmitted: (control) {
+            if (!control.value.isNotNullOrEmpty()) {
+              control.value = "New Card";
+            }
+          },
           showErrors: (control) => false,
-          formControl: form?.titleControl,
+          formControl: formModel.titleControl,
           textInputAction: TextInputAction.done,
           decoration: inputStyle.copyWith(label: const Text("Title")),
         ),
@@ -59,7 +96,7 @@ class CardForm extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControl: form?.prefixControl,
+          formControl: formModel.prefixControl,
           textInputAction: TextInputAction.next,
           decoration: inputStyle.copyWith(label: const Text("Prefix")),
         ),
@@ -71,7 +108,7 @@ class CardForm extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControl: form?.firstNameControl,
+          formControl: formModel.firstNameControl,
           textInputAction: TextInputAction.next,
           decoration: inputStyle.copyWith(label: const Text("First name*")),
         ),
@@ -83,7 +120,7 @@ class CardForm extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControl: form?.middleNameControl,
+          formControl: formModel.middleNameControl,
           textInputAction: TextInputAction.next,
           decoration: inputStyle.copyWith(label: const Text("Middle name")),
         ),
@@ -95,7 +132,7 @@ class CardForm extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControl: form?.lastNameControl,
+          formControl: formModel.lastNameControl,
           textInputAction: TextInputAction.next,
           decoration: inputStyle.copyWith(label: const Text("Last name")),
         ),
@@ -107,7 +144,7 @@ class CardForm extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControl: form?.suffixControl,
+          formControl: formModel.suffixControl,
           textInputAction: TextInputAction.next,
           decoration: inputStyle.copyWith(label: const Text("Suffix")),
         ),
@@ -119,7 +156,7 @@ class CardForm extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControl: form?.accreditationsControl,
+          formControl: formModel.accreditationsControl,
           textInputAction: TextInputAction.next,
           decoration: inputStyle.copyWith(label: const Text("Accreditations")),
         ),
@@ -131,7 +168,7 @@ class CardForm extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControl: form?.preferredNameControl,
+          formControl: formModel.preferredNameControl,
           textInputAction: TextInputAction.next,
           decoration: inputStyle.copyWith(label: const Text("Preferred Name")),
         ),
@@ -143,7 +180,7 @@ class CardForm extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControl: form?.maidenNameControl,
+          formControl: formModel.maidenNameControl,
           textInputAction: TextInputAction.next,
           decoration: inputStyle.copyWith(label: const Text("Maiden Name")),
         ),
@@ -155,7 +192,7 @@ class CardForm extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControl: form?.pronounsControl,
+          formControl: formModel.pronounsControl,
           textInputAction: TextInputAction.next,
           decoration: inputStyle.copyWith(label: const Text("Pronouns")),
         ),
@@ -167,7 +204,7 @@ class CardForm extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControl: form?.positionControl,
+          formControl: formModel.positionControl,
           textInputAction: TextInputAction.next,
           decoration: inputStyle.copyWith(label: const Text("Position")),
         ),
@@ -179,7 +216,7 @@ class CardForm extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControl: form?.departmentControl,
+          formControl: formModel.departmentControl,
           textInputAction: TextInputAction.next,
           decoration: inputStyle.copyWith(label: const Text("Department")),
         ),
@@ -191,7 +228,7 @@ class CardForm extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
           showErrors: (control) => false,
-          formControl: form?.companyControl,
+          formControl: formModel.companyControl,
           textInputAction: TextInputAction.next,
           decoration: inputStyle.copyWith(label: const Text("Company")),
         ),
@@ -203,83 +240,101 @@ class CardForm extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: ReactiveTextField(
             showErrors: (control) => false,
-            formControl: form?.headlineControl,
-            textInputAction: TextInputAction.next,
-            maxLines: null,
-            minLines: 3,
+            formControl: formModel.headlineControl,
+            textInputAction: TextInputAction.newline,
             keyboardType: TextInputType.multiline,
+            maxLines: null,
+            minLines: 1,
             decoration: inputStyle.copyWith(label: const Text("Headline"))),
       );
     }
 
-    Widget customLinks() {
-      return const CustomLinksFieldGroup();
-    }
-
-    return Container(
-      color: Theme.of(context).cardColor,
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
-            child: Column(
+    return LayoutBuilder(builder: (context, size) {
+      return Container(
+        color: Theme.of(context).cardColor,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 0, bottom: 15),
-                  child: colorPickerField(),
+                  padding: const EdgeInsets.only(bottom: 18),
+                  child: avatarField(),
                 ),
-                titleField(),
-                vSpaceSmall,
-                ReactiveDigitalCardFormConsumer(builder: (context, _, __) {
-                  return CollapsibleField(
-                      onToggle: (expanded) {
-                        viewModel.formModel.form.unfocus();
-                      },
-                      value:
-                          "${form?.prefixControl?.value ?? ""} ${form?.firstNameControl?.value ?? ""} ${form?.middleNameControl?.value ?? ""} ${form?.lastNameControl?.value ?? ""} ${form?.suffixControl?.value ?? ""}"
-                              .trim(),
-                      body: Padding(
-                        padding: const EdgeInsets.only(left: 30),
-                        child: Column(
-                          children: [
-                            prefixField(),
-                            vSpaceSmall,
-                            firstNameField(),
-                            vSpaceSmall,
-                            middleNameField(),
-                            vSpaceSmall,
-                            lastNameField(),
-                            vSpaceSmall,
-                            suffixField(),
-                            vSpaceSmall,
-                            accrediationsField(),
-                            vSpaceSmall,
-                            preferredNameField(),
-                            vSpaceSmall,
-                            maidenNameField(),
-                            vSpaceSmall,
-                            pronounsField(),
-                          ],
-                        ),
-                      ));
-                }),
-                vSpaceSmall,
-                positionField(),
-                vSpaceSmall,
-                departmentField(),
-                vSpaceSmall,
-                companyField(),
-                vSpaceSmall,
-                headlineField(),
-                vSpaceSmall,
-                customLinks(),
-                vSpaceSmall,
+                /*    Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: CardWaveDivider(
+                      color: colorTheme,
+                      size: size,
+                      child: logoField(),
+                    )), */
               ],
             ),
-          ),
-          const CustomLinksButtonGroup(),
-        ],
-      ),
-    );
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 0, bottom: 15),
+                        child: colorPickerField(),
+                      ),
+                      titleField(),
+                      vSpaceSmall,
+                      CollapsibleField(
+                          onToggle: (expanded) {
+                            viewModel.formModel.form.unfocus();
+                          },
+                          value:
+                              "${formModel.prefixControl?.value ?? ""} ${formModel.firstNameControl?.value ?? ""} ${formModel.middleNameControl?.value ?? ""} ${formModel.lastNameControl?.value ?? ""} ${formModel.suffixControl?.value ?? ""}"
+                                  .trim(),
+                          body: Padding(
+                            padding: const EdgeInsets.only(left: 30),
+                            child: Column(
+                              children: [
+                                prefixField(),
+                                vSpaceSmall,
+                                firstNameField(),
+                                vSpaceSmall,
+                                middleNameField(),
+                                vSpaceSmall,
+                                lastNameField(),
+                                vSpaceSmall,
+                                suffixField(),
+                                vSpaceSmall,
+                                accrediationsField(),
+                                vSpaceSmall,
+                                preferredNameField(),
+                                vSpaceSmall,
+                                maidenNameField(),
+                                vSpaceSmall,
+                                pronounsField(),
+                              ],
+                            ),
+                          )),
+                      vSpaceSmall,
+                      positionField(),
+                      vSpaceSmall,
+                      departmentField(),
+                      vSpaceSmall,
+                      companyField(),
+                      vSpaceSmall,
+                      headlineField(),
+                      vSpaceSmall,
+                      const CustomLinkFields(),
+                      vSpaceSmall,
+                    ],
+                  ),
+                ),
+                const CustomLinkOptions(),
+              ],
+            ),
+          ],
+        ),
+      );
+    });
   }
 }

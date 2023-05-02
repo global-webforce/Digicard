@@ -10,8 +10,6 @@ class CustomLink with _$CustomLink {
     fieldRename: FieldRename.snake,
   )
   factory CustomLink({
-    @FormControlAnnotation() int? id,
-    @FormControlAnnotation() int? cardId,
     @FormControlAnnotation(validators: [requiredValidator]) String? text,
     @FormControlAnnotation() String? label,
     @FormControlAnnotation() String? type,

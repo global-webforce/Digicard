@@ -8,8 +8,6 @@ part of 'custom_link.dart';
 
 _$_CustomLink _$$_CustomLinkFromJson(Map<String, dynamic> json) =>
     _$_CustomLink(
-      id: json['id'] as int?,
-      cardId: json['card_id'] as int?,
       text: json['text'] as String?,
       label: json['label'] as String?,
       type: json['type'] as String?,
@@ -17,8 +15,6 @@ _$_CustomLink _$$_CustomLinkFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$_CustomLinkToJson(_$_CustomLink instance) =>
     <String, dynamic>{
-      'id': instance.id,
-      'card_id': instance.cardId,
       'text': instance.text,
       'label': instance.label,
       'type': instance.type,

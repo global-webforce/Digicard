@@ -1,4 +1,5 @@
 import 'package:digicard/app/constants/colors.dart';
+import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/extensions/custom_link_extension.dart';
 import 'package:digicard/app/helper/screen_size.dart';
 import 'package:digicard/app/models/custom_link.dart';
@@ -9,17 +10,19 @@ import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-class CustomLinksButtonGroup extends StatelessWidget {
-  const CustomLinksButtonGroup({super.key});
+class CustomLinkOptions extends StatelessWidget {
+  const CustomLinkOptions({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final form = ReactiveDigitalCardForm.of(context);
+    ReactiveDigitalCardForm.of(context);
     final viewModel =
-        getParentViewModel<CardOpenViewModel>(context, listen: false);
-    final colorTheme = Color(form?.colorControl?.value ?? kcPrimaryColorInt);
+        getParentViewModel<CardOpenViewModel>(context, listen: true);
+    final formModel = viewModel.formModel;
+    final colorTheme =
+        Color(formModel.colorControl?.value ?? kcPrimaryColorInt);
 
-    final x = [
+    final types = [
       CustomLink(
         type: "Email",
         label: "Email",
@@ -30,22 +33,22 @@ class CustomLinksButtonGroup extends StatelessWidget {
       ),
       CustomLink(
         type: "Phone Number",
-        label: "Phone Number",
+        label: "Phone",
       ),
       CustomLink(
         type: "Website",
         label: "Website",
       ),
+      CustomLink(type: "More soon!", label: "More soon!"),
     ];
-    x.add(
-      CustomLink(type: "More soon!"),
-    );
 
     return Container(
       decoration: BoxDecoration(
-        color: colorTheme,
+        color: colorTheme.darken(),
         borderRadius: const BorderRadius.only(
-            topRight: Radius.circular(30.0), topLeft: Radius.circular(30.0)),
+          topRight: Radius.circular(30.0),
+          topLeft: Radius.circular(30.0),
+        ),
       ),
       padding: const EdgeInsets.symmetric(
         horizontal: 15,
@@ -54,21 +57,21 @@ class CustomLinksButtonGroup extends StatelessWidget {
       child: GridView.builder(
         primary: false,
         shrinkWrap: true,
-        itemCount: x.length,
+        itemCount: types.length,
         padding: const EdgeInsets.all(0),
         addAutomaticKeepAlives: false,
         addRepaintBoundaries: false,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
             crossAxisCount: isMobile(context) ? 3 : 3,
             crossAxisSpacing: 10,
-            mainAxisSpacing: 30,
+            mainAxisSpacing: 10,
             height: 54),
         itemBuilder: (context, index) {
-          return CustomLinkBtn(x[index],
-              onTap: x[index].type == "More soon!"
+          return CustomLinkButton(types[index],
+              onTap: types[index].type == "More soon!"
                   ? null
                   : () {
-                      viewModel.addCustomLink(x[index]);
+                      viewModel.addCustomLink(types[index]);
                     });
         },
       ),
@@ -76,10 +79,10 @@ class CustomLinksButtonGroup extends StatelessWidget {
   }
 }
 
-class CustomLinkBtn extends StatelessWidget {
+class CustomLinkButton extends StatelessWidget {
   final CustomLink customLink;
   final Function()? onTap;
-  const CustomLinkBtn(
+  const CustomLinkButton(
     this.customLink, {
     super.key,
     required this.onTap,
@@ -94,14 +97,16 @@ class CustomLinkBtn extends StatelessWidget {
           child: Column(
             children: [
               Icon(
-                customLink.icon(),
+                customLink.extras().icon,
                 color: Colors.white,
                 size: 25,
               ),
               vSpaceSmall,
-              Text(
-                "${customLink.type}",
-                style: const TextStyle(color: Colors.white),
+              Center(
+                child: Text(
+                  "${customLink.label}",
+                  style: const TextStyle(color: Colors.white),
+                ),
               )
             ],
           ),

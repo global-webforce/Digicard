@@ -1,6 +1,6 @@
 import 'package:digicard/app/app.locator.dart';
-import 'package:digicard/app/helper/screen_size.dart';
 import 'package:digicard/app/views/_core/dashboard/dashboard_view.dart';
+import 'package:digicard/app/views/_core/dashboard/dashboard_viewmodel.dart';
 import 'package:digicard/app/views/contacts/contacts_view_model.dart';
 import 'package:digicard/app/views/contacts/widgets/alphabet_list.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +12,7 @@ class ContactsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<ContactsViewModel>.reactive(
         viewModelBuilder: () => locator<ContactsViewModel>(),
-        onViewModelReady: (viewModel) async {
-          await viewModel.init();
-        },
+        onViewModelReady: (viewModel) async {},
         onDispose: (viewModel) {
           viewModel.clearFilter();
         },
@@ -61,18 +59,31 @@ class ContactsView extends StatelessWidget {
             );
           }
 
-          return Scaffold(
-            appBar:
-                AppBar(title: const Text("CONTACTS"), bottom: searchField()),
-            drawer: isDesktop(context) ? null : const $EzDrawer(),
-            bottomNavigationBar: const $EZBottomNavbar(),
-            body: GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onPanDown: (_) {
-                  viewModel.removeFocus(context);
-                },
-                child: const AlphabetList()),
-          );
+          return DashboardBuilder(builder: (context, parts) {
+            return WillPopScope(
+              onWillPop: () async {
+                getParentViewModel<DashboardViewModel>(context, listen: false)
+                    .setIndex(0);
+                return false;
+              },
+              child: Scaffold(
+                appBar: AppBar(
+                    title: const Text("CONTACTS"), bottom: searchField()),
+                drawer: parts.drawer,
+                bottomNavigationBar: parts.bottomNavBar,
+                body: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onPanDown: (_) {
+                      viewModel.removeFocus(context);
+                    },
+                    child: viewModel.isBusy
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : const AlphabetList()),
+              ),
+            );
+          });
         });
   }
 }

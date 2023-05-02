@@ -59,11 +59,6 @@ class _HorizontalColorPickerState extends State<HorizontalColorPicker> {
 }
 
 class ReactiveColorPicker extends ReactiveFormField<int, int> {
-  /// Constructs an instance of [ReactiveColorPicker].
-  ///
-  /// The argument [formControlName] must not be null.
-  ///
-
   ReactiveColorPicker({
     Key? key,
     String? formControlName,
