@@ -1,6 +1,6 @@
 import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:digicard/app/constants/colors.dart';
-import 'package:digicard/app/views/_core/initialize/initial_viewmodel.dart';
+import 'package:digicard/app/views/_core/startup/startup_viewmodel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -9,13 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:stacked/stacked.dart';
 
-class InitialView extends StatelessWidget {
-  const InitialView({Key? key}) : super(key: key);
+class StartupView extends StatelessWidget {
+  const StartupView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<InitialViewModel>.reactive(
-        viewModelBuilder: () => InitialViewModel(),
+    return ViewModelBuilder<StartupViewModel>.reactive(
+        viewModelBuilder: () => StartupViewModel(),
         onViewModelReady: (viewModel) async {},
         onDispose: (viewModel) {},
         builder: (context, viewModel, child) {

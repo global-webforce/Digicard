@@ -1,4 +1,4 @@
-import 'package:digicard/app/views/_core/initialize/initial_view.dart';
+import 'package:digicard/app/views/_core/startup/startup_view.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:digicard/app/app.bottomsheet_ui.dart';
 import 'package:digicard/app/app.dialog_ui.dart';
@@ -33,6 +33,6 @@ void main() async {
   await setupDialogUI();
   await setupBottomSheetUI();
 
-  runApp(const InitialView());
+  runApp(const StartupView());
 }
 //locator.registerSingleton(AppRoute(StackedService.navigatorKey));

@@ -22,17 +22,6 @@ class AuthService {
     });
   }
 
-  /*  Future checkSession() async {
-    try {
-      _supabase.auth.onAuthStateChange.listen((event) async {});
-    } catch (e) {
-      if (e is AuthException) {
-        return Future.error(e.message);
-      }
-      return Future.error("Unknown error occured");
-    }
-  } */
-
   Future login(Map<String, dynamic> formData) async {
     try {
       await _supabase.auth

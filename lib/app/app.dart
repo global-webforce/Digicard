@@ -3,11 +3,11 @@ import 'package:digicard/app/services/_core/user_service.dart';
 import 'package:digicard/app/services/contacts_service.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:digicard/app/views/_core/login/login_viewmodel.dart';
-import 'package:digicard/app/views/_core/initialize/initial_viewmodel.dart';
+import 'package:digicard/app/views/_core/startup/startup_viewmodel.dart';
 import 'package:digicard/app/services/_core/local_storage_service.dart';
 import 'package:digicard/app/ui/bottom_sheets/card_send_bottom_sheet_viewmodel.dart';
 import 'package:digicard/app/ui/bottom_sheets/card_tools_bottom_sheet_viewmodel.dart';
-import 'package:digicard/app/views/_core/dashboard/dashboard_viewmodel.dart';
+import 'package:digicard/app/views/dashboard/dashboard_viewmodel.dart';
 import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
 import 'package:digicard/app/views/home/home_viewmodel.dart';
 import 'package:digicard/app/views/contacts/contacts_view_model.dart';
@@ -39,7 +39,7 @@ import 'views/custom_link/custom_link_view_model.dart';
     LazySingleton(classType: UserService),
     LazySingleton(classType: ContactsService),
     LazySingleton(classType: DigitalCardService),
-    Singleton(classType: InitialViewModel),
+    Singleton(classType: StartupViewModel),
     Singleton(classType: LoginViewModel),
     Singleton(classType: DashboardViewModel),
     Singleton(classType: HomeViewModel),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:digicard/app/ui/_shared/dimensions.dart';
+import 'package:digicard/app/constants/dimensions.dart';
 
 class ScaffoldBodyWrapper extends StatelessWidget {
   final Future<void> Function()? onRefresh;

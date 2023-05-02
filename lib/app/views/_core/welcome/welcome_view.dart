@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/ui/_core/ez_button.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
-import 'package:digicard/app/ui/_shared/dimensions.dart';
+import 'package:digicard/app/constants/dimensions.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:digicard/app/views/_core/login/login_view.dart';
 import 'package:flutter/foundation.dart';
