@@ -20,14 +20,15 @@ class ScanViewModel extends ReactiveViewModel {
   final _dialogService = locator<DialogService>();
 
   @override
-  void onFutureError(error, Object? key) {
+  Future<void> onFutureError(error, Object? key) async {
     log.e(error);
-    {
-      _dialogService.showCustomDialog(
-          variant: DialogType.error,
-          barrierDismissible: true,
-          description: error.toString());
-    }
+
+    await _dialogService.showCustomDialog(
+        variant: DialogType.error,
+        barrierDismissible: true,
+        description: error.toString());
+    controller?.resumeCamera();
+
     super.onFutureError(error, key);
   }
 

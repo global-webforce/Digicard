@@ -1,4 +1,3 @@
-
 import 'package:alphabet_list_view/alphabet_list_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:digicard/app/constants/env.dart';
@@ -37,17 +36,16 @@ class AlphabetList extends StatelessWidget {
         },
       ),
       scrollbarOptions: ScrollbarOptions(
-        width: 0,
+        width: 30,
         backgroundColor: Colors.transparent,
         symbols: DefaultScrollbarSymbols.alphabet,
         jumpToSymbolsWithNoEntries: false,
         padding: const EdgeInsets.all(5),
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         symbolBuilder: (context, symbol, state) {
           return state.name == "deactivated"
-                  ? const SizedBox.shrink()
-                  : const SizedBox
-                      .shrink() /* Text(
+              ? const SizedBox.shrink()
+              : Text(
                   symbol,
                   overflow: TextOverflow.clip,
                   style: TextStyle(
@@ -56,8 +54,7 @@ class AlphabetList extends StatelessWidget {
                           : state.name == "inactive"
                               ? null
                               : Colors.grey),
-                ) */
-              ;
+                );
         },
       ),
       overlayOptions: const OverlayOptions(

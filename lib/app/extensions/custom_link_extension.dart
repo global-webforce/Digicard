@@ -1,72 +1,51 @@
 import 'package:digicard/app/models/custom_link.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+class CustomLinkExtended {
+  /// e.g mailto:[text]
+  final Uri? uri;
+
+  /// e.g mailto:
+  final String? hintLink;
+
+  /// e.g Icons.email_rounded;
+  final IconData? icon;
+  const CustomLinkExtended(
+      {this.uri, this.hintLink, this.icon = Icons.question_mark_rounded});
+}
 
 extension CustomLinkExt on CustomLink {
-  Uri uri() {
-    switch (type) {
-      case "Email":
-        return Uri.parse("mailto:$text");
-
-      case "Phone Number":
-        return Uri.parse("sms:$text");
-
-      case "Address":
-        return Uri.parse("https://maps.google.com/?q=$text");
-
-      case "Website":
-        return Uri.parse("https://www.$text");
-
-      case "More soon!":
-        return Uri.parse("");
-
-      default:
-        return Uri.parse("");
+  CustomLinkExtended extras() {
+    if (type == "Email") {
+      return CustomLinkExtended(
+        icon: Icons.email_rounded,
+        hintLink: "mailto:",
+        uri: Uri.parse("mailto:$text"),
+      );
     }
-  }
-
-  String url() {
-    switch (type) {
-      case "Email":
-        return "mailto:";
-
-      case "Phone Number":
-        return "sms:";
-
-      case "Address":
-        return "https://maps.google.com/?q=";
-
-      case "Website":
-        return "https://www.";
-
-      case "More soon!":
-        return "";
-
-      default:
-        return "";
+    if (type == "Address") {
+      return CustomLinkExtended(
+        icon: Icons.pin_drop_rounded,
+        hintLink: "https://maps.google.com/?q=",
+        uri: Uri.parse("https://maps.google.com/?q=$text"),
+      );
     }
-  }
-
-  IconData icon({String? val}) {
-    final x = val ?? type;
-    switch (x) {
-      case "Email":
-        return FontAwesomeIcons.envelope;
-
-      case "Phone Number":
-        return FontAwesomeIcons.phone;
-
-      case "Address":
-        return FontAwesomeIcons.locationDot;
-
-      case "Website":
-        return FontAwesomeIcons.globe;
-
-      case "More soon!":
-        return FontAwesomeIcons.gift;
-
-      default:
-        return FontAwesomeIcons.circleQuestion;
+    if (type == "Phone Number") {
+      return CustomLinkExtended(
+        icon: Icons.phone_rounded,
+        hintLink: "sms:",
+        uri: Uri.parse("sms:$text"),
+      );
     }
+    if (type == "Website") {
+      return CustomLinkExtended(
+        icon: Icons.web_rounded,
+        hintLink: "https://www.",
+        uri: Uri.parse("https://www.$text"),
+      );
+    }
+    return const CustomLinkExtended(
+      icon: Icons.question_mark_rounded,
+    );
   }
 }

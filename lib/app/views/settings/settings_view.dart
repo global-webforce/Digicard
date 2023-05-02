@@ -1,9 +1,8 @@
 import 'package:digicard/app/app.locator.dart';
-import 'package:digicard/app/helper/screen_size.dart';
-import 'package:digicard/app/ui/_core/scaffold_body_wrapper.dart';
-import 'package:digicard/app/views/_core/dashboard/dashboard_view.dart';
-import 'package:digicard/app/views/settings/settings_view_model.dart';
 import 'package:digicard/app/ui/_core/settings_ui.dart';
+import 'package:digicard/app/views/_core/dashboard/dashboard_view.dart';
+import 'package:digicard/app/views/_core/dashboard/dashboard_viewmodel.dart';
+import 'package:digicard/app/views/settings/settings_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -29,56 +28,54 @@ class SettingsView extends StatelessWidget {
         onViewModelReady: (viewModel) async {},
         disposeViewModel: false,
         builder: (context, viewModel, child) {
-          return Scaffold(
-            drawer: isDesktop(context) ? null : const $EzDrawer(),
-            appBar: const SettingsAppBar(),
-            bottomNavigationBar: const $EZBottomNavbar(),
-            body: ScaffoldBodyWrapper(
-              builder: (contact, size) {
-                return SettingsList(sections: [
-                  SettingsSection(title: "SESSION", tiles: [
-                    SettingsTile(
-                      icon: RoundedIcon(
-                        const Icon(
-                          Icons.account_box_rounded,
-                          color: Colors.white,
-                        ),
-                        background: Colors.orange.withOpacity(0.6),
-                      ),
-                      title: "User Profile",
-                      subtitle: "Update your account profile here",
-                      onTap: () {},
-                    ),
-                    SettingsTile(
-                      icon: RoundedIcon(
-                        const Icon(
-                          Icons.delete_forever_rounded,
-                          color: Colors.white,
-                        ),
-                        background: Colors.orange.withOpacity(0.6),
-                      ),
-                      title: "Delete Account",
-                      subtitle: "Permanently delete your account",
-                      onTap: () {},
-                    ),
-                    SettingsTile(
-                      icon: RoundedIcon(
-                        const Icon(
-                          Icons.logout,
-                          color: Colors.white,
-                        ),
-                        background: Colors.red.withOpacity(0.6),
-                      ),
-                      title: "Logout",
-                      onTap: () async {
-                        await viewModel.logout();
-                      },
-                    )
-                  ])
-                ]);
+          return DashboardBuilder(builder: (context, parts) {
+            return WillPopScope(
+              onWillPop: () async {
+                getParentViewModel<DashboardViewModel>(context, listen: false)
+                    .setIndex(0);
+                return false;
               },
-            ),
-          );
+              child: Scaffold(
+                  drawer: parts.drawer,
+                  appBar: const SettingsAppBar(),
+                  bottomNavigationBar: parts.bottomNavBar,
+                  body: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const SettingsItem.header(leading: "Plan"),
+                        const SettingsItem(
+                          leading: "Digicard Free",
+                          subtitle: "Contact us to upgrade your plan.",
+                        ),
+                        const SettingsItem.header(leading: "Account"),
+                        SettingsItem(
+                          leading: "Email",
+                          trailing: viewModel.email,
+                        ),
+                        const Divider(height: 0),
+                        SettingsItem(
+                          leading: "Logout",
+                          onTap: () {
+                            viewModel.logout();
+                          },
+                        ),
+                        const SettingsItem.header(
+                          leading: "Digicard",
+                        ),
+                        const SettingsItem(
+                          leading: "Version",
+                          trailing: "1.0.0",
+                        ),
+                        const Divider(height: 0),
+                        const SettingsItem(
+                          leading: "Developer",
+                          trailing: "Global Webforce",
+                        ),
+                      ],
+                    ),
+                  )),
+            );
+          });
         });
   }
 }

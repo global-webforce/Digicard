@@ -44,12 +44,12 @@ class InitialView extends StatelessWidget {
               title: "Digicard",
               theme: ThemeData(
                 useMaterial3: true,
-                cardTheme: CardTheme(
+                /*  cardTheme: CardTheme(
                   margin: const EdgeInsets.all(0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                ),
+                ), */
                 colorSchemeSeed: kcPrimaryColor,
                 /*      colorScheme: ColorScheme(
                     primary: Colors.orange,
@@ -70,12 +70,12 @@ class InitialView extends StatelessWidget {
                     foregroundColor: Colors.white,
                   ),
                 ),
-                fontFamily: GoogleFonts.nunito().fontFamily,
+                fontFamily: GoogleFonts.poppins().fontFamily,
                 inputDecorationTheme: InputDecorationTheme(
                   isDense: true,
                   filled: true,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(1016),
                   ),
                 ),
               ),

@@ -35,34 +35,33 @@ class CardProfileImage extends StatelessWidget {
                 color: color.darken(0.2),
               ),
             )
-          : InkWell(
-              onTap: onTap != null ? () => onTap!() : null,
-              child: AspectRatio(
-                aspectRatio: 1 / 1,
-                child: Ink(
-                    decoration: BoxDecoration(
-                      color: color.darken(0.2),
-                    ),
-                    child: Center(
-                      child: Wrap(
-                        spacing: 10,
-                        alignment: WrapAlignment.center,
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        direction: Axis.vertical,
-                        children: const [
-                          Icon(
-                            Icons.add,
-                            size: 20,
+          : Material(
+              color: color.darken(0.2),
+              child: InkWell(
+                onTap: onTap != null ? () => onTap!() : null,
+                child: AspectRatio(
+                  aspectRatio: 1 / 1,
+                  child: Center(
+                    child: Wrap(
+                      spacing: 10,
+                      alignment: WrapAlignment.center,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      direction: Axis.vertical,
+                      children: const [
+                        Icon(
+                          Icons.add,
+                          size: 20,
+                        ),
+                        Text(
+                          "PROFILE IMAGE",
+                          style: TextStyle(
+                            fontSize: 15,
                           ),
-                          Text(
-                            "PROFILE IMAGE",
-                            style: TextStyle(
-                              fontSize: 15,
-                            ),
-                          )
-                        ],
-                      ),
-                    )),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
               ),
             );
     }
@@ -168,8 +167,8 @@ class ReactiveAvatarPicker extends ReactiveFormField<String, String> {
     Key? key,
     bool? readOnly,
     Function()? onTap,
-    Color backgroundColor = kcPrimaryColor,
     String? formControlName,
+    Color? backgroundColor,
     FormControl<String>? formControl,
   }) : super(
           key: key,
@@ -178,7 +177,7 @@ class ReactiveAvatarPicker extends ReactiveFormField<String, String> {
           builder: (field) {
             return CardProfileImage(
               imagePath: field.value,
-              color: backgroundColor,
+              color: backgroundColor ?? kcPrimaryColor,
               readOnly: readOnly ?? true,
               onTap: (onTap != null) ? () => onTap() : null,
             );

@@ -32,20 +32,20 @@ class DigitalCardListItem extends StatelessWidget {
                   placeholder: (context, url) {
                     return Container(
                         color:
-                            Color(card.color ?? kcPrimaryColorInt).darken(0.1));
+                            Color(card.color ?? kcPrimaryColorInt).darken(0.2));
                   },
                   errorWidget: (context, url, error) {
                     return Container(
                       width: double.infinity,
                       height: 140,
-                      color: Color(card.color ?? kcPrimaryColorInt).darken(0.1),
+                      color: Color(card.color ?? kcPrimaryColorInt).darken(0.2),
                     );
                   },
                 )
               : Container(
                   width: double.infinity,
                   height: 140,
-                  color: Color(card.color ?? kcPrimaryColorInt).darken(0.1),
+                  color: Color(card.color ?? kcPrimaryColorInt).darken(0.2),
                 ),
         ),
       );

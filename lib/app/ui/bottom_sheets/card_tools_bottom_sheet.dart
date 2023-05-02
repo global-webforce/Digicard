@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/constants/typography.dart';
+import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/ui/_core/value_widget.dart';
 import 'package:digicard/app/ui/widgets/bottom_sheet_buttons.dart';
@@ -60,7 +61,7 @@ class CardToolsBottomSheet extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      color: colorTheme,
+                      color: colorTheme.darken(0.2),
                       height: 25,
                       child: Center(
                         child: Container(

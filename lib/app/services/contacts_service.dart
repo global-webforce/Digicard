@@ -54,7 +54,9 @@ class ContactsService with ListenableServiceMixin {
           'user_id': _userService.id,
         },
       ).then((value) {
-        _contacts.value.add(card);
+        if (!_contacts.value.contains(card)) {
+          _contacts.value.add(card);
+        }
       });
     } catch (e) {
       Future.error(e.toString());

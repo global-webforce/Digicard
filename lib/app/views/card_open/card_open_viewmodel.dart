@@ -62,6 +62,11 @@ class CardOpenViewModel extends ReactiveViewModel {
 
   bool formSubmitAttempt = false;
 
+  bool isCardInContacts(int? id) {
+    final temp = _contactsService.contacts.indexWhere((e) => e.id == id);
+    return temp != -1 ? true : false;
+  }
+
   void initialize(DigitalCard m, ActionType action) {
     model = m;
     actionType = action;
@@ -83,18 +88,20 @@ class CardOpenViewModel extends ReactiveViewModel {
   }
 
   Future saveToContacts(DigitalCard card) async {
-    runBusyFuture(_contactsService.create(card),
+    await runBusyFuture(_contactsService.create(card),
         throwException: true, busyObject: saveBusyKey);
+    setBusyForObject(doneBusyKey, true);
+    await Future.delayed(const Duration(seconds: 1));
+    setBusyForObject(doneBusyKey, false);
+    _navigationService.back();
   }
 
   editCustomLink(CustomLink customLink, {int? index}) async {
     var x = await _navigationService.navigateToView(CustomLinkView(
       customLink,
+      index: index,
     ));
-    _formModel.customLinksControl.control("$index.id").value =
-        x["customLink"].id;
-    _formModel.customLinksControl.control("$index.cardId").value =
-        x["customLink"].cardId;
+
     _formModel.customLinksControl.control("$index.text").value =
         x["customLink"].text;
     _formModel.customLinksControl.control("$index.label").value =
@@ -293,6 +300,3 @@ class CardOpenViewModel extends ReactiveViewModel {
     });
   }
 }
-
-////
-///

@@ -39,11 +39,14 @@ class EmptyDisplay extends StatelessWidget {
               ),
             ),
             if (subtitle.isNotEmpty)
-              Text(
-                subtitle,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 14,
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  subtitle,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 14,
+                  ),
                 ),
               ),
           ],

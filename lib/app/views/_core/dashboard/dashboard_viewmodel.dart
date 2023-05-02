@@ -9,17 +9,20 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class DashboardViewModel extends BaseViewModel {
+  int selectedIndex = 0;
+  final PageController pageController = PageController();
+
   final _dialogService = locator<DialogService>();
 
-  bool virgin = true;
+  bool visited = false;
 
   Future<DialogResponse<dynamic>?> confirmExit() async {
     return _dialogService.showCustomDialog(
       variant: DialogType.confirmation,
       title: "Exit App",
       description: "You sure you want to exit App?",
-      mainButtonTitle: "Cancel",
-      secondaryButtonTitle: "Exit",
+      mainButtonTitle: "Yes",
+      secondaryButtonTitle: "Cancel",
       barrierDismissible: true,
     );
   }
