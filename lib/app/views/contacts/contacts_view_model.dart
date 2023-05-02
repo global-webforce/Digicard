@@ -33,8 +33,6 @@ class ContactsViewModel extends ReactiveViewModel {
     super.onFutureError(error, key);
   }
 
-  TextEditingController editingController = TextEditingController();
-
   Future init() async {
     await runBusyFuture(Future.wait([
       _contactsService.getAll(),
@@ -44,23 +42,10 @@ class ContactsViewModel extends ReactiveViewModel {
   final focusNode = FocusNode();
 
   List<DigitalCard> _cards = [];
+  List<DigitalCard> get cardList => _cards;
 
   Map<String, List<DigitalCard>> get cards {
     _cards = _contactsService.contacts;
-
-    if (editingController.text.isNotEmpty) {
-      _cards = _cards
-          .where((e) =>
-              "${e.firstName} ${e.lastName}"
-                  .toLowerCase()
-                  .contains(editingController.text.toLowerCase()) ||
-              "${e.position} ${e.company}"
-                  .toLowerCase()
-                  .contains(editingController.text.toLowerCase()))
-          .toList();
-    } else {
-      _cards = _contactsService.contacts;
-    }
 
     Map<String, List<DigitalCard>> grouped = groupBy(
         _cards, (DigitalCard card) => "${card.firstName} ${card.lastName}"[0]);
@@ -75,33 +60,10 @@ class ContactsViewModel extends ReactiveViewModel {
     ));
   }
 
-  removeFocus(BuildContext context) {
-    FocusScopeNode currentFocus = FocusScope.of(context);
-    if (!currentFocus.hasPrimaryFocus) {
-      currentFocus.unfocus();
-    }
-  }
-
-  void clearFilter() {
-    if (editingController.text.isNotEmpty) {
-      editingController.text = "";
-      notifyListeners();
-    }
-  }
-
-  void filter() {
-    notifyListeners();
-  }
-
   int? selectedIndex;
 
   select(int i) {
     selectedIndex = i;
     notifyListeners();
   }
-
-  //
 }
-
-
-//

@@ -72,26 +72,31 @@ class CardOpenView extends StatelessWidget {
                           extendBodyBehindAppBar: !viewModel.editMode,
                           appBar: const CardAppBar(),
                           bottomSheet: viewModel.actionType == ActionType.test
-                              ? Container(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(15, 15, 15, 10),
-                                  child:
-                                      "${viewModel.formModel.model.userId}" ==
-                                              "${viewModel.user?.id}"
-                                          ? EzButton.elevated(
-                                              background: colorTheme,
-                                              title: " You own this card",
-                                              onTap: () {},
-                                            )
-                                          : EzButton.elevated(
-                                              background: colorTheme,
-                                              title: "Connect",
-                                              onTap: () async {
-                                                await viewModel
-                                                    .saveToContacts(card);
-                                              },
-                                            ),
-                                )
+                              ? "${viewModel.formModel.model.userId}" ==
+                                      "${viewModel.user?.id}"
+                                  ? Container(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          15, 15, 15, 10),
+                                      child: EzButton.elevated(
+                                        background: colorTheme,
+                                        title: " You own this card",
+                                        onTap: () {},
+                                      ),
+                                    )
+                                  : !viewModel.isCardInContacts(card.id)
+                                      ? Container(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              15, 15, 15, 10),
+                                          child: EzButton.elevated(
+                                            background: colorTheme,
+                                            title: "Save to Contact",
+                                            onTap: () async {
+                                              await viewModel
+                                                  .saveToContacts(card);
+                                            },
+                                          ),
+                                        )
+                                      : const SizedBox.shrink()
                               : const SizedBox.shrink(),
                           body: LayoutBuilder(builder: (context, size) {
                             return Material(

@@ -6,6 +6,8 @@ import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
 import 'package:digicard/app/views/card_open/widgets/card.avatar_picker.dart';
 import 'package:digicard/app/views/card_open/widgets/card.custom_links.fields.dart';
 import 'package:digicard/app/views/card_open/widgets/card.custom_links.options.dart';
+import 'package:digicard/app/views/card_open/widgets/card.logo_picker.dart';
+import 'package:digicard/app/views/card_open/widgets/card.wave_divider.dart';
 import 'package:digicard/app/views/card_open/widgets/collapsible_field.dart';
 import 'package:digicard/app/views/card_open/widgets/card.color_picker.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +51,7 @@ class CardForm extends StatelessWidget {
       );
     }
 
-/*     Widget logoField() {
+    Widget logoField() {
       return ReactiveLogoPicker(
         formControl: formModel.logoUrlControl,
         readOnly: !viewModel.editMode,
@@ -61,7 +63,7 @@ class CardForm extends StatelessWidget {
                 await viewModel.showLogoPicker();
               },
       );
-    } */
+    }
 
     Widget colorPickerField() {
       return Column(
@@ -261,7 +263,7 @@ class CardForm extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 18),
                   child: avatarField(),
                 ),
-                /*    Positioned(
+                Positioned(
                     left: 0,
                     right: 0,
                     bottom: 0,
@@ -269,7 +271,7 @@ class CardForm extends StatelessWidget {
                       color: colorTheme,
                       size: size,
                       child: logoField(),
-                    )), */
+                    )),
               ],
             ),
             Column(

@@ -58,6 +58,7 @@ dependencies:
   uuid: ^3.0.7
   faker: ^2.0.0
   collection: ^1.17.0
+  azlistview: ^2.0.0
 
 #UI
   font_awesome_flutter: ^10.3.0

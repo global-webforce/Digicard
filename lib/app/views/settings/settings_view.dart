@@ -59,7 +59,6 @@ class SettingsView extends StatelessWidget {
                             viewModel.logout();
                           },
                         ),
-                        const Divider(height: 0),
                         const SettingsItem.header(
                           leading: "Digicard",
                         ),

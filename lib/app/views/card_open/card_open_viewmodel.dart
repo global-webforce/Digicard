@@ -62,6 +62,11 @@ class CardOpenViewModel extends ReactiveViewModel {
 
   bool formSubmitAttempt = false;
 
+  bool isCardInContacts(int? id) {
+    final temp = _contactsService.contacts.indexWhere((e) => e.id == id);
+    return temp != -1 ? true : false;
+  }
+
   void initialize(DigitalCard m, ActionType action) {
     model = m;
     actionType = action;
