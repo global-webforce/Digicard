@@ -9,8 +9,8 @@ import 'package:stacked_services/stacked_services.dart';
 
 const String loadingBusyKey = 'loadingBusyKey';
 
-class InitialViewModel extends ReactiveViewModel {
-  final log = getLogger('InitialViewModel');
+class StartupViewModel extends ReactiveViewModel {
+  final log = getLogger('StartupViewModel');
 
   final _userService = locator<UserService>();
   final appRouter = locator<AppRoute>();

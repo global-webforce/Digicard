@@ -29,6 +29,8 @@ class CardOpenView extends StatelessWidget {
         onDispose: (model) {
           model.formModel.reset();
           model.formModel.form.dispose();
+          model.formModel.customLinksCustomLinkForm
+              .map((e) => e.form.dispose());
         },
         onViewModelReady: (model) => model.initialize(card, actionType),
         builder: (context, viewModel, child) {
@@ -99,30 +101,25 @@ class CardOpenView extends StatelessWidget {
                                       : const SizedBox.shrink()
                               : const SizedBox.shrink(),
                           body: LayoutBuilder(builder: (context, size) {
-                            return Material(
-                              color: Theme.of(context).cardColor,
-                              child: ScaffoldBodyWrapper(
-                                  isFullWidth: true,
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 0,
-                                      horizontal:
-                                          max((size.maxWidth - 640) / 2, 0) > 0
-                                              ? max(
-                                                  (size.maxWidth - 640) / 2, 0)
-                                              : 0),
-                                  builder: (context, size) {
-                                    return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        if (!viewModel.editMode)
-                                          const CardDisplay(),
-                                        if (viewModel.editMode)
-                                          const CardForm(),
-                                      ],
-                                    );
-                                  }),
-                            );
+                            return ScaffoldBodyWrapper(
+                                isFullWidth: true,
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 0,
+                                    horizontal:
+                                        max((size.maxWidth - 640) / 2, 0) > 0
+                                            ? max((size.maxWidth - 640) / 2, 0)
+                                            : 0),
+                                builder: (context, size) {
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      if (!viewModel.editMode)
+                                        const CardDisplay(),
+                                      if (viewModel.editMode) const CardForm(),
+                                    ],
+                                  );
+                                });
                           }),
                         ),
                       ),

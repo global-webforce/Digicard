@@ -1,12 +1,11 @@
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/ui/_core/ez_button.dart';
 import 'package:digicard/app/ui/_core/scaffold_body_wrapper.dart';
-import 'package:digicard/app/views/_core/dashboard/dashboard_viewmodel.dart';
 import 'package:digicard/app/views/scan_qr_code/scan_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-import '../_core/dashboard/dashboard_view.dart';
+import '../dashboard/dashboard_view.dart';
 
 class ScanAppBar extends StatelessWidget with PreferredSizeWidget {
   const ScanAppBar({super.key});
@@ -31,16 +30,15 @@ class ScanView extends StatelessWidget {
           viewModel.controller?.dispose();
         },
         builder: (context, viewModel, child) {
-          return DashboardBuilder(builder: (context, parts) {
-            return WillPopScope(
-              onWillPop: () async {
-                getParentViewModel<DashboardViewModel>(context, listen: false)
-                    .setIndex(0);
-                return false;
-              },
-              child: Scaffold(
-                drawer: parts.drawer,
-                bottomNavigationBar: parts.bottomNavBar,
+          return DashboardBuilder(
+            onPop: (v) {
+              v.setIndex(0);
+              return Future.value(false);
+            },
+            builder: (context, child) {
+              return Scaffold(
+                drawer: child.drawer,
+                bottomNavigationBar: child.bottomNavBar,
                 appBar: const ScanAppBar(),
                 bottomSheet: Container(
                     padding: const EdgeInsets.symmetric(
@@ -56,9 +54,9 @@ class ScanView extends StatelessWidget {
                     builder: (context, size) {
                       return const Text("Point your camera at QR Code");
                     }),
-              ),
-            );
-          });
+              );
+            },
+          );
         });
   }
 }

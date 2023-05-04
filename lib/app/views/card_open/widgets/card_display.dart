@@ -5,8 +5,8 @@ import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
 import 'package:digicard/app/views/card_open/widgets/card.avatar_picker.dart';
 import 'package:digicard/app/views/card_open/widgets/card.custom_links.display.dart';
-import 'package:digicard/app/views/card_open/widgets/card.wave_divider.dart';
 import 'package:digicard/app/views/card_open/widgets/card.logo_picker.dart';
+import 'package:digicard/app/views/card_open/widgets/card.wave_divider.dart';
 import 'package:digicard/app/views/card_open/widgets/icon_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -28,6 +28,7 @@ class CardDisplay extends StatelessWidget {
       return ReactiveAvatarPicker(
         formControl: formModel.avatarUrlControl,
         readOnly: true,
+        onTap: null,
         backgroundColor: colorTheme,
       );
     }
@@ -116,49 +117,74 @@ class CardDisplay extends StatelessWidget {
     }
 
     return LayoutBuilder(builder: (context, size) {
-      return Container(
-        color: Theme.of(context).cardColor,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Stack(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 18),
-                  child: avatarField(),
+      return Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Center(
+          child: PhysicalModel(
+            color: Colors.transparent,
+            elevation: 8,
+            shadowColor: Colors.black,
+            borderRadius: BorderRadius.circular(30),
+            child: Card(
+              margin: EdgeInsetsDirectional.zero,
+              elevation: 0,
+              clipBehavior: Clip.hardEdge,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30), // if you need this
+                side: BorderSide(
+                  color: Colors.grey.withOpacity(0.2),
+                  width: 2,
                 ),
-                Positioned(
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    child: CardWaveDivider(
-                      color: colorTheme,
-                      size: size,
-                      child: logoField(),
-                    )),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  fullNameField(),
-                  positionField(),
-                  departmentField(),
-                  companyField(),
-                  headlineField(),
-                  pronounsField(),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 8.0),
-                    child: CustomLinkDisplay(),
+                  Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 18),
+                        child: avatarField(),
+                      ),
+                      Positioned(
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          child: CardWaveDivider(context,
+                              color: colorTheme,
+                              size: size,
+                              child: const SizedBox.shrink() //logoField(),
+                              )),
+                    ],
+                  ),
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      minHeight: 450,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          fullNameField(),
+                          positionField(),
+                          departmentField(),
+                          companyField(),
+                          headlineField(),
+                          pronounsField(),
+                          const Padding(
+                            padding: EdgeInsets.only(top: 8.0),
+                            child: CustomLinkDisplay(),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
-          ],
+          ),
         ),
       );
     });

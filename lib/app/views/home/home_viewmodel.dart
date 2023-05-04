@@ -44,6 +44,17 @@ class HomeViewModel extends ReactiveViewModel {
     });
   }
 
+  Future<DialogResponse<dynamic>?> confirmExit() async {
+    return await _dialogService.showCustomDialog(
+      variant: DialogType.confirmation,
+      title: "Exit App",
+      description: "You sure you want to exit?",
+      mainButtonTitle: "Yes",
+      secondaryButtonTitle: "Cancel",
+      barrierDismissible: true,
+    );
+  }
+
   view(DigitalCard card) {
     _navigationService.navigateToView(
       CardOpenView(
