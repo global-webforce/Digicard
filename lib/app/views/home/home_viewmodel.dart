@@ -48,7 +48,7 @@ class HomeViewModel extends ReactiveViewModel {
     return await _dialogService.showCustomDialog(
       variant: DialogType.confirmation,
       title: "Exit App",
-      description: "You sure you want to exit App?",
+      description: "You sure you want to exit?",
       mainButtonTitle: "Yes",
       secondaryButtonTitle: "Cancel",
       barrierDismissible: true,

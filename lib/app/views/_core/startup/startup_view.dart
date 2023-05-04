@@ -64,6 +64,7 @@ class StartupView extends StatelessWidget {
                     onError: Colors.white,
                     brightness: Brightness.light,
                   ), */
+
                 brightness: Brightness.dark,
                 elevatedButtonTheme: ElevatedButtonThemeData(
                   style: ElevatedButton.styleFrom(

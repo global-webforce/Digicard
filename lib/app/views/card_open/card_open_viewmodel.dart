@@ -227,7 +227,7 @@ class CardOpenViewModel extends ReactiveViewModel {
   }
 
   final ImagePicker _avatarPicker = ImagePicker();
-  XFile? _avatarImageFile;
+  XFile? avatarImageFile;
 
   final ImagePicker _logoPicker = ImagePicker();
   XFile? _logoImageFile;
@@ -247,19 +247,19 @@ class CardOpenViewModel extends ReactiveViewModel {
           await _avatarPicker
               .pickImage(source: ImageSource.gallery)
               .then((value) async {
-            _avatarImageFile = await cropImage(value);
+            avatarImageFile = await cropImage(value);
           });
         } else if (result == ImagePickerType.camera) {
           await _avatarPicker
               .pickImage(source: ImageSource.camera)
               .then((value) async {
-            _avatarImageFile = await cropImage(value);
+            avatarImageFile = await cropImage(value);
           });
         } else if (result == ImagePickerType.remove) {
-          _avatarImageFile = null;
+          avatarImageFile = null;
         }
 
-        _formModel.avatarUrlControl?.value = _avatarImageFile?.path;
+        _formModel.avatarUrlControl?.value = avatarImageFile?.path;
         _formModel.form.markAsDirty();
         notifyListeners();
       }
