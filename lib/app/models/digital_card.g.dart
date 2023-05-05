@@ -23,6 +23,8 @@ _$_DigitalCard _$$_DigitalCardFromJson(Map<String, dynamic> json) =>
       pronouns: json['pronouns'] as String?,
       logoUrl: json['logo_url'] as String?,
       avatarUrl: json['avatar_url'] as String?,
+      avatarFile: const Uint8ListConverter()
+          .fromJson(json['avatar_file'] as List<int>?),
       color: json['color'] as int? ?? kcPrimaryColorInt,
       position: json['position'] as String?,
       department: json['department'] as String?,
@@ -57,6 +59,7 @@ Map<String, dynamic> _$$_DigitalCardToJson(_$_DigitalCard instance) =>
       'pronouns': instance.pronouns,
       'logo_url': instance.logoUrl,
       'avatar_url': instance.avatarUrl,
+      'avatar_file': const Uint8ListConverter().toJson(instance.avatarFile),
       'color': instance.color,
       'position': instance.position,
       'department': instance.department,

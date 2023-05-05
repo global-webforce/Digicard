@@ -7,13 +7,25 @@ import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/services/contacts_service.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:digicard/app/views/custom_link/custom_link_view.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_web/image_picker_web.dart';
+
 import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../constants/env.dart';
+
+Future<Uint8List> getNetworkImageData(String url) async {
+  final file = await DefaultCacheManager().getSingleFile(url);
+  final bytes = await file.readAsBytes();
+  return Uint8List.fromList(bytes);
+}
 
 enum ActionType {
   view,
@@ -75,7 +87,7 @@ class CardOpenViewModel extends ReactiveViewModel {
     initForm();
   }
 
-  initForm() {
+  initForm() async {
     _formModel =
         DigitalCardForm(model, DigitalCardForm.formElements(model), null);
     final elements = DigitalCardForm.formElements(model);
@@ -85,6 +97,9 @@ class CardOpenViewModel extends ReactiveViewModel {
       _formModel.form.markAsDisabled();
     }
     _formModel.form.addAll(elements.controls);
+
+    _formModel.avatarFileControl?.value =
+        await getNetworkImageData("$avatarUrlPrefix${model.avatarUrl}");
   }
 
   Future saveToContacts(DigitalCard card) async {
@@ -244,11 +259,26 @@ class CardOpenViewModel extends ReactiveViewModel {
       var result = res?.data;
       if (result is ImagePickerType) {
         if (result == ImagePickerType.gallery) {
-          await _avatarPicker
+          if (kIsWeb) {
+            formModel.avatarFileControl?.value =
+                await ImagePickerWeb.getImageAsBytes();
+          } else {
+            await _avatarPicker
+                .pickImage(source: ImageSource.gallery)
+                .then((value) async {
+              avatarImageFile = await cropImage(value);
+              final x = await avatarImageFile?.readAsBytes();
+              formModel.avatarFileControl?.value = x;
+            });
+          }
+
+          /*     await _avatarPicker
               .pickImage(source: ImageSource.gallery)
               .then((value) async {
             avatarImageFile = await cropImage(value);
-          });
+            final x = await avatarImageFile?.readAsString();
+            formModel.avatarUrlControl?.value = x;
+          }); */
         } else if (result == ImagePickerType.camera) {
           await _avatarPicker
               .pickImage(source: ImageSource.camera)
@@ -259,7 +289,7 @@ class CardOpenViewModel extends ReactiveViewModel {
           avatarImageFile = null;
         }
 
-        _formModel.avatarUrlControl?.value = avatarImageFile?.path;
+        //  _formModel.avatarUrlControl?.value = avatarImageFile?.path;
         _formModel.form.markAsDirty();
         notifyListeners();
       }

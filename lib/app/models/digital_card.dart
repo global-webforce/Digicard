@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/models/custom_link.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -6,6 +8,20 @@ import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 part 'digital_card.freezed.dart';
 part 'digital_card.g.dart';
 part 'digital_card.gform.dart';
+
+class Uint8ListConverter implements JsonConverter<Uint8List?, List<int>?> {
+  const Uint8ListConverter();
+
+  @override
+  Uint8List? fromJson(List<int>? json) {
+    return json == null ? null : Uint8List.fromList(json);
+  }
+
+  @override
+  List<int>? toJson(Uint8List? object) {
+    return object?.toList();
+  }
+}
 
 @freezed
 @ReactiveFormAnnotation()
@@ -47,6 +63,9 @@ class DigitalCard with _$DigitalCard {
         String? logoUrl,
     @FormControlAnnotation<String>()
         String? avatarUrl,
+    @Uint8ListConverter()
+    @FormControlAnnotation<Uint8List>()
+        Uint8List? avatarFile,
     @Default(kcPrimaryColorInt)
     @FormControlAnnotation<int>()
         int? color,

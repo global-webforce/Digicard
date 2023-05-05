@@ -91,7 +91,7 @@ class CardWaveDivider extends StatelessWidget {
             padding: const EdgeInsets.only(top: waveBorderThickness),
             child: CustomPaint(
               size: const Size(710, waveHeight),
-              painter: CardWaves(Theme.of(context).colorScheme.surface),
+              painter: CardWaves(Theme.of(context).cardColor),
             ),
           ),
         ),

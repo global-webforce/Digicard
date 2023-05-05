@@ -1,8 +1,10 @@
 import 'dart:async';
-import 'dart:io';
+import 'package:mime/mime.dart';
+import 'package:universal_io/io.dart';
 import 'package:digicard/app/extensions/digital_card_extension.dart';
 import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:digicard/app/models/digital_card.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:stacked/stacked.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -47,24 +49,20 @@ class DigitalCardService with ListenableServiceMixin {
     data["custom_links"] = card.customLinks.map((e) => e.toJson()).toList();
 
     try {
-      final avatar = File("${card.avatarUrl}");
-      if (avatar.existsSync()) {
-        final avatarName = '${uuid.v4()}${path.extension(avatar.path)}';
-        await _supabase.storage
+      if (card.avatarFile != null) {
+        var mime = lookupMimeType('', headerBytes: card.avatarFile);
+        var extension = extensionFromMime("$mime");
+        final avatarName = '${uuid.v4()}$extension';
+
+        await Supabase.instance.client.storage
             .from('images')
-            .upload(
-              "avatars/$avatarName",
-              avatar,
-              fileOptions: const FileOptions(
-                cacheControl: '3600',
-                upsert: true,
-              ),
-            )
+            .uploadBinary(
+                "avatars/$avatarName", card.avatarFile ?? Uint8List(0))
             .then((_) {
           data["avatar_url"] = avatarName;
         });
       }
-      final logo = File("${card.logoUrl}");
+      /*      final logo = File("${card.logoUrl}");
       if (logo.existsSync()) {
         final logoName = '${uuid.v4()}${path.extension(logo.path)}';
         await _supabase.storage
@@ -80,7 +78,7 @@ class DigitalCardService with ListenableServiceMixin {
             .then((_) {
           data["logo_url"] = logoName;
         });
-      }
+      } */
       final insertedCard = await _supabase.from('cards').insert(data).select();
 
       if (insertedCard is List<dynamic> && insertedCard.isNotEmpty) {

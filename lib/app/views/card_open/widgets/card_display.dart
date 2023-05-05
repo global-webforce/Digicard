@@ -1,15 +1,16 @@
 import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/extensions/digital_card_extension.dart';
 import 'package:digicard/app/extensions/string_extension.dart';
+import 'package:digicard/app/helper/screen_size.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
 import 'package:digicard/app/views/card_open/widgets/card.avatar_picker.dart';
 import 'package:digicard/app/views/card_open/widgets/card.custom_links.display.dart';
-import 'package:digicard/app/views/card_open/widgets/card.logo_picker.dart';
-import 'package:digicard/app/views/card_open/widgets/card.wave_divider.dart';
 import 'package:digicard/app/views/card_open/widgets/icon_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+
+import 'card.wave_divider.dart';
 
 class CardDisplay extends StatelessWidget {
   const CardDisplay({Key? key}) : super(key: key);
@@ -25,21 +26,22 @@ class CardDisplay extends StatelessWidget {
         Color(formModel.colorControl?.value ?? kcPrimaryColorInt);
 
     Widget avatarField() {
-      return ReactiveAvatarPicker(
-        formControl: formModel.avatarUrlControl,
+      return CardAvatar(
+        imagePath: formModel.avatarFileControl?.value,
         readOnly: true,
         onTap: null,
-        backgroundColor: colorTheme,
+        color: colorTheme,
       );
     }
 
-    Widget logoField() {
-      return ReactiveLogoPicker(
-        formControl: formModel.logoUrlControl,
+    /*    Widget logoField() {
+      return CardLogo(
+        imagePath: formModel.logoUrlControl?.value,
         readOnly: true,
-        backgroundColor: colorTheme,
+        onTap: null,
+        color: colorTheme,
       );
-    }
+    } */
 
     Widget fullNameField() {
       return Padding(
@@ -118,22 +120,23 @@ class CardDisplay extends StatelessWidget {
 
     return LayoutBuilder(builder: (context, size) {
       return Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding:
+            isDesktop(context) ? const EdgeInsets.all(15.0) : EdgeInsets.zero,
         child: Center(
           child: PhysicalModel(
             color: Colors.transparent,
-            elevation: 8,
+            elevation: isDesktop(context) ? 8 : 0,
             shadowColor: Colors.black,
-            borderRadius: BorderRadius.circular(30),
             child: Card(
               margin: EdgeInsetsDirectional.zero,
               elevation: 0,
               clipBehavior: Clip.hardEdge,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30), // if you need this
+                borderRadius: BorderRadius.circular(
+                    isDesktop(context) ? 30 : 0), // if you need this
                 side: BorderSide(
                   color: Colors.grey.withOpacity(0.2),
-                  width: 2,
+                  width: isDesktop(context) ? 2 : 0,
                 ),
               ),
               child: Column(

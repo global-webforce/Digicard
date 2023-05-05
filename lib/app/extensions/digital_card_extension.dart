@@ -15,11 +15,13 @@ extension DigitalCardExtension on DigitalCard {
     value.remove("updated_at");
     value.remove("custom_links");
     value.remove("full_name");
+    value.remove("avatar_file");
     return value;
   }
 
   static Map<String, dynamic> update(Map<String, dynamic> value) {
     value.remove("id");
+    value.remove("avatar_file");
     value.remove("created_at");
     value.remove("updated_at");
     return value;

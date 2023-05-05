@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 import 'package:stacked/stacked.dart';
 
+import 'card.wave_divider.dart';
+
 class CardForm extends StatelessWidget {
   const CardForm({Key? key}) : super(key: key);
 
@@ -37,7 +39,7 @@ class CardForm extends StatelessWidget {
 
     Widget avatarField() {
       return ReactiveAvatarPicker(
-        formControl: formModel.avatarUrlControl,
+        formControl: formModel.avatarFileControl,
         readOnly: !viewModel.editMode,
         backgroundColor: colorTheme,
         onTap: !viewModel.editMode
@@ -49,7 +51,7 @@ class CardForm extends StatelessWidget {
       );
     }
 
-/*     Widget logoField() {
+    /*   Widget logoField() {
       return ReactiveLogoPicker(
         formControl: formModel.logoUrlControl,
         readOnly: !viewModel.editMode,
@@ -261,15 +263,15 @@ class CardForm extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 18),
                   child: avatarField(),
                 ),
-                /*       Positioned(
+                Positioned(
                     left: 0,
                     right: 0,
                     bottom: 0,
-                    child: CardWaveDivider(
-                      color: colorTheme,
-                      size: size,
-                      child: logoField(),
-                    )), */
+                    child: CardWaveDivider(context,
+                        color: colorTheme,
+                        size: size,
+                        child: const SizedBox.shrink() //logoField(),
+                        )),
               ],
             ),
             Column(
