@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:image_picker_web/image_picker_web.dart';
 
 import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
@@ -35,7 +34,7 @@ enum ActionType {
   test,
 }
 
-enum ImagePickerType { gallery, camera, remove }
+enum ImagePickerType { gallery, camera, computer, remove }
 
 const String saveBusyKey = 'save-busy-key';
 const String doneBusyKey = 'doneBusyKey';
@@ -100,6 +99,9 @@ class CardOpenViewModel extends ReactiveViewModel {
 
     _formModel.avatarFileControl?.value =
         await getNetworkImageData("$avatarUrlPrefix${model.avatarUrl}");
+
+    _formModel.logoFileControl?.value =
+        await getNetworkImageData("$logoUrlPrefix${model.logoUrl}");
   }
 
   Future saveToContacts(DigitalCard card) async {
@@ -242,7 +244,7 @@ class CardOpenViewModel extends ReactiveViewModel {
   }
 
   final ImagePicker _avatarPicker = ImagePicker();
-  XFile? avatarImageFile;
+  XFile? _avatarImageFile;
 
   final ImagePicker _logoPicker = ImagePicker();
   XFile? _logoImageFile;
@@ -251,45 +253,43 @@ class CardOpenViewModel extends ReactiveViewModel {
     await _bottomSheetService.showCustomSheet(
         data: {
           'assetType': 'avatar',
-          'removeOption': _formModel.avatarUrlControl?.value != null
+          'removeOption': _formModel.avatarUrlControl?.value != null ||
+              _formModel.avatarFileControl?.value != null
         },
         isScrollControlled: false,
         barrierDismissible: true,
         variant: BottomSheetType.imagepicker).then((res) async {
       var result = res?.data;
       if (result is ImagePickerType) {
-        if (result == ImagePickerType.gallery) {
-          if (kIsWeb) {
-            formModel.avatarFileControl?.value =
-                await ImagePickerWeb.getImageAsBytes();
-          } else {
-            await _avatarPicker
-                .pickImage(source: ImageSource.gallery)
-                .then((value) async {
-              avatarImageFile = await cropImage(value);
-              final x = await avatarImageFile?.readAsBytes();
-              formModel.avatarFileControl?.value = x;
-            });
-          }
-
-          /*     await _avatarPicker
+        if (result == ImagePickerType.computer) {
+          await _avatarPicker
               .pickImage(source: ImageSource.gallery)
               .then((value) async {
-            avatarImageFile = await cropImage(value);
-            final x = await avatarImageFile?.readAsString();
-            formModel.avatarUrlControl?.value = x;
-          }); */
+            _avatarImageFile = value;
+
+            formModel.avatarFileControl?.value =
+                await _avatarImageFile?.readAsBytes();
+          });
+        } else if (result == ImagePickerType.gallery) {
+          await _avatarPicker
+              .pickImage(source: ImageSource.gallery)
+              .then((value) async {
+            _avatarImageFile = value;
+            if (!kIsWeb) _avatarImageFile = await cropImage(value);
+            final x = await _avatarImageFile?.readAsBytes();
+            formModel.avatarFileControl?.value = x;
+          });
         } else if (result == ImagePickerType.camera) {
           await _avatarPicker
               .pickImage(source: ImageSource.camera)
               .then((value) async {
-            avatarImageFile = await cropImage(value);
+            _avatarImageFile = await cropImage(value);
           });
         } else if (result == ImagePickerType.remove) {
-          avatarImageFile = null;
+          formModel.avatarFileControl?.value = null;
+          _avatarImageFile = null;
         }
 
-        //  _formModel.avatarUrlControl?.value = avatarImageFile?.path;
         _formModel.form.markAsDirty();
         notifyListeners();
       }
@@ -307,7 +307,16 @@ class CardOpenViewModel extends ReactiveViewModel {
         variant: BottomSheetType.imagepicker).then((res) async {
       var result = res?.data;
       if (result is ImagePickerType) {
-        if (result == ImagePickerType.gallery) {
+        if (result == ImagePickerType.computer) {
+          await _logoPicker
+              .pickImage(source: ImageSource.gallery)
+              .then((value) async {
+            _logoImageFile = value;
+
+            formModel.logoFileControl?.value =
+                await _logoImageFile?.readAsBytes();
+          });
+        } else if (result == ImagePickerType.gallery) {
           await _logoPicker
               .pickImage(source: ImageSource.gallery)
               .then((value) async {

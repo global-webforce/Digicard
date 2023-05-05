@@ -10,6 +10,7 @@ import 'package:digicard/app/views/card_open/widgets/icon_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
+import 'card.logo_picker.dart';
 import 'card.wave_divider.dart';
 
 class CardDisplay extends StatelessWidget {
@@ -34,14 +35,14 @@ class CardDisplay extends StatelessWidget {
       );
     }
 
-    /*    Widget logoField() {
+    Widget logoField() {
       return CardLogo(
-        imagePath: formModel.logoUrlControl?.value,
+        imagePath: formModel.logoFileControl?.value,
         readOnly: true,
         onTap: null,
         color: colorTheme,
       );
-    } */
+    }
 
     Widget fullNameField() {
       return Padding(
@@ -153,11 +154,12 @@ class CardDisplay extends StatelessWidget {
                           left: 0,
                           right: 0,
                           bottom: 0,
-                          child: CardWaveDivider(context,
-                              color: colorTheme,
-                              size: size,
-                              child: const SizedBox.shrink() //logoField(),
-                              )),
+                          child: CardWaveDivider(
+                            context,
+                            color: colorTheme,
+                            size: size,
+                            child: logoField(),
+                          )),
                     ],
                   ),
                   ConstrainedBox(

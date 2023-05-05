@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:mime/mime.dart';
-import 'package:universal_io/io.dart';
 import 'package:digicard/app/extensions/digital_card_extension.dart';
-import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:flutter/foundation.dart';
 
@@ -57,19 +55,27 @@ class DigitalCardService with ListenableServiceMixin {
         await Supabase.instance.client.storage
             .from('images')
             .uploadBinary(
-                "avatars/$avatarName", card.avatarFile ?? Uint8List(0))
+              "avatars/$avatarName",
+              card.avatarFile ?? Uint8List(0),
+              fileOptions: const FileOptions(
+                cacheControl: '3600',
+                upsert: true,
+              ),
+            )
             .then((_) {
           data["avatar_url"] = avatarName;
         });
       }
-      /*      final logo = File("${card.logoUrl}");
-      if (logo.existsSync()) {
-        final logoName = '${uuid.v4()}${path.extension(logo.path)}';
-        await _supabase.storage
+      if (card.logoFile != null) {
+        var mime = lookupMimeType('', headerBytes: card.logoFile);
+        var extension = extensionFromMime("$mime");
+        final logoName = '${uuid.v4()}$extension';
+
+        await Supabase.instance.client.storage
             .from('images')
-            .upload(
+            .uploadBinary(
               "logos/$logoName",
-              logo,
+              card.logoFile ?? Uint8List(0),
               fileOptions: const FileOptions(
                 cacheControl: '3600',
                 upsert: true,
@@ -78,7 +84,7 @@ class DigitalCardService with ListenableServiceMixin {
             .then((_) {
           data["logo_url"] = logoName;
         });
-      } */
+      }
       final insertedCard = await _supabase.from('cards').insert(data).select();
 
       if (insertedCard is List<dynamic> && insertedCard.isNotEmpty) {
@@ -102,40 +108,42 @@ class DigitalCardService with ListenableServiceMixin {
     data["custom_links"] = card.customLinks.map((e) => e.toJson()).toList();
 
     try {
-      final avatar = File("${card.avatarUrl}");
-      if (avatar.existsSync()) {
-        final avatarName = '${uuid.v4()}${path.extension(avatar.path)}';
+      if (card.avatarFile != null) {
+        var mime = lookupMimeType('', headerBytes: card.avatarFile);
+        var extension = extensionFromMime("$mime");
+        final avatarName = '${uuid.v4()}$extension';
 
-        await _supabase.storage
+        await Supabase.instance.client.storage
             .from('images')
-            .upload(
+            .uploadBinary(
               "avatars/$avatarName",
-              avatar,
+              card.avatarFile ?? Uint8List(0),
               fileOptions: const FileOptions(
                 cacheControl: '3600',
                 upsert: true,
               ),
             )
-            .then((value) {
+            .then((_) {
           data["avatar_url"] = avatarName;
         });
       }
 
-      final logo = File("${card.logoUrl}");
-      if (logo.existsSync()) {
-        final logoName = '${uuid.v4()}${path.extension(logo.path)}';
+      if (card.logoFile != null) {
+        var mime = lookupMimeType('', headerBytes: card.logoFile);
+        var extension = extensionFromMime("$mime");
+        final logoName = '${uuid.v4()}$extension';
 
-        await _supabase.storage
+        await Supabase.instance.client.storage
             .from('images')
-            .upload(
+            .uploadBinary(
               "logos/$logoName",
-              logo,
+              card.logoFile ?? Uint8List(0),
               fileOptions: const FileOptions(
                 cacheControl: '3600',
                 upsert: true,
               ),
             )
-            .then((value) {
+            .then((_) {
           data["logo_url"] = logoName;
         });
       }
@@ -189,8 +197,7 @@ class DigitalCardService with ListenableServiceMixin {
 
     try {
       final og = _digitalCards.value.firstWhere((e) => e.id == card.id);
-      if (og.avatarUrl == card.avatarUrl &&
-          "${card.avatarUrl}".isNotNullOrEmpty()) {
+      if (og.avatarUrl == card.avatarUrl && card.avatarFile == null) {
         final avatarName = "${uuid.v4()}${path.extension('${og.avatarUrl}')}";
 
         try {
@@ -205,28 +212,29 @@ class DigitalCardService with ListenableServiceMixin {
           }
         }
       } else {
-        final avatar = File("${card.avatarUrl}");
-        if (avatar.existsSync()) {
-          final avatarName = "${uuid.v4()}${path.extension(avatar.path)}";
+        if (card.avatarFile != null) {
+          var mime = lookupMimeType('', headerBytes: card.avatarFile);
+          var extension = extensionFromMime("$mime");
+          final avatarName = '${uuid.v4()}$extension';
 
-          await _supabase.storage
+          await Supabase.instance.client.storage
               .from('images')
-              .upload(
+              .uploadBinary(
                 "avatars/$avatarName",
-                avatar,
+                card.avatarFile ?? Uint8List(0),
                 fileOptions: const FileOptions(
                   cacheControl: '3600',
                   upsert: true,
                 ),
               )
-              .then((value) {
+              .then((_) {
             data["avatar_url"] = avatarName;
           });
         }
       }
 
 //LOGO
-      if (og.logoUrl == card.logoUrl && "${card.logoUrl}".isNotNullOrEmpty()) {
+      if (og.logoUrl == card.logoUrl && card.logoFile == null) {
         final logoName = "${uuid.v4()}${path.extension('${og.logoUrl}')}";
 
         try {
@@ -241,21 +249,22 @@ class DigitalCardService with ListenableServiceMixin {
           }
         }
       } else {
-        final logo = File("${card.logoUrl}");
-        if (logo.existsSync()) {
-          final logoName = "${uuid.v4()}${path.extension(logo.path)}";
+        if (card.logoFile != null) {
+          var mime = lookupMimeType('', headerBytes: card.logoFile);
+          var extension = extensionFromMime("$mime");
+          final logoName = '${uuid.v4()}$extension';
 
-          await _supabase.storage
+          await Supabase.instance.client.storage
               .from('images')
-              .upload(
+              .uploadBinary(
                 "logos/$logoName",
-                logo,
+                card.logoFile ?? Uint8List(0),
                 fileOptions: const FileOptions(
                   cacheControl: '3600',
                   upsert: true,
                 ),
               )
-              .then((value) {
+              .then((_) {
             data["logo_url"] = logoName;
           });
         }

@@ -45,7 +45,7 @@ class CardAvatar extends StatelessWidget {
                     child: ConstrainedBox(
                       constraints: const BoxConstraints(
                         maxHeight: 450,
-                        maxWidth: double.infinity,
+                        minWidth: double.infinity,
                       ),
                       child: Container(
                         decoration: BoxDecoration(
@@ -83,26 +83,32 @@ class CardAvatar extends StatelessWidget {
                       color: color.darken(0.2),
                       child: InkWell(
                         onTap: onTap != null ? () => onTap!() : null,
-                        child: AspectRatio(
-                          aspectRatio: 1 / 1,
-                          child: Center(
-                            child: Wrap(
-                              spacing: 10,
-                              alignment: WrapAlignment.center,
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              direction: Axis.vertical,
-                              children: const [
-                                Icon(
-                                  Icons.add,
-                                  size: 20,
-                                ),
-                                Text(
-                                  "PROFILE IMAGE",
-                                  style: TextStyle(
-                                    fontSize: 15,
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(
+                            maxHeight: 450,
+                            minWidth: double.infinity,
+                          ),
+                          child: AspectRatio(
+                            aspectRatio: 1 / 1,
+                            child: Center(
+                              child: Wrap(
+                                spacing: 10,
+                                alignment: WrapAlignment.center,
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                direction: Axis.vertical,
+                                children: const [
+                                  Icon(
+                                    Icons.add,
+                                    size: 20,
                                   ),
-                                )
-                              ],
+                                  Text(
+                                    "PROFILE IMAGE",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),

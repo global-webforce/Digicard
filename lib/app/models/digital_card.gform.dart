@@ -220,6 +220,8 @@ class DigitalCardForm implements FormModel<DigitalCard> {
 
   static String avatarFileControlName = "avatarFile";
 
+  static String logoFileControlName = "logoFile";
+
   static String colorControlName = "color";
 
   static String positionControlName = "position";
@@ -256,6 +258,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   String logoUrlControlPath() => pathBuilder(logoUrlControlName);
   String avatarUrlControlPath() => pathBuilder(avatarUrlControlName);
   String avatarFileControlPath() => pathBuilder(avatarFileControlName);
+  String logoFileControlPath() => pathBuilder(logoFileControlName);
   String colorControlPath() => pathBuilder(colorControlName);
   String positionControlPath() => pathBuilder(positionControlName);
   String departmentControlPath() => pathBuilder(departmentControlName);
@@ -278,6 +281,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   String? get _logoUrlValue => logoUrlControl?.value;
   String? get _avatarUrlValue => avatarUrlControl?.value;
   Uint8List? get _avatarFileValue => avatarFileControl?.value;
+  Uint8List? get _logoFileValue => logoFileControl?.value;
   int? get _colorValue => colorControl?.value;
   String? get _positionValue => positionControl?.value;
   String? get _departmentValue => departmentControl?.value;
@@ -441,6 +445,15 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     }
   }
 
+  bool get containsLogoFile {
+    try {
+      form.control(logoFileControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   bool get containsColor {
     try {
       form.control(colorControlPath());
@@ -511,6 +524,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   Object? get logoUrlErrors => logoUrlControl?.errors;
   Object? get avatarUrlErrors => avatarUrlControl?.errors;
   Object? get avatarFileErrors => avatarFileControl?.errors;
+  Object? get logoFileErrors => logoFileControl?.errors;
   Object? get colorErrors => colorControl?.errors;
   Object? get positionErrors => positionControl?.errors;
   Object? get departmentErrors => departmentControl?.errors;
@@ -533,6 +547,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   void get logoUrlFocus => form.focus(logoUrlControlPath());
   void get avatarUrlFocus => form.focus(avatarUrlControlPath());
   void get avatarFileFocus => form.focus(avatarFileControlPath());
+  void get logoFileFocus => form.focus(logoFileControlPath());
   void get colorFocus => form.focus(colorControlPath());
   void get positionFocus => form.focus(positionControlPath());
   void get departmentFocus => form.focus(departmentControlPath());
@@ -955,6 +970,32 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     }
   }
 
+  void logoFileRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsLogoFile) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          logoFileControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            logoFileControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
   void colorRemove({
     bool updateParent = true,
     bool emitEvent = true,
@@ -1226,6 +1267,15 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     bool emitEvent = true,
   }) {
     avatarFileControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void logoFileValueUpdate(
+    Uint8List? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    logoFileControl?.updateValue(value,
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
@@ -1515,6 +1565,15 @@ class DigitalCardForm implements FormModel<DigitalCard> {
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
+  void logoFileValuePatch(
+    Uint8List? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    logoFileControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
   void colorValuePatch(
     int? value, {
     bool updateParent = true,
@@ -1730,6 +1789,15 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       avatarFileControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void logoFileValueReset(
+    Uint8List? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      logoFileControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
   void colorValueReset(
     int? value, {
     bool updateParent = true,
@@ -1834,6 +1902,9 @@ class DigitalCardForm implements FormModel<DigitalCard> {
       : null;
   FormControl<Uint8List>? get avatarFileControl => containsAvatarFile
       ? form.control(avatarFileControlPath()) as FormControl<Uint8List>?
+      : null;
+  FormControl<Uint8List>? get logoFileControl => containsLogoFile
+      ? form.control(logoFileControlPath()) as FormControl<Uint8List>?
       : null;
   FormControl<int>? get colorControl => containsColor
       ? form.control(colorControlPath()) as FormControl<int>?
@@ -2140,6 +2211,24 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     }
   }
 
+  void logoFileSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      logoFileControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      logoFileControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
   void colorSetDisabled(
     bool disabled, {
     bool updateParent = true,
@@ -2304,6 +2393,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
         logoUrl: _logoUrlValue,
         avatarUrl: _avatarUrlValue,
         avatarFile: _avatarFileValue,
+        logoFile: _logoFileValue,
         color: _colorValue,
         position: _positionValue,
         department: _departmentValue,
@@ -2448,6 +2538,13 @@ class DigitalCardForm implements FormModel<DigitalCard> {
             touched: false),
         avatarFileControlName: FormControl<Uint8List>(
             value: digitalCard?.avatarFile,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        logoFileControlName: FormControl<Uint8List>(
+            value: digitalCard?.logoFile,
             validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,

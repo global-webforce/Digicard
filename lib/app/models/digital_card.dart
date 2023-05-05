@@ -66,6 +66,9 @@ class DigitalCard with _$DigitalCard {
     @Uint8ListConverter()
     @FormControlAnnotation<Uint8List>()
         Uint8List? avatarFile,
+    @Uint8ListConverter()
+    @FormControlAnnotation<Uint8List>()
+        Uint8List? logoFile,
     @Default(kcPrimaryColorInt)
     @FormControlAnnotation<int>()
         int? color,

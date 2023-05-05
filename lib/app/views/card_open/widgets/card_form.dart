@@ -1,5 +1,6 @@
 import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/extensions/string_extension.dart';
+import 'package:digicard/app/helper/screen_size.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 import 'package:stacked/stacked.dart';
 
+import 'card.logo_picker.dart';
 import 'card.wave_divider.dart';
 
 class CardForm extends StatelessWidget {
@@ -51,9 +53,9 @@ class CardForm extends StatelessWidget {
       );
     }
 
-    /*   Widget logoField() {
+    Widget logoField() {
       return ReactiveLogoPicker(
-        formControl: formModel.logoUrlControl,
+        formControl: formModel.logoFileControl,
         readOnly: !viewModel.editMode,
         backgroundColor: colorTheme,
         onTap: !viewModel.editMode
@@ -63,7 +65,7 @@ class CardForm extends StatelessWidget {
                 await viewModel.showLogoPicker();
               },
       );
-    } */
+    }
 
     Widget colorPickerField() {
       return Column(
@@ -252,89 +254,100 @@ class CardForm extends StatelessWidget {
     }
 
     return LayoutBuilder(builder: (context, size) {
-      return Container(
-        color: Theme.of(context).cardColor,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 18),
-                  child: avatarField(),
-                ),
-                Positioned(
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    child: CardWaveDivider(context,
+      return PhysicalModel(
+        color: Colors.transparent,
+        elevation: isDesktop(context) ? 8 : 0,
+        shadowColor: Colors.black,
+        child: Card(
+          margin: EdgeInsetsDirectional.zero,
+          elevation: 0,
+          clipBehavior: Clip.hardEdge,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(0),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 18),
+                    child: avatarField(),
+                  ),
+                  Positioned(
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      child: CardWaveDivider(
+                        context,
                         color: colorTheme,
                         size: size,
-                        child: const SizedBox.shrink() //logoField(),
-                        )),
-              ],
-            ),
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 0, bottom: 15),
-                        child: colorPickerField(),
-                      ),
-                      titleField(),
-                      vSpaceSmall,
-                      CollapsibleField(
-                          onToggle: (expanded) {
-                            viewModel.formModel.form.unfocus();
-                          },
-                          value:
-                              "${formModel.prefixControl?.value ?? ""} ${formModel.firstNameControl?.value ?? ""} ${formModel.middleNameControl?.value ?? ""} ${formModel.lastNameControl?.value ?? ""} ${formModel.suffixControl?.value ?? ""}"
-                                  .trim(),
-                          body: Padding(
-                            padding: const EdgeInsets.only(left: 30),
-                            child: Column(
-                              children: [
-                                prefixField(),
-                                vSpaceSmall,
-                                firstNameField(),
-                                vSpaceSmall,
-                                middleNameField(),
-                                vSpaceSmall,
-                                lastNameField(),
-                                vSpaceSmall,
-                                suffixField(),
-                                vSpaceSmall,
-                                accrediationsField(),
-                                vSpaceSmall,
-                                preferredNameField(),
-                                vSpaceSmall,
-                                maidenNameField(),
-                                vSpaceSmall,
-                                pronounsField(),
-                              ],
-                            ),
-                          )),
-                      vSpaceSmall,
-                      positionField(),
-                      vSpaceSmall,
-                      departmentField(),
-                      vSpaceSmall,
-                      companyField(),
-                      vSpaceSmall,
-                      headlineField(),
-                      vSpaceSmall,
-                      const CustomLinkFields(),
-                      vSpaceSmall,
-                    ],
+                        child: logoField(),
+                      )),
+                ],
+              ),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 0, bottom: 15),
+                          child: colorPickerField(),
+                        ),
+                        titleField(),
+                        vSpaceSmall,
+                        CollapsibleField(
+                            onToggle: (expanded) {
+                              viewModel.formModel.form.unfocus();
+                            },
+                            value:
+                                "${formModel.prefixControl?.value ?? ""} ${formModel.firstNameControl?.value ?? ""} ${formModel.middleNameControl?.value ?? ""} ${formModel.lastNameControl?.value ?? ""} ${formModel.suffixControl?.value ?? ""}"
+                                    .trim(),
+                            body: Padding(
+                              padding: const EdgeInsets.only(left: 30),
+                              child: Column(
+                                children: [
+                                  prefixField(),
+                                  vSpaceSmall,
+                                  firstNameField(),
+                                  vSpaceSmall,
+                                  middleNameField(),
+                                  vSpaceSmall,
+                                  lastNameField(),
+                                  vSpaceSmall,
+                                  suffixField(),
+                                  vSpaceSmall,
+                                  accrediationsField(),
+                                  vSpaceSmall,
+                                  preferredNameField(),
+                                  vSpaceSmall,
+                                  maidenNameField(),
+                                  vSpaceSmall,
+                                  pronounsField(),
+                                ],
+                              ),
+                            )),
+                        vSpaceSmall,
+                        positionField(),
+                        vSpaceSmall,
+                        departmentField(),
+                        vSpaceSmall,
+                        companyField(),
+                        vSpaceSmall,
+                        headlineField(),
+                        vSpaceSmall,
+                        const CustomLinkFields(),
+                        vSpaceSmall,
+                      ],
+                    ),
                   ),
-                ),
-                const CustomLinkOptions(),
-              ],
-            ),
-          ],
+                  const CustomLinkOptions(),
+                ],
+              ),
+            ],
+          ),
         ),
       );
     });
