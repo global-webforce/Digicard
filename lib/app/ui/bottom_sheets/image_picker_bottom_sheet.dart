@@ -79,20 +79,22 @@ class ImagePickerBottomSheet extends StatelessWidget {
                               ],
                             ),
                             vSpaceSmall,
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
-                              child: Row(
-                                children: [
-                                  MinButtons(
-                                      color: kcPrimaryColor,
-                                      onTap: () async {
-                                        await viewModel.pickFromComputer();
-                                      },
-                                      icon: const Icon(FontAwesomeIcons.folder),
-                                      title: "Select from Computer"),
-                                ],
+                            if (kIsWeb)
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: Row(
+                                  children: [
+                                    MinButtons(
+                                        color: kcPrimaryColor,
+                                        onTap: () async {
+                                          await viewModel.pickFromComputer();
+                                        },
+                                        icon:
+                                            const Icon(FontAwesomeIcons.folder),
+                                        title: "Select from Computer"),
+                                  ],
+                                ),
                               ),
-                            ),
                             if (request.data["assetType"] == "avatar" &&
                                 !kIsWeb)
                               Padding(
