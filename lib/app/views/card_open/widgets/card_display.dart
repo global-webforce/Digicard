@@ -1,16 +1,19 @@
+import 'dart:ui';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:digicard/app/constants/colors.dart';
+import 'package:digicard/app/constants/env.dart';
+import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/extensions/digital_card_extension.dart';
 import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:digicard/app/helper/screen_size.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
-import 'package:digicard/app/views/card_open/widgets/card.avatar_picker.dart';
 import 'package:digicard/app/views/card_open/widgets/card.custom_links.display.dart';
 import 'package:digicard/app/views/card_open/widgets/icon_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-import 'card.logo_picker.dart';
 import 'card.wave_divider.dart';
 
 class CardDisplay extends StatelessWidget {
@@ -27,20 +30,81 @@ class CardDisplay extends StatelessWidget {
         Color(formModel.colorControl?.value ?? kcPrimaryColorInt);
 
     Widget avatarField() {
-      return CardAvatar(
-        imagePath: formModel.avatarFileControl?.value,
-        readOnly: true,
-        onTap: null,
-        color: colorTheme,
+      return CachedNetworkImage(
+        imageUrl: "$avatarUrlPrefix${formModel.avatarUrlControl?.value}",
+        imageBuilder: (context, imageProvider) {
+          return ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxHeight: 450,
+              minWidth: double.infinity,
+            ),
+            child: AspectRatio(
+              aspectRatio: 1 / 1,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: colorTheme.darken(0.2),
+                  image:
+                      DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                ),
+                child: ClipRRect(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: imageProvider, fit: BoxFit.contain),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+        placeholder: (context, url) {
+          return ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxHeight: 450,
+              minWidth: double.infinity,
+            ),
+            child: AspectRatio(
+              aspectRatio: 1 / 1,
+              child: Container(
+                decoration: BoxDecoration(color: colorTheme.darken(0.2)),
+              ),
+            ),
+          );
+        },
+        errorWidget: (context, url, error) {
+          return Container(
+            height: 130,
+            decoration: BoxDecoration(color: colorTheme.darken(0.2)),
+          );
+        },
       );
     }
 
     Widget logoField() {
-      return CardLogo(
-        imagePath: formModel.logoFileControl?.value,
-        readOnly: true,
-        onTap: null,
-        color: colorTheme,
+      return CachedNetworkImage(
+        imageUrl: "$logoUrlPrefix${formModel.logoUrlControl?.value}",
+        imageBuilder: (context, imageProvider) {
+          return AspectRatio(
+            aspectRatio: 1 / 1,
+            child: ClipRRect(
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+        errorWidget: (context, url, error) {
+          return const SizedBox.shrink();
+        },
       );
     }
 

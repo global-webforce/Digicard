@@ -3,14 +3,12 @@ import 'dart:ui';
 
 import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/extensions/color_extension.dart';
-import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 class CardAvatar extends StatelessWidget {
   final Color color;
   final Uint8List? imagePath;
-  final bool readOnly;
   final Function()? onTap;
 
   const CardAvatar({
@@ -18,38 +16,65 @@ class CardAvatar extends StatelessWidget {
     this.imagePath,
     required this.color,
     this.onTap,
-    this.readOnly = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: color.darken(0.2),
-      child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 500),
-          transitionBuilder: (Widget child, Animation<double> animation) {
-            return SizeTransition(
-              sizeFactor: animation,
-              child: ScaleTransition(
-                scale: animation,
-                alignment: Alignment.center,
-                child: child,
-              ),
-            );
-          },
-          child: ("$imagePath".isNotNullOrEmpty())
-              ? Material(
-                  color: color.darken(0.2),
-                  child: InkWell(
-                    onTap: onTap != null ? () => onTap!() : null,
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(
-                        maxHeight: 450,
-                        minWidth: double.infinity,
+    return AnimatedSwitcher(
+        duration: const Duration(milliseconds: 500),
+        transitionBuilder: (Widget child, Animation<double> animation) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+        child: (imagePath is! Uint8List)
+            ? Material(
+                color: color.darken(0.2),
+                child: InkWell(
+                  onTap: onTap != null ? () => onTap!() : null,
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      maxHeight: 450,
+                      minWidth: double.infinity,
+                    ),
+                    child: AspectRatio(
+                      aspectRatio: 1 / 1,
+                      child: Center(
+                        child: Wrap(
+                          spacing: 10,
+                          alignment: WrapAlignment.center,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          direction: Axis.vertical,
+                          children: const [
+                            Icon(
+                              Icons.add,
+                              size: 20,
+                            ),
+                            Text(
+                              "PROFILE IMAGE",
+                              style: TextStyle(
+                                fontSize: 15,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
+                    ),
+                  ),
+                ),
+              )
+            : Material(
+                color: color.darken(0.2),
+                child: InkWell(
+                  onTap: onTap != null ? () => onTap!() : null,
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      maxHeight: 450,
+                      minWidth: double.infinity,
+                    ),
+                    child: AspectRatio(
+                      aspectRatio: 1 / 1,
                       child: Container(
                         decoration: BoxDecoration(
-                          color: color,
+                          // color: color,
                           image: DecorationImage(
                             image: MemoryImage(imagePath!),
                             fit: BoxFit.cover,
@@ -71,50 +96,8 @@ class CardAvatar extends StatelessWidget {
                       ),
                     ),
                   ),
-                )
-              : readOnly
-                  ? Container(
-                      height: 130,
-                      decoration: BoxDecoration(
-                        color: color.darken(0.2),
-                      ),
-                    )
-                  : Material(
-                      color: color.darken(0.2),
-                      child: InkWell(
-                        onTap: onTap != null ? () => onTap!() : null,
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(
-                            maxHeight: 450,
-                            minWidth: double.infinity,
-                          ),
-                          child: AspectRatio(
-                            aspectRatio: 1 / 1,
-                            child: Center(
-                              child: Wrap(
-                                spacing: 10,
-                                alignment: WrapAlignment.center,
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                direction: Axis.vertical,
-                                children: const [
-                                  Icon(
-                                    Icons.add,
-                                    size: 20,
-                                  ),
-                                  Text(
-                                    "PROFILE IMAGE",
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    )),
-    );
+                ),
+              ));
   }
 }
 
@@ -134,7 +117,6 @@ class ReactiveAvatarPicker extends ReactiveFormField<Uint8List, Uint8List> {
             return CardAvatar(
               imagePath: field.value,
               color: backgroundColor ?? kcPrimaryColor,
-              readOnly: readOnly ?? true,
               onTap: (onTap != null) ? () => onTap() : null,
             );
           },

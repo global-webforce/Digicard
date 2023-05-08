@@ -275,17 +275,21 @@ class CardOpenViewModel extends ReactiveViewModel {
               .pickImage(source: ImageSource.gallery)
               .then((value) async {
             _avatarImageFile = value;
-            if (!kIsWeb) _avatarImageFile = await cropImage(value);
-            final x = await _avatarImageFile?.readAsBytes();
-            formModel.avatarFileControl?.value = x;
+            _avatarImageFile = await cropImage(value);
+
+            formModel.avatarFileControl?.value =
+                await _avatarImageFile?.readAsBytes();
           });
         } else if (result == ImagePickerType.camera) {
           await _avatarPicker
               .pickImage(source: ImageSource.camera)
               .then((value) async {
             _avatarImageFile = await cropImage(value);
+            formModel.avatarFileControl?.value =
+                await _avatarImageFile?.readAsBytes();
           });
         } else if (result == ImagePickerType.remove) {
+          formModel.avatarUrlControl?.value = null;
           formModel.avatarFileControl?.value = null;
           _avatarImageFile = null;
         }
@@ -300,7 +304,7 @@ class CardOpenViewModel extends ReactiveViewModel {
     await _bottomSheetService.showCustomSheet(
         data: {
           'assetType': 'logo',
-          'removeOption': _formModel.logoUrlControl?.value != null
+          'removeOption': _formModel.logoFileControl?.value != null
         },
         isScrollControlled: false,
         barrierDismissible: true,
@@ -321,18 +325,23 @@ class CardOpenViewModel extends ReactiveViewModel {
               .pickImage(source: ImageSource.gallery)
               .then((value) async {
             _logoImageFile = await cropImage(value);
+            formModel.logoFileControl?.value =
+                await _logoImageFile?.readAsBytes();
           });
         } else if (result == ImagePickerType.camera) {
           await _logoPicker
               .pickImage(source: ImageSource.camera)
               .then((value) async {
             _logoImageFile = await cropImage(value);
+            formModel.logoFileControl?.value =
+                await _logoImageFile?.readAsBytes();
           });
         } else if (result == ImagePickerType.remove) {
+          formModel.logoUrlControl?.value = null;
+          formModel.logoFileControl?.value = null;
           _logoImageFile = null;
         }
 
-        _formModel.logoUrlControl?.value = _logoImageFile?.path;
         _formModel.form.markAsDirty();
         notifyListeners();
       }

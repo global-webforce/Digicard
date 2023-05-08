@@ -1,14 +1,13 @@
 import 'dart:typed_data';
 
 import 'package:digicard/app/constants/colors.dart';
-import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 class CardLogo extends StatelessWidget {
   final Color color;
   final Uint8List? imagePath;
-  final bool readOnly;
+
   final Function()? onTap;
 
   const CardLogo({
@@ -16,7 +15,6 @@ class CardLogo extends StatelessWidget {
     this.imagePath,
     required this.color,
     this.onTap,
-    this.readOnly = true,
   }) : super(key: key);
 
   @override
@@ -34,50 +32,45 @@ class CardLogo extends StatelessWidget {
             child: child,
           );
         },
-        child: ("$imagePath".isNotNullOrEmpty())
+        child: (imagePath is Uint8List)
             ? InkWell(
                 onTap: onTap != null ? () => onTap!() : null,
-                child: Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: MemoryImage(imagePath!),
-                      fit: BoxFit.contain,
+                child: AspectRatio(
+                  aspectRatio: 1 / 1,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: MemoryImage(imagePath!),
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                 ))
-            : readOnly
-                ? const SizedBox.shrink()
-                : InkWell(
-                    onTap: onTap != null ? () => onTap!() : null,
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(
-                        maxHeight: 450,
-                        minWidth: double.infinity,
-                      ),
-                      child: AspectRatio(
-                        aspectRatio: 1 / 1,
-                        child: Center(
-                          child: Column(
-                            children: const [
-                              Icon(
-                                Icons.add,
-                                size: 20,
-                              ),
-                              Text(
-                                "LOGO",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 20,
-                              )
-                            ],
+            : InkWell(
+                onTap: onTap != null ? () => onTap!() : null,
+                child: AspectRatio(
+                  aspectRatio: 1 / 1,
+                  child: Center(
+                    child: Column(
+                      children: const [
+                        Icon(
+                          Icons.add,
+                          size: 20,
+                        ),
+                        Text(
+                          "LOGO",
+                          style: TextStyle(
+                            fontSize: 15,
                           ),
                         ),
-                      ),
+                        SizedBox(
+                          width: 20,
+                        )
+                      ],
                     ),
-                  ));
+                  ),
+                ),
+              ));
   }
 }
 
@@ -97,7 +90,6 @@ class ReactiveLogoPicker extends ReactiveFormField<Uint8List, Uint8List> {
             return CardLogo(
               imagePath: field.value,
               color: backgroundColor ?? kcPrimaryColor,
-              readOnly: readOnly ?? true,
               onTap: (onTap != null) ? () => onTap() : null,
             );
           },

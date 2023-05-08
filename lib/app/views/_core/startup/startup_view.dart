@@ -66,6 +66,9 @@ class StartupView extends StatelessWidget {
                   ), */
 
                 brightness: Brightness.dark,
+                bottomSheetTheme: const BottomSheetThemeData(
+                  elevation: 0,
+                ),
                 elevatedButtonTheme: ElevatedButtonThemeData(
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,

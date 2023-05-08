@@ -7,6 +7,7 @@ import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/ui/widgets/bottom_sheet_buttons.dart';
 import 'package:digicard/app/ui/overlays/custom_overlay.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -156,8 +157,6 @@ class CardSendBottomSheet extends StatelessWidget {
                               ),
                               vSpaceRegular,
                               const Text("Point your camera at the QR Code."),
-                              Text(
-                                  "https://www.digicard.me/${request.data.uuid}"),
                               vSpaceRegular,
                               Row(
                                 children: [
@@ -194,6 +193,20 @@ class CardSendBottomSheet extends StatelessWidget {
                                       icon: const Icon(
                                           FontAwesomeIcons.addressBook),
                                       title: "Save to Contacts"),
+                                ],
+                              ),
+                              vSpaceSmall,
+                              Row(
+                                children: [
+                                  MinButtons(
+                                      color: colorTheme,
+                                      onTap: () async {
+                                        await Clipboard.setData(ClipboardData(
+                                            text:
+                                                "https://www.digicard.me/${request.data.uuid}"));
+                                      },
+                                      icon: const Icon(FontAwesomeIcons.copy),
+                                      title: "Copy Link"),
                                 ],
                               )
                             ],
