@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/extensions/custom_link_extension.dart';
 import 'package:digicard/app/models/custom_link.dart';
@@ -29,117 +31,124 @@ class CustomLinkView extends StatelessWidget {
             appBar: AppBar(
               leading: const BackButton(),
             ),
-            body: ScaffoldBodyWrapper(
-                neverScroll: true,
-                centered: true,
-                builder: (context, size) {
-                  return ReactiveFormBuilder(
-                      form: () => formModel.form,
-                      builder: (context, formGroup, _) {
-                        return ReactiveFormConsumer(
-                            builder: (context, formGroup, _) {
-                          TextInputType? keyboardType(val) {
-                            switch (val) {
-                              case "Email":
-                                return TextInputType.emailAddress;
-                              case "Phone Number":
-                                return TextInputType.phone;
-                              case "Website":
-                                return TextInputType.url;
+            body: LayoutBuilder(builder: (context, size) {
+              return ScaffoldBodyWrapper(
+                  isFullWidth: true,
+                  padding: EdgeInsets.symmetric(
+                      vertical: 0,
+                      horizontal: max((size.maxWidth - 540) / 2, 0) > 0
+                          ? max((size.maxWidth - 540) / 2, 0)
+                          : 15),
+                  neverScroll: true,
+                  centered: true,
+                  builder: (context, size) {
+                    return ReactiveFormBuilder(
+                        form: () => formModel.form,
+                        builder: (context, formGroup, _) {
+                          return ReactiveFormConsumer(
+                              builder: (context, formGroup, _) {
+                            TextInputType? keyboardType(val) {
+                              switch (val) {
+                                case "Email":
+                                  return TextInputType.emailAddress;
+                                case "Phone Number":
+                                  return TextInputType.phone;
+                                case "Website":
+                                  return TextInputType.url;
 
-                              default:
-                                return null;
+                                default:
+                                  return null;
+                              }
                             }
-                          }
 
-                          TextInputAction? textInputAction(val) {
-                            switch (val) {
-                              case "Address":
-                                return TextInputAction.next;
+                            TextInputAction? textInputAction(val) {
+                              switch (val) {
+                                case "Address":
+                                  return TextInputAction.next;
 
-                              default:
-                                return TextInputAction.next;
+                                default:
+                                  return TextInputAction.next;
+                              }
                             }
-                          }
 
-                          showErrors(control) => false;
-                          final inputStyle = InputDecoration(
-                              label: Text(
-                                  "${viewModel.formModel.typeControl?.value} $index"),
-                              helperText:
-                                  "${CustomLink(type: '${formModel.typeControl?.value}').extras().hintLink}${formModel.textControl?.value ?? ''}",
-                              prefixIcon: Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 15.0,
+                            showErrors(control) => false;
+                            final inputStyle = InputDecoration(
+                                label: Text(
+                                    "${viewModel.formModel.typeControl?.value}"),
+                                helperText:
+                                    "${CustomLink(type: '${formModel.typeControl?.value}').extras().hintLink}${formModel.textControl?.value ?? ''}",
+                                prefixIcon: Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 15.0,
+                                  ),
+                                  child: Wrap(
+                                    children: [
+                                      Icon(
+                                        CustomLink(
+                                                type:
+                                                    "${formModel.typeControl?.value}")
+                                            .extras()
+                                            .icon,
+                                        size: 20,
+                                      ),
+                                      hSpaceRegular,
+                                    ],
+                                  ),
                                 ),
-                                child: Wrap(
-                                  children: [
-                                    Icon(
-                                      CustomLink(
-                                              type:
-                                                  "${formModel.typeControl?.value}")
-                                          .extras()
-                                          .icon,
-                                      size: 20,
-                                    ),
-                                    hSpaceRegular,
-                                  ],
+                                prefixIconConstraints: const BoxConstraints(
+                                    minWidth: 0, minHeight: 0),
+                                alignLabelWithHint: true,
+                                filled: false,
+                                fillColor: Colors.transparent,
+                                border: const UnderlineInputBorder(),
+                                enabledBorder: const UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey),
                                 ),
-                              ),
-                              prefixIconConstraints: const BoxConstraints(
-                                  minWidth: 0, minHeight: 0),
-                              alignLabelWithHint: true,
-                              filled: false,
-                              fillColor: Colors.transparent,
-                              border: const UnderlineInputBorder(),
-                              enabledBorder: const UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.grey),
-                              ),
-                              counterText: "",
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.auto);
+                                counterText: "",
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.auto);
 
-                          Widget textField() {
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(5),
-                              child: ReactiveTextField(
-                               
-                                  validationMessages: {
-                                    'required': (error) => 'Required'
+                            Widget textField() {
+                              return ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: ReactiveTextField(
+                                    validationMessages: {
+                                      'required': (error) => 'Required'
+                                    },
+                                    textInputAction: textInputAction(
+                                        "${formModel.typeControl?.value}"),
+                                    maxLines: null,
+                                    maxLength:
+                                        ("${formModel.typeControl?.value}" ==
+                                                "Address")
+                                            ? 300
+                                            : null,
+                                    showErrors: showErrors,
+                                    formControl: formModel.textControl,
+                                    keyboardType: keyboardType(
+                                        "${formModel.typeControl?.value}"),
+                                    decoration: inputStyle),
+                              );
+                            }
+
+                            return Column(
+                              children: [
+                                textField(),
+                                vSpaceRegular,
+                                EzButton.elevated(
+                                  disabled:
+                                      formModel.textControl?.hasErrors ?? true,
+                                  title: "SAVE",
+                                  onTap: () {
+                                    viewModel.save();
                                   },
-                                  textInputAction: textInputAction(
-                                      "${formModel.typeControl?.value}"),
-                                  maxLines: null,
-                                  maxLength:
-                                      ("${formModel.typeControl?.value}" ==
-                                              "Address")
-                                          ? 300
-                                          : null,
-                                  showErrors: showErrors,
-                                  formControl: formModel.textControl,
-                                  keyboardType: keyboardType(
-                                      "${formModel.typeControl?.value}"),
-                                  decoration: inputStyle),
+                                )
+                              ],
                             );
-                          }
-
-                          return Column(
-                            children: [
-                              textField(),
-                              vSpaceRegular,
-                              EzButton.elevated(
-                                disabled:
-                                    formModel.textControl?.hasErrors ?? true,
-                                title: "SAVE",
-                                onTap: () {
-                                  viewModel.save();
-                                },
-                              )
-                            ],
-                          );
+                          });
                         });
-                      });
-                }),
+                  });
+            }),
           );
         });
   }

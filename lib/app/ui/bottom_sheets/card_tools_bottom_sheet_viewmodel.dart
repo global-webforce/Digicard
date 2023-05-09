@@ -22,7 +22,8 @@ import 'package:digicard/app/app.locator.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'dart:ui' as ui;
-
+import 'package:universal_html/html.dart' as html;
+import 'package:universal_html/js.dart' as js;
 import 'package:uuid/uuid.dart';
 
 const String duplicateBusyKey = 'duplicateBusyKey';
@@ -40,6 +41,12 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
   final _snackbarService = locator<SnackbarService>();
   final _navigationService = locator<NavigationService>();
   final _contactsService = locator<ContactsService>();
+
+  showDoneOverlay() async {
+    setBusyForObject(doneBusyKey, true);
+    await Future.delayed(const Duration(seconds: 1));
+    setBusyForObject(doneBusyKey, false);
+  }
 
   @override
   void onFutureError(error, Object? key) {
@@ -163,19 +170,23 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
     );
 
     if (image != null) {
-      result = await ImageGallerySaver.saveImage(
-        image,
-        quality: 60,
-        name: "${DateTime.now().microsecondsSinceEpoch}_hello",
-      );
+      if (!kIsWeb) {
+        result = await ImageGallerySaver.saveImage(
+          image,
+          quality: 60,
+          name: "${card.uuid}",
+        );
+      } else {
+        js.context.callMethod("saveAs", <Object>[
+          html.Blob(<Object>[image]),
+          '${card.uuid}.png'
+        ]);
+      }
     }
 
     setBusyForObject(downloadQRBusyKey, false);
     if (result["isSuccess"] == true) {
-      setBusyForObject(downloadQRBusyKey, false);
-      setBusyForObject(doneBusyKey, true);
-      await Future.delayed(const Duration(seconds: 1));
-      setBusyForObject(doneBusyKey, false);
+      await showDoneOverlay();
     }
   }
 
@@ -183,9 +194,7 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
     setBusyForObject(saveToContactsBusyKey, true);
     await _contactsService.save(card);
     setBusyForObject(saveToContactsBusyKey, false);
-    setBusyForObject(doneBusyKey, true);
-    await Future.delayed(const Duration(seconds: 1));
-    setBusyForObject(doneBusyKey, false);
+    await showDoneOverlay();
   }
 
   Future downloadWithoutLogo(BuildContext context) async {
@@ -239,6 +248,7 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
     }
   }
 
+  /// Converts the widget into bytes(image) to be shared or downloaded
   Future<dynamic> createImageFromWidget(Widget widget,
       {Duration? wait, Size? logicalSize, Size? imageSize}) async {
     try {
@@ -290,11 +300,25 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
           await image.toByteData(format: ui.ImageByteFormat.png);
 
       final Uint8List pngBytes = byteData!.buffer.asUint8List();
-      final tempDir = await getTemporaryDirectory();
-      final file = await File('${tempDir.path}/image.png').create();
-      await file.writeAsBytes(pngBytes);
-      XFile filex = XFile(file.path);
-      Share.shareXFiles([filex]);
-    } catch (e) {}
+
+      try {
+        if (!kIsWeb) {
+          final tempDir = await getTemporaryDirectory();
+          final file = await File('${tempDir.path}/${card.uuid}.png').create();
+          await file.writeAsBytes(pngBytes);
+          XFile filex = XFile(file.path);
+          Share.shareXFiles([filex]);
+        } else {
+          js.context.callMethod("saveAs", <Object>[
+            html.Blob(<Object>[pngBytes]),
+            '${card.uuid}.png'
+          ]);
+        }
+      } catch (e) {
+        log.e("createImageFromWidget() method failed: ${e.toString()}");
+      }
+    } catch (e) {
+      rethrow;
+    }
   }
 }

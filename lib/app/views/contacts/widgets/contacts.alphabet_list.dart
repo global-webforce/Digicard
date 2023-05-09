@@ -102,6 +102,7 @@ class AlphabetList extends StatelessWidget {
                                   child: Container(
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
+                                            fit: BoxFit.cover,
                                             image: imageProvider)),
                                   ),
                                 );

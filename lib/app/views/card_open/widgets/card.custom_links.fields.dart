@@ -73,7 +73,7 @@ class CustomLinkFields extends StatelessWidget {
                             enabledBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.grey),
                             ),
-                            labelText: "${customLink.type} $index",
+                            labelText: "${customLink.type}",
                             floatingLabelBehavior: FloatingLabelBehavior.auto),
                       );
                     }

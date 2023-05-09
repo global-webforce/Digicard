@@ -10,6 +10,7 @@ import 'package:digicard/app/ui/overlays/custom_overlay.dart';
 import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
 import 'package:digicard/app/views/card_open/widgets/card_display.dart';
 import 'package:digicard/app/views/card_open/widgets/card_form.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -83,42 +84,49 @@ class CardOpenView extends StatelessWidget {
                           appBar: const CardAppBar(),
                           bottomSheet: viewModel.actionType == ActionType.test
                               ? Container(
+                                  color: Colors.transparent,
                                   margin: computeWidth(),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      vSpaceRegular,
-                                      "${viewModel.formModel.model.userId}" ==
-                                              "${viewModel.user?.id}"
-                                          ? EzButton.elevated(
-                                              background: colorTheme,
-                                              title: " You own this card",
-                                              onTap: () {},
-                                            )
-                                          : EzButton.elevated(
-                                              background: colorTheme,
-                                              title: "Save to Contact",
-                                              onTap: () async {
-                                                await viewModel
-                                                    .saveToContacts(card);
-                                              },
-                                            ),
+                                      viewModel.user != null
+                                          ? "${viewModel.formModel.model.userId}" ==
+                                                  "${viewModel.user?.id}"
+                                              ? EzButton.elevated(
+                                                  foreground: Colors.white,
+                                                  background: colorTheme,
+                                                  title: " You own this card",
+                                                  onTap: null,
+                                                )
+                                              : EzButton.elevated(
+                                                  background: colorTheme,
+                                                  title: "Save Contact",
+                                                  onTap: () async {
+                                                    await viewModel
+                                                        .saveToContacts(card);
+                                                  },
+                                                )
+                                          : const SizedBox.shrink(),
                                       vSpaceSmall,
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: colorTheme.darken(0.2),
-                                          borderRadius: const BorderRadius.only(
-                                              topRight: Radius.circular(10.0),
-                                              topLeft: Radius.circular(10.0)),
-                                        ),
-                                        width: double.infinity,
-                                        padding: const EdgeInsets.all(10),
-                                        child: const Text(
-                                          "A Free Digital Business Card from Digicard",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 14),
-                                        ),
-                                      )
+                                      if (kIsWeb)
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: colorTheme.darken(0.2),
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                                    topRight:
+                                                        Radius.circular(10.0),
+                                                    topLeft:
+                                                        Radius.circular(10.0)),
+                                          ),
+                                          width: double.infinity,
+                                          padding: const EdgeInsets.all(10),
+                                          child: const Text(
+                                            "A Free Digital Business Card from Digicard",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(fontSize: 14),
+                                          ),
+                                        )
                                     ],
                                   ),
                                 )
@@ -134,7 +142,9 @@ class CardOpenView extends StatelessWidget {
                                             : 0),
                                 builder: (context, size) {
                                   return Padding(
-                                    padding: const EdgeInsets.only(bottom: 100),
+                                    padding: EdgeInsets.only(
+                                        bottom:
+                                            viewModel.editMode ? 0.0 : 100.0),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,

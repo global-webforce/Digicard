@@ -171,31 +171,14 @@ class CardToolsBottomSheet extends StatelessWidget {
                                 hSpaceSmall,
                                 MinButtons(
                                     color: colorTheme,
-                                    onTap: null,
-                                    icon:
-                                        const Icon(FontAwesomeIcons.nfcSymbol),
-                                    title: "Write to NFC"),
-                              ],
-                            ),
-                            vSpaceSmall,
-                            Row(
-                              children: [
-                                MinButtons(
-                                    color: colorTheme,
                                     onTap: () async {
                                       await viewModel.delete(request.data.id);
                                     },
                                     icon: const Icon(FontAwesomeIcons.trash),
                                     title: "Delete"),
-                                hSpaceSmall,
-                                MinButtons(
-                                    color: colorTheme,
-                                    onTap: null,
-                                    icon: const Icon(
-                                        FontAwesomeIcons.arrowsLeftRight),
-                                    title: "Transfer"),
                               ],
                             ),
+
                             /*   vSpaceSmall,
                             Row(
                               children: [

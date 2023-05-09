@@ -1,9 +1,11 @@
 import 'package:digicard/app/app.locator.dart';
+import 'package:digicard/app/ui/_core/empty_display.dart';
 import 'package:digicard/app/views/dashboard/dashboard_view.dart';
 import 'package:digicard/app/views/contacts/contacts_view_model.dart';
 import 'package:digicard/app/views/contacts/widgets/contacts.alphabet_list.dart';
 import 'package:digicard/app/views/contacts/widgets/contacts.search_delegate.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:stacked/stacked.dart';
 
 class ContactsView extends StatelessWidget {
@@ -40,11 +42,17 @@ class ContactsView extends StatelessWidget {
               drawer: child.drawer,
               bottomNavigationBar: child.bottomNavBar,
               body: viewModel.isBusy
-                  ? const Center(
-                      child: CircularProgressIndicator(),
+                  ? const Expanded(
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
                     )
-                  : RefreshIndicator(
-                      onRefresh: () async {}, child: const AlphabetList()),
+                  : viewModel.cards.isEmpty
+                      ? const EmptyDisplay(
+                          icon: FontAwesomeIcons.addressBook,
+                          title: "You have no contacts yet.")
+                      : RefreshIndicator(
+                          onRefresh: () async {}, child: const AlphabetList()),
             );
           });
         });

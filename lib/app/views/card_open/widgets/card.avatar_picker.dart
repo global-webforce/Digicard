@@ -44,15 +44,11 @@ class CardAvatar extends StatelessWidget {
                           crossAxisAlignment: WrapCrossAlignment.center,
                           direction: Axis.vertical,
                           children: const [
-                            Icon(
-                              Icons.add,
-                              size: 20,
-                            ),
+                            Icon(Icons.add, size: 20, color: Colors.white),
                             Text(
                               "PROFILE IMAGE",
-                              style: TextStyle(
-                                fontSize: 15,
-                              ),
+                              style:
+                                  TextStyle(fontSize: 15, color: Colors.white),
                             )
                           ],
                         ),

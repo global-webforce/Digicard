@@ -1,15 +1,19 @@
-import 'dart:typed_data';
+import 'dart:convert';
 
 import 'package:collection/collection.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/constants/env.dart';
+import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:digicard/app/models/custom_link.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/services/_core/user_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:http/http.dart' as http;
 import 'package:stacked/stacked.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:universal_html/html.dart' as html;
+import 'package:universal_html/js.dart' as js;
 
 class ContactsService with ListenableServiceMixin {
   final _supabase = Supabase.instance.client;
@@ -90,40 +94,61 @@ class ContactsService with ListenableServiceMixin {
     }
   }
 
-  Future save(DigitalCard card) async {
+  Future<Contact?> convertToContact(DigitalCard card) async {
     Map<String, List<CustomLink>> customLinks =
         groupBy(card.customLinks, (e) => "${e.type}");
+    Uint8List? bytes;
+    if (card.avatarUrl.isNotNullOrEmpty()) {
+      bytes = await getBytesFromUrl("$avatarUrlPrefix${card.avatarUrl}");
+    }
 
-    if (await FlutterContacts.requestPermission()) {
-      Uint8List bytes =
-          await getBytesFromUrl("$avatarUrlPrefix${card.avatarUrl}");
+    return Contact()
+      ..photo = bytes
+      ..displayName =
+          "${card.prefix ?? ''} ${card.firstName ?? ''} ${card.middleName ?? ''} ${card.lastName ?? ''} ${card.suffix ?? ''}"
+              .clean()
+      ..name.first = card.firstName ?? ''
+      ..name.last = card.lastName ?? ''
+      ..organizations = [
+        Organization(
+          title: card.position ?? '',
+          company: card.company ?? '',
+        )
+      ]
+      ..emails =
+          customLinks["Email"]?.map((e) => Email(e.text ?? '')).toList() ?? []
+      ..phones = customLinks["Phone Number"]
+              ?.map((e) => Phone(e.text ?? ''))
+              .toList() ??
+          []
+      ..websites =
+          customLinks["Website"]?.map((e) => Website(e.text ?? '')).toList() ??
+              []
+      ..addresses =
+          customLinks["Address"]?.map((e) => Address(e.text ?? '')).toList() ??
+              [];
+  }
 
-      final newContact = Contact()
-        ..photo = bytes
-        ..displayName =
-            "${card.prefix} ${card.firstName} ${card.middleName} ${card.lastName} ${card.suffix}"
-        ..name.first = "${card.firstName}"
-        ..name.last = "${card.lastName}"
-        ..organizations = [
-          Organization(
-            title: "${card.position}",
-            company: "${card.company}",
-          )
-        ]
-        ..emails =
-            customLinks["Email"]?.map((e) => Email("${e.text}")).toList() ?? []
-        ..phones = customLinks["Phone Number"]
-                ?.map((e) => Phone("${e.text}"))
-                .toList() ??
-            []
-        ..websites =
-            customLinks["Website"]?.map((e) => Website("${e.text}")).toList() ??
-                []
-        ..addresses =
-            customLinks["Address"]?.map((e) => Address("${e.text}")).toList() ??
-                [];
-
-      await newContact.insert();
-    } else {}
+  Future save(DigitalCard card) async {
+    await convertToContact(card).then((value) async {
+      try {
+        if (value != null) {
+          if (kIsWeb) {
+            final bytes =
+                utf8.encode(value.toVCard(withPhoto: true, includeDate: true));
+            js.context.callMethod("saveAs", <Object>[
+              html.Blob(<Object>[bytes]),
+              '${card.uuid}.vcf'
+            ]);
+          } else {
+            if (await FlutterContacts.requestPermission()) {
+              value.insert();
+            }
+          }
+        }
+      } catch (e) {
+        rethrow;
+      }
+    });
   }
 }

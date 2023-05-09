@@ -3,9 +3,11 @@ import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/constants/env.dart';
+import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/ui/widgets/bottom_sheet_buttons.dart';
 import 'package:digicard/app/ui/overlays/custom_overlay.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -77,7 +79,7 @@ class CardSendBottomSheet extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        color: colorTheme,
+                        color: colorTheme.darken(0.2),
                         height: 25,
                         child: Center(
                           child: Container(
@@ -162,9 +164,25 @@ class CardSendBottomSheet extends StatelessWidget {
                                 children: [
                                   MinButtons(
                                       color: colorTheme,
-                                      onTap: () async {
-                                        await viewModel.share();
-                                      },
+                                      onTap: (kIsWeb)
+                                          ? null
+                                          : () async {
+                                              await viewModel.share();
+                                            },
+                                      trailing: (!kIsWeb)
+                                          ? null
+                                          : Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                color: colorTheme.darken(0.2),
+                                              ),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 4,
+                                                      horizontal: 12),
+                                              child: const Text("Mobile"),
+                                            ),
                                       icon: const Icon(FontAwesomeIcons.share),
                                       title: "Share"),
                                 ],
@@ -192,7 +210,7 @@ class CardSendBottomSheet extends StatelessWidget {
                                       },
                                       icon: const Icon(
                                           FontAwesomeIcons.addressBook),
-                                      title: "Save to Contacts"),
+                                      title: "Save Contact"),
                                 ],
                               ),
                               vSpaceSmall,

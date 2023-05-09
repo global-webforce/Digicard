@@ -1,8 +1,10 @@
 import 'package:digicard/app/app.locator.dart';
+import 'package:digicard/app/ui/_core/empty_display.dart';
 import 'package:digicard/app/ui/_core/ez_button.dart';
 import 'package:digicard/app/ui/_core/scaffold_body_wrapper.dart';
 import 'package:digicard/app/views/scan_qr_code/scan_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:stacked/stacked.dart';
 
 import '../dashboard/dashboard_view.dart';
@@ -52,7 +54,9 @@ class ScanView extends StatelessWidget {
                 body: ScaffoldBodyWrapper(
                     centered: true,
                     builder: (context, size) {
-                      return const Text("Point your camera at QR Code");
+                      return const EmptyDisplay(
+                          icon: FontAwesomeIcons.qrcode,
+                          title: "Point your camera at QR Code.");
                     }),
               );
             },

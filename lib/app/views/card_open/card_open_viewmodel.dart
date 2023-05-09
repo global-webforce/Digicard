@@ -105,8 +105,13 @@ class CardOpenViewModel extends ReactiveViewModel {
   }
 
   Future saveToContacts(DigitalCard card) async {
-    await runBusyFuture(_contactsService.create(card),
-        throwException: true, busyObject: saveBusyKey);
+    await runBusyFuture(
+        Future.wait([
+          _contactsService.create(card),
+          _contactsService.save(card),
+        ]),
+        throwException: true,
+        busyObject: saveBusyKey);
     setBusyForObject(doneBusyKey, true);
     await Future.delayed(const Duration(seconds: 1));
     setBusyForObject(doneBusyKey, false);

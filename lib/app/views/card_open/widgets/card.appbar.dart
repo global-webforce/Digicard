@@ -70,6 +70,7 @@ class CardAppBar extends StatelessWidget with PreferredSizeWidget {
             automaticallyImplyLeading: false,
             elevation: 0,
             backgroundColor: Colors.transparent,
+            surfaceTintColor: Colors.transparent,
             actions: [closeButton()],
           );
   }
