@@ -188,70 +188,65 @@ class CardDisplay extends StatelessWidget {
         padding:
             isDesktop(context) ? const EdgeInsets.all(15.0) : EdgeInsets.zero,
         child: Center(
-          child: PhysicalModel(
-            color: Colors.transparent,
-            elevation: isDesktop(context) ? 8 : 0,
-            shadowColor: Colors.black,
-            child: Card(
-              margin: EdgeInsetsDirectional.zero,
-              elevation: 0,
-              clipBehavior: Clip.hardEdge,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                    isDesktop(context) ? 30 : 0), // if you need this
-                side: BorderSide(
-                  color: Colors.grey.withOpacity(0.2),
-                  width: isDesktop(context) ? 2 : 0,
+          child: Card(
+            margin: EdgeInsetsDirectional.zero,
+            elevation: 0,
+            clipBehavior: Clip.hardEdge,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(
+                  isDesktop(context) ? 30 : 0), // if you need this
+              side: BorderSide(
+                color: Colors.grey.withOpacity(0.2),
+                width: isDesktop(context) ? 2 : 0,
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 18),
+                      child: avatarField(),
+                    ),
+                    Positioned(
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        child: CardWaveDivider(
+                          context,
+                          color: colorTheme,
+                          size: size,
+                          child: logoField(),
+                        )),
+                  ],
                 ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 18),
-                        child: avatarField(),
-                      ),
-                      Positioned(
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          child: CardWaveDivider(
-                            context,
-                            color: colorTheme,
-                            size: size,
-                            child: logoField(),
-                          )),
-                    ],
+                ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    minHeight: 450,
                   ),
-                  ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      minHeight: 450,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          fullNameField(),
-                          positionField(),
-                          departmentField(),
-                          companyField(),
-                          headlineField(),
-                          pronounsField(),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 8.0),
-                            child: CustomLinkDisplay(),
-                          ),
-                        ],
-                      ),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        fullNameField(),
+                        positionField(),
+                        departmentField(),
+                        companyField(),
+                        headlineField(),
+                        pronounsField(),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 8.0),
+                          child: CustomLinkDisplay(),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

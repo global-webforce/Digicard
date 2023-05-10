@@ -94,8 +94,8 @@ class AlphabetList extends StatelessWidget {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(5),
                             child: CachedNetworkImage(
-                              width: 60,
-                              height: 60,
+                              width: 50,
+                              height: 50,
                               imageUrl: "$avatarUrlPrefix${card.avatarUrl}",
                               imageBuilder: (context, imageProvider) {
                                 return Center(

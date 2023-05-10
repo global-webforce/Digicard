@@ -36,7 +36,10 @@ class CardOpenView extends StatelessWidget {
           model.formModel.customLinksCustomLinkForm
               .map((e) => e.form.dispose());
         },
-        onViewModelReady: (model) => model.initialize(card, actionType),
+        onViewModelReady: (model) {
+          model.initialize(card, actionType);
+          model.context = context;
+        },
         builder: (context, viewModel, child) {
           return ReactiveDigitalCardForm(
             form: viewModel.formModel,
@@ -124,7 +127,10 @@ class CardOpenView extends StatelessWidget {
                                           child: const Text(
                                             "A Free Digital Business Card from Digicard",
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(fontSize: 14),
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         )
                                     ],
