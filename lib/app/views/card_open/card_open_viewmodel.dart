@@ -36,7 +36,7 @@ enum ActionType {
 
 enum ImagePickerType { gallery, camera, computer, remove }
 
-const String saveBusyKey = 'save-busy-key';
+const String saveBusyKey = 'saveBusyKey';
 const String doneBusyKey = 'doneBusyKey';
 
 class CardOpenViewModel extends ReactiveViewModel {

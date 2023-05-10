@@ -1,22 +1,19 @@
-import 'dart:math';
-
 import 'package:digicard/app/app.locator.dart';
+import 'package:digicard/app/constants/colors.dart';
+import 'package:digicard/app/constants/dimensions.dart';
 import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/ui/_core/ez_button.dart';
 import 'package:digicard/app/ui/_core/scaffold_body_wrapper.dart';
-import 'package:digicard/app/ui/_core/spacer.dart';
-import 'package:digicard/app/ui/overlays/custom_overlay.dart';
+import 'package:digicard/app/ui/overlays/loader_overlay_wrapper.dart';
 import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
 import 'package:digicard/app/views/card_open/widgets/card_display.dart';
 import 'package:digicard/app/views/card_open/widgets/card_form.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:stacked/stacked.dart';
 
-import '../../helper/screen_size.dart';
 import 'widgets/card.appbar.dart';
 
 class CardOpenView extends StatelessWidget {
@@ -30,144 +27,148 @@ class CardOpenView extends StatelessWidget {
     return ViewModelBuilder<CardOpenViewModel>.reactive(
         viewModelBuilder: () => locator<CardOpenViewModel>(),
         disposeViewModel: false,
+        onViewModelReady: (model) {
+          model.initialize(card, actionType);
+          model.context = context;
+        },
         onDispose: (model) {
           model.formModel.reset();
           model.formModel.form.dispose();
           model.formModel.customLinksCustomLinkForm
               .map((e) => e.form.dispose());
         },
-        onViewModelReady: (model) {
-          model.initialize(card, actionType);
-          model.context = context;
-        },
         builder: (context, viewModel, child) {
+          final isUserPresent = viewModel.user != null;
+          final isCardOwnedByUser =
+              "${viewModel.formModel.model.userId}" == "${viewModel.user?.id}";
+          final isCardInContacts =
+              viewModel.isCardInContacts(viewModel.formModel.model.id);
+
           return ReactiveDigitalCardForm(
             form: viewModel.formModel,
             child: ReactiveValueListenableBuilder<dynamic>(
                 formControl: viewModel.formModel.colorControl,
                 builder: (context, color, child) {
-                  final colorTheme = color.value != null
-                      ? Color(color.value)
-                      : Theme.of(context).colorScheme.primary;
+                  final colorTheme = Color(color.value ?? kcPrimaryColorInt);
 
-                  if (viewModel.busy(saveBusyKey)) {
-                    context.loaderOverlay.show(
-                        widget: CustomOverlay(
-                      title: "Saving...",
-                      color: colorTheme,
-                    ));
-                  } else if (viewModel.busy(doneBusyKey)) {
-                    context.loaderOverlay.show(
-                      widget: DoneOverlay(
-                        context,
-                        title: "Done!",
-                        color: colorTheme,
-                      ),
-                    );
-                  } else {
-                    context.loaderOverlay.hide();
+                  screenBottomPadding() {
+                    // When bottomsheet is visible it blocks bottom contact of card
+                    // to fix this, a bottom padding is added
+                    return EdgeInsets.only(
+                        bottom: viewModel.editMode ? 0.0 : 100.0);
                   }
 
-                  return Builder(builder: (context) {
-                    computeWidth() {
-                      final width = (screenWidth(context) - 540) / 2;
-                      return EdgeInsets.symmetric(
-                          vertical: 0,
-                          horizontal: max(width, 0) > 0 ? width : 10);
-                    }
-
-                    return WillPopScope(
-                      onWillPop: () async {
-                        return await viewModel.confirmExit();
-                      },
-                      child: SafeArea(
-                        top: viewModel.editMode ? false : false,
-                        child: Scaffold(
-                          extendBodyBehindAppBar: !viewModel.editMode,
-                          appBar: const CardAppBar(),
-                          bottomSheet: viewModel.actionType == ActionType.test
-                              ? Container(
-                                  color: Colors.transparent,
-                                  margin: computeWidth(),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      viewModel.user != null
-                                          ? "${viewModel.formModel.model.userId}" ==
-                                                  "${viewModel.user?.id}"
-                                              ? EzButton.elevated(
-                                                  foreground: Colors.white,
-                                                  background: colorTheme,
-                                                  title: " You own this card",
-                                                  onTap: null,
-                                                )
-                                              : EzButton.elevated(
-                                                  background: colorTheme,
-                                                  title: "Save Contact",
-                                                  onTap: () async {
-                                                    await viewModel
-                                                        .saveToContacts(card);
-                                                  },
-                                                )
-                                          : const SizedBox.shrink(),
-                                      vSpaceSmall,
-                                      if (kIsWeb)
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: colorTheme.darken(0.2),
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                                    topRight:
-                                                        Radius.circular(10.0),
-                                                    topLeft:
-                                                        Radius.circular(10.0)),
-                                          ),
-                                          width: double.infinity,
-                                          padding: const EdgeInsets.all(10),
-                                          child: const Text(
-                                            "A Free Digital Business Card from Digicard",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        )
-                                    ],
-                                  ),
-                                )
-                              : const SizedBox.shrink(),
-                          body: LayoutBuilder(builder: (context, size) {
-                            return ScaffoldBodyWrapper(
-                                isFullWidth: true,
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 0,
-                                    horizontal:
-                                        max((size.maxWidth - 540) / 2, 0) > 0
-                                            ? max((size.maxWidth - 540) / 2, 0)
-                                            : 0),
-                                builder: (context, size) {
-                                  return Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom:
-                                            viewModel.editMode ? 0.0 : 100.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        if (!viewModel.editMode)
-                                          const CardDisplay(),
-                                        if (viewModel.editMode)
-                                          const CardForm(),
-                                      ],
-                                    ),
-                                  );
-                                });
-                          }),
+                  adPanel() {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: colorTheme.darken(0.2),
+                          borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(10.0),
+                              topLeft: Radius.circular(10.0)),
+                        ),
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(10),
+                        child: const Text(
+                          "A Free Digital Business Card from Digicard",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     );
-                  });
+                  }
+
+                  Widget youOwnButton() {
+                    return EzButton.elevated(
+                      foreground: Colors.white,
+                      background: colorTheme,
+                      title: " You own this card",
+                      onTap: null,
+                    );
+                  }
+
+                  Widget saveButton() {
+                    return EzButton.elevated(
+                      background: colorTheme,
+                      title: "Save Contact",
+                      onTap: () async {
+                        await viewModel.saveToContacts(card);
+                      },
+                    );
+                  }
+
+                  return WillPopScope(
+                    onWillPop: () async {
+                      return await viewModel.confirmExit();
+                    },
+                    child: SafeArea(
+                      top: viewModel.editMode ? false : false,
+                      child: LoaderOverlayWrapper(
+                          type: viewModel.busy(saveBusyKey)
+                              ? LoadingType.save
+                              : viewModel.busy(doneBusyKey)
+                                  ? LoadingType.done
+                                  : null,
+                          builder: (context) {
+                            return LayoutBuilder(builder: (context, size) {
+                              final cardWidth = Dimens.computedWidth(
+                                  screenSize: size,
+                                  targetWidth: 540,
+                                  vPadding: 0,
+                                  hPadding: 10);
+                              return Scaffold(
+                                extendBodyBehindAppBar: !viewModel.editMode,
+                                appBar: const CardAppBar(),
+                                bottomSheet: viewModel.actionType ==
+                                        ActionType.test
+                                    ? LayoutBuilder(builder: (context, size) {
+                                        return Container(
+                                          color: Colors.transparent,
+                                          padding: cardWidth,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              isUserPresent
+                                                  ? isCardOwnedByUser
+                                                      ? youOwnButton()
+                                                      : !isCardInContacts
+                                                          ? saveButton()
+                                                          : const SizedBox
+                                                              .shrink()
+                                                  : const SizedBox.shrink(),
+                                              if (kIsWeb) adPanel()
+                                            ],
+                                          ),
+                                        );
+                                      })
+                                    : const SizedBox.shrink(),
+                                body: ScaffoldBodyWrapper(
+                                    isFullWidth: true,
+                                    padding: cardWidth,
+                                    builder: (context, size) {
+                                      return Padding(
+                                        padding: screenBottomPadding(),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            if (!viewModel.editMode)
+                                              const CardDisplay(),
+                                            if (viewModel.editMode)
+                                              const CardForm(),
+                                          ],
+                                        ),
+                                      );
+                                    }),
+                              );
+                            });
+                          }),
+                    ),
+                  );
                 }),
           );
         });

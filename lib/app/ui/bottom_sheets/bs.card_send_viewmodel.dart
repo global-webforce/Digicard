@@ -1,45 +1,32 @@
 import 'dart:io';
 
 import 'package:digicard/app/app.logger.dart';
-import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/models/digital_card.dart';
-import 'package:digicard/app/app.bottomsheet_ui.dart';
 import 'package:digicard/app/app.dialog_ui.dart';
-import 'package:digicard/app/app.snackbar_ui.dart';
 import 'package:digicard/app/services/contacts_service.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
-import 'package:digicard/app/views/card_open/card_open_view.dart';
-import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/rendering.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'dart:ui' as ui;
 import 'package:universal_html/html.dart' as html;
 import 'package:universal_html/js.dart' as js;
 import 'package:uuid/uuid.dart';
 
-const String duplicateBusyKey = 'duplicateBusyKey';
 const String downloadQRBusyKey = 'downloadQRBusyKey';
-const String deleteBusyKey = 'deleteBusyKey';
 const String shareBusyKey = 'shareBusyKey';
 const String saveToContactsBusyKey = 'saveToContactsBusyKey';
 const String doneBusyKey = 'doneBusyKey';
 
-class CardToolsBottomSheetViewModel extends ReactiveViewModel {
-  final log = getLogger('CardToolsBottomSheetViewModel');
-  final _bottomSheetService = locator<BottomSheetService>();
+class CardSendBottomSheetViewModel extends ReactiveViewModel {
+  final log = getLogger('CardSendBottomSheetViewModel');
   final _dialogService = locator<DialogService>();
   final _digitalCardsService = locator<DigitalCardService>();
-  final _snackbarService = locator<SnackbarService>();
-  final _navigationService = locator<NavigationService>();
   final _contactsService = locator<ContactsService>();
 
   showDoneOverlay() async {
@@ -66,78 +53,6 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
   late BuildContext context;
   late DigitalCard card;
 
-  delete(int? id) async {
-    final value = await _dialogService.showCustomDialog(
-      variant: DialogType.confirmation,
-      title: "Card Delete",
-      description: "You sure you want to delete this card?",
-      mainButtonTitle: "Delete",
-      barrierDismissible: true,
-    );
-    if (value?.confirmed ?? false) {
-      await runBusyFuture(_digitalCardsService.delete(card),
-          busyObject: deleteBusyKey, throwException: true);
-      _bottomSheetService.completeSheet(SheetResponse());
-    }
-    return null;
-  }
-
-  send() {
-    _bottomSheetService.completeSheet(SheetResponse());
-    _bottomSheetService.showCustomSheet(
-      ignoreSafeArea: false,
-      variant: BottomSheetType.send,
-      data: card,
-      isScrollControlled: true,
-    );
-  }
-
-  view(DigitalCard card) {
-    _bottomSheetService.completeSheet(SheetResponse());
-    _navigationService.navigateToView(
-      CardOpenView(
-        actionType: ActionType.test,
-        card: card,
-      ),
-      transitionStyle: Transition.fade,
-      curve: Curves.easeIn,
-    );
-  }
-
-  update(DigitalCard card) {
-    _bottomSheetService.completeSheet(SheetResponse());
-    _navigationService.navigateToView(
-      CardOpenView(
-        actionType: ActionType.edit,
-        card: card,
-      ),
-      transitionStyle: Transition.fade,
-      curve: Curves.easeIn,
-    );
-  }
-
-  show(DigitalCard digitalCard) async {
-    await _bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.digitalCard,
-      data: digitalCard,
-      isScrollControlled: true,
-      useRootNavigator: false,
-    );
-  }
-
-  duplicate(DigitalCard digitalCard) async {
-    _bottomSheetService.completeSheet(SheetResponse());
-    _navigationService.navigateToView(
-      CardOpenView(
-        actionType: ActionType.duplicate,
-        card: digitalCard.copyWith(title: "${digitalCard.title} Copy"),
-      ),
-      transitionStyle: Transition.zoom,
-      curve: Curves.easeIn,
-    );
-  }
-
-  //Create an instance of ScreenshotController
   ScreenshotController screenshotControllerShare = ScreenshotController();
   ScreenshotController screenshotControllerDownload = ScreenshotController();
 
@@ -197,7 +112,7 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
     await showDoneOverlay();
   }
 
-  Future downloadWithoutLogo(BuildContext context) async {
+/*   Future downloadWithoutLogo(BuildContext context) async {
     setBusyForObject(downloadQRBusyKey, true);
 
     final widget = ClipRRect(
@@ -320,5 +235,5 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
     } catch (e) {
       rethrow;
     }
-  }
+  } */
 }

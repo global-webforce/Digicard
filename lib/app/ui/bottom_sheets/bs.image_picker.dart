@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
-import 'package:digicard/app/ui/bottom_sheets/image_picker_bottom_sheet_viewmodel.dart';
+import 'package:digicard/app/ui/bottom_sheets/bs.image_picker_viewmodel.dart';
 import 'package:digicard/app/ui/widgets/bottom_sheet_buttons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
