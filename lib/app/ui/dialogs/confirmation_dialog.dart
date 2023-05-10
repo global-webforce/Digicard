@@ -21,7 +21,7 @@ class ConfirmationDialog extends StatelessWidget {
         child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(15, 15, 15, 13),
           child: Container(
-            width: 600,
+            width: 500,
             constraints: BoxConstraints(
                 minHeight: 0, maxHeight: screenHeight(context) * 0.7),
             child: Column(
