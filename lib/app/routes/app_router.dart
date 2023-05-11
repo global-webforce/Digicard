@@ -1,10 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:digicard/app/views/_core/login/login_view.dart';
-import 'package:digicard/app/views/_core/welcome/welcome_view.dart';
+import 'package:digicard/app/routes/app_router.gr.dart';
 
 import 'package:flutter/material.dart';
-
-import '../views/dashboard/dashboard_view.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 class HeroEmptyRouterPage extends StatelessWidget {
   const HeroEmptyRouterPage({super.key});
@@ -21,40 +19,38 @@ class HeroEmptyRouterPage extends StatelessWidget {
 /*
 NEVER EVER DO PARENT CHILDREN ON ROUTING - BIGGEST MISTAKE EVER
 */
+@RoutePage()
+class AuthView extends AutoRouter {
+  const AuthView({super.key});
+}
 
-@MaterialAutoRouter(replaceInRouteName: 'View,Route', routes: [
-  CustomRoute(
-    initial: true,
-    path: '/',
-    page: WelcomeView,
-  ),
-  CustomRoute(
-    path: '/',
-    page: LoginView,
-  ),
-  CustomRoute(
-    path: "/",
-    page: DashboardView,
-/*     children: [
-      CustomRoute(
-        initial: true,
-        page: HomeView,
-      ),
-      CustomRoute(
-        path: '',
-        page: ScanQRCodeView,
-      ),
-      CustomRoute(
-        path: '',
-        page: ContactsView,
-      ),
-      CustomRoute(
-        path: '',
-        page: SettingsView,
-      ),
-      RedirectRoute(path: '*', redirectTo: ''),
-    ], */
-  ),
-  RedirectRoute(path: '*', redirectTo: ''),
-])
+@AutoRouterConfig(replaceInRouteName: 'View,Route')
+class AppRouter extends $AppRouter {
+  AppRouter({GlobalKey<NavigatorState>? navigatorKey})
+      : super(navigatorKey: StackedService.navigatorKey);
+  @override
+  List<AutoRoute> get routes => [
+        CustomRoute(
+          path: '/',
+          page: AuthRoute.page,
+          children: [
+            CustomRoute(
+              path: '',
+              page: WelcomeRoute.page,
+            ),
+            CustomRoute(
+              path: '',
+              page: LoginRoute.page,
+            ),
+            CustomRoute(path: 'p/:id', page: CardWebRoute.page),
+          ],
+        ),
+        CustomRoute(
+          path: "/",
+          page: DashboardRoute.page,
+        ),
+        RedirectRoute(path: '*', redirectTo: ''),
+      ];
+}
+
 class $AppRoute {}

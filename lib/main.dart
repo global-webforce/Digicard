@@ -1,5 +1,5 @@
+import 'package:digicard/app/routes/app_router.dart';
 import 'package:digicard/app/views/_core/startup/startup_view.dart';
-import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:digicard/app/app.bottomsheet_ui.dart';
 import 'package:digicard/app/app.dialog_ui.dart';
 import 'package:digicard/app/app.snackbar_ui.dart';
@@ -7,7 +7,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:flutter/material.dart';
-import 'package:stacked_services/stacked_services.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -27,7 +26,7 @@ void main() async {
 
   setupLocator();
 
-  locator.registerSingleton(AppRoute(StackedService.navigatorKey));
+  locator.registerSingleton(AppRouter());
   await ThemeManager.initialise();
   await setupSnackBarUI();
   await setupDialogUI();

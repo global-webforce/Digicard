@@ -119,7 +119,7 @@ class CardOpenView extends StatelessWidget {
                                   screenSize: size,
                                   targetWidth: 540,
                                   vPadding: 0,
-                                  hPadding: 10);
+                                  hPadding: 0);
                               return Scaffold(
                                 extendBodyBehindAppBar: !viewModel.editMode,
                                 appBar: const CardAppBar(),
@@ -129,19 +129,23 @@ class CardOpenView extends StatelessWidget {
                                         return Container(
                                           color: Colors.transparent,
                                           padding: cardWidth,
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              isUserPresent
-                                                  ? isCardOwnedByUser
-                                                      ? youOwnButton()
-                                                      : !isCardInContacts
-                                                          ? saveButton()
-                                                          : const SizedBox
-                                                              .shrink()
-                                                  : const SizedBox.shrink(),
-                                              if (kIsWeb) adPanel()
-                                            ],
+                                          child: Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                8.0, 8.0, 8.0, 0),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                isUserPresent
+                                                    ? isCardOwnedByUser
+                                                        ? youOwnButton()
+                                                        : !isCardInContacts
+                                                            ? saveButton()
+                                                            : const SizedBox
+                                                                .shrink()
+                                                    : const SizedBox.shrink(),
+                                                if (kIsWeb) adPanel()
+                                              ],
+                                            ),
                                           ),
                                         );
                                       })

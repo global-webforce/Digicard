@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:digicard/app/ui/_core/ez_button.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/constants/colors.dart';
@@ -11,6 +12,7 @@ import 'package:reactive_forms/reactive_forms.dart';
 
 import 'package:stacked/stacked.dart';
 
+@RoutePage()
 class LoginView extends StatelessWidget {
   const LoginView({Key? key}) : super(key: key);
 

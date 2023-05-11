@@ -281,27 +281,31 @@ class CardOpenViewModel extends ReactiveViewModel {
           await _avatarPicker
               .pickImage(source: ImageSource.gallery)
               .then((value) async {
-            _avatarImageFile = await value?.readAsBytes();
-
-            final x = await cropImage(value?.path);
-
-            formModel.avatarFileControl?.value = x;
+            await cropImage(value?.path).then((value) {
+              if (value != null) {
+                formModel.avatarFileControl?.value = value;
+              }
+            });
           });
         } else if (result == ImagePickerType.gallery) {
           await _avatarPicker
               .pickImage(source: ImageSource.gallery)
               .then((value) async {
-            _avatarImageFile = await value?.readAsBytes();
-            _avatarImageFile = await cropImage(value?.path);
-
-            formModel.avatarFileControl?.value = _avatarImageFile;
+            await cropImage(value?.path).then((value) {
+              if (value != null) {
+                formModel.avatarFileControl?.value = value;
+              }
+            });
           });
         } else if (result == ImagePickerType.camera) {
           await _avatarPicker
               .pickImage(source: ImageSource.camera)
               .then((value) async {
-            _avatarImageFile = await cropImage(value?.path);
-            formModel.avatarFileControl?.value = _avatarImageFile;
+            await cropImage(value?.path).then((value) {
+              if (value != null) {
+                formModel.avatarFileControl?.value = value;
+              }
+            });
           });
         } else if (result == ImagePickerType.remove) {
           formModel.avatarUrlControl?.value = null;
@@ -330,23 +334,31 @@ class CardOpenViewModel extends ReactiveViewModel {
           await _logoPicker
               .pickImage(source: ImageSource.gallery)
               .then((value) async {
-            _logoImageFile = await value?.readAsBytes();
-            final x = await cropImage(value?.path);
-            formModel.logoFileControl?.value = x;
+            await cropImage(value?.path).then((value) {
+              if (value != null) {
+                formModel.logoFileControl?.value = value;
+              }
+            });
           });
         } else if (result == ImagePickerType.gallery) {
           await _logoPicker
               .pickImage(source: ImageSource.gallery)
               .then((value) async {
-            _logoImageFile = await cropImage(value?.path);
-            formModel.logoFileControl?.value = _logoImageFile;
+            await cropImage(value?.path).then((value) {
+              if (value != null) {
+                formModel.logoFileControl?.value = value;
+              }
+            });
           });
         } else if (result == ImagePickerType.camera) {
           await _logoPicker
               .pickImage(source: ImageSource.camera)
               .then((value) async {
-            _logoImageFile = await cropImage(value?.path);
-            formModel.logoFileControl?.value = _logoImageFile;
+            await cropImage(value?.path).then((value) {
+              if (value != null) {
+                formModel.logoFileControl?.value = value;
+              }
+            });
           });
         } else if (result == ImagePickerType.remove) {
           formModel.logoUrlControl?.value = null;
