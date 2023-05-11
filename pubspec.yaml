@@ -42,7 +42,7 @@ dependencies:
   image_picker: ^0.8.5+3
   image_picker_for_web: ^2.1.12
   qr_code_scanner: ^1.0.1
-  qr_code_tools: ^0.0.7
+ # qr_code_tools: ^0.0.7
   qr_flutter: ^4.0.0
  # responsive_builder: ^0.6.0
   flutter_cache_manager: ^3.3.0
