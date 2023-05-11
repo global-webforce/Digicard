@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 extension StringExtension on String? {
   /// ensures that string has real value
   bool isNotNullOrEmpty() {
@@ -31,15 +29,5 @@ extension StringExtension on String? {
     return isNotNullOrEmpty() == true
         ? "$this".replaceAll(RegExp(r"\s+"), " ").trim()
         : "";
-  }
-
-  bool isListInt() {
-    try {
-      final jsonList = json.decode("$this") as List<dynamic>;
-      final intList = jsonList.map((dynamic item) => item as int).toList();
-      return true;
-    } catch (_) {
-      return false;
-    }
   }
 }

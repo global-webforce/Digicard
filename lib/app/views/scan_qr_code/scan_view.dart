@@ -9,16 +9,6 @@ import 'package:stacked/stacked.dart';
 
 import '../dashboard/dashboard_view.dart';
 
-class ScanAppBar extends StatelessWidget with PreferredSizeWidget {
-  const ScanAppBar({super.key});
-  @override
-  Size get preferredSize => const Size.fromHeight(56);
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(title: const Text("SCAN"));
-  }
-}
-
 class ScanView extends StatelessWidget {
   const ScanView({Key? key}) : super(key: key);
 
@@ -41,7 +31,7 @@ class ScanView extends StatelessWidget {
               return Scaffold(
                 drawer: child.drawer,
                 bottomNavigationBar: child.bottomNavBar,
-                appBar: const ScanAppBar(),
+                appBar: AppBar(title: const Text("SCAN")),
                 bottomSheet: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15, vertical: 10),

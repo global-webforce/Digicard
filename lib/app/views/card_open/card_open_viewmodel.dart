@@ -260,10 +260,8 @@ class CardOpenViewModel extends ReactiveViewModel {
   }
 
   final ImagePicker _avatarPicker = ImagePicker();
-  Uint8List? _avatarImageFile;
 
   final ImagePicker _logoPicker = ImagePicker();
-  Uint8List? _logoImageFile;
 
   showAvatarPicker() async {
     await _bottomSheetService.showCustomSheet(
@@ -310,7 +308,6 @@ class CardOpenViewModel extends ReactiveViewModel {
         } else if (result == ImagePickerType.remove) {
           formModel.avatarUrlControl?.value = null;
           formModel.avatarFileControl?.value = null;
-          _avatarImageFile = null;
         }
 
         _formModel.form.markAsDirty();
@@ -363,7 +360,6 @@ class CardOpenViewModel extends ReactiveViewModel {
         } else if (result == ImagePickerType.remove) {
           formModel.logoUrlControl?.value = null;
           formModel.logoFileControl?.value = null;
-          _logoImageFile = null;
         }
 
         _formModel.form.markAsDirty();

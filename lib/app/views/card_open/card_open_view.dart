@@ -44,6 +44,10 @@ class CardOpenView extends StatelessWidget {
           final isCardInContacts =
               viewModel.isCardInContacts(viewModel.formModel.model.id);
 
+          /***/
+
+/***/
+
           return ReactiveDigitalCardForm(
             form: viewModel.formModel,
             child: ReactiveValueListenableBuilder<dynamic>(
