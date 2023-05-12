@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:digicard/app/app.logger.dart';
+import 'package:digicard/app/app.snackbar_ui.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/app.dialog_ui.dart';
 import 'package:digicard/app/services/contacts_service.dart';
@@ -28,12 +29,7 @@ class CardSendBottomSheetViewModel extends ReactiveViewModel {
   final _dialogService = locator<DialogService>();
   final _digitalCardsService = locator<DigitalCardService>();
   final _contactsService = locator<ContactsService>();
-
-  showDoneOverlay() async {
-    setBusyForObject(doneBusyKey, true);
-    await Future.delayed(const Duration(seconds: 1));
-    setBusyForObject(doneBusyKey, false);
-  }
+  final _snackbarService = locator<SnackbarService>();
 
   @override
   void onFutureError(error, Object? key) {
@@ -58,59 +54,75 @@ class CardSendBottomSheetViewModel extends ReactiveViewModel {
 
   Future<void> share() async {
     setBusyForObject(shareBusyKey, true);
+    try {
+      await screenshotControllerShare
+          .capture(
+        pixelRatio: 10,
+      )
+          .then((Uint8List? image) async {
+        var uuid = const Uuid();
+        final tempDir = await getTemporaryDirectory();
+        File file = await File(
+                '${tempDir.path}/${uuid.v5(Uuid.NAMESPACE_URL, 'www.digicard.com')}.png')
+            .create();
+        file.writeAsBytesSync(List<int>.from(image!.toList()));
+        XFile filex = XFile(file.path);
+        Share.shareXFiles([filex]);
+      });
+    } catch (e) {
+      log.e(e.toString());
+    }
 
-    await screenshotControllerShare
-        .capture(
-      pixelRatio: 10,
-    )
-        .then((Uint8List? image) async {
-      var uuid = const Uuid();
-      final tempDir = await getTemporaryDirectory();
-      File file = await File(
-              '${tempDir.path}/${uuid.v5(Uuid.NAMESPACE_URL, 'www.digicard.com')}.png')
-          .create();
-      file.writeAsBytesSync(List<int>.from(image!.toList()));
-      XFile filex = XFile(file.path);
-      Share.shareXFiles([filex]);
-    }).catchError((onError) {});
     setBusyForObject(shareBusyKey, false);
   }
 
   Future downloadWithLogo() async {
-    setBusyForObject(downloadQRBusyKey, true);
-
     dynamic result;
-    Uint8List? image = await screenshotControllerShare.capture(
-      pixelRatio: 10,
-    );
-
-    if (image != null) {
-      if (!kIsWeb) {
-        result = await ImageGallerySaver.saveImage(
-          image,
-          quality: 60,
-          name: "${card.uuid}",
-        );
-      } else {
-        js.context.callMethod("saveAs", <Object>[
-          html.Blob(<Object>[image]),
-          '${card.uuid}.png'
-        ]);
-      }
+    try {
+      await screenshotControllerShare
+          .capture(
+        pixelRatio: 10,
+      )
+          .then((image) async {
+        if (image != null) {
+          if (!kIsWeb) {
+            result = await ImageGallerySaver.saveImage(
+              image,
+              quality: 60,
+              name: "${card.uuid}",
+            );
+          } else {
+            await js.context.callMethod("saveAs", <Object>[
+              html.Blob(<Object>[image]),
+              '${card.uuid}.png'
+            ]);
+            result = {"isSuccess": true};
+          }
+        }
+      });
+    } catch (e) {
+      log.e(e.toString());
     }
 
-    setBusyForObject(downloadQRBusyKey, false);
     if (result["isSuccess"] == true) {
-      await showDoneOverlay();
+      _snackbarService.showCustomSnackBar(
+          duration: const Duration(seconds: 2),
+          message: "QR Code Downloaded",
+          variant: SnackbarType.successful);
     }
   }
 
   Future saveToContacts() async {
-    setBusyForObject(saveToContactsBusyKey, true);
-    await _contactsService.save(card);
-    setBusyForObject(saveToContactsBusyKey, false);
-    await showDoneOverlay();
-  }
+    try {
+      await _contactsService.save(card).then((value) {
+        _snackbarService.showCustomSnackBar(
+            duration: const Duration(seconds: 2),
+            message: "Contact Saved",
+            variant: SnackbarType.successful);
+      });
+    } catch (e) {
+      log.e(e.toString());
+    }
 
 /*   Future downloadWithoutLogo(BuildContext context) async {
     setBusyForObject(downloadQRBusyKey, true);
@@ -236,4 +248,5 @@ class CardSendBottomSheetViewModel extends ReactiveViewModel {
       rethrow;
     }
   } */
+  }
 }

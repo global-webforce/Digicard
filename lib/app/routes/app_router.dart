@@ -42,7 +42,6 @@ class AppRouter extends $AppRouter {
               path: '',
               page: LoginRoute.page,
             ),
-            CustomRoute(path: 'p/:id', page: CardWebRoute.page),
           ],
         ),
         CustomRoute(

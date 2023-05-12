@@ -136,7 +136,7 @@ class ContactsService with ListenableServiceMixin {
           if (kIsWeb) {
             final bytes =
                 utf8.encode(value.toVCard(withPhoto: true, includeDate: true));
-            js.context.callMethod("saveAs", <Object>[
+            await js.context.callMethod("saveAs", <Object>[
               html.Blob(<Object>[bytes]),
               '${card.uuid}.vcf'
             ]);

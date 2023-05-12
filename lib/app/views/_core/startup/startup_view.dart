@@ -82,10 +82,9 @@ class StartupView extends StatelessWidget {
                 navigatorObservers: () => [HeroController()],
                 routes: (handler) {
                   if (!kIsWeb) FlutterNativeSplash.remove();
-                  return [
-                    if (viewModel.isPresent) const DashboardRoute(),
-                    if (!viewModel.isPresent) const AuthRoute(),
-                  ];
+
+                  if (viewModel.isPresent) return [const DashboardRoute()];
+                  return [const AuthRoute()];
                 },
               ),
             ),

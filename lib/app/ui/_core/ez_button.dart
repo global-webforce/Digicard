@@ -46,7 +46,7 @@ class EzButton extends StatelessWidget {
     final defaultButtonColor = MaterialStateProperty.all(
         Theme.of(context).buttonTheme.colorScheme?.primary);
     final defaultDisabledButtonColor = MaterialStateProperty.all(
-        Theme.of(context).buttonTheme.colorScheme?.primary.darken(0.05));
+        Theme.of(context).buttonTheme.colorScheme?.primary.darken(0.2));
 
     final customButtonColor = MaterialStateProperty.all(background);
     final customDisabledButtonColor =

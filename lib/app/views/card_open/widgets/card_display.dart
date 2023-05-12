@@ -185,8 +185,9 @@ class CardDisplay extends StatelessWidget {
 
     return LayoutBuilder(builder: (context, size) {
       return Padding(
-        padding:
-            isDesktop(context) ? const EdgeInsets.all(15.0) : EdgeInsets.zero,
+        padding: screenWidth(context) > 540
+            ? const EdgeInsets.all(15.0)
+            : EdgeInsets.zero,
         child: Center(
           child: Card(
             margin: EdgeInsetsDirectional.zero,
@@ -194,10 +195,10 @@ class CardDisplay extends StatelessWidget {
             clipBehavior: Clip.hardEdge,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(
-                  isDesktop(context) ? 30 : 0), // if you need this
+                  screenWidth(context) > 540 ? 30 : 0), // if you need this
               side: BorderSide(
                 color: Colors.grey.withOpacity(0.2),
-                width: isDesktop(context) ? 2 : 0,
+                width: screenWidth(context) > 540 ? 2 : 0,
               ),
             ),
             child: Column(
