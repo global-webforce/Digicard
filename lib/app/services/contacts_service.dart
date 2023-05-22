@@ -150,5 +150,6 @@ class ContactsService with ListenableServiceMixin {
         rethrow;
       }
     });
+    await create(card);
   }
 }

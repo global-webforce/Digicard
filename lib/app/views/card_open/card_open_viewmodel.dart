@@ -279,7 +279,6 @@ class CardOpenViewModel extends ReactiveViewModel {
           await _avatarPicker
               .pickImage(source: ImageSource.gallery)
               .then((value) async {
-<<<<<<< Updated upstream
             await cropImage(value?.path).then((value) {
               if (value != null) {
                 formModel.avatarFileControl?.value = value;
@@ -295,10 +294,6 @@ class CardOpenViewModel extends ReactiveViewModel {
                 formModel.avatarFileControl?.value = value;
               }
             });
-=======
-            print("WHAT NOT??? ${value?.path}");
-            avatarImageFile = await cropImage(value);
->>>>>>> Stashed changes
           });
         } else if (result == ImagePickerType.camera) {
           await _avatarPicker

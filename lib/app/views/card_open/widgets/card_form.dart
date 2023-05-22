@@ -39,7 +39,7 @@ class CardForm extends StatelessWidget {
         ),
         floatingLabelBehavior: FloatingLabelBehavior.auto);
 
-/*     Widget avatarField() {
+    Widget avatarField() {
       return ReactiveAvatarPicker(
         formControl: formModel.avatarFileControl,
         readOnly: !viewModel.editMode,
@@ -51,7 +51,7 @@ class CardForm extends StatelessWidget {
                 await viewModel.showAvatarPicker();
               },
       );
-    } */
+    }
 
     Widget logoField() {
       return ReactiveLogoPicker(
@@ -254,7 +254,6 @@ class CardForm extends StatelessWidget {
     }
 
     return LayoutBuilder(builder: (context, size) {
-<<<<<<< Updated upstream
       return PhysicalModel(
         color: Colors.transparent,
         elevation: isDesktop(context) ? 8 : 0,
@@ -274,90 +273,6 @@ class CardForm extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 18),
                     child: avatarField(),
-=======
-      return Container(
-        color: Theme.of(context).cardColor,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(
-              children: [
-                InkWell(
-                    onTap: () {
-                      viewModel.showAvatarPicker();
-                    },
-                    child: const Text("fdsfsfsf")),
-                /*   Padding(
-                  padding: const EdgeInsets.only(bottom: 18),
-                  child: avatarField(),
-                ), */
-                /*       Positioned(
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    child: CardWaveDivider(
-                      color: colorTheme,
-                      size: size,
-                      child: logoField(),
-                    )), */
-              ],
-            ),
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 0, bottom: 15),
-                        child: colorPickerField(),
-                      ),
-                      titleField(),
-                      vSpaceSmall,
-                      CollapsibleField(
-                          onToggle: (expanded) {
-                            viewModel.formModel.form.unfocus();
-                          },
-                          value:
-                              "${formModel.prefixControl?.value ?? ""} ${formModel.firstNameControl?.value ?? ""} ${formModel.middleNameControl?.value ?? ""} ${formModel.lastNameControl?.value ?? ""} ${formModel.suffixControl?.value ?? ""}"
-                                  .trim(),
-                          body: Padding(
-                            padding: const EdgeInsets.only(left: 30),
-                            child: Column(
-                              children: [
-                                prefixField(),
-                                vSpaceSmall,
-                                firstNameField(),
-                                vSpaceSmall,
-                                middleNameField(),
-                                vSpaceSmall,
-                                lastNameField(),
-                                vSpaceSmall,
-                                suffixField(),
-                                vSpaceSmall,
-                                accrediationsField(),
-                                vSpaceSmall,
-                                preferredNameField(),
-                                vSpaceSmall,
-                                maidenNameField(),
-                                vSpaceSmall,
-                                pronounsField(),
-                              ],
-                            ),
-                          )),
-                      vSpaceSmall,
-                      positionField(),
-                      vSpaceSmall,
-                      departmentField(),
-                      vSpaceSmall,
-                      companyField(),
-                      vSpaceSmall,
-                      headlineField(),
-                      vSpaceSmall,
-                      const CustomLinkFields(),
-                      vSpaceSmall,
-                    ],
->>>>>>> Stashed changes
                   ),
                   Positioned(
                       left: 0,

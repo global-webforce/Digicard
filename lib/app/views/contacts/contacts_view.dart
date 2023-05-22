@@ -51,8 +51,7 @@ class ContactsView extends StatelessWidget {
                       ? const EmptyDisplay(
                           icon: FontAwesomeIcons.addressBook,
                           title: "You have no contacts yet.")
-                      : RefreshIndicator(
-                          onRefresh: () async {}, child: const AlphabetList()),
+                      : const AlphabetList(),
             );
           });
         });

@@ -28,7 +28,7 @@ class _CollapsibleFieldState extends State<CollapsibleField> {
                   onTap: () {
                     setState(() {
                       expanded = !expanded;
-                      expanded ? animatedHeight = 500 : animatedHeight = 0.0;
+                      expanded ? animatedHeight = 570.0 : animatedHeight = 0.0;
                       widget.onToggle(expanded);
                     });
                   },
