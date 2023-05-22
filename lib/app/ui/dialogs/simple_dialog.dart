@@ -17,7 +17,7 @@ class SimpleDialog extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: SizedBox(
-          width: 600,
+          width: 500,
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(15),
             child: Column(

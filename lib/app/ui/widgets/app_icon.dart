@@ -9,7 +9,6 @@ Widget appIcon() {
       const Icon(
         Icons.qr_code_2_rounded,
         size: 30,
-        color: Colors.white,
       ),
       const SizedBox(
         width: 10,
@@ -20,7 +19,8 @@ Widget appIcon() {
           decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Colors.yellow.shade700,
+                  // Colors.yellow.shade700,
+                  Colors.orange.shade900,
                   Colors.orange.shade900,
                 ],
                 begin: Alignment.topLeft,
@@ -32,7 +32,7 @@ Widget appIcon() {
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
             child: Center(
               child: Text(
-                "PRO",
+                "FREE",
                 style: TextStyle(color: Colors.white),
               ),
             ),

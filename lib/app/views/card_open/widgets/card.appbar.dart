@@ -70,10 +70,11 @@ class CardAppBar extends StatelessWidget with PreferredSizeWidget {
             automaticallyImplyLeading: false,
             elevation: 0,
             backgroundColor: Colors.transparent,
+            surfaceTintColor: Colors.transparent,
             actions: [closeButton()],
           );
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(56);
+  Size get preferredSize => const Size.fromHeight(56.0);
 }

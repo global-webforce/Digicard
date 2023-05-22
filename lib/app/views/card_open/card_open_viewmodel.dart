@@ -7,13 +7,24 @@ import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/services/contacts_service.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:digicard/app/views/custom_link/custom_link_view.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+
 import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../constants/env.dart';
+
+Future<Uint8List> getNetworkImageData(String url) async {
+  final file = await DefaultCacheManager().getSingleFile(url);
+  final bytes = await file.readAsBytes();
+  return Uint8List.fromList(bytes);
+}
 
 enum ActionType {
   view,
@@ -23,9 +34,9 @@ enum ActionType {
   test,
 }
 
-enum ImagePickerType { gallery, camera, remove }
+enum ImagePickerType { gallery, camera, computer, remove }
 
-const String saveBusyKey = 'save-busy-key';
+const String saveBusyKey = 'saveBusyKey';
 const String doneBusyKey = 'doneBusyKey';
 
 class CardOpenViewModel extends ReactiveViewModel {
@@ -54,6 +65,8 @@ class CardOpenViewModel extends ReactiveViewModel {
   @override
   List<ListenableServiceMixin> get listenableServices => [_digitalCardsService];
 
+  late BuildContext context;
+
   bool editMode = false;
   late ActionType actionType;
   late DigitalCard model;
@@ -75,7 +88,7 @@ class CardOpenViewModel extends ReactiveViewModel {
     initForm();
   }
 
-  initForm() {
+  initForm() async {
     _formModel =
         DigitalCardForm(model, DigitalCardForm.formElements(model), null);
     final elements = DigitalCardForm.formElements(model);
@@ -85,11 +98,22 @@ class CardOpenViewModel extends ReactiveViewModel {
       _formModel.form.markAsDisabled();
     }
     _formModel.form.addAll(elements.controls);
+
+    _formModel.avatarFileControl?.value =
+        await getNetworkImageData("$avatarUrlPrefix${model.avatarUrl}");
+
+    _formModel.logoFileControl?.value =
+        await getNetworkImageData("$logoUrlPrefix${model.logoUrl}");
   }
 
   Future saveToContacts(DigitalCard card) async {
-    await runBusyFuture(_contactsService.create(card),
-        throwException: true, busyObject: saveBusyKey);
+    await runBusyFuture(
+        Future.wait([
+          _contactsService.create(card),
+          _contactsService.save(card),
+        ]),
+        throwException: true,
+        busyObject: saveBusyKey);
     setBusyForObject(doneBusyKey, true);
     await Future.delayed(const Duration(seconds: 1));
     setBusyForObject(doneBusyKey, false);
@@ -204,62 +228,88 @@ class CardOpenViewModel extends ReactiveViewModel {
     notifyListeners();
   }
 
-  cropImage(XFile? src) async {
+  Future<Uint8List?> cropImage(String? src) async {
     return await ImageCropper().cropImage(
-      sourcePath: src!.path,
+      sourcePath: src ?? '',
       aspectRatioPresets: [
         CropAspectRatioPreset.square,
       ],
       uiSettings: [
+        WebUiSettings(
+          context: context,
+          presentStyle: CropperPresentStyle.page,
+          enableExif: true,
+          enableZoom: true,
+          showZoomer: true,
+          barrierColor: kcPrimaryColor,
+        ),
         AndroidUiSettings(
-            toolbarTitle: 'Cropper',
-            toolbarColor: kcPrimaryColor,
-            toolbarWidgetColor: Colors.white,
-            initAspectRatio: CropAspectRatioPreset.original,
-            lockAspectRatio: false),
+          toolbarTitle: 'Cropper',
+          toolbarColor: kcPrimaryColor,
+          toolbarWidgetColor: Colors.white,
+          initAspectRatio: CropAspectRatioPreset.square,
+          lockAspectRatio: true,
+        ),
         IOSUiSettings(
           title: 'Cropper',
         ),
       ],
-    ).then((croppedFile) {
-      return XFile(croppedFile!.path);
+    ).then((croppedFile) async {
+      return await croppedFile?.readAsBytes();
     });
   }
 
   final ImagePicker _avatarPicker = ImagePicker();
-  XFile? avatarImageFile;
 
   final ImagePicker _logoPicker = ImagePicker();
-  XFile? _logoImageFile;
 
   showAvatarPicker() async {
     await _bottomSheetService.showCustomSheet(
         data: {
           'assetType': 'avatar',
-          'removeOption': _formModel.avatarUrlControl?.value != null
+          'removeOption': _formModel.avatarUrlControl?.value != null ||
+              _formModel.avatarFileControl?.value != null
         },
         isScrollControlled: false,
         barrierDismissible: true,
         variant: BottomSheetType.imagepicker).then((res) async {
       var result = res?.data;
       if (result is ImagePickerType) {
-        if (result == ImagePickerType.gallery) {
+        if (result == ImagePickerType.computer) {
           await _avatarPicker
               .pickImage(source: ImageSource.gallery)
               .then((value) async {
-            avatarImageFile = await cropImage(value);
+            await cropImage(value?.path).then((value) {
+              if (value != null) {
+                formModel.avatarFileControl?.value = value;
+              }
+            });
+          });
+        } else if (result == ImagePickerType.gallery) {
+          await _avatarPicker
+              .pickImage(source: ImageSource.gallery)
+              .then((value) async {
+            await cropImage(value?.path).then((value) {
+              if (value != null) {
+                formModel.avatarFileControl?.value = value;
+              }
+            });
           });
         } else if (result == ImagePickerType.camera) {
           await _avatarPicker
               .pickImage(source: ImageSource.camera)
               .then((value) async {
-            avatarImageFile = await cropImage(value);
+            await cropImage(value?.path).then((value) {
+              if (value != null) {
+                formModel.avatarFileControl?.value = value;
+              }
+            });
           });
         } else if (result == ImagePickerType.remove) {
-          avatarImageFile = null;
+          formModel.avatarUrlControl?.value = null;
+          formModel.avatarFileControl?.value = null;
         }
 
-        _formModel.avatarUrlControl?.value = avatarImageFile?.path;
         _formModel.form.markAsDirty();
         notifyListeners();
       }
@@ -270,30 +320,48 @@ class CardOpenViewModel extends ReactiveViewModel {
     await _bottomSheetService.showCustomSheet(
         data: {
           'assetType': 'logo',
-          'removeOption': _formModel.logoUrlControl?.value != null
+          'removeOption': _formModel.logoFileControl?.value != null
         },
         isScrollControlled: false,
         barrierDismissible: true,
         variant: BottomSheetType.imagepicker).then((res) async {
       var result = res?.data;
       if (result is ImagePickerType) {
-        if (result == ImagePickerType.gallery) {
+        if (result == ImagePickerType.computer) {
           await _logoPicker
               .pickImage(source: ImageSource.gallery)
               .then((value) async {
-            _logoImageFile = await cropImage(value);
+            await cropImage(value?.path).then((value) {
+              if (value != null) {
+                formModel.logoFileControl?.value = value;
+              }
+            });
+          });
+        } else if (result == ImagePickerType.gallery) {
+          await _logoPicker
+              .pickImage(source: ImageSource.gallery)
+              .then((value) async {
+            await cropImage(value?.path).then((value) {
+              if (value != null) {
+                formModel.logoFileControl?.value = value;
+              }
+            });
           });
         } else if (result == ImagePickerType.camera) {
           await _logoPicker
               .pickImage(source: ImageSource.camera)
               .then((value) async {
-            _logoImageFile = await cropImage(value);
+            await cropImage(value?.path).then((value) {
+              if (value != null) {
+                formModel.logoFileControl?.value = value;
+              }
+            });
           });
         } else if (result == ImagePickerType.remove) {
-          _logoImageFile = null;
+          formModel.logoUrlControl?.value = null;
+          formModel.logoFileControl?.value = null;
         }
 
-        _formModel.logoUrlControl?.value = _logoImageFile?.path;
         _formModel.form.markAsDirty();
         notifyListeners();
       }

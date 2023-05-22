@@ -7,15 +7,20 @@ import '../../app.locator.dart';
 class AuthService {
   final _supabase = Supabase.instance.client;
   final _userService = locator<UserService>();
+  //final navService = locator<NavigationService>();
 
   AuthService() {
     _supabase.auth.onAuthStateChange.listen((event) async {
+      /*      if (event.event.name == "passwordRecovery") {
+        navService.navigateToView(const PasswordResetView());
+      } */
+
       _userService.user = event.session?.user;
       if (event.session != null) {
         final expiresAt = DateTime.fromMillisecondsSinceEpoch(
             event.session!.expiresAt! * 1000);
         if (expiresAt
-            .isBefore(DateTime.now().subtract(const Duration(seconds: 2)))) {
+            .isBefore(DateTime.now().subtract(const Duration(seconds: 180)))) {
           await _supabase.auth.refreshSession();
         }
       }
@@ -77,6 +82,7 @@ class AuthService {
       return await _supabase.auth
           .resetPasswordForEmail(
             formData["email"],
+            redirectTo: 'https://markbulingit.github.io/#/update-password',
           )
           .then((value) {});
     } catch (e) {

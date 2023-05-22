@@ -1,15 +1,16 @@
 // ignore_for_file: implementation_imports
 import 'dart:ui';
+import 'package:auto_route/annotations.dart';
 import 'package:digicard/app/app.locator.dart';
+import 'package:digicard/app/routes/app_router.dart';
 import 'package:digicard/app/ui/_core/ez_button.dart';
-import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/constants/dimensions.dart';
-import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:digicard/app/views/_core/login/login_view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
+@RoutePage()
 class WelcomeView extends StatefulWidget {
   const WelcomeView({Key? key}) : super(key: key);
 
@@ -90,10 +91,10 @@ class _WelcomeViewState extends State<WelcomeView> {
                       EzButton.elevated(
                         title: "CREATE MY CARDS",
                         onTap: () {
-                          locator<AppRoute>().pushWidget(const LoginView());
+                          locator<AppRouter>().pushWidget(const LoginView());
                         },
                       ),
-                      vSpaceRegular,
+                      /*        vSpaceRegular,
                       TextButton(
                         onPressed: () {},
                         child: const Text(
@@ -101,9 +102,9 @@ class _WelcomeViewState extends State<WelcomeView> {
                           textAlign: TextAlign.center,
                           style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
-                      ),
+                      ), */
                       const SizedBox(
-                        height: 15,
+                        height: 30,
                       ),
                     ],
                   ),

@@ -6,6 +6,12 @@ import 'package:stacked_services/stacked_services.dart';
 class ImagePickerBottomSheetViewModel extends ReactiveViewModel {
   final _bottomSheetService = locator<BottomSheetService>();
 
+  pickFromComputer() {
+    _bottomSheetService.completeSheet(
+      SheetResponse(data: ImagePickerType.computer),
+    );
+  }
+
   pickFromGallery() {
     _bottomSheetService.completeSheet(
       SheetResponse(data: ImagePickerType.gallery),

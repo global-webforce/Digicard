@@ -1,7 +1,7 @@
 import 'package:digicard/app/app.locator.dart';
-import 'package:digicard/app/ui/bottom_sheets/card_send_bottom_sheet.dart';
-import 'package:digicard/app/ui/bottom_sheets/card_tools_bottom_sheet.dart';
-import 'package:digicard/app/ui/bottom_sheets/image_picker_bottom_sheet.dart';
+import 'package:digicard/app/ui/bottom_sheets/bs.card_send.dart';
+import 'package:digicard/app/ui/bottom_sheets/bs.card_tools.dart';
+import 'package:digicard/app/ui/bottom_sheets/bs.image_picker.dart';
 
 import 'package:stacked_services/stacked_services.dart';
 

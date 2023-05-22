@@ -50,6 +50,12 @@ mixin _$DigitalCard {
   String? get logoUrl => throw _privateConstructorUsedError;
   @FormControlAnnotation<String>()
   String? get avatarUrl => throw _privateConstructorUsedError;
+  @Uint8ListConverter()
+  @FormControlAnnotation<Uint8List>()
+  Uint8List? get avatarFile => throw _privateConstructorUsedError;
+  @Uint8ListConverter()
+  @FormControlAnnotation<Uint8List>()
+  Uint8List? get logoFile => throw _privateConstructorUsedError;
   @FormControlAnnotation<int>()
   int? get color => throw _privateConstructorUsedError;
   @FormControlAnnotation<String>()
@@ -108,6 +114,12 @@ abstract class $DigitalCardCopyWith<$Res> {
           String? logoUrl,
       @FormControlAnnotation<String>()
           String? avatarUrl,
+      @Uint8ListConverter()
+      @FormControlAnnotation<Uint8List>()
+          Uint8List? avatarFile,
+      @Uint8ListConverter()
+      @FormControlAnnotation<Uint8List>()
+          Uint8List? logoFile,
       @FormControlAnnotation<int>()
           int? color,
       @FormControlAnnotation<String>()
@@ -152,6 +164,8 @@ class _$DigitalCardCopyWithImpl<$Res, $Val extends DigitalCard>
     Object? pronouns = freezed,
     Object? logoUrl = freezed,
     Object? avatarUrl = freezed,
+    Object? avatarFile = freezed,
+    Object? logoFile = freezed,
     Object? color = freezed,
     Object? position = freezed,
     Object? department = freezed,
@@ -222,6 +236,14 @@ class _$DigitalCardCopyWithImpl<$Res, $Val extends DigitalCard>
           ? _value.avatarUrl
           : avatarUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      avatarFile: freezed == avatarFile
+          ? _value.avatarFile
+          : avatarFile // ignore: cast_nullable_to_non_nullable
+              as Uint8List?,
+      logoFile: freezed == logoFile
+          ? _value.logoFile
+          : logoFile // ignore: cast_nullable_to_non_nullable
+              as Uint8List?,
       color: freezed == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
@@ -297,6 +319,12 @@ abstract class _$$_DigitalCardCopyWith<$Res>
           String? logoUrl,
       @FormControlAnnotation<String>()
           String? avatarUrl,
+      @Uint8ListConverter()
+      @FormControlAnnotation<Uint8List>()
+          Uint8List? avatarFile,
+      @Uint8ListConverter()
+      @FormControlAnnotation<Uint8List>()
+          Uint8List? logoFile,
       @FormControlAnnotation<int>()
           int? color,
       @FormControlAnnotation<String>()
@@ -339,6 +367,8 @@ class __$$_DigitalCardCopyWithImpl<$Res>
     Object? pronouns = freezed,
     Object? logoUrl = freezed,
     Object? avatarUrl = freezed,
+    Object? avatarFile = freezed,
+    Object? logoFile = freezed,
     Object? color = freezed,
     Object? position = freezed,
     Object? department = freezed,
@@ -409,6 +439,14 @@ class __$$_DigitalCardCopyWithImpl<$Res>
           ? _value.avatarUrl
           : avatarUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      avatarFile: freezed == avatarFile
+          ? _value.avatarFile
+          : avatarFile // ignore: cast_nullable_to_non_nullable
+              as Uint8List?,
+      logoFile: freezed == logoFile
+          ? _value.logoFile
+          : logoFile // ignore: cast_nullable_to_non_nullable
+              as Uint8List?,
       color: freezed == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
@@ -480,6 +518,12 @@ class _$_DigitalCard implements _DigitalCard {
           this.logoUrl,
       @FormControlAnnotation<String>()
           this.avatarUrl,
+      @Uint8ListConverter()
+      @FormControlAnnotation<Uint8List>()
+          this.avatarFile,
+      @Uint8ListConverter()
+      @FormControlAnnotation<Uint8List>()
+          this.logoFile,
       @FormControlAnnotation<int>()
           this.color = kcPrimaryColorInt,
       @FormControlAnnotation<String>()
@@ -546,6 +590,14 @@ class _$_DigitalCard implements _DigitalCard {
   @FormControlAnnotation<String>()
   final String? avatarUrl;
   @override
+  @Uint8ListConverter()
+  @FormControlAnnotation<Uint8List>()
+  final Uint8List? avatarFile;
+  @override
+  @Uint8ListConverter()
+  @FormControlAnnotation<Uint8List>()
+  final Uint8List? logoFile;
+  @override
   @JsonKey()
   @FormControlAnnotation<int>()
   final int? color;
@@ -578,7 +630,7 @@ class _$_DigitalCard implements _DigitalCard {
 
   @override
   String toString() {
-    return 'DigitalCard(id: $id, userId: $userId, uuid: $uuid, title: $title, prefix: $prefix, firstName: $firstName, middleName: $middleName, lastName: $lastName, suffix: $suffix, accreditations: $accreditations, preferredName: $preferredName, maidenName: $maidenName, pronouns: $pronouns, logoUrl: $logoUrl, avatarUrl: $avatarUrl, color: $color, position: $position, department: $department, company: $company, headline: $headline, customLinks: $customLinks, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'DigitalCard(id: $id, userId: $userId, uuid: $uuid, title: $title, prefix: $prefix, firstName: $firstName, middleName: $middleName, lastName: $lastName, suffix: $suffix, accreditations: $accreditations, preferredName: $preferredName, maidenName: $maidenName, pronouns: $pronouns, logoUrl: $logoUrl, avatarUrl: $avatarUrl, avatarFile: $avatarFile, logoFile: $logoFile, color: $color, position: $position, department: $department, company: $company, headline: $headline, customLinks: $customLinks, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -609,6 +661,9 @@ class _$_DigitalCard implements _DigitalCard {
             (identical(other.logoUrl, logoUrl) || other.logoUrl == logoUrl) &&
             (identical(other.avatarUrl, avatarUrl) ||
                 other.avatarUrl == avatarUrl) &&
+            const DeepCollectionEquality()
+                .equals(other.avatarFile, avatarFile) &&
+            const DeepCollectionEquality().equals(other.logoFile, logoFile) &&
             (identical(other.color, color) || other.color == color) &&
             (identical(other.position, position) ||
                 other.position == position) &&
@@ -644,6 +699,8 @@ class _$_DigitalCard implements _DigitalCard {
         pronouns,
         logoUrl,
         avatarUrl,
+        const DeepCollectionEquality().hash(avatarFile),
+        const DeepCollectionEquality().hash(logoFile),
         color,
         position,
         department,
@@ -700,6 +757,12 @@ abstract class _DigitalCard implements DigitalCard {
           final String? logoUrl,
       @FormControlAnnotation<String>()
           final String? avatarUrl,
+      @Uint8ListConverter()
+      @FormControlAnnotation<Uint8List>()
+          final Uint8List? avatarFile,
+      @Uint8ListConverter()
+      @FormControlAnnotation<Uint8List>()
+          final Uint8List? logoFile,
       @FormControlAnnotation<int>()
           final int? color,
       @FormControlAnnotation<String>()
@@ -763,6 +826,14 @@ abstract class _DigitalCard implements DigitalCard {
   @override
   @FormControlAnnotation<String>()
   String? get avatarUrl;
+  @override
+  @Uint8ListConverter()
+  @FormControlAnnotation<Uint8List>()
+  Uint8List? get avatarFile;
+  @override
+  @Uint8ListConverter()
+  @FormControlAnnotation<Uint8List>()
+  Uint8List? get logoFile;
   @override
   @FormControlAnnotation<int>()
   int? get color;

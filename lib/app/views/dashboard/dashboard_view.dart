@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/annotations.dart';
 import 'package:digicard/app/helper/screen_size.dart';
 import 'package:digicard/app/ui/_core/dashboard/ez_appbar.dart';
 import 'package:digicard/app/ui/_core/dashboard/ez_bottom_navbar.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:stacked/stacked.dart';
 
+@RoutePage()
 class DashboardView extends StatelessWidget {
   const DashboardView({Key? key}) : super(key: key);
 

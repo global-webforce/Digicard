@@ -21,26 +21,17 @@ class IconListItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 5.0),
       child: border
-          ? Container(
-              /*   margin: const EdgeInsets.only(left: 25),
-              padding: const EdgeInsets.only(left: 28),
-              decoration: const BoxDecoration(
-                border: Border(
-                  left: BorderSide(width: 2.0, color: Colors.white),
-                ),
-              ), */
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Text(
-                      "$text",
-                      style: textStyle,
-                    ),
-                  )
-                ],
-              ),
+          ? Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Text(
+                    "$text",
+                    style: textStyle,
+                  ),
+                )
+              ],
             )
           : Row(
               crossAxisAlignment: CrossAxisAlignment.center,

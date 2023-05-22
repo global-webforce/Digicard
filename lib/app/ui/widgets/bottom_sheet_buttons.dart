@@ -64,12 +64,14 @@ class MinButtons extends StatelessWidget {
   final String title;
   final Function()? onTap;
   final Color? color;
+  final Widget? trailing;
   const MinButtons({
     Key? key,
     required this.icon,
     required this.title,
     required this.onTap,
     this.color = Colors.blue,
+    this.trailing,
   }) : super(key: key);
 
   @override
@@ -91,13 +93,17 @@ class MinButtons extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 icon,
                 const SizedBox(width: 10),
-                Text(
-                  title,
-                  style: caption,
-                )
+                Expanded(
+                  child: Text(
+                    title,
+                    style: caption,
+                  ),
+                ),
+                trailing ?? const SizedBox.shrink(),
               ],
             ),
           ),

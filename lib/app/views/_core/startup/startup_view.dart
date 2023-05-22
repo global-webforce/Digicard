@@ -1,3 +1,5 @@
+import 'package:digicard/app/app.locator.dart';
+import 'package:digicard/app/routes/app_router.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/views/_core/startup/startup_viewmodel.dart';
@@ -19,16 +21,7 @@ class StartupView extends StatelessWidget {
         onViewModelReady: (viewModel) async {},
         onDispose: (viewModel) {},
         builder: (context, viewModel, child) {
-          final r = viewModel.appRouter.declarativeDelegate(
-            navigatorObservers: () => [HeroController()],
-            routes: (handler) {
-              if (!kIsWeb) FlutterNativeSplash.remove();
-              return [
-                if (viewModel.isPresent) const DashboardRoute(),
-                if (!viewModel.isPresent) const WelcomeRoute(),
-              ];
-            },
-          );
+          final appRouter = locator<AppRouter>();
 
           return GlobalLoaderOverlay(
             duration: const Duration(milliseconds: 250),
@@ -66,6 +59,8 @@ class StartupView extends StatelessWidget {
                   ), */
 
                 brightness: Brightness.dark,
+                bottomSheetTheme: const BottomSheetThemeData(
+                    elevation: 0, backgroundColor: Colors.transparent),
                 elevatedButtonTheme: ElevatedButtonThemeData(
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
@@ -82,8 +77,16 @@ class StartupView extends StatelessWidget {
               ),
               scrollBehavior: MyCustomScrollBehavior(),
               debugShowCheckedModeBanner: false,
-              routeInformationParser: viewModel.appRouter.defaultRouteParser(),
-              routerDelegate: r,
+              routeInformationParser: appRouter.defaultRouteParser(),
+              routerDelegate: appRouter.declarativeDelegate(
+                navigatorObservers: () => [HeroController()],
+                routes: (handler) {
+                  if (!kIsWeb) FlutterNativeSplash.remove();
+
+                  if (viewModel.isPresent) return [const DashboardRoute()];
+                  return [const AuthRoute()];
+                },
+              ),
             ),
           );
         });

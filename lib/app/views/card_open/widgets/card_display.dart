@@ -1,15 +1,20 @@
+import 'dart:ui';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:digicard/app/constants/colors.dart';
+import 'package:digicard/app/constants/env.dart';
+import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/extensions/digital_card_extension.dart';
 import 'package:digicard/app/extensions/string_extension.dart';
+import 'package:digicard/app/helper/screen_size.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
-import 'package:digicard/app/views/card_open/widgets/card.avatar_picker.dart';
 import 'package:digicard/app/views/card_open/widgets/card.custom_links.display.dart';
-import 'package:digicard/app/views/card_open/widgets/card.logo_picker.dart';
-import 'package:digicard/app/views/card_open/widgets/card.wave_divider.dart';
 import 'package:digicard/app/views/card_open/widgets/icon_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+
+import 'card.wave_divider.dart';
 
 class CardDisplay extends StatelessWidget {
   const CardDisplay({Key? key}) : super(key: key);
@@ -25,19 +30,81 @@ class CardDisplay extends StatelessWidget {
         Color(formModel.colorControl?.value ?? kcPrimaryColorInt);
 
     Widget avatarField() {
-      return ReactiveAvatarPicker(
-        formControl: formModel.avatarUrlControl,
-        readOnly: true,
-        onTap: null,
-        backgroundColor: colorTheme,
+      return CachedNetworkImage(
+        imageUrl: "$avatarUrlPrefix${formModel.avatarUrlControl?.value}",
+        imageBuilder: (context, imageProvider) {
+          return ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxHeight: 450,
+              minWidth: double.infinity,
+            ),
+            child: AspectRatio(
+              aspectRatio: 1 / 1,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: colorTheme.darken(0.2),
+                  image:
+                      DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                ),
+                child: ClipRRect(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: imageProvider, fit: BoxFit.contain),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+        placeholder: (context, url) {
+          return ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxHeight: 450,
+              minWidth: double.infinity,
+            ),
+            child: AspectRatio(
+              aspectRatio: 1 / 1,
+              child: Container(
+                decoration: BoxDecoration(color: colorTheme.darken(0.2)),
+              ),
+            ),
+          );
+        },
+        errorWidget: (context, url, error) {
+          return Container(
+            height: 130,
+            decoration: BoxDecoration(color: colorTheme.darken(0.2)),
+          );
+        },
       );
     }
 
     Widget logoField() {
-      return ReactiveLogoPicker(
-        formControl: formModel.logoUrlControl,
-        readOnly: true,
-        backgroundColor: colorTheme,
+      return CachedNetworkImage(
+        imageUrl: "$logoUrlPrefix${formModel.logoUrlControl?.value}",
+        imageBuilder: (context, imageProvider) {
+          return AspectRatio(
+            aspectRatio: 1 / 1,
+            child: ClipRRect(
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+        errorWidget: (context, url, error) {
+          return const SizedBox.shrink();
+        },
       );
     }
 
@@ -118,71 +185,69 @@ class CardDisplay extends StatelessWidget {
 
     return LayoutBuilder(builder: (context, size) {
       return Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: screenWidth(context) > 540
+            ? const EdgeInsets.all(15.0)
+            : EdgeInsets.zero,
         child: Center(
-          child: PhysicalModel(
-            color: Colors.transparent,
-            elevation: 8,
-            shadowColor: Colors.black,
-            borderRadius: BorderRadius.circular(30),
-            child: Card(
-              margin: EdgeInsetsDirectional.zero,
-              elevation: 0,
-              clipBehavior: Clip.hardEdge,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30), // if you need this
-                side: BorderSide(
-                  color: Colors.grey.withOpacity(0.2),
-                  width: 2,
+          child: Card(
+            margin: EdgeInsetsDirectional.zero,
+            elevation: 0,
+            clipBehavior: Clip.hardEdge,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(
+                  screenWidth(context) > 540 ? 30 : 0), // if you need this
+              side: BorderSide(
+                color: Colors.grey.withOpacity(0.2),
+                width: screenWidth(context) > 540 ? 2 : 0,
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 18),
+                      child: avatarField(),
+                    ),
+                    Positioned(
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        child: CardWaveDivider(
+                          context,
+                          color: colorTheme,
+                          size: size,
+                          child: logoField(),
+                        )),
+                  ],
                 ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 18),
-                        child: avatarField(),
-                      ),
-                      Positioned(
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          child: CardWaveDivider(context,
-                              color: colorTheme,
-                              size: size,
-                              child: const SizedBox.shrink() //logoField(),
-                              )),
-                    ],
+                ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    minHeight: 450,
                   ),
-                  ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      minHeight: 450,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          fullNameField(),
-                          positionField(),
-                          departmentField(),
-                          companyField(),
-                          headlineField(),
-                          pronounsField(),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 8.0),
-                            child: CustomLinkDisplay(),
-                          ),
-                        ],
-                      ),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        fullNameField(),
+                        positionField(),
+                        departmentField(),
+                        companyField(),
+                        headlineField(),
+                        pronounsField(),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 8.0),
+                          child: CustomLinkDisplay(),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

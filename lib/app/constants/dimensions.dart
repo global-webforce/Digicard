@@ -4,6 +4,16 @@ import 'package:flutter/material.dart';
 class Dimens {
   Dimens._();
 
+  static computedWidth(
+      {required BoxConstraints screenSize,
+      required double targetWidth,
+      double hPadding = 0.0,
+      double vPadding = 0.0}) {
+    final width = (screenSize.maxWidth - targetWidth) / 2;
+    return EdgeInsets.symmetric(
+        vertical: vPadding, horizontal: width > 0 ? width : hPadding);
+  }
+
   static EdgeInsets sliverHeaderPadding(BoxConstraints constraints) {
     final double padding = max((constraints.maxWidth - 1000) / 2, 0) > 15
         ? max((constraints.maxWidth - 1000) / 2, 0)

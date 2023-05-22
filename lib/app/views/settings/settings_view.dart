@@ -5,18 +5,6 @@ import 'package:digicard/app/views/settings/settings_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-class SettingsAppBar extends StatelessWidget with PreferredSizeWidget {
-  const SettingsAppBar({super.key});
-  @override
-  Size get preferredSize => const Size.fromHeight(56);
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      title: const Text("SETTINGS"),
-    );
-  }
-}
-
 class SettingsView extends StatelessWidget {
   const SettingsView({Key? key}) : super(key: key);
 
@@ -33,7 +21,9 @@ class SettingsView extends StatelessWidget {
           }, builder: (context, child) {
             return Scaffold(
                 drawer: child.drawer,
-                appBar: const SettingsAppBar(),
+                appBar: AppBar(
+                  title: const Text("SETTINGS"),
+                ),
                 bottomNavigationBar: child.bottomNavBar,
                 body: SingleChildScrollView(
                   child: Column(

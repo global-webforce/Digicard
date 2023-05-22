@@ -1,9 +1,8 @@
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/constants/colors.dart';
-import 'package:digicard/app/ui/overlays/custom_overlay.dart';
+import 'package:digicard/app/ui/overlays/loader_overlay_wrapper.dart';
 import 'package:digicard/app/views/scan_qr_code/scan_viewmodel.dart';
 import 'package:flutter/material.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import 'package:stacked/stacked.dart';
@@ -20,36 +19,32 @@ class ScanQRCodeView extends StatelessWidget {
           viewModel.controller?.dispose();
         },
         builder: (context, viewModel, child) {
-          if (viewModel.busy(loadingCardBusyKey)) {
-            context.loaderOverlay.show(
-                widget: const CustomOverlay(
-              title: "Loading...",
-              color: kcPrimaryColor,
-            ));
-          } else {
-            context.loaderOverlay.hide();
-          }
-          return Scaffold(
-            extendBodyBehindAppBar: true,
-            appBar: AppBar(
-              leading: const BackButton(),
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              automaticallyImplyLeading: true,
-            ),
-            body: QRView(
-              key: viewModel.qrKey,
-              onQRViewCreated: (c) {
-                viewModel.onQRViewCreated(c);
-              },
-              overlay: QrScannerOverlayShape(
-                  borderColor: kcPrimaryColor,
-                  borderRadius: 10,
-                  borderLength: 30,
-                  borderWidth: 10,
-                  cutOutSize: 200),
-            ),
-          );
+          return LoaderOverlayWrapper(
+              type:
+                  viewModel.busy(loadingCardBusyKey) ? LoadingType.basic : null,
+              builder: (context) {
+                return Scaffold(
+                  extendBodyBehindAppBar: true,
+                  appBar: AppBar(
+                    leading: const BackButton(),
+                    elevation: 0,
+                    backgroundColor: Colors.transparent,
+                    automaticallyImplyLeading: true,
+                  ),
+                  body: QRView(
+                    key: viewModel.qrKey,
+                    onQRViewCreated: (c) {
+                      viewModel.onQRViewCreated(c);
+                    },
+                    overlay: QrScannerOverlayShape(
+                        borderColor: kcPrimaryColor,
+                        borderRadius: 10,
+                        borderLength: 30,
+                        borderWidth: 10,
+                        cutOutSize: 200),
+                  ),
+                );
+              });
         });
   }
 }
