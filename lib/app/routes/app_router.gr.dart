@@ -11,8 +11,8 @@
 import 'package:auto_route/auto_route.dart' as _i7;
 import 'package:digicard/app/routes/app_router.dart' as _i1;
 import 'package:digicard/app/views/_core/login/login_view.dart' as _i4;
-import 'package:digicard/app/views/_core/login/password_reset_view.dart' as _i6;
-import 'package:digicard/app/views/_core/welcome/welcome_view.dart' as _i5;
+import 'package:digicard/app/views/_core/login/password_reset_view.dart' as _i5;
+import 'package:digicard/app/views/_core/welcome/welcome_view.dart' as _i6;
 import 'package:digicard/app/views/card_open/card_open_view_web.dart' as _i2;
 import 'package:digicard/app/views/dashboard/dashboard_view.dart' as _i3;
 import 'package:flutter/material.dart' as _i8;
@@ -52,16 +52,16 @@ abstract class $AppRouter extends _i7.RootStackRouter {
         child: const _i4.LoginView(),
       );
     },
-    WelcomeRoute.name: (routeData) {
-      return _i7.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i5.WelcomeView(),
-      );
-    },
     PasswordResetRoute.name: (routeData) {
       return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i6.PasswordResetView(),
+        child: const _i5.PasswordResetView(),
+      );
+    },
+    WelcomeRoute.name: (routeData) {
+      return _i7.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i6.WelcomeView(),
       );
     },
   };
@@ -149,21 +149,7 @@ class LoginRoute extends _i7.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i5.WelcomeView]
-class WelcomeRoute extends _i7.PageRouteInfo<void> {
-  const WelcomeRoute({List<_i7.PageRouteInfo>? children})
-      : super(
-          WelcomeRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'WelcomeRoute';
-
-  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
-}
-
-/// generated route for
-/// [_i6.PasswordResetView]
+/// [_i5.PasswordResetView]
 class PasswordResetRoute extends _i7.PageRouteInfo<void> {
   const PasswordResetRoute({List<_i7.PageRouteInfo>? children})
       : super(
@@ -172,6 +158,20 @@ class PasswordResetRoute extends _i7.PageRouteInfo<void> {
         );
 
   static const String name = 'PasswordResetRoute';
+
+  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i6.WelcomeView]
+class WelcomeRoute extends _i7.PageRouteInfo<void> {
+  const WelcomeRoute({List<_i7.PageRouteInfo>? children})
+      : super(
+          WelcomeRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'WelcomeRoute';
 
   static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
 }
