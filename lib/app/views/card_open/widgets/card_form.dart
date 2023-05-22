@@ -4,7 +4,6 @@ import 'package:digicard/app/helper/screen_size.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
-import 'package:digicard/app/views/card_open/widgets/card.avatar_picker.dart';
 import 'package:digicard/app/views/card_open/widgets/card.custom_links.fields.dart';
 import 'package:digicard/app/views/card_open/widgets/card.custom_links.options.dart';
 import 'package:digicard/app/views/card_open/widgets/collapsible_field.dart';
@@ -13,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 import 'package:stacked/stacked.dart';
 
+import 'card.avatar_picker.dart';
 import 'card.logo_picker.dart';
 import 'card.wave_divider.dart';
 
