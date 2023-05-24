@@ -127,14 +127,15 @@ class AlphabetList extends StatelessWidget {
                               children: [
                                 Text(
                                   "${card.firstName ?? ""} ${card.lastName ?? ""}",
-                                  style: const TextStyle(fontSize: 17),
+                                  maxLines: 1,
+                                  style: const TextStyle(fontSize: 16),
                                 ),
                                 Text(
                                   "${card.position ?? ''} ${card.company != null ? '@ ${card.company}' : ''}"
                                       .trim(),
-                                  maxLines: 2,
+                                  maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(),
+                                  style: const TextStyle(fontSize: 14),
                                 ),
                               ],
                             ),
