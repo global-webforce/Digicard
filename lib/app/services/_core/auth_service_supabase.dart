@@ -99,5 +99,6 @@ class AuthService {
 
   Future<void> logOut() async {
     await _supabase.auth.signOut();
+    _userService.user = null;
   }
 }

@@ -54,6 +54,7 @@ class HomeView extends StatelessWidget {
                 drawer: child.drawer,
                 bottomNavigationBar: child.bottomNavBar,
                 appBar: AppBar(
+                  automaticallyImplyLeading: false,
                   title: isDesktop(context) ? null : appIcon(),
                 ),
                 floatingActionButton: const HomeFloatingActionButton(),

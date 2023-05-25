@@ -12,7 +12,7 @@ class UserService with ListenableServiceMixin {
   User? get user => _user.value ?? _supabase.auth.currentUser;
 
   String? get id => _user.value?.id;
-  set user(final value) {
+  set user(value) {
     _user.value = value;
     notifyListeners();
   }

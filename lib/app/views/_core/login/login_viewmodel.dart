@@ -1,6 +1,8 @@
 import 'package:digicard/app/app.dialog_ui.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/app.logger.dart';
+import 'package:digicard/app/routes/app_router.dart';
+import 'package:digicard/app/routes/app_router.gr.dart';
 
 import 'package:digicard/app/services/_core/auth_service_supabase.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +17,7 @@ const String updateProfile = 'updateProfile-busy-key';
 class LoginViewModel extends ReactiveViewModel {
   final log = getLogger('LoginViewModel');
   final _dialogService = locator<DialogService>();
+  final appRouter = locator<AppRouter>();
   final _authService = locator<AuthService>();
 
   @override
@@ -59,7 +62,10 @@ class LoginViewModel extends ReactiveViewModel {
 
   Future login() async {
     if (!form.hasErrors) {
-      await runBusyFuture(_authService.login(form.value), throwException: true);
+      await runBusyFuture(_authService.login(form.value), throwException: true)
+          .then((value) {
+        appRouter.replace(const DashboardRoute());
+      });
 
       form.reset();
     }

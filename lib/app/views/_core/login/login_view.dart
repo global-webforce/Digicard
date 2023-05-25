@@ -1,4 +1,7 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:digicard/app/app.locator.dart';
+import 'package:digicard/app/routes/app_router.dart';
 import 'package:digicard/app/ui/_core/ez_button.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/constants/colors.dart';
@@ -11,6 +14,8 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 import 'package:stacked/stacked.dart';
+
+import '../../../routes/app_router.gr.dart';
 
 @RoutePage()
 class LoginView extends StatelessWidget {
@@ -32,7 +37,11 @@ class LoginView extends StatelessWidget {
             FocusScopeNode currentFocus = FocusScope.of(context);
             return Scaffold(
               appBar: AppBar(
-                leading: const BackButton(),
+                leading: BackButton(
+                  onPressed: () {
+                    locator<AppRouter>().navigate(const WelcomeRoute());
+                  },
+                ),
                 actions: [
                   if (isKeyboardVisible)
                     TextButton(

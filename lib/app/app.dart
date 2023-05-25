@@ -1,3 +1,4 @@
+import 'package:digicard/app/routes/app_router.dart';
 import 'package:digicard/app/services/_core/auth_service_supabase.dart';
 import 'package:digicard/app/services/_core/user_service.dart';
 import 'package:digicard/app/services/contacts_service.dart';
@@ -31,6 +32,7 @@ import 'views/custom_link/custom_link_view_model.dart';
       classType: ThemeService,
       resolveUsing: ThemeService.getInstance,
     ),
+    Singleton(classType: AppRouter),
     LazySingleton(classType: DialogService),
     LazySingleton(classType: SnackbarService),
     LazySingleton(classType: BottomSheetService),

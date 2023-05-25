@@ -28,6 +28,12 @@ abstract class $AppRouter extends _i7.RootStackRouter {
         child: const _i1.AuthView(),
       );
     },
+    RootRouter.name: (routeData) {
+      return _i7.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i1.RootView(),
+      );
+    },
     CardWebRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
       final args = routeData.argsAs<CardWebRouteArgs>(
@@ -77,6 +83,20 @@ class AuthRoute extends _i7.PageRouteInfo<void> {
         );
 
   static const String name = 'AuthRoute';
+
+  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i1.RootView]
+class RootRouter extends _i7.PageRouteInfo<void> {
+  const RootRouter({List<_i7.PageRouteInfo>? children})
+      : super(
+          RootRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'RootRouter';
 
   static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
 }

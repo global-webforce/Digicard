@@ -23,6 +23,7 @@ class ContactsView extends StatelessWidget {
           }, builder: (context, child) {
             return Scaffold(
               appBar: AppBar(
+                automaticallyImplyLeading: false,
                 title: const Text("CONTACTS"),
                 actions: [
                   IconButton(

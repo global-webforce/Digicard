@@ -13,6 +13,7 @@ import 'package:stacked_services/src/snackbar/snackbar_service.dart';
 import 'package:stacked_shared/stacked_shared.dart';
 import 'package:stacked_themes/src/theme_service.dart';
 
+import 'routes/app_router.dart';
 import 'services/_core/auth_service_supabase.dart';
 import 'services/_core/local_storage_service.dart';
 import 'services/_core/user_service.dart';
@@ -45,6 +46,7 @@ Future<void> setupLocator({
   locator.registerSingleton(localStorageService);
 
   locator.registerLazySingleton(() => ThemeService.getInstance());
+  locator.registerSingleton(AppRouter());
   locator.registerLazySingleton(() => DialogService());
   locator.registerLazySingleton(() => SnackbarService());
   locator.registerLazySingleton(() => BottomSheetService());

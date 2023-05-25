@@ -3,9 +3,9 @@ import 'dart:ui';
 import 'package:auto_route/annotations.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/routes/app_router.dart';
+import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:digicard/app/ui/_core/ez_button.dart';
 import 'package:digicard/app/constants/dimensions.dart';
-import 'package:digicard/app/views/_core/login/login_view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -91,7 +91,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                       EzButton.elevated(
                         title: "CREATE MY CARDS",
                         onTap: () {
-                          locator<AppRouter>().pushWidget(const LoginView());
+                          locator<AppRouter>().navigate(const LoginRoute());
                         },
                       ),
                       /*        vSpaceRegular,

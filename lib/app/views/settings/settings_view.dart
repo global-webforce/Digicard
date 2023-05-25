@@ -22,6 +22,7 @@ class SettingsView extends StatelessWidget {
             return Scaffold(
                 drawer: child.drawer,
                 appBar: AppBar(
+                  automaticallyImplyLeading: false,
                   title: const Text("SETTINGS"),
                 ),
                 bottomNavigationBar: child.bottomNavBar,
