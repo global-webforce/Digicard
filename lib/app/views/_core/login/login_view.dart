@@ -66,7 +66,9 @@ class LoginView extends StatelessWidget {
                               formGroup: viewModel.form,
                               child: LoginForm(
                                 onSuccessfulLogin: (val) {
-                                  onSuccessfulLogin!(true);
+                                  (onSuccessfulLogin != null)
+                                      ? onSuccessfulLogin!(true)
+                                      : null;
                                 },
                               )),
                         ),
@@ -162,9 +164,10 @@ class LoginForm extends StatelessWidget {
               currentFocus.unfocus();
             }
             viewModel.action == ActionType.login
-                ? await viewModel
-                    .login()
-                    .then((value) => onSuccessfulLogin!(true))
+                ? await viewModel.login().then((value) =>
+                    (onSuccessfulLogin != null)
+                        ? onSuccessfulLogin!(true)
+                        : null)
                 : await viewModel.register();
           },
         );

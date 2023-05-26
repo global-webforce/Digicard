@@ -51,7 +51,7 @@ class _DashboardBuilderState extends State<DashboardBuilder> {
     Timer.run(() {
       final viewModel =
           getParentViewModel<DashboardViewModel>(context, listen: false);
-      widget.onReady!(viewModel);
+      (widget.onReady != null) ? widget.onReady!(viewModel) : null;
     });
   }
 
