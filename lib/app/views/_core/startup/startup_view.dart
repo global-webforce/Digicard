@@ -4,7 +4,9 @@ import 'package:digicard/app/routes/app_router.dart';
 import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:digicard/app/views/_core/startup/startup_viewmodel.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -83,8 +85,10 @@ class StartupView extends StatelessWidget {
               scrollBehavior: MyCustomScrollBehavior(),
               debugShowCheckedModeBanner: false,
               routerConfig: appRouter.config(
+                  includePrefixMatches: true,
                   rebuildStackOnDeepLink: true,
                   deepLinkBuilder: (deepLink) {
+                    if (!kIsWeb) FlutterNativeSplash.remove();
                     if (deepLink.path.startsWith('/p/')) {
                       // continute with the platfrom link
                       return DeepLink.path(deepLink.path);

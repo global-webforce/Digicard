@@ -28,7 +28,7 @@ abstract class $AppRouter extends _i7.RootStackRouter {
         child: const _i1.AuthView(),
       );
     },
-    RootRouter.name: (routeData) {
+    RootRoute.name: (routeData) {
       return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i1.RootView(),
@@ -53,9 +53,14 @@ abstract class $AppRouter extends _i7.RootStackRouter {
       );
     },
     LoginRoute.name: (routeData) {
+      final args = routeData.argsAs<LoginRouteArgs>(
+          orElse: () => const LoginRouteArgs());
       return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i4.LoginView(),
+        child: _i4.LoginView(
+          key: args.key,
+          onSuccessfulLogin: args.onSuccessfulLogin,
+        ),
       );
     },
     PasswordResetRoute.name: (routeData) {
@@ -89,14 +94,14 @@ class AuthRoute extends _i7.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i1.RootView]
-class RootRouter extends _i7.PageRouteInfo<void> {
-  const RootRouter({List<_i7.PageRouteInfo>? children})
+class RootRoute extends _i7.PageRouteInfo<void> {
+  const RootRoute({List<_i7.PageRouteInfo>? children})
       : super(
-          RootRouter.name,
+          RootRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'RootRouter';
+  static const String name = 'RootRoute';
 
   static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
 }
@@ -156,16 +161,40 @@ class DashboardRoute extends _i7.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.LoginView]
-class LoginRoute extends _i7.PageRouteInfo<void> {
-  const LoginRoute({List<_i7.PageRouteInfo>? children})
-      : super(
+class LoginRoute extends _i7.PageRouteInfo<LoginRouteArgs> {
+  LoginRoute({
+    _i8.Key? key,
+    void Function(bool)? onSuccessfulLogin,
+    List<_i7.PageRouteInfo>? children,
+  }) : super(
           LoginRoute.name,
+          args: LoginRouteArgs(
+            key: key,
+            onSuccessfulLogin: onSuccessfulLogin,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'LoginRoute';
 
-  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
+  static const _i7.PageInfo<LoginRouteArgs> page =
+      _i7.PageInfo<LoginRouteArgs>(name);
+}
+
+class LoginRouteArgs {
+  const LoginRouteArgs({
+    this.key,
+    this.onSuccessfulLogin,
+  });
+
+  final _i8.Key? key;
+
+  final void Function(bool)? onSuccessfulLogin;
+
+  @override
+  String toString() {
+    return 'LoginRouteArgs{key: $key, onSuccessfulLogin: $onSuccessfulLogin}';
+  }
 }
 
 /// generated route for

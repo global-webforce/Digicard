@@ -19,7 +19,8 @@ import '../../../routes/app_router.gr.dart';
 
 @RoutePage()
 class LoginView extends StatelessWidget {
-  const LoginView({Key? key}) : super(key: key);
+  final void Function(bool)? onSuccessfulLogin;
+  const LoginView({Key? key, this.onSuccessfulLogin}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +63,12 @@ class LoginView extends StatelessWidget {
                         hasScrollBody: false,
                         child: Center(
                           child: ReactiveForm(
-                              formGroup: viewModel.form, child: _LoginForm()),
+                              formGroup: viewModel.form,
+                              child: LoginForm(
+                                onSuccessfulLogin: (val) {
+                                  onSuccessfulLogin!(true);
+                                },
+                              )),
                         ),
                       ),
                     )
@@ -95,7 +101,10 @@ class LoginView extends StatelessWidget {
   }
 }
 
-class _LoginForm extends StatelessWidget {
+class LoginForm extends StatelessWidget {
+  final void Function(bool)? onSuccessfulLogin;
+
+  const LoginForm({super.key, this.onSuccessfulLogin});
   @override
   Widget build(BuildContext context) {
     final viewModel = getParentViewModel<LoginViewModel>(context, listen: true);
@@ -153,7 +162,9 @@ class _LoginForm extends StatelessWidget {
               currentFocus.unfocus();
             }
             viewModel.action == ActionType.login
-                ? await viewModel.login()
+                ? await viewModel
+                    .login()
+                    .then((value) => onSuccessfulLogin!(true))
                 : await viewModel.register();
           },
         );

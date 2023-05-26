@@ -91,7 +91,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                       EzButton.elevated(
                         title: "CREATE MY CARDS",
                         onTap: () {
-                          locator<AppRouter>().navigate(const LoginRoute());
+                          locator<AppRouter>().navigate(LoginRoute());
                         },
                       ),
                       /*        vSpaceRegular,

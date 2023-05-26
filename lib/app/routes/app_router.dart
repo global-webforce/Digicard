@@ -26,9 +26,23 @@ class AuthView extends AutoRouter {
   const AuthView({super.key});
 }
 
-@RoutePage(name: 'RootRouter')
+@RoutePage(name: 'RootRoute')
 class RootView extends AutoRouter {
   const RootView({super.key});
+}
+
+class AuthGuard extends AutoRouteGuard {
+  @override
+  void onNavigation(NavigationResolver resolver, StackRouter router) {
+    final user = locator<UserService>();
+    if (user.isPresent) {
+      resolver.next(true);
+    } else {
+      router.push(LoginRoute(onSuccessfulLogin: (val) {
+        resolver.next(val);
+      }));
+    }
+  }
 }
 
 @AutoRouterConfig(replaceInRouteName: 'View,Route')
@@ -47,19 +61,10 @@ class AppRouter extends $AppRouter {
           page: LoginRoute.page,
           keepHistory: false,
         ),
-        AutoRoute(
-          page: RootRouter.page,
+        CustomRoute(
           path: "/",
-          guards: [
-            AutoRouteGuard.simple((resolver, router) async {
-              final x = locator<UserService>();
-              if (x.isPresent) {
-                resolver.next();
-              } else {
-                navigate(const LoginRoute());
-              }
-            })
-          ],
+          page: RootRoute.page,
+          guards: [AuthGuard()],
           children: [
             CustomRoute(
               path: "",
