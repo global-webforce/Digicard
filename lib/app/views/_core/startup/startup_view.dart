@@ -13,12 +13,15 @@ class StartupView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appRouter = locator<AppRouter>();
     return ViewModelBuilder<StartupViewModel>.reactive(
         viewModelBuilder: () => StartupViewModel(),
-        onViewModelReady: (viewModel) async {},
+        onViewModelReady: (viewModel) async {
+          viewModel.init();
+        },
         onDispose: (viewModel) {},
         builder: (context, viewModel, child) {
+          AppRouter appRouter = locator<AppRouter>();
+
           return GlobalLoaderOverlay(
             duration: const Duration(milliseconds: 250),
             reverseDuration: const Duration(milliseconds: 250),
@@ -75,8 +78,16 @@ class StartupView extends StatelessWidget {
               scrollBehavior: MyCustomScrollBehavior(),
               debugShowCheckedModeBanner: false,
               routerConfig: appRouter.config(
-                rebuildStackOnDeepLink: true,
-              ),
+                  /*     rebuildStackOnDeepLink: true,
+                deepLinkBuilder: (deepLink) {
+                  if (deepLink.path.startsWith('/p/') ||
+                      deepLink.path.startsWith('/#/p/')) {
+                    return deepLink;
+                  } else {
+                    return DeepLink.defaultPath;
+                  }
+                }, */
+                  ),
             ),
           );
         });

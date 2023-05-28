@@ -1,12 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
+import 'package:digicard/app/services/_core/user_service.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import '../app.locator.dart';
-import '../services/_core/user_service.dart';
 
 /*
 NEVER EVER DO PARENT CHILDREN ON ROUTING - BIGGEST MISTAKE EVER
@@ -20,32 +22,43 @@ class AuthWrapperView extends AutoRouter {
 @AutoRouterConfig(replaceInRouteName: 'View,Route')
 class AppRouter extends $AppRouter implements AutoRouteGuard {
   final log = getLogger('AppRouter');
+  late UserService userService;
+  bool isAuthenticated = false;
   AppRouter({GlobalKey<NavigatorState>? navigatorKey})
-      : super(navigatorKey: StackedService.navigatorKey);
+      : super(navigatorKey: StackedService.navigatorKey) {
+    userService = locator<UserService>();
+
+    userService.addListener(() {
+      isAuthenticated = userService.isPresent;
+      notifyListeners();
+    });
+  }
 
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
-    final normalStart = resolver.pendingRoutes.isEmpty;
-    String routeName = "";
-    routeName = resolver.route.name;
-    log.i("\nRoute: $routeName\nPending Routes: ${resolver.pendingRoutes}");
-
-    final user = locator<UserService>();
-
-    if (routeName == "DashboardRoute") {
-      if (user.isPresent) {
-        resolver.next(user.isPresent);
+    String routePath = resolver.route.path;
+    if (["/welcome", "/login"].contains(routePath)) {
+      if (isAuthenticated) {
+        router.navigate(const DashboardRoute());
       } else {
-        log.e("Not Authenticated");
-        router.navigate(const WelcomeRoute());
+        resolver.next(true);
       }
     } else {
       resolver.next(true);
     }
+    if (!kIsWeb) FlutterNativeSplash.remove();
   }
 
   @override
   List<AutoRoute> get routes => [
+        AutoRoute(
+          path: "/",
+          page: InitialRoute.page,
+        ),
+        AutoRoute(
+          path: "/",
+          page: DashboardRoute.page,
+        ),
         AutoRoute(
           path: "/welcome",
           page: WelcomeRoute.page,
@@ -55,10 +68,6 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
           path: "/login",
           page: LoginRoute.page,
           keepHistory: false,
-        ),
-        AutoRoute(
-          path: "/",
-          page: DashboardRoute.page,
         ),
         AutoRoute(
           path: "/p/:id",

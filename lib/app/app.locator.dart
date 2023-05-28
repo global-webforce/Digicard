@@ -18,6 +18,7 @@ import 'services/_core/auth_service_supabase.dart';
 import 'services/_core/local_storage_service.dart';
 import 'services/_core/user_service.dart';
 import 'services/contacts_service.dart';
+import 'services/deeplink_service.dart';
 import 'services/digital_card_service.dart';
 import 'ui/bottom_sheets/bs.card_send_viewmodel.dart';
 import 'ui/bottom_sheets/bs.card_tools_viewmodel.dart';
@@ -42,17 +43,18 @@ Future<void> setupLocator({
       environment: environment, environmentFilter: environmentFilter);
 
 // Register dependencies
+  locator.registerLazySingleton(() => UserService());
+  locator.registerLazySingleton(() => AuthService());
   final localStorageService = await LocalStorageService.getInstance();
   locator.registerSingleton(localStorageService);
 
   locator.registerLazySingleton(() => ThemeService.getInstance());
   locator.registerSingleton(AppRouter());
+  locator.registerLazySingleton(() => DeeplinkService());
   locator.registerLazySingleton(() => DialogService());
   locator.registerLazySingleton(() => SnackbarService());
   locator.registerLazySingleton(() => BottomSheetService());
   locator.registerLazySingleton(() => NavigationService());
-  locator.registerLazySingleton(() => AuthService());
-  locator.registerLazySingleton(() => UserService());
   locator.registerLazySingleton(() => ContactsService());
   locator.registerLazySingleton(() => DigitalCardService());
   locator.registerSingleton(StartupViewModel());

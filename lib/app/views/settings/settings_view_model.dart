@@ -18,6 +18,6 @@ class SettingsViewModel extends BaseViewModel {
   logout() async {
     _digitalCardService.clean();
     await _authService.logOut();
-    _appRouter.replace(const WelcomeRoute());
+    _appRouter.replaceAll([const WelcomeRoute()]);
   }
 }
