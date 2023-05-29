@@ -24,6 +24,7 @@ import 'ui/bottom_sheets/bs.card_send_viewmodel.dart';
 import 'ui/bottom_sheets/bs.card_tools_viewmodel.dart';
 import 'views/_core/login/login_viewmodel.dart';
 import 'views/_core/startup/startup_viewmodel.dart';
+import 'views/card_loader/card_loader_viewmodel.dart';
 import 'views/card_open/card_open_viewmodel.dart';
 import 'views/contacts/contacts_view_model.dart';
 import 'views/custom_link/custom_link_view_model.dart';
@@ -63,6 +64,7 @@ Future<void> setupLocator({
   locator.registerSingleton(HomeViewModel());
   locator.registerSingleton(CardToolsBottomSheetViewModel());
   locator.registerSingleton(CardSendBottomSheetViewModel());
+  locator.registerSingleton(CardLoaderViewModel());
   locator.registerSingleton(CardOpenViewModel());
   locator.registerSingleton(CustomLinkViewModel());
   locator.registerSingleton(ScanViewModel());

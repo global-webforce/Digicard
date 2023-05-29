@@ -9,6 +9,7 @@ import 'package:digicard/app/views/_core/startup/startup_viewmodel.dart';
 import 'package:digicard/app/services/_core/local_storage_service.dart';
 import 'package:digicard/app/ui/bottom_sheets/bs.card_send_viewmodel.dart';
 import 'package:digicard/app/ui/bottom_sheets/bs.card_tools_viewmodel.dart';
+import 'package:digicard/app/views/card_loader/card_loader_viewmodel.dart';
 import 'package:digicard/app/views/dashboard/dashboard_viewmodel.dart';
 import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
 import 'package:digicard/app/views/home/home_viewmodel.dart';
@@ -49,6 +50,7 @@ import 'views/custom_link/custom_link_view_model.dart';
     Singleton(classType: HomeViewModel),
     Singleton(classType: CardToolsBottomSheetViewModel),
     Singleton(classType: CardSendBottomSheetViewModel),
+    Singleton(classType: CardLoaderViewModel),
     Singleton(classType: CardOpenViewModel),
     Singleton(classType: CustomLinkViewModel),
     Singleton(classType: ScanViewModel),
