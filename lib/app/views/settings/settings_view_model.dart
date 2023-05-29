@@ -13,11 +13,11 @@ class SettingsViewModel extends BaseViewModel {
   final _userService = locator<UserService>();
   final _appRouter = locator<AppRouter>();
 
-  String get email => "${_userService.user?.email}";
+  String get email => _userService.user?.email ?? '';
 
   logout() async {
     _digitalCardService.clean();
     await _authService.logOut();
-    _appRouter.replaceAll([const WelcomeRoute()]);
+    _appRouter.replaceAll([const InitialRoute()]);
   }
 }

@@ -26,6 +26,10 @@ class StartupViewModel extends ReactiveViewModel {
     _deeplinkService.incomingLinkHandler();
   }
 
+  stop() {
+    _deeplinkService.dispose();
+  }
+
   @override
   void onFutureError(error, Object? key) {
     log.e(error);

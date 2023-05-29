@@ -39,7 +39,7 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
     String routePath = resolver.route.path;
     if (["/welcome", "/login"].contains(routePath)) {
       if (isAuthenticated) {
-        router.navigate(const DashboardRoute());
+        router.navigate(const InitialRoute());
       } else {
         resolver.next(true);
       }
@@ -54,15 +54,7 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
         AutoRoute(
           path: "/",
           page: InitialRoute.page,
-        ),
-        AutoRoute(
-          path: "/",
-          page: DashboardRoute.page,
-        ),
-        AutoRoute(
-          path: "/welcome",
-          page: WelcomeRoute.page,
-          keepHistory: false,
+          initial: true,
         ),
         AutoRoute(
           path: "/login",
@@ -73,7 +65,7 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
           path: "/p/:id",
           page: CardWebRoute.page,
         ),
-        RedirectRoute(path: "*", redirectTo: ""),
+        RedirectRoute(path: "*", redirectTo: "/"),
       ];
 }
 

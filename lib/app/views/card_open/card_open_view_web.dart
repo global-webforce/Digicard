@@ -1,7 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:digicard/app/app.locator.dart';
-import 'package:digicard/app/routes/app_router.dart';
 import 'package:flutter/material.dart';
+
+import '../../app.locator.dart';
+import '../../routes/app_router.dart';
 
 @RoutePage()
 class CardWebView extends StatelessWidget {
@@ -13,9 +14,7 @@ class CardWebView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           leading: BackButton(
-            onPressed: () {
-              locator<AppRouter>().back();
-            },
+            onPressed: () => locator<AppRouter>().pop(),
           ),
           title: const Text("Card View"),
         ),

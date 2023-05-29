@@ -18,7 +18,9 @@ class StartupView extends StatelessWidget {
         onViewModelReady: (viewModel) async {
           viewModel.init();
         },
-        onDispose: (viewModel) {},
+        onDispose: (viewModel) {
+          viewModel.stop();
+        },
         builder: (context, viewModel, child) {
           AppRouter appRouter = locator<AppRouter>();
 
@@ -78,16 +80,9 @@ class StartupView extends StatelessWidget {
               scrollBehavior: MyCustomScrollBehavior(),
               debugShowCheckedModeBanner: false,
               routerConfig: appRouter.config(
-                  /*     rebuildStackOnDeepLink: true,
-                deepLinkBuilder: (deepLink) {
-                  if (deepLink.path.startsWith('/p/') ||
-                      deepLink.path.startsWith('/#/p/')) {
-                    return deepLink;
-                  } else {
-                    return DeepLink.defaultPath;
-                  }
-                }, */
-                  ),
+                includePrefixMatches: true,
+                rebuildStackOnDeepLink: true,
+              ),
             ),
           );
         });

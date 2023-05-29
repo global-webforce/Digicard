@@ -65,7 +65,7 @@ class LoginViewModel extends ReactiveViewModel {
     if (!form.hasErrors) {
       await runBusyFuture(_authService.login(form.value), throwException: true)
           .then((value) {
-        appRouter.navigate(const DashboardRoute());
+        appRouter.replace(const InitialRoute());
       });
 
       form.reset();

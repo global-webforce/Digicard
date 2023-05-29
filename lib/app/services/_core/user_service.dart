@@ -15,7 +15,6 @@ class UserService with ListenableServiceMixin {
 
   set user(value) {
     _user.value = value;
-    notifyListeners();
   }
 
   bool get isPresent => user != null ? true : false;
