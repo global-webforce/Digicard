@@ -1,8 +1,11 @@
 import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/models/digital_card.dart';
+import 'package:digicard/app/routes/app_router.dart';
 import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+
+import '../../../app.locator.dart';
 
 class CardAppBar extends StatelessWidget with PreferredSizeWidget {
   const CardAppBar({super.key});
@@ -25,7 +28,7 @@ class CardAppBar extends StatelessWidget with PreferredSizeWidget {
               shape: BoxShape.circle, color: colorTheme.withOpacity(0.8)),
           child: InkWell(
             customBorder: const CircleBorder(),
-            onTap: () => Navigator.maybePop(context),
+            onTap: () => locator<AppRouter>().pop(),
             child: const Padding(
               padding: EdgeInsets.all(5),
               child: Icon(Icons.close_rounded, color: Colors.white),

@@ -11,11 +11,11 @@
 import 'package:auto_route/auto_route.dart' as _i8;
 import 'package:digicard/app/routes/app_router.dart' as _i1;
 import 'package:digicard/app/routes/initial_view.dart' as _i2;
-import 'package:digicard/app/views/_core/login/login_view.dart' as _i4;
-import 'package:digicard/app/views/_core/login/password_reset_view.dart' as _i5;
-import 'package:digicard/app/views/_core/welcome/welcome_view.dart' as _i6;
-import 'package:digicard/app/views/card_loader/card_loader_view.dart' as _i7;
-import 'package:digicard/app/views/dashboard/dashboard_view.dart' as _i3;
+import 'package:digicard/app/views/_core/login/login_view.dart' as _i5;
+import 'package:digicard/app/views/_core/login/password_reset_view.dart' as _i6;
+import 'package:digicard/app/views/_core/welcome/welcome_view.dart' as _i7;
+import 'package:digicard/app/views/card_loader/card_loader_view.dart' as _i3;
+import 'package:digicard/app/views/dashboard/dashboard_view.dart' as _i4;
 import 'package:flutter/material.dart' as _i9;
 
 abstract class $AppRouter extends _i8.RootStackRouter {
@@ -35,10 +35,22 @@ abstract class $AppRouter extends _i8.RootStackRouter {
         child: const _i2.InitialView(),
       );
     },
+    CardLoaderRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<CardLoaderRouteArgs>(
+          orElse: () => CardLoaderRouteArgs(uuid: pathParams.optString('id')));
+      return _i8.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: _i3.CardLoaderView(
+          key: args.key,
+          uuid: args.uuid,
+        ),
+      );
+    },
     DashboardRoute.name: (routeData) {
       return _i8.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i3.DashboardView(),
+        child: const _i4.DashboardView(),
       );
     },
     LoginRoute.name: (routeData) {
@@ -46,7 +58,7 @@ abstract class $AppRouter extends _i8.RootStackRouter {
           orElse: () => const LoginRouteArgs());
       return _i8.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i4.LoginView(
+        child: _i5.LoginView(
           key: args.key,
           onSuccessfulLogin: args.onSuccessfulLogin,
         ),
@@ -55,25 +67,13 @@ abstract class $AppRouter extends _i8.RootStackRouter {
     PasswordResetRoute.name: (routeData) {
       return _i8.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i5.PasswordResetView(),
+        child: const _i6.PasswordResetView(),
       );
     },
     WelcomeRoute.name: (routeData) {
       return _i8.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i6.WelcomeView(),
-      );
-    },
-    CardLoaderRoute.name: (routeData) {
-      final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<CardLoaderRouteArgs>(
-          orElse: () => CardLoaderRouteArgs(uuid: pathParams.optString('id')));
-      return _i8.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: _i7.CardLoaderView(
-          key: args.key,
-          uuid: args.uuid,
-        ),
+        child: const _i7.WelcomeView(),
       );
     },
   };
@@ -108,7 +108,46 @@ class InitialRoute extends _i8.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i3.DashboardView]
+/// [_i3.CardLoaderView]
+class CardLoaderRoute extends _i8.PageRouteInfo<CardLoaderRouteArgs> {
+  CardLoaderRoute({
+    _i9.Key? key,
+    String? uuid,
+    List<_i8.PageRouteInfo>? children,
+  }) : super(
+          CardLoaderRoute.name,
+          args: CardLoaderRouteArgs(
+            key: key,
+            uuid: uuid,
+          ),
+          rawPathParams: {'id': uuid},
+          initialChildren: children,
+        );
+
+  static const String name = 'CardLoaderRoute';
+
+  static const _i8.PageInfo<CardLoaderRouteArgs> page =
+      _i8.PageInfo<CardLoaderRouteArgs>(name);
+}
+
+class CardLoaderRouteArgs {
+  const CardLoaderRouteArgs({
+    this.key,
+    this.uuid,
+  });
+
+  final _i9.Key? key;
+
+  final String? uuid;
+
+  @override
+  String toString() {
+    return 'CardLoaderRouteArgs{key: $key, uuid: $uuid}';
+  }
+}
+
+/// generated route for
+/// [_i4.DashboardView]
 class DashboardRoute extends _i8.PageRouteInfo<void> {
   const DashboardRoute({List<_i8.PageRouteInfo>? children})
       : super(
@@ -122,7 +161,7 @@ class DashboardRoute extends _i8.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.LoginView]
+/// [_i5.LoginView]
 class LoginRoute extends _i8.PageRouteInfo<LoginRouteArgs> {
   LoginRoute({
     _i9.Key? key,
@@ -160,7 +199,7 @@ class LoginRouteArgs {
 }
 
 /// generated route for
-/// [_i5.PasswordResetView]
+/// [_i6.PasswordResetView]
 class PasswordResetRoute extends _i8.PageRouteInfo<void> {
   const PasswordResetRoute({List<_i8.PageRouteInfo>? children})
       : super(
@@ -174,7 +213,7 @@ class PasswordResetRoute extends _i8.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i6.WelcomeView]
+/// [_i7.WelcomeView]
 class WelcomeRoute extends _i8.PageRouteInfo<void> {
   const WelcomeRoute({List<_i8.PageRouteInfo>? children})
       : super(
@@ -185,43 +224,4 @@ class WelcomeRoute extends _i8.PageRouteInfo<void> {
   static const String name = 'WelcomeRoute';
 
   static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
-}
-
-/// generated route for
-/// [_i7.CardLoaderView]
-class CardLoaderRoute extends _i8.PageRouteInfo<CardLoaderRouteArgs> {
-  CardLoaderRoute({
-    _i9.Key? key,
-    String? uuid,
-    List<_i8.PageRouteInfo>? children,
-  }) : super(
-          CardLoaderRoute.name,
-          args: CardLoaderRouteArgs(
-            key: key,
-            uuid: uuid,
-          ),
-          rawPathParams: {'id': uuid},
-          initialChildren: children,
-        );
-
-  static const String name = 'CardLoaderRoute';
-
-  static const _i8.PageInfo<CardLoaderRouteArgs> page =
-      _i8.PageInfo<CardLoaderRouteArgs>(name);
-}
-
-class CardLoaderRouteArgs {
-  const CardLoaderRouteArgs({
-    this.key,
-    this.uuid,
-  });
-
-  final _i9.Key? key;
-
-  final String? uuid;
-
-  @override
-  String toString() {
-    return 'CardLoaderRouteArgs{key: $key, uuid: $uuid}';
-  }
 }
