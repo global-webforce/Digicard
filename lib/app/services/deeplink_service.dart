@@ -22,7 +22,7 @@ class DeeplinkService with ListenableServiceMixin {
 
     if (initialLink != null && initialLink != '/') {
       if (CardUrl(initialLink).isValid()) {
-        _navService.push(CardLoaderRoute(uuid: CardUrl(initialLink).uuid));
+        _navService.push(CardLoaderRoute(uuid: CardUrl(initialLink).uuid),);
       }
     }
   }

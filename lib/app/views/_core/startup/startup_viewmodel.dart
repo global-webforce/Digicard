@@ -21,8 +21,8 @@ class StartupViewModel extends ReactiveViewModel {
 
   final _deeplinkService = locator<DeeplinkService>();
 
-  init() {
-    _deeplinkService.initURIHandler();
+  init() async {
+    await _deeplinkService.initURIHandler();
     _deeplinkService.incomingLinkHandler();
   }
 

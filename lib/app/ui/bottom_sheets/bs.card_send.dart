@@ -206,7 +206,8 @@ class CardSendBottomSheet extends StatelessWidget {
                                         MinButtons(
                                             color: colorTheme,
                                             onTap: () async {
-                                              await viewModel.saveToContacts();
+                                              await viewModel
+                                                  .saveToDeviceContacts();
                                             },
                                             icon: const Icon(
                                                 FontAwesomeIcons.addressBook),

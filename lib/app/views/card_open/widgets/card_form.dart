@@ -254,99 +254,104 @@ class CardForm extends StatelessWidget {
     }
 
     return LayoutBuilder(builder: (context, size) {
-      return PhysicalModel(
-        color: Colors.transparent,
-        elevation: isDesktop(context) ? 8 : 0,
-        shadowColor: Colors.black,
-        child: Card(
-          margin: EdgeInsetsDirectional.zero,
-          elevation: 0,
-          clipBehavior: Clip.hardEdge,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(0),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 18),
-                    child: avatarField(),
-                  ),
-                  Positioned(
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      child: CardWaveDivider(
-                        context,
-                        color: colorTheme,
-                        size: size,
-                        child: logoField(),
-                      )),
-                ],
-              ),
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 0, bottom: 15),
-                          child: colorPickerField(),
-                        ),
-                        titleField(),
-                        vSpaceSmall,
-                        CollapsibleField(
-                            onToggle: (expanded) {
-                              viewModel.formModel.form.unfocus();
-                            },
-                            value:
-                                "${formModel.prefixControl?.value ?? ""} ${formModel.firstNameControl?.value ?? ""} ${formModel.middleNameControl?.value ?? ""} ${formModel.lastNameControl?.value ?? ""} ${formModel.suffixControl?.value ?? ""}"
-                                    .trim(),
-                            body: Padding(
-                              padding: const EdgeInsets.only(left: 30),
-                              child: Column(
-                                children: [
-                                  prefixField(),
-                                  vSpaceSmall,
-                                  firstNameField(),
-                                  vSpaceSmall,
-                                  middleNameField(),
-                                  vSpaceSmall,
-                                  lastNameField(),
-                                  vSpaceSmall,
-                                  suffixField(),
-                                  vSpaceSmall,
-                                  accrediationsField(),
-                                  vSpaceSmall,
-                                  preferredNameField(),
-                                  vSpaceSmall,
-                                  maidenNameField(),
-                                  vSpaceSmall,
-                                  pronounsField(),
-                                ],
-                              ),
-                            )),
-                        vSpaceSmall,
-                        positionField(),
-                        vSpaceSmall,
-                        departmentField(),
-                        vSpaceSmall,
-                        companyField(),
-                        vSpaceSmall,
-                        headlineField(),
-                        vSpaceSmall,
-                        const CustomLinkFields(),
-                        vSpaceSmall,
-                      ],
+      return Padding(
+        padding: screenWidth(context) > 480.000
+            ? const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0)
+            : EdgeInsets.zero,
+        child: PhysicalModel(
+          color: Colors.transparent,
+          elevation: isDesktop(context) ? 8 : 0,
+          shadowColor: Colors.black,
+          child: Card(
+            margin: EdgeInsetsDirectional.zero,
+            elevation: 0,
+            clipBehavior: Clip.hardEdge,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(0),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 18),
+                      child: avatarField(),
                     ),
-                  ),
-                  const CustomLinkOptions(),
-                ],
-              ),
-            ],
+                    Positioned(
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        child: CardWaveDivider(
+                          context,
+                          color: colorTheme,
+                          size: size,
+                          child: logoField(),
+                        )),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 0, bottom: 15),
+                            child: colorPickerField(),
+                          ),
+                          titleField(),
+                          vSpaceSmall,
+                          CollapsibleField(
+                              onToggle: (expanded) {
+                                viewModel.formModel.form.unfocus();
+                              },
+                              value:
+                                  "${formModel.prefixControl?.value ?? ""} ${formModel.firstNameControl?.value ?? ""} ${formModel.middleNameControl?.value ?? ""} ${formModel.lastNameControl?.value ?? ""} ${formModel.suffixControl?.value ?? ""}"
+                                      .trim(),
+                              body: Padding(
+                                padding: const EdgeInsets.only(left: 30),
+                                child: Column(
+                                  children: [
+                                    prefixField(),
+                                    vSpaceSmall,
+                                    firstNameField(),
+                                    vSpaceSmall,
+                                    middleNameField(),
+                                    vSpaceSmall,
+                                    lastNameField(),
+                                    vSpaceSmall,
+                                    suffixField(),
+                                    vSpaceSmall,
+                                    accrediationsField(),
+                                    vSpaceSmall,
+                                    preferredNameField(),
+                                    vSpaceSmall,
+                                    maidenNameField(),
+                                    vSpaceSmall,
+                                    pronounsField(),
+                                  ],
+                                ),
+                              )),
+                          vSpaceSmall,
+                          positionField(),
+                          vSpaceSmall,
+                          departmentField(),
+                          vSpaceSmall,
+                          companyField(),
+                          vSpaceSmall,
+                          headlineField(),
+                          vSpaceSmall,
+                          const CustomLinkFields(),
+                          vSpaceSmall,
+                        ],
+                      ),
+                    ),
+                    const CustomLinkOptions(),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       );

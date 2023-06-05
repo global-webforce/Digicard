@@ -50,7 +50,7 @@ class ContactsService with ListenableServiceMixin {
     }
   }
 
-  Future create(DigitalCard card) async {
+  Future saveToAppContacts(DigitalCard card) async {
     try {
       await _supabase.from('contacts').insert(
         {
@@ -63,14 +63,53 @@ class ContactsService with ListenableServiceMixin {
         }
       });
     } catch (e) {
-      Future.error(e.toString());
+      return Future.error(e.toString());
     }
+  }
+
+  Future saveToDeviceContacts(DigitalCard card) async {
+    await convertToContact(card).then((value) async {
+      try {
+        if (value != null) {
+          if (!kIsWeb) {
+            if (await FlutterContacts.requestPermission()) {
+              value.insert();
+            }
+          }
+        }
+      } catch (e) {
+        rethrow;
+      }
+    });
+  }
+
+  Future downloadVcf(DigitalCard card) async {
+    await convertToContact(card).then((value) async {
+      try {
+        if (value != null) {
+          if (kIsWeb) {
+            final bytes =
+                utf8.encode(value.toVCard(withPhoto: true, includeDate: true));
+            await js.context.callMethod("saveAs", <Object>[
+              html.Blob(<Object>[bytes]),
+              '${card.uuid}.vcf'
+            ]);
+          }
+        }
+      } catch (e) {
+        rethrow;
+      }
+    });
   }
 
   Future delete(DigitalCard card) async {
     try {
-      await _supabase.from('contacts').delete().eq('id', card.id);
-      _contacts.value.removeWhere((element) => element.id == card.id);
+      await _supabase.from('contacts').delete().match({
+        'card_id': card.id,
+        'user_id': _userService.id,
+      }).then((value) {
+        _contacts.value.removeWhere((element) => element.id == card.id);
+      });
       notifyListeners();
     } catch (e) {
       Future.error(e.toString());
@@ -127,29 +166,5 @@ class ContactsService with ListenableServiceMixin {
       ..addresses =
           customLinks["Address"]?.map((e) => Address(e.text ?? '')).toList() ??
               [];
-  }
-
-  Future save(DigitalCard card) async {
-    await convertToContact(card).then((value) async {
-      try {
-        if (value != null) {
-          if (kIsWeb) {
-            final bytes =
-                utf8.encode(value.toVCard(withPhoto: true, includeDate: true));
-            await js.context.callMethod("saveAs", <Object>[
-              html.Blob(<Object>[bytes]),
-              '${card.uuid}.vcf'
-            ]);
-          } else {
-            if (await FlutterContacts.requestPermission()) {
-              value.insert();
-            }
-          }
-        }
-      } catch (e) {
-        rethrow;
-      }
-    });
-    await create(card);
   }
 }

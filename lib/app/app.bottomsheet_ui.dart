@@ -5,8 +5,10 @@ import 'package:digicard/app/ui/bottom_sheets/bs.image_picker.dart';
 
 import 'package:stacked_services/stacked_services.dart';
 
+import 'ui/bottom_sheets/bs.delete_card.dart';
+
 //1. Create name/alias of custom dialog
-enum BottomSheetType { digitalCard, send, imagepicker }
+enum BottomSheetType { digitalCard, send, imagepicker, delete }
 
 Future<void> setupBottomSheetUI() async {
   final bottomSheetService = locator<BottomSheetService>();
@@ -25,6 +27,11 @@ Future<void> setupBottomSheetUI() async {
         ),
     BottomSheetType.imagepicker: (context, sheetRequest, completer) =>
         ImagePickerBottomSheet(
+          request: sheetRequest,
+          completer: completer,
+        ),
+    BottomSheetType.delete: (context, sheetRequest, completer) =>
+        DeleteBottomSheet(
           request: sheetRequest,
           completer: completer,
         ),

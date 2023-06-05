@@ -38,7 +38,8 @@ abstract class $AppRouter extends _i8.RootStackRouter {
     CardLoaderRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
       final args = routeData.argsAs<CardLoaderRouteArgs>(
-          orElse: () => CardLoaderRouteArgs(uuid: pathParams.optString('id')));
+          orElse: () =>
+              CardLoaderRouteArgs(uuid: pathParams.optString('uuid')));
       return _i8.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i3.CardLoaderView(
@@ -120,7 +121,7 @@ class CardLoaderRoute extends _i8.PageRouteInfo<CardLoaderRouteArgs> {
             key: key,
             uuid: uuid,
           ),
-          rawPathParams: {'id': uuid},
+          rawPathParams: {'uuid': uuid},
           initialChildren: children,
         );
 

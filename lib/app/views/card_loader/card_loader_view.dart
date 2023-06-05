@@ -14,7 +14,7 @@ class CardLoaderView extends StatelessWidget {
   final String? uuid;
   const CardLoaderView({
     Key? key,
-    @PathParam('id') this.uuid,
+    @PathParam('uuid') this.uuid,
   }) : super(key: key);
 
   @override
@@ -36,7 +36,7 @@ class CardLoaderView extends StatelessWidget {
                   : viewModel.card != null
                       ? CardOpenView(
                           card: viewModel.card ?? DigitalCard(),
-                          actionType: ActionType.test)
+                          actionType: ActionType.externalView)
                       : Scaffold(
                           appBar: AppBar(),
                           body: const EmptyDisplay(

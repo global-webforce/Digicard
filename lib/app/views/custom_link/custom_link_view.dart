@@ -36,8 +36,8 @@ class CustomLinkView extends StatelessWidget {
                   isFullWidth: true,
                   padding: EdgeInsets.symmetric(
                       vertical: 0,
-                      horizontal: max((size.maxWidth - 540) / 2, 0) > 0
-                          ? max((size.maxWidth - 540) / 2, 0)
+                      horizontal: max((size.maxWidth - 480.000) / 2, 0) > 0
+                          ? max((size.maxWidth - 480.000) / 2, 0)
                           : 15),
                   neverScroll: true,
                   centered: true,

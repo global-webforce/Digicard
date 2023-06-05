@@ -62,7 +62,7 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
     _bottomSheetService.completeSheet(SheetResponse());
     _navigationService.navigateToView(
       CardOpenView(
-        actionType: ActionType.test,
+        actionType: ActionType.view,
         card: card,
       ),
       transitionStyle: Transition.fade,

@@ -75,13 +75,13 @@ class CardAppBar extends StatelessWidget with PreferredSizeWidget {
             backgroundColor: Colors.transparent,
             surfaceTintColor: Colors.transparent,
             actions: [
-              /*     IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.more_horiz,
-                    size: 40,
-                    color: kcPrimaryColor,
-                  )), */
+              if (!viewModel.isCardOwnedByUser())
+                IconButton(
+                    onPressed: () {
+                      viewModel.showOptions(viewModel.formModel.model);
+                    },
+                    icon: Icon(Icons.more_horiz,
+                        size: 40, color: colorTheme.withOpacity(0.8))),
               closeButton(),
             ],
           );
