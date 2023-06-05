@@ -38,12 +38,12 @@ class LoginViewModel extends ReactiveViewModel {
   List<ListenableServiceMixin> get listenableServices => [];
 
   final FormGroup _form = FormGroup({
-    'email':
-        FormControl<String>(value: 'dionnie_bulingit@yahoo.com', validators: [
-      Validators.required,
-      Validators.email,
-    ]),
-    'password': FormControl<String>(value: 'abc12345', validators: [
+    'email': FormControl<String>(
+        /* value: 'dionnie_bulingit@yahoo.com', */ validators: [
+          Validators.required,
+          Validators.email,
+        ]),
+    'password': FormControl<String>(/* value: 'abc12345', */ validators: [
       Validators.required,
     ]),
   });
