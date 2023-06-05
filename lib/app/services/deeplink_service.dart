@@ -4,6 +4,7 @@ import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/helper/card_url_checker.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:uni_links/uni_links.dart';
 
@@ -22,7 +23,9 @@ class DeeplinkService with ListenableServiceMixin {
 
     if (initialLink != null && initialLink != '/') {
       if (CardUrl(initialLink).isValid()) {
-        _navService.push(CardLoaderRoute(uuid: CardUrl(initialLink).uuid),);
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _navService.push(CardLoaderRoute(uuid: CardUrl(initialLink).uuid));
+        });
       }
     }
   }
@@ -32,8 +35,10 @@ class DeeplinkService with ListenableServiceMixin {
       _streamSubscription = uriLinkStream.listen((Uri? uri) {
         if (uri != null) {
           if (CardUrl(uri.toString()).isValid()) {
-            _navService
-                .push(CardLoaderRoute(uuid: CardUrl(uri.toString()).uuid));
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              _navService
+                  .push(CardLoaderRoute(uuid: CardUrl(uri.toString()).uuid));
+            });
           }
         }
       }, onError: (Object err) {});
