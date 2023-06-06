@@ -31,13 +31,14 @@ enum ActionType {
   create,
   edit,
   duplicate,
-  test,
+  externalView,
 }
 
 enum ImagePickerType { gallery, camera, computer, remove }
 
 const String saveBusyKey = 'saveBusyKey';
 const String doneBusyKey = 'doneBusyKey';
+const String deleteBusyKey = 'deleteBusyKey';
 
 class CardOpenViewModel extends ReactiveViewModel {
   final log = getLogger('CardOpenViewModel');
@@ -75,8 +76,10 @@ class CardOpenViewModel extends ReactiveViewModel {
 
   bool formSubmitAttempt = false;
 
-  bool isCardInContacts(int? id) {
-    final temp = _contactsService.contacts.indexWhere((e) => e.id == id);
+  bool isUserPresent() => user != null;
+  isCardOwnedByUser() => "${model.userId}" == "${user?.id}";
+  bool isCardInContacts() {
+    final temp = _contactsService.contacts.indexWhere((e) => e.id == model.id);
     return temp != -1 ? true : false;
   }
 
@@ -106,18 +109,33 @@ class CardOpenViewModel extends ReactiveViewModel {
         await getNetworkImageData("$logoUrlPrefix${model.logoUrl}");
   }
 
+  Future downloadVcf(DigitalCard card) async {
+    await runBusyFuture(_contactsService.downloadVcf(card),
+        throwException: true, busyObject: saveBusyKey);
+  }
+
+  Future saveToDeviceContacts(DigitalCard card) async {
+    await runBusyFuture(_contactsService.saveToDeviceContacts(card),
+        throwException: true, busyObject: saveBusyKey);
+    setBusyForObject(doneBusyKey, true);
+    await Future.delayed(const Duration(seconds: 1));
+    setBusyForObject(doneBusyKey, false);
+  }
+
   Future saveToContacts(DigitalCard card) async {
     await runBusyFuture(
         Future.wait([
-          _contactsService.create(card),
-          _contactsService.save(card),
+          if (!isCardOwnedByUser() && !isCardInContacts() && isUserPresent())
+            _contactsService.saveToAppContacts(card),
+          if (!kIsWeb) _contactsService.saveToDeviceContacts(card),
+          if (kIsWeb) _contactsService.downloadVcf(card),
         ]),
         throwException: true,
         busyObject: saveBusyKey);
     setBusyForObject(doneBusyKey, true);
     await Future.delayed(const Duration(seconds: 1));
     setBusyForObject(doneBusyKey, false);
-    _navigationService.back();
+    //  _navigationService.back();
   }
 
   editCustomLink(CustomLink customLink, {int? index}) async {
@@ -366,5 +384,31 @@ class CardOpenViewModel extends ReactiveViewModel {
         notifyListeners();
       }
     });
+  }
+
+  showOptions(DigitalCard? card) {
+    _bottomSheetService
+        .showCustomSheet(variant: BottomSheetType.delete)
+        .then((value) async {
+      if (value?.confirmed == true) {
+        await delete(card?.id);
+      }
+    });
+  }
+
+  delete(int? id) async {
+    final value = await _dialogService.showCustomDialog(
+      variant: DialogType.confirmation,
+      title: "Card Delete",
+      description: "You sure you want to delete this contact?",
+      mainButtonTitle: "Delete",
+      barrierDismissible: true,
+    );
+    if (value?.confirmed ?? false) {
+      await runBusyFuture(_contactsService.delete(model),
+          busyObject: deleteBusyKey, throwException: true);
+      _bottomSheetService.completeSheet(SheetResponse());
+    }
+    return null;
   }
 }

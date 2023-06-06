@@ -66,11 +66,18 @@ class AuthService {
             "This user already exists",
           );
         }
+        if (value.session == null) {
+          return Future.error(
+            "We've sent confirmation link to your email, Please check",
+          );
+        }
       });
     } catch (e) {
       if (e is AuthException) {
         return Future.error(e.message);
       } else if (e.toString().toLowerCase().contains("already exists")) {
+        return Future.error(e);
+      } else if (e.toString().toLowerCase().contains("confirmation link")) {
         return Future.error(e);
       }
       return Future.error("Unknown error occured");
@@ -99,5 +106,6 @@ class AuthService {
 
   Future<void> logOut() async {
     await _supabase.auth.signOut();
+    _userService.user = null;
   }
 }

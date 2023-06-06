@@ -112,9 +112,9 @@ class CardSendBottomSheetViewModel extends ReactiveViewModel {
     }
   }
 
-  Future saveToContacts() async {
+  Future saveToDeviceContacts() async {
     try {
-      await _contactsService.save(card).then((value) {
+      await _contactsService.saveToDeviceContacts(card).then((value) {
         _snackbarService.showCustomSnackBar(
             duration: const Duration(seconds: 2),
             message: "Contact Saved",
@@ -123,8 +123,9 @@ class CardSendBottomSheetViewModel extends ReactiveViewModel {
     } catch (e) {
       log.e(e.toString());
     }
+  }
 
-/*   Future downloadWithoutLogo(BuildContext context) async {
+  /*   Future downloadWithoutLogo(BuildContext context) async {
     setBusyForObject(downloadQRBusyKey, true);
 
     final widget = ClipRRect(
@@ -248,5 +249,4 @@ class CardSendBottomSheetViewModel extends ReactiveViewModel {
       rethrow;
     }
   } */
-  }
 }

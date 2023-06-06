@@ -70,7 +70,6 @@ class CardAvatar extends StatelessWidget {
                       aspectRatio: 1 / 1,
                       child: Container(
                         decoration: BoxDecoration(
-                          // color: color,
                           image: DecorationImage(
                             image: MemoryImage(imagePath!),
                             fit: BoxFit.cover,

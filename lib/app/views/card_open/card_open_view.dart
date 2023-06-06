@@ -13,13 +13,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:stacked/stacked.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'widgets/card.appbar.dart';
 
 class CardOpenView extends StatelessWidget {
   final DigitalCard card;
   final ActionType actionType;
-  const CardOpenView({Key? key, required this.card, required this.actionType})
+  final DateTime? dateAdded;
+  const CardOpenView(
+      {Key? key, required this.card, required this.actionType, this.dateAdded})
       : super(key: key);
 
   @override
@@ -38,16 +41,6 @@ class CardOpenView extends StatelessWidget {
               .map((e) => e.form.dispose());
         },
         builder: (context, viewModel, child) {
-          final isUserPresent = viewModel.user != null;
-          final isCardOwnedByUser =
-              "${viewModel.formModel.model.userId}" == "${viewModel.user?.id}";
-          final isCardInContacts =
-              viewModel.isCardInContacts(viewModel.formModel.model.id);
-
-          /***/
-
-/***/
-
           return ReactiveDigitalCardForm(
             form: viewModel.formModel,
             child: ReactiveValueListenableBuilder<dynamic>(
@@ -63,33 +56,45 @@ class CardOpenView extends StatelessWidget {
                   }
 
                   adPanel() {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: colorTheme.darken(0.2),
-                          borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(10.0),
-                              topLeft: Radius.circular(10.0)),
-                        ),
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(10),
-                        child: const Text(
-                          "A Free Digital Business Card from Digicard",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    );
+                    return kIsWeb
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: InkWell(
+                              onTap: () async {
+                                final Uri url = Uri.parse(
+                                    'https://www.apple.com/app-store/');
+                                if (!await launchUrl(url)) {
+                                  throw Exception('Could not launch $url');
+                                }
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: colorTheme.darken(0.2),
+                                  borderRadius: const BorderRadius.only(
+                                      topRight: Radius.circular(10.0),
+                                      topLeft: Radius.circular(10.0)),
+                                ),
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(10),
+                                child: const Text(
+                                  "Create your own digital business card for FREE",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        : const SizedBox.shrink();
                   }
 
                   Widget youOwnButton() {
                     return EzButton.elevated(
                       foreground: Colors.white,
                       background: colorTheme,
+                      disabled: true,
                       title: " You own this card",
                       onTap: null,
                     );
@@ -121,14 +126,14 @@ class CardOpenView extends StatelessWidget {
                             return LayoutBuilder(builder: (context, size) {
                               final cardWidth = Dimens.computedWidth(
                                   screenSize: size,
-                                  targetWidth: 540,
+                                  targetWidth: 480.000,
                                   vPadding: 0,
                                   hPadding: 0);
                               return Scaffold(
                                 extendBodyBehindAppBar: !viewModel.editMode,
                                 appBar: const CardAppBar(),
                                 bottomSheet: viewModel.actionType ==
-                                        ActionType.test
+                                        ActionType.externalView
                                     ? LayoutBuilder(builder: (context, size) {
                                         return Container(
                                           color: Colors.transparent,
@@ -139,15 +144,14 @@ class CardOpenView extends StatelessWidget {
                                             child: Column(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                isUserPresent
-                                                    ? isCardOwnedByUser
-                                                        ? youOwnButton()
-                                                        : !isCardInContacts
-                                                            ? saveButton()
-                                                            : const SizedBox
-                                                                .shrink()
-                                                    : const SizedBox.shrink(),
-                                                if (kIsWeb) adPanel()
+                                                viewModel.actionType ==
+                                                            ActionType
+                                                                .externalView &&
+                                                        viewModel
+                                                            .isCardOwnedByUser()
+                                                    ? youOwnButton()
+                                                    : saveButton(),
+                                                adPanel()
                                               ],
                                             ),
                                           ),

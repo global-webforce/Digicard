@@ -1,4 +1,4 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:digicard/app/ui/_core/ez_button.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/constants/colors.dart';
@@ -14,7 +14,8 @@ import 'package:stacked/stacked.dart';
 
 @RoutePage()
 class LoginView extends StatelessWidget {
-  const LoginView({Key? key}) : super(key: key);
+  final void Function(bool)? onSuccessfulLogin;
+  const LoginView({Key? key, this.onSuccessfulLogin}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class LoginView extends StatelessWidget {
             FocusScopeNode currentFocus = FocusScope.of(context);
             return Scaffold(
               appBar: AppBar(
-                leading: const BackButton(),
+                leading: const AutoLeadingButton(),
                 actions: [
                   if (isKeyboardVisible)
                     TextButton(
@@ -53,7 +54,14 @@ class LoginView extends StatelessWidget {
                         hasScrollBody: false,
                         child: Center(
                           child: ReactiveForm(
-                              formGroup: viewModel.form, child: _LoginForm()),
+                              formGroup: viewModel.form,
+                              child: LoginForm(
+                                onSuccessfulLogin: (val) {
+                                  (onSuccessfulLogin != null)
+                                      ? onSuccessfulLogin!(true)
+                                      : null;
+                                },
+                              )),
                         ),
                       ),
                     )
@@ -86,7 +94,10 @@ class LoginView extends StatelessWidget {
   }
 }
 
-class _LoginForm extends StatelessWidget {
+class LoginForm extends StatelessWidget {
+  final void Function(bool)? onSuccessfulLogin;
+
+  const LoginForm({super.key, this.onSuccessfulLogin});
   @override
   Widget build(BuildContext context) {
     final viewModel = getParentViewModel<LoginViewModel>(context, listen: true);
@@ -144,7 +155,10 @@ class _LoginForm extends StatelessWidget {
               currentFocus.unfocus();
             }
             viewModel.action == ActionType.login
-                ? await viewModel.login()
+                ? await viewModel.login().then((value) =>
+                    (onSuccessfulLogin != null)
+                        ? onSuccessfulLogin!(true)
+                        : null)
                 : await viewModel.register();
           },
         );

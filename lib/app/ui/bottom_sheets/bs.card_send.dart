@@ -107,7 +107,7 @@ class CardSendBottomSheet extends StatelessWidget {
                                                 BorderRadius.circular(8),
                                             child: QrImage(
                                               data:
-                                                  "https://www.digicard.me/${request.data.uuid}",
+                                                  "https://markbulingit.github.io/#/p/${request.data.uuid}",
                                               version: QrVersions.auto,
                                               errorCorrectionLevel:
                                                   QrErrorCorrectLevel.M,
@@ -206,7 +206,8 @@ class CardSendBottomSheet extends StatelessWidget {
                                         MinButtons(
                                             color: colorTheme,
                                             onTap: () async {
-                                              await viewModel.saveToContacts();
+                                              await viewModel
+                                                  .saveToDeviceContacts();
                                             },
                                             icon: const Icon(
                                                 FontAwesomeIcons.addressBook),
@@ -221,7 +222,7 @@ class CardSendBottomSheet extends StatelessWidget {
                                             onTap: () async {
                                               await Clipboard.setData(ClipboardData(
                                                   text:
-                                                      "https://www.digicard.me/${request.data.uuid}"));
+                                                      "https://markbulingit.github.io/#/p/${request.data.uuid}"));
                                             },
                                             icon: const Icon(
                                                 FontAwesomeIcons.copy),

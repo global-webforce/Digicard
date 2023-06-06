@@ -1,11 +1,8 @@
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/routes/app_router.dart';
-import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/views/_core/startup/startup_viewmodel.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -18,10 +15,15 @@ class StartupView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<StartupViewModel>.reactive(
         viewModelBuilder: () => StartupViewModel(),
-        onViewModelReady: (viewModel) async {},
-        onDispose: (viewModel) {},
+        fireOnViewModelReadyOnce: true,
+        onViewModelReady: (viewModel) async {
+          await viewModel.init();
+        },
+        onDispose: (viewModel) {
+          viewModel.stop();
+        },
         builder: (context, viewModel, child) {
-          final appRouter = locator<AppRouter>();
+          AppRouter appRouter = locator<AppRouter>();
 
           return GlobalLoaderOverlay(
             duration: const Duration(milliseconds: 250),
@@ -34,6 +36,7 @@ class StartupView extends StatelessWidget {
               color: kcPrimaryColor,
             )),
             child: MaterialApp.router(
+              key: UniqueKey(),
               title: "Digicard",
               theme: ThemeData(
                 useMaterial3: true,
@@ -77,15 +80,8 @@ class StartupView extends StatelessWidget {
               ),
               scrollBehavior: MyCustomScrollBehavior(),
               debugShowCheckedModeBanner: false,
-              routeInformationParser: appRouter.defaultRouteParser(),
-              routerDelegate: appRouter.declarativeDelegate(
-                navigatorObservers: () => [HeroController()],
-                routes: (handler) {
-                  if (!kIsWeb) FlutterNativeSplash.remove();
-
-                  if (viewModel.isPresent) return [const DashboardRoute()];
-                  return [const AuthRoute()];
-                },
+              routerConfig: appRouter.config(
+                includePrefixMatches: true,
               ),
             ),
           );

@@ -19,6 +19,7 @@ class DigitalCardListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget image() {
+      const imageSize = 140.0;
       return Container(
         color: Color(card.color ?? kcPrimaryColorInt),
         child: Material(
@@ -27,7 +28,7 @@ class DigitalCardListItem extends StatelessWidget {
                   imageUrl:
                       "https://kbetklswsjdfouluglbr.supabase.co/storage/v1/object/public/images/avatars/${card.avatarUrl}",
                   width: double.infinity,
-                  height: 140,
+                  height: imageSize,
                   fit: BoxFit.cover,
                   placeholder: (context, url) {
                     return Container(
@@ -37,14 +38,14 @@ class DigitalCardListItem extends StatelessWidget {
                   errorWidget: (context, url, error) {
                     return Container(
                       width: double.infinity,
-                      height: 140,
+                      height: imageSize,
                       color: Color(card.color ?? kcPrimaryColorInt).darken(0.2),
                     );
                   },
                 )
               : Container(
                   width: double.infinity,
-                  height: 140,
+                  height: imageSize,
                   color: Color(card.color ?? kcPrimaryColorInt).darken(0.2),
                 ),
         ),

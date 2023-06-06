@@ -6,6 +6,8 @@ import 'package:digicard/app/services/_core/user_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+import '../../../services/deeplink_service.dart';
+
 const String loadingBusyKey = 'loadingBusyKey';
 
 class StartupViewModel extends ReactiveViewModel {
@@ -16,6 +18,17 @@ class StartupViewModel extends ReactiveViewModel {
   final _dialogService = locator<DialogService>();
 
   get isPresent => _userService.isPresent;
+
+  final _deeplinkService = locator<DeeplinkService>();
+
+  init() async {
+    await _deeplinkService.initURIHandler();
+    _deeplinkService.incomingLinkHandler();
+  }
+
+  stop() {
+    _deeplinkService.dispose();
+  }
 
   @override
   void onFutureError(error, Object? key) {

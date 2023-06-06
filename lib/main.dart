@@ -1,4 +1,3 @@
-import 'package:digicard/app/routes/app_router.dart';
 import 'package:digicard/app/views/_core/startup/startup_view.dart';
 import 'package:digicard/app/app.bottomsheet_ui.dart';
 import 'package:digicard/app/app.dialog_ui.dart';
@@ -26,7 +25,6 @@ void main() async {
 
   setupLocator();
 
-  locator.registerSingleton(AppRouter());
   await ThemeManager.initialise();
   await setupSnackBarUI();
   await setupDialogUI();

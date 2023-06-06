@@ -8,122 +8,149 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i7;
+import 'package:auto_route/auto_route.dart' as _i8;
 import 'package:digicard/app/routes/app_router.dart' as _i1;
-import 'package:digicard/app/views/_core/login/login_view.dart' as _i4;
-import 'package:digicard/app/views/_core/login/password_reset_view.dart' as _i5;
-import 'package:digicard/app/views/_core/welcome/welcome_view.dart' as _i6;
-import 'package:digicard/app/views/card_open/card_open_view_web.dart' as _i2;
-import 'package:digicard/app/views/dashboard/dashboard_view.dart' as _i3;
-import 'package:flutter/material.dart' as _i8;
+import 'package:digicard/app/routes/initial_view.dart' as _i2;
+import 'package:digicard/app/views/_core/login/login_view.dart' as _i5;
+import 'package:digicard/app/views/_core/login/password_reset_view.dart' as _i6;
+import 'package:digicard/app/views/_core/welcome/welcome_view.dart' as _i7;
+import 'package:digicard/app/views/card_loader/card_loader_view.dart' as _i3;
+import 'package:digicard/app/views/dashboard/dashboard_view.dart' as _i4;
+import 'package:flutter/material.dart' as _i9;
 
-abstract class $AppRouter extends _i7.RootStackRouter {
+abstract class $AppRouter extends _i8.RootStackRouter {
   $AppRouter({super.navigatorKey});
 
   @override
-  final Map<String, _i7.PageFactory> pagesMap = {
-    AuthRoute.name: (routeData) {
-      return _i7.AutoRoutePage<dynamic>(
+  final Map<String, _i8.PageFactory> pagesMap = {
+    AuthWrapperRoute.name: (routeData) {
+      return _i8.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i1.AuthView(),
+        child: const _i1.AuthWrapperView(),
       );
     },
-    CardWebRoute.name: (routeData) {
-      final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<CardWebRouteArgs>(
-          orElse: () => CardWebRouteArgs(id: pathParams.optString('id')));
-      return _i7.AutoRoutePage<dynamic>(
+    InitialRoute.name: (routeData) {
+      return _i8.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i2.CardWebView(
+        child: const _i2.InitialView(),
+      );
+    },
+    CardLoaderRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<CardLoaderRouteArgs>(
+          orElse: () =>
+              CardLoaderRouteArgs(uuid: pathParams.optString('uuid')));
+      return _i8.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: _i3.CardLoaderView(
           key: args.key,
-          id: args.id,
+          uuid: args.uuid,
         ),
       );
     },
     DashboardRoute.name: (routeData) {
-      return _i7.AutoRoutePage<dynamic>(
+      return _i8.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i3.DashboardView(),
+        child: const _i4.DashboardView(),
       );
     },
     LoginRoute.name: (routeData) {
-      return _i7.AutoRoutePage<dynamic>(
+      final args = routeData.argsAs<LoginRouteArgs>(
+          orElse: () => const LoginRouteArgs());
+      return _i8.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i4.LoginView(),
+        child: _i5.LoginView(
+          key: args.key,
+          onSuccessfulLogin: args.onSuccessfulLogin,
+        ),
       );
     },
     PasswordResetRoute.name: (routeData) {
-      return _i7.AutoRoutePage<dynamic>(
+      return _i8.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i5.PasswordResetView(),
+        child: const _i6.PasswordResetView(),
       );
     },
     WelcomeRoute.name: (routeData) {
-      return _i7.AutoRoutePage<dynamic>(
+      return _i8.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i6.WelcomeView(),
+        child: const _i7.WelcomeView(),
       );
     },
   };
 }
 
 /// generated route for
-/// [_i1.AuthView]
-class AuthRoute extends _i7.PageRouteInfo<void> {
-  const AuthRoute({List<_i7.PageRouteInfo>? children})
+/// [_i1.AuthWrapperView]
+class AuthWrapperRoute extends _i8.PageRouteInfo<void> {
+  const AuthWrapperRoute({List<_i8.PageRouteInfo>? children})
       : super(
-          AuthRoute.name,
+          AuthWrapperRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'AuthRoute';
+  static const String name = 'AuthWrapperRoute';
 
-  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
+  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i2.CardWebView]
-class CardWebRoute extends _i7.PageRouteInfo<CardWebRouteArgs> {
-  CardWebRoute({
-    _i8.Key? key,
-    String? id,
-    List<_i7.PageRouteInfo>? children,
-  }) : super(
-          CardWebRoute.name,
-          args: CardWebRouteArgs(
-            key: key,
-            id: id,
-          ),
-          rawPathParams: {'id': id},
+/// [_i2.InitialView]
+class InitialRoute extends _i8.PageRouteInfo<void> {
+  const InitialRoute({List<_i8.PageRouteInfo>? children})
+      : super(
+          InitialRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'CardWebRoute';
+  static const String name = 'InitialRoute';
 
-  static const _i7.PageInfo<CardWebRouteArgs> page =
-      _i7.PageInfo<CardWebRouteArgs>(name);
+  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
 }
 
-class CardWebRouteArgs {
-  const CardWebRouteArgs({
+/// generated route for
+/// [_i3.CardLoaderView]
+class CardLoaderRoute extends _i8.PageRouteInfo<CardLoaderRouteArgs> {
+  CardLoaderRoute({
+    _i9.Key? key,
+    String? uuid,
+    List<_i8.PageRouteInfo>? children,
+  }) : super(
+          CardLoaderRoute.name,
+          args: CardLoaderRouteArgs(
+            key: key,
+            uuid: uuid,
+          ),
+          rawPathParams: {'uuid': uuid},
+          initialChildren: children,
+        );
+
+  static const String name = 'CardLoaderRoute';
+
+  static const _i8.PageInfo<CardLoaderRouteArgs> page =
+      _i8.PageInfo<CardLoaderRouteArgs>(name);
+}
+
+class CardLoaderRouteArgs {
+  const CardLoaderRouteArgs({
     this.key,
-    this.id,
+    this.uuid,
   });
 
-  final _i8.Key? key;
+  final _i9.Key? key;
 
-  final String? id;
+  final String? uuid;
 
   @override
   String toString() {
-    return 'CardWebRouteArgs{key: $key, id: $id}';
+    return 'CardLoaderRouteArgs{key: $key, uuid: $uuid}';
   }
 }
 
 /// generated route for
-/// [_i3.DashboardView]
-class DashboardRoute extends _i7.PageRouteInfo<void> {
-  const DashboardRoute({List<_i7.PageRouteInfo>? children})
+/// [_i4.DashboardView]
+class DashboardRoute extends _i8.PageRouteInfo<void> {
+  const DashboardRoute({List<_i8.PageRouteInfo>? children})
       : super(
           DashboardRoute.name,
           initialChildren: children,
@@ -131,27 +158,51 @@ class DashboardRoute extends _i7.PageRouteInfo<void> {
 
   static const String name = 'DashboardRoute';
 
-  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
+  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i4.LoginView]
-class LoginRoute extends _i7.PageRouteInfo<void> {
-  const LoginRoute({List<_i7.PageRouteInfo>? children})
-      : super(
+/// [_i5.LoginView]
+class LoginRoute extends _i8.PageRouteInfo<LoginRouteArgs> {
+  LoginRoute({
+    _i9.Key? key,
+    void Function(bool)? onSuccessfulLogin,
+    List<_i8.PageRouteInfo>? children,
+  }) : super(
           LoginRoute.name,
+          args: LoginRouteArgs(
+            key: key,
+            onSuccessfulLogin: onSuccessfulLogin,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'LoginRoute';
 
-  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
+  static const _i8.PageInfo<LoginRouteArgs> page =
+      _i8.PageInfo<LoginRouteArgs>(name);
+}
+
+class LoginRouteArgs {
+  const LoginRouteArgs({
+    this.key,
+    this.onSuccessfulLogin,
+  });
+
+  final _i9.Key? key;
+
+  final void Function(bool)? onSuccessfulLogin;
+
+  @override
+  String toString() {
+    return 'LoginRouteArgs{key: $key, onSuccessfulLogin: $onSuccessfulLogin}';
+  }
 }
 
 /// generated route for
-/// [_i5.PasswordResetView]
-class PasswordResetRoute extends _i7.PageRouteInfo<void> {
-  const PasswordResetRoute({List<_i7.PageRouteInfo>? children})
+/// [_i6.PasswordResetView]
+class PasswordResetRoute extends _i8.PageRouteInfo<void> {
+  const PasswordResetRoute({List<_i8.PageRouteInfo>? children})
       : super(
           PasswordResetRoute.name,
           initialChildren: children,
@@ -159,13 +210,13 @@ class PasswordResetRoute extends _i7.PageRouteInfo<void> {
 
   static const String name = 'PasswordResetRoute';
 
-  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
+  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i6.WelcomeView]
-class WelcomeRoute extends _i7.PageRouteInfo<void> {
-  const WelcomeRoute({List<_i7.PageRouteInfo>? children})
+/// [_i7.WelcomeView]
+class WelcomeRoute extends _i8.PageRouteInfo<void> {
+  const WelcomeRoute({List<_i8.PageRouteInfo>? children})
       : super(
           WelcomeRoute.name,
           initialChildren: children,
@@ -173,5 +224,5 @@ class WelcomeRoute extends _i7.PageRouteInfo<void> {
 
   static const String name = 'WelcomeRoute';
 
-  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
+  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
 }

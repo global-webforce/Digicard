@@ -23,6 +23,7 @@ class ContactsView extends StatelessWidget {
           }, builder: (context, child) {
             return Scaffold(
               appBar: AppBar(
+                automaticallyImplyLeading: false,
                 title: const Text("CONTACTS"),
                 actions: [
                   IconButton(
@@ -30,7 +31,7 @@ class ContactsView extends StatelessWidget {
                       showSearch(
                         useRootNavigator: true,
                         context: context,
-                        delegate: MySearchDelegate(viewModel.cardList),
+                        delegate: MySearchDelegate(viewModel.contactList),
                       );
                     },
                     icon: const Icon(
@@ -47,7 +48,7 @@ class ContactsView extends StatelessWidget {
                         child: CircularProgressIndicator(),
                       ),
                     )
-                  : viewModel.cards.isEmpty
+                  : viewModel.contacts.isEmpty
                       ? const EmptyDisplay(
                           icon: FontAwesomeIcons.addressBook,
                           title: "You have no contacts yet.")

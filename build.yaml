@@ -1,0 +1,7 @@
+targets:
+  $default:
+    builders:
+      auto_route:auto_route:
+        generate_for:
+          - lib/app/routes/*.dart
+      
