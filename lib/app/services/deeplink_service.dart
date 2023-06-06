@@ -21,7 +21,7 @@ class DeeplinkService with ListenableServiceMixin {
   Future<void> initURIHandler() async {
     final String? initialLink = await getInitialLink();
 
-    if (initialLink != null && initialLink != '/') {
+    if (initialLink != null) {
       if (CardUrl(initialLink).isValid()) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _navService.push(CardLoaderRoute(uuid: CardUrl(initialLink).uuid));

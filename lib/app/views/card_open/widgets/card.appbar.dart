@@ -28,7 +28,7 @@ class CardAppBar extends StatelessWidget with PreferredSizeWidget {
               shape: BoxShape.circle, color: colorTheme.withOpacity(0.8)),
           child: InkWell(
             customBorder: const CircleBorder(),
-            onTap: () => locator<AppRouter>().pop(),
+            onTap: () => locator<AppRouter>().popUntilRouteWithPath("/"),
             child: const Padding(
               padding: EdgeInsets.all(5),
               child: Icon(Icons.close_rounded, color: Colors.white),
@@ -75,13 +75,17 @@ class CardAppBar extends StatelessWidget with PreferredSizeWidget {
             backgroundColor: Colors.transparent,
             surfaceTintColor: Colors.transparent,
             actions: [
-              if (!viewModel.isCardOwnedByUser())
+              if (!viewModel.isCardOwnedByUser() && viewModel.isUserPresent())
                 IconButton(
-                    onPressed: () {
-                      viewModel.showOptions(viewModel.formModel.model);
-                    },
-                    icon: Icon(Icons.more_horiz,
-                        size: 40, color: colorTheme.withOpacity(0.8))),
+                  onPressed: () {
+                    viewModel.showOptions(viewModel.formModel.model);
+                  },
+                  icon: Icon(
+                    Icons.more_horiz,
+                    size: 40,
+                    color: colorTheme.withOpacity(0.8),
+                  ),
+                ),
               closeButton(),
             ],
           );

@@ -7,11 +7,12 @@ import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/extensions/digital_card_extension.dart';
 import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:digicard/app/helper/screen_size.dart';
-import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
 import 'package:digicard/app/views/card_open/widgets/card.custom_links.display.dart';
 import 'package:digicard/app/views/card_open/widgets/icon_list_item.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
 
 import 'card.wave_divider.dart';
@@ -21,7 +22,7 @@ class CardDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ReactiveDigitalCardForm.of(context);
+    /*  ReactiveDigitalCardForm.of(context); */
     final viewModel =
         getParentViewModel<CardOpenViewModel>(context, listen: true);
     final formModel = viewModel.formModel;
@@ -183,6 +184,18 @@ class CardDisplay extends StatelessWidget {
             );
     }
 
+    Widget dateCreatedField() {
+      return !"${formModel.model.createdAt}".isNotNullOrEmpty()
+          ? const SizedBox.shrink()
+          : IconListItem(
+              color: Colors.transparent,
+              icon: FontAwesomeIcons.handshakeSimple,
+              text:
+                  "Added ${DateFormat('MMM dd, yyyy h:mm a').format(formModel.model.createdAt ?? DateTime.now())}"
+                      .clean(),
+            );
+    }
+
     return LayoutBuilder(builder: (context, size) {
       return Padding(
         padding: screenWidth(context) > 480.000
@@ -240,9 +253,10 @@ class CardDisplay extends StatelessWidget {
                         headlineField(),
                         pronounsField(),
                         const Padding(
-                          padding: EdgeInsets.only(top: 8.0),
+                          padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
                           child: CustomLinkDisplay(),
                         ),
+                        dateCreatedField()
                       ],
                     ),
                   ),

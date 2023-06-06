@@ -308,7 +308,7 @@ class CardForm extends StatelessWidget {
                               },
                               value:
                                   "${formModel.prefixControl?.value ?? ""} ${formModel.firstNameControl?.value ?? ""} ${formModel.middleNameControl?.value ?? ""} ${formModel.lastNameControl?.value ?? ""} ${formModel.suffixControl?.value ?? ""}"
-                                      .trim(),
+                                      .clean(),
                               body: Padding(
                                 padding: const EdgeInsets.only(left: 30),
                                 child: Column(

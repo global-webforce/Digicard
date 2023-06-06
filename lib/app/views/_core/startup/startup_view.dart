@@ -17,7 +17,7 @@ class StartupView extends StatelessWidget {
         viewModelBuilder: () => StartupViewModel(),
         fireOnViewModelReadyOnce: true,
         onViewModelReady: (viewModel) async {
-          viewModel.init();
+          await viewModel.init();
         },
         onDispose: (viewModel) {
           viewModel.stop();
@@ -82,7 +82,6 @@ class StartupView extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               routerConfig: appRouter.config(
                 includePrefixMatches: true,
-                rebuildStackOnDeepLink: true,
               ),
             ),
           );

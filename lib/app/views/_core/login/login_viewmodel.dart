@@ -75,12 +75,11 @@ class LoginViewModel extends ReactiveViewModel {
   Future register() async {
     if (!form.hasErrors) {
       await runBusyFuture(_authService.register(form.value),
-          throwException: true);
-      _dialogService.showCustomDialog(
-          variant: DialogType.simple,
-          barrierDismissible: true,
-          description:
-              "We've sent a confirmation link to your email. Please check.");
+              throwException: true)
+          .then((value) {
+        appRouter.replace(const InitialRoute());
+      });
+
       form.reset();
     }
   }

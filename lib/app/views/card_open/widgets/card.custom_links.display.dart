@@ -26,39 +26,41 @@ class CustomLinkDisplay extends StatelessWidget {
     return ReactiveFormArray<Map<String, Object?>>(
       formArray: formModel.customLinksControl,
       builder: (context, formArray, child) {
-        return Wrap(
-            runSpacing: 8,
-            spacing: 8,
-            children: formArray.value != null
-                ? formArray.value!.asMap().entries.map((menu) {
-                    final index = menu.key;
-                    final customLink = CustomLink(
-                      text: "${formArray.control('$index.text').value}",
-                      label: "${formArray.control('$index.label').value}",
-                      type: "${formArray.control('$index.type').value}",
-                    );
+        return formArray.value != null
+            ? Wrap(
+                runSpacing: 8,
+                spacing: 8,
+                children: formArray.value != null
+                    ? formArray.value!.asMap().entries.map((menu) {
+                        final index = menu.key;
+                        final customLink = CustomLink(
+                          text: "${formArray.control('$index.text').value}",
+                          label: "${formArray.control('$index.label').value}",
+                          type: "${formArray.control('$index.type').value}",
+                        );
 
-                    Widget linkField() {
-                      return GestureDetector(
-                          onTap: (customLink.extras().uri != null)
-                              ? () async {
-                                  if (await launchUrl(
-                                      customLink.extras().uri ?? Uri())) {
-                                    throw Exception(
-                                        'Could not launch ${customLink.extras().uri}');
-                                  }
-                                }
-                              : null,
-                          child: IconListItem(
-                            icon: customLink.extras().icon,
-                            color: colorTheme,
-                            text: customLink.text.clean(),
-                          ));
-                    }
+                        Widget linkField() {
+                          return GestureDetector(
+                              onTap: (customLink.extras().uri != null)
+                                  ? () async {
+                                      if (await launchUrl(
+                                          customLink.extras().uri ?? Uri())) {
+                                        throw Exception(
+                                            'Could not launch ${customLink.extras().uri}');
+                                      }
+                                    }
+                                  : null,
+                              child: IconListItem(
+                                icon: customLink.extras().icon,
+                                color: colorTheme,
+                                text: customLink.text.clean(),
+                              ));
+                        }
 
-                    return linkField();
-                  }).toList()
-                : []);
+                        return linkField();
+                      }).toList()
+                    : [])
+            : const SizedBox.shrink();
       },
     );
   }

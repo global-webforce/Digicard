@@ -20,7 +20,9 @@ import 'widgets/card.appbar.dart';
 class CardOpenView extends StatelessWidget {
   final DigitalCard card;
   final ActionType actionType;
-  const CardOpenView({Key? key, required this.card, required this.actionType})
+  final DateTime? dateAdded;
+  const CardOpenView(
+      {Key? key, required this.card, required this.actionType, this.dateAdded})
       : super(key: key);
 
   @override

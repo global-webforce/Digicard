@@ -64,13 +64,13 @@ class AlphabetList extends StatelessWidget {
 
     return AlphabetListView(
         options: options,
-        items: viewModel.cards.entries.map((entry) {
+        items: viewModel.contacts.entries.map((entry) {
           return AlphabetListViewItemGroup(
               tag: entry.key,
-              children: entry.value.map((card) {
+              children: entry.value.map((contact) {
                 return InkWell(
                   onTap: () {
-                    viewModel.view(card);
+                    viewModel.view(contact.card);
                   },
                   child: Ink(
                     child: Padding(
@@ -80,14 +80,14 @@ class AlphabetList extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(top: 18.0),
+                            padding: const EdgeInsets.only(top: 12.0),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(5),
                               child: Container(
                                   height: 25,
                                   width: 5,
-                                  color:
-                                      Color(card.color ?? kcPrimaryColorInt)),
+                                  color: Color(
+                                      contact.card.color ?? kcPrimaryColorInt)),
                             ),
                           ),
                           hSpaceSmall,
@@ -96,7 +96,8 @@ class AlphabetList extends StatelessWidget {
                             child: CachedNetworkImage(
                               width: 50,
                               height: 50,
-                              imageUrl: "$avatarUrlPrefix${card.avatarUrl}",
+                              imageUrl:
+                                  "$avatarUrlPrefix${contact.card.avatarUrl}",
                               imageBuilder: (context, imageProvider) {
                                 return Center(
                                   child: Container(
@@ -126,12 +127,12 @@ class AlphabetList extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  "${card.firstName ?? ""} ${card.lastName ?? ""}",
+                                  "${contact.card.firstName ?? ""} ${contact.card.lastName ?? ""}",
                                   maxLines: 1,
                                   style: const TextStyle(fontSize: 16),
                                 ),
                                 Text(
-                                  "${card.position ?? ''} ${card.company != null ? '@ ${card.company}' : ''}"
+                                  "${contact.card.position ?? ''} ${contact.card.company != null ? '@ ${contact.card.company}' : ''}"
                                       .trim(),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,

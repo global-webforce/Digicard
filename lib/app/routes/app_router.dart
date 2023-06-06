@@ -62,10 +62,10 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
           keepHistory: false,
         ),
         AutoRoute(
-            path: "/p/:uuid",
-            page: CardLoaderRoute.page,
-            restorationId: (route) =>
-                '${route.name}/${route.pathParams.get('uuid')}'),
+          path: "/p/:uuid",
+          page: CardLoaderRoute.page,
+        ),
+        RedirectRoute(path: '/p', redirectTo: '/'),
         RedirectRoute(path: "*", redirectTo: "/"),
       ];
 }
