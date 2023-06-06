@@ -10,8 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-import '../../models/digicontact.dart';
-
 class ContactsViewModel extends ReactiveViewModel {
   final log = getLogger('ContactsViewModel');
   final _dialogService = locator<DialogService>();
@@ -43,16 +41,14 @@ class ContactsViewModel extends ReactiveViewModel {
 
   final focusNode = FocusNode();
 
-  List<DigiContact> _contacts = [];
-  List<DigiContact> get contactList => _contacts;
+  List<DigitalCard> _contacts = [];
+  List<DigitalCard> get contactList => _contacts;
 
-  Map<String, List<DigiContact>> get contacts {
+  Map<String, List<DigitalCard>> get contacts {
     _contacts = _contactsService.contacts;
 
-    Map<String, List<DigiContact>> grouped = groupBy(
-        _contacts,
-        (DigiContact contact) =>
-            "${contact.card.firstName} ${contact.card.lastName}"[0]);
+    Map<String, List<DigitalCard>> grouped = groupBy(_contacts,
+        (DigitalCard card) => "${card.firstName} ${card.lastName}"[0]);
 
     return grouped;
   }

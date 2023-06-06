@@ -4,11 +4,11 @@ import 'package:digicard/app/views/card_open/card_open_view.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-import '../../../models/digicontact.dart';
+import '../../../models/digital_card.dart';
 import '../../card_open/card_open_viewmodel.dart';
 
 class MySearchDelegate extends SearchDelegate<String> {
-  final List<DigiContact> items;
+  final List<DigitalCard> items;
 
   MySearchDelegate(this.items);
 
@@ -26,7 +26,7 @@ class MySearchDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildLeading(BuildContext context) {
-    // Icon to the left of the search bar (e.card.g. back button)
+    // Icon to the left of the search bar (e.g. back button)
     return IconButton(
       icon: const Icon(Icons.arrow_back),
       onPressed: () {
@@ -41,12 +41,12 @@ class MySearchDelegate extends SearchDelegate<String> {
       // Return an empty container if the search bar is empty
       return Container();
     } else {
-      final List<DigiContact> suggestions = items
+      final List<DigitalCard> suggestions = items
           .where((e) =>
-              "${e.card.firstName} ${e.card.lastName}"
+              "${e.firstName} ${e.lastName}"
                   .toLowerCase()
                   .contains(query.toLowerCase()) ||
-              "${e.card.position} ${e.card.company}"
+              "${e.position} ${e.company}"
                   .toLowerCase()
                   .contains(query.toLowerCase()))
           .toList();
@@ -57,7 +57,7 @@ class MySearchDelegate extends SearchDelegate<String> {
           return ListTile(
             title: Text("${suggestions[index]} @"),
             onTap: () {
-              close(context, "${suggestions[index].card.firstName}");
+              close(context, "${suggestions[index].firstName}");
             },
           );
         },
@@ -71,12 +71,12 @@ class MySearchDelegate extends SearchDelegate<String> {
       // Return an empty container if the search bar is empty
       return Container();
     } else {
-      final List<DigiContact> contacts = items
+      final List<DigitalCard> contacts = items
           .where((e) =>
-              "${e.card.firstName} ${e.card.lastName}"
+              "${e.firstName} ${e.lastName}"
                   .toLowerCase()
                   .contains(query.toLowerCase()) ||
-              "${e.card.position} ${e.card.company}"
+              "${e.position} ${e.company}"
                   .toLowerCase()
                   .contains(query.toLowerCase()))
           .toList();
@@ -84,7 +84,7 @@ class MySearchDelegate extends SearchDelegate<String> {
       return ListView.builder(
         itemCount: contacts.length,
         itemBuilder: (context, index) {
-          final contact = contacts[index].card;
+          final contact = contacts[index];
           return ListTile(
             title: Text(
                 "${contact.firstName ?? ''} ${contact.lastName ?? ''}".clean()),

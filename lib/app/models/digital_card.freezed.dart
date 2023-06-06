@@ -70,6 +70,7 @@ mixin _$DigitalCard {
   List<CustomLink> get customLinks => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
+  DateTime? get addedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -133,7 +134,8 @@ abstract class $DigitalCardCopyWith<$Res> {
       @FormArrayAnnotation()
           List<CustomLink> customLinks,
       DateTime? createdAt,
-      DateTime? updatedAt});
+      DateTime? updatedAt,
+      DateTime? addedAt});
 }
 
 /// @nodoc
@@ -174,6 +176,7 @@ class _$DigitalCardCopyWithImpl<$Res, $Val extends DigitalCard>
     Object? customLinks = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
+    Object? addedAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -276,6 +279,10 @@ class _$DigitalCardCopyWithImpl<$Res, $Val extends DigitalCard>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      addedAt: freezed == addedAt
+          ? _value.addedAt
+          : addedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -338,7 +345,8 @@ abstract class _$$_DigitalCardCopyWith<$Res>
       @FormArrayAnnotation()
           List<CustomLink> customLinks,
       DateTime? createdAt,
-      DateTime? updatedAt});
+      DateTime? updatedAt,
+      DateTime? addedAt});
 }
 
 /// @nodoc
@@ -377,6 +385,7 @@ class __$$_DigitalCardCopyWithImpl<$Res>
     Object? customLinks = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
+    Object? addedAt = freezed,
   }) {
     return _then(_$_DigitalCard(
       id: freezed == id
@@ -479,6 +488,10 @@ class __$$_DigitalCardCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      addedAt: freezed == addedAt
+          ? _value.addedAt
+          : addedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -537,7 +550,8 @@ class _$_DigitalCard implements _DigitalCard {
       @FormArrayAnnotation()
           final List<CustomLink> customLinks = const [],
       this.createdAt,
-      this.updatedAt})
+      this.updatedAt,
+      this.addedAt})
       : _customLinks = customLinks;
 
   factory _$_DigitalCard.fromJson(Map<String, dynamic> json) =>
@@ -627,10 +641,12 @@ class _$_DigitalCard implements _DigitalCard {
   final DateTime? createdAt;
   @override
   final DateTime? updatedAt;
+  @override
+  final DateTime? addedAt;
 
   @override
   String toString() {
-    return 'DigitalCard(id: $id, userId: $userId, uuid: $uuid, title: $title, prefix: $prefix, firstName: $firstName, middleName: $middleName, lastName: $lastName, suffix: $suffix, accreditations: $accreditations, preferredName: $preferredName, maidenName: $maidenName, pronouns: $pronouns, logoUrl: $logoUrl, avatarUrl: $avatarUrl, avatarFile: $avatarFile, logoFile: $logoFile, color: $color, position: $position, department: $department, company: $company, headline: $headline, customLinks: $customLinks, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'DigitalCard(id: $id, userId: $userId, uuid: $uuid, title: $title, prefix: $prefix, firstName: $firstName, middleName: $middleName, lastName: $lastName, suffix: $suffix, accreditations: $accreditations, preferredName: $preferredName, maidenName: $maidenName, pronouns: $pronouns, logoUrl: $logoUrl, avatarUrl: $avatarUrl, avatarFile: $avatarFile, logoFile: $logoFile, color: $color, position: $position, department: $department, company: $company, headline: $headline, customLinks: $customLinks, createdAt: $createdAt, updatedAt: $updatedAt, addedAt: $addedAt)';
   }
 
   @override
@@ -677,7 +693,8 @@ class _$_DigitalCard implements _DigitalCard {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.addedAt, addedAt) || other.addedAt == addedAt));
   }
 
   @JsonKey(ignore: true)
@@ -708,7 +725,8 @@ class _$_DigitalCard implements _DigitalCard {
         headline,
         const DeepCollectionEquality().hash(_customLinks),
         createdAt,
-        updatedAt
+        updatedAt,
+        addedAt
       ]);
 
   @JsonKey(ignore: true)
@@ -776,7 +794,8 @@ abstract class _DigitalCard implements DigitalCard {
       @FormArrayAnnotation()
           final List<CustomLink> customLinks,
       final DateTime? createdAt,
-      final DateTime? updatedAt}) = _$_DigitalCard;
+      final DateTime? updatedAt,
+      final DateTime? addedAt}) = _$_DigitalCard;
 
   factory _DigitalCard.fromJson(Map<String, dynamic> json) =
       _$_DigitalCard.fromJson;
@@ -856,6 +875,8 @@ abstract class _DigitalCard implements DigitalCard {
   DateTime? get createdAt;
   @override
   DateTime? get updatedAt;
+  @override
+  DateTime? get addedAt;
   @override
   @JsonKey(ignore: true)
   _$$_DigitalCardCopyWith<_$_DigitalCard> get copyWith =>

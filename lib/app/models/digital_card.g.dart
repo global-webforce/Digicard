@@ -42,6 +42,9 @@ _$_DigitalCard _$$_DigitalCardFromJson(Map<String, dynamic> json) =>
       updatedAt: json['updated_at'] == null
           ? null
           : DateTime.parse(json['updated_at'] as String),
+      addedAt: json['added_at'] == null
+          ? null
+          : DateTime.parse(json['added_at'] as String),
     );
 
 Map<String, dynamic> _$$_DigitalCardToJson(_$_DigitalCard instance) =>
@@ -71,4 +74,5 @@ Map<String, dynamic> _$$_DigitalCardToJson(_$_DigitalCard instance) =>
       'custom_links': instance.customLinks,
       'created_at': instance.createdAt?.toIso8601String(),
       'updated_at': instance.updatedAt?.toIso8601String(),
+      'added_at': instance.addedAt?.toIso8601String(),
     };

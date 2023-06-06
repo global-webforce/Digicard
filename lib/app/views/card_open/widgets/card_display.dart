@@ -184,14 +184,26 @@ class CardDisplay extends StatelessWidget {
             );
     }
 
-    Widget dateCreatedField() {
+    Widget dateCreated() {
       return !"${formModel.model.createdAt}".isNotNullOrEmpty()
           ? const SizedBox.shrink()
           : IconListItem(
               color: Colors.transparent,
-              icon: FontAwesomeIcons.handshakeSimple,
+              icon: FontAwesomeIcons.circleInfo,
               text:
-                  "Added ${DateFormat('MMM dd, yyyy h:mm a').format(formModel.model.createdAt ?? DateTime.now())}"
+                  "Created ${DateFormat('MMM dd, yyyy hh:mm a').format(formModel.model.createdAt ?? DateTime.now())}"
+                      .clean(),
+            );
+    }
+
+    Widget dateAdded() {
+      return !"${formModel.model.createdAt}".isNotNullOrEmpty()
+          ? const SizedBox.shrink()
+          : IconListItem(
+              color: Colors.transparent,
+              icon: FontAwesomeIcons.handshake,
+              text:
+                  "Added ${DateFormat('MMM dd, yyyy hh:mm a').format(formModel.model.addedAt ?? DateTime.now())}"
                       .clean(),
             );
     }
@@ -256,7 +268,8 @@ class CardDisplay extends StatelessWidget {
                           padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
                           child: CustomLinkDisplay(),
                         ),
-                        dateCreatedField()
+                        if (viewModel.isCardOwnedByUser()) dateCreated(),
+                        if (viewModel.isCardInContacts()) dateAdded(),
                       ],
                     ),
                   ),

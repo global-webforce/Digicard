@@ -85,6 +85,7 @@ class DigitalCard with _$DigitalCard {
         List<CustomLink> customLinks,
     DateTime? createdAt,
     DateTime? updatedAt,
+    DateTime? addedAt,
   }) = _DigitalCard;
 
   factory DigitalCard.fromJson(Map<String, dynamic> json) =>

@@ -15,14 +15,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:universal_html/html.dart' as html;
 import 'package:universal_html/js.dart' as js;
 
-import '../models/digicontact.dart';
-
 class ContactsService with ListenableServiceMixin {
   final _supabase = Supabase.instance.client;
   final _userService = locator<UserService>();
 
-  final ReactiveValue<List<DigiContact>> _contacts =
-      ReactiveValue<List<DigiContact>>([]);
+  final ReactiveValue<List<DigitalCard>> _contacts =
+      ReactiveValue<List<DigitalCard>>([]);
 
   ContactsService() {
     listenToReactiveValues([
@@ -31,7 +29,7 @@ class ContactsService with ListenableServiceMixin {
     ]);
   }
 
-  List<DigiContact> get contacts {
+  List<DigitalCard> get contacts {
     return _contacts.value.reversed.toList();
   }
 
@@ -44,10 +42,10 @@ class ContactsService with ListenableServiceMixin {
           .order('created_at', ascending: true);
       if (data is List) {
         _contacts.value = data
-            .map((e) => DigiContact(
-                id: e["id"],
-                card: DigitalCard.fromJson(e["cards"]),
-                createdAt: DateTime.parse(e["created_at"])))
+            .map(
+              (e) => DigitalCard.fromJson(e["cards"])
+                  .copyWith(addedAt: DateTime.parse(e["created_at"])),
+            )
             .toList();
 
         notifyListeners();
@@ -66,7 +64,8 @@ class ContactsService with ListenableServiceMixin {
         },
       ).then((value) {
         if (!_contacts.value.contains(card)) {
-          //  _contacts.value.add(card);
+          _contacts.value.add(card);
+          notifyListeners();
         }
       });
     } catch (e) {
