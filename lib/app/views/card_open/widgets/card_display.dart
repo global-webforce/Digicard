@@ -23,6 +23,7 @@ class CardDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     /*  ReactiveDigitalCardForm.of(context); */
+
     final viewModel =
         getParentViewModel<CardOpenViewModel>(context, listen: true);
     final formModel = viewModel.formModel;

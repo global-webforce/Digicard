@@ -87,7 +87,8 @@ class CardAppBar extends StatelessWidget with PreferredSizeWidget {
                     color: colorTheme.withOpacity(0.8),
                   ),
                 ),
-              if (kIsWeb) closeButton(),
+              if (!kIsWeb || viewModel.actionType != ActionType.externalView)
+                closeButton(),
             ],
           );
   }
