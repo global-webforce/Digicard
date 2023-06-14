@@ -125,6 +125,19 @@ class CardSendBottomSheetViewModel extends ReactiveViewModel {
     }
   }
 
+  Future downloadVcf() async {
+    try {
+      await _contactsService.downloadVcf(card).then((value) {
+        _snackbarService.showCustomSnackBar(
+            duration: const Duration(seconds: 2),
+            message: "Contact Downloaded",
+            variant: SnackbarType.successful);
+      });
+    } catch (e) {
+      log.e(e.toString());
+    }
+  }
+
   /*   Future downloadWithoutLogo(BuildContext context) async {
     setBusyForObject(downloadQRBusyKey, true);
 

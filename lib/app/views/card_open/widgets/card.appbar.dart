@@ -2,6 +2,7 @@ import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/routes/app_router.dart';
 import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -86,7 +87,8 @@ class CardAppBar extends StatelessWidget with PreferredSizeWidget {
                     color: colorTheme.withOpacity(0.8),
                   ),
                 ),
-              closeButton(),
+              if (!kIsWeb || viewModel.actionType != ActionType.externalView)
+                closeButton(),
             ],
           );
   }

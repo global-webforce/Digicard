@@ -2401,7 +2401,8 @@ class DigitalCardForm implements FormModel<DigitalCard> {
         headline: _headlineValue,
         customLinks: _customLinksValue,
         createdAt: digitalCard?.createdAt,
-        updatedAt: digitalCard?.updatedAt);
+        updatedAt: digitalCard?.updatedAt,
+        addedAt: digitalCard?.addedAt);
   }
 
   DigitalCardForm copyWithPath(String? path) {

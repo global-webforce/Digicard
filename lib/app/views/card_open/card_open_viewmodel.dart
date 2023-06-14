@@ -125,17 +125,17 @@ class CardOpenViewModel extends ReactiveViewModel {
   Future saveToContacts(DigitalCard card) async {
     await runBusyFuture(
         Future.wait([
-          if (!isCardOwnedByUser() && !isCardInContacts() && isUserPresent())
-            _contactsService.saveToAppContacts(card),
           if (!kIsWeb) _contactsService.saveToDeviceContacts(card),
           if (kIsWeb) _contactsService.downloadVcf(card),
+          if (!isCardOwnedByUser() && !isCardInContacts() && isUserPresent())
+            _contactsService.saveToAppContacts(card),
         ]),
         throwException: true,
         busyObject: saveBusyKey);
     setBusyForObject(doneBusyKey, true);
     await Future.delayed(const Duration(seconds: 1));
     setBusyForObject(doneBusyKey, false);
-    //  _navigationService.back();
+    if (actionType == ActionType.view) _navigationService.back();
   }
 
   editCustomLink(CustomLink customLink, {int? index}) async {

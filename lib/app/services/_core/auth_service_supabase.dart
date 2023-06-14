@@ -11,10 +11,6 @@ class AuthService {
 
   AuthService() {
     _supabase.auth.onAuthStateChange.listen((event) async {
-      /*      if (event.event.name == "passwordRecovery") {
-        navService.navigateToView(const PasswordResetView());
-      } */
-
       _userService.user = event.session?.user;
       if (event.session != null) {
         final expiresAt = DateTime.fromMillisecondsSinceEpoch(
@@ -86,17 +82,26 @@ class AuthService {
 
   Future resetPassword(Map<String, dynamic> formData) async {
     try {
+      return await _supabase.auth.resetPasswordForEmail(
+        formData["email"],
+        redirectTo: 'https://markbulingit.github.io/#/update-password',
+      );
+    } catch (e) {
+      if (e is AuthException) {
+        return Future.error(e.message);
+      }
+      return Future.error("Unknown error occured");
+    }
+  }
+
+  Future updatePassword(String password) async {
+    try {
       return await _supabase.auth
-          .resetPasswordForEmail(
-            formData["email"],
-            redirectTo: 'https://markbulingit.github.io/#/update-password',
-          )
+          .updateUser(UserAttributes(password: password))
           .then((value) {});
     } catch (e) {
       if (e is AuthException) {
         return Future.error(e.message);
-      } else if (e.toString().toLowerCase().contains("already exists")) {
-        return Future.error(e);
       }
       return Future.error("Unknown error occured");
     }

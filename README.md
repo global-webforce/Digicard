@@ -15,3 +15,13 @@ Supabase "copy" async method
 
 Supabase Password Reset Flow
  https://github.com/orgs/supabase/discussions/3360#discussioncomment-3947228
+
+
+ flutter pub run build_runner build --delete-conflicting-outputs --build-filter="lib/app/routes/app_router.dart"
+
+ flutter clean && flutter pub get && flutter pub run build_runner build --delete-conflicting-outputs
+
+
+
+
+ https://supabase.com/docs/guides/auth/auth-password-reset

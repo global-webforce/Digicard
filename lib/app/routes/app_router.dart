@@ -62,6 +62,11 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
           keepHistory: false,
         ),
         AutoRoute(
+          path: "/update-password",
+          page: ForgotPasswordRoute.page,
+          keepHistory: false,
+        ),
+        AutoRoute(
           path: "/p/:uuid",
           page: CardLoaderRoute.page,
         ),

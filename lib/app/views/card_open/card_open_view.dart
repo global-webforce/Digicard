@@ -35,6 +35,7 @@ class CardOpenView extends StatelessWidget {
           model.context = context;
         },
         onDispose: (model) {
+          model.model = DigitalCard();
           model.formModel.reset();
           model.formModel.form.dispose();
           model.formModel.customLinksCustomLinkForm
@@ -150,7 +151,12 @@ class CardOpenView extends StatelessWidget {
                                                         viewModel
                                                             .isCardOwnedByUser()
                                                     ? youOwnButton()
-                                                    : saveButton(),
+                                                    : (!kIsWeb &&
+                                                            viewModel
+                                                                .isCardInContacts())
+                                                        ? const SizedBox
+                                                            .shrink()
+                                                        : saveButton(),
                                                 adPanel()
                                               ],
                                             ),

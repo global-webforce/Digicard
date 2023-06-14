@@ -67,10 +67,10 @@ class AlphabetList extends StatelessWidget {
         items: viewModel.contacts.entries.map((entry) {
           return AlphabetListViewItemGroup(
               tag: entry.key,
-              children: entry.value.map((contact) {
+              children: entry.value.map((card) {
                 return InkWell(
                   onTap: () {
-                    viewModel.view(contact.card);
+                    viewModel.view(card);
                   },
                   child: Ink(
                     child: Padding(
@@ -86,8 +86,8 @@ class AlphabetList extends StatelessWidget {
                               child: Container(
                                   height: 25,
                                   width: 5,
-                                  color: Color(
-                                      contact.card.color ?? kcPrimaryColorInt)),
+                                  color:
+                                      Color(card.color ?? kcPrimaryColorInt)),
                             ),
                           ),
                           hSpaceSmall,
@@ -96,8 +96,7 @@ class AlphabetList extends StatelessWidget {
                             child: CachedNetworkImage(
                               width: 50,
                               height: 50,
-                              imageUrl:
-                                  "$avatarUrlPrefix${contact.card.avatarUrl}",
+                              imageUrl: "$avatarUrlPrefix${card.avatarUrl}",
                               imageBuilder: (context, imageProvider) {
                                 return Center(
                                   child: Container(
@@ -127,12 +126,12 @@ class AlphabetList extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  "${contact.card.firstName ?? ""} ${contact.card.lastName ?? ""}",
+                                  "${card.firstName ?? ""} ${card.lastName ?? ""}",
                                   maxLines: 1,
                                   style: const TextStyle(fontSize: 16),
                                 ),
                                 Text(
-                                  "${contact.card.position ?? ''} ${contact.card.company != null ? '@ ${contact.card.company}' : ''}"
+                                  "${card.position ?? ''} ${card.company != null ? '@ ${card.company}' : ''}"
                                       .trim(),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,

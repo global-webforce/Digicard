@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class CollapsibleField extends StatefulWidget {
@@ -64,15 +65,20 @@ class _CollapsibleFieldState extends State<CollapsibleField> {
                             )))),
         ),
         AnimatedSize(
-          clipBehavior: Clip.hardEdge,
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.ease,
-          reverseDuration: const Duration(milliseconds: 500),
-          child: Column(
-            children: [
-              const SizedBox(height: 5),
-              SizedBox(height: animatedHeight, child: widget.body),
-            ],
+          duration: const Duration(milliseconds: 300),
+          reverseDuration: const Duration(milliseconds: 300),
+          child: SizedBox(
+            height: expanded
+                ? (kIsWeb)
+                    ? 502
+                    : 580
+                : 0.0,
+            child: Column(
+              children: [
+                const SizedBox(height: 5),
+                widget.body,
+              ],
+            ),
           ),
         ),
       ],
