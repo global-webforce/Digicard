@@ -73,62 +73,52 @@ class CustomLinkView extends StatelessWidget {
 
                             showErrors(control) => false;
                             final inputStyle = InputDecoration(
+                                contentPadding: const EdgeInsets.all(12),
+                                isDense: true,
+                                border: const OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
                                 label: Text(
                                     "${viewModel.formModel.typeControl?.value}"),
                                 helperText:
                                     "${CustomLink(type: '${formModel.typeControl?.value}').extras().hintLink}${formModel.textControl?.value ?? ''}",
                                 prefixIcon: Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 15.0,
-                                  ),
-                                  child: Wrap(
-                                    children: [
-                                      Icon(
-                                        CustomLink(
-                                                type:
-                                                    "${formModel.typeControl?.value}")
-                                            .extras()
-                                            .icon,
-                                        size: 20,
-                                      ),
-                                      hSpaceRegular,
-                                    ],
+                                  padding:
+                                      const EdgeInsets.fromLTRB(12, 0, 12, 0),
+                                  child: Icon(
+                                    CustomLink(
+                                            type:
+                                                "${formModel.typeControl?.value}")
+                                        .extras()
+                                        .icon,
+                                    size: 20,
                                   ),
                                 ),
                                 prefixIconConstraints: const BoxConstraints(
                                     minWidth: 0, minHeight: 0),
                                 alignLabelWithHint: true,
-                                filled: false,
-                                fillColor: Colors.transparent,
-                                border: const UnderlineInputBorder(),
-                                enabledBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.grey),
-                                ),
                                 counterText: "",
                                 floatingLabelBehavior:
                                     FloatingLabelBehavior.auto);
 
                             Widget textField() {
-                              return ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: ReactiveTextField(
-                                    validationMessages: {
-                                      'required': (error) => 'Required'
-                                    },
-                                    textInputAction: textInputAction(
-                                        "${formModel.typeControl?.value}"),
-                                    maxLines: null,
-                                    maxLength:
-                                        ("${formModel.typeControl?.value}" ==
-                                                "Address")
-                                            ? 300
-                                            : null,
-                                    showErrors: showErrors,
-                                    formControl: formModel.textControl,
-                                    keyboardType: keyboardType(
-                                        "${formModel.typeControl?.value}"),
-                                    decoration: inputStyle),
-                              );
+                              return ReactiveTextField(
+                                  validationMessages: {
+                                    'required': (error) => 'Required'
+                                  },
+                                  textInputAction: textInputAction(
+                                      "${formModel.typeControl?.value}"),
+                                  maxLines: null,
+                                  maxLength:
+                                      ("${formModel.typeControl?.value}" ==
+                                              "Address")
+                                          ? 300
+                                          : null,
+                                  showErrors: showErrors,
+                                  formControl: formModel.textControl,
+                                  keyboardType: keyboardType(
+                                      "${formModel.typeControl?.value}"),
+                                  decoration: inputStyle);
                             }
 
                             return Column(

@@ -4,13 +4,13 @@ import 'package:digicard/app/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
-class CardLogo extends StatelessWidget {
+class CardLogoPreview extends StatelessWidget {
   final Color color;
   final Uint8List? imagePath;
 
   final Function()? onTap;
 
-  const CardLogo({
+  const CardLogoPreview({
     Key? key,
     this.imagePath,
     required this.color,
@@ -35,41 +35,48 @@ class CardLogo extends StatelessWidget {
         child: (imagePath is Uint8List)
             ? InkWell(
                 onTap: onTap != null ? () => onTap!() : null,
-                child: Container(
-                  height: 80,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: MemoryImage(imagePath!),
-                      alignment: Alignment.centerLeft,
-                      fit: BoxFit.contain,
+                child: AspectRatio(
+                  aspectRatio: 1 / 1,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: MemoryImage(imagePath!),
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                 ))
             : InkWell(
-                borderRadius: BorderRadius.circular(15),
                 onTap: onTap != null ? () => onTap!() : null,
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(15)),
-                  width: 80,
-                  height: 80,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(
-                        Icons.image_rounded,
-                        size: 20,
-                      ),
-                    ],
+                child: AspectRatio(
+                  aspectRatio: 1 / 1,
+                  child: Center(
+                    child: Column(
+                      children: const [
+                        Icon(
+                          Icons.add,
+                          size: 20,
+                        ),
+                        Text(
+                          "LOGO",
+                          style: TextStyle(
+                            fontSize: 15,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ));
   }
 }
 
-class ReactiveLogoPicker extends ReactiveFormField<Uint8List, Uint8List> {
-  ReactiveLogoPicker({
+class ReactiveLogoPickerPreview
+    extends ReactiveFormField<Uint8List, Uint8List> {
+  ReactiveLogoPickerPreview({
     Key? key,
     bool? readOnly,
     Function()? onTap,
@@ -81,7 +88,7 @@ class ReactiveLogoPicker extends ReactiveFormField<Uint8List, Uint8List> {
           formControlName: formControlName,
           formControl: formControl,
           builder: (field) {
-            return CardLogo(
+            return CardLogoPreview(
               imagePath: field.value,
               color: backgroundColor ?? kcPrimaryColor,
               onTap: (onTap != null) ? () => onTap() : null,
@@ -90,7 +97,7 @@ class ReactiveLogoPicker extends ReactiveFormField<Uint8List, Uint8List> {
         ) {
     if (this.formControlName == null && this.formControl == null) {
       assert(this.formControlName == null && this.formControl == null,
-          'ReactiveLogoPicker requires atleast a formControlName or formControl');
+          'ReactiveLogoPickerPreview requires atleast a formControlName or formControl');
     }
   }
 

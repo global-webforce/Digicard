@@ -70,13 +70,13 @@ class StartupView extends StatelessWidget {
                   ),
                 ),
                 fontFamily: GoogleFonts.poppins().fontFamily,
-                inputDecorationTheme: InputDecorationTheme(
+                /*    inputDecorationTheme: InputDecorationTheme(
                   isDense: true,
                   filled: true,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(1016),
                   ),
-                ),
+                ), */
               ),
               scrollBehavior: MyCustomScrollBehavior(),
               debugShowCheckedModeBanner: false,

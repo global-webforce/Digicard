@@ -44,12 +44,12 @@ class CustomLinkOptions extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: colorTheme.darken(),
-        borderRadius: const BorderRadius.only(
+          color: colorTheme.darken(), borderRadius: BorderRadius.circular(20)
+          /*   borderRadius: const BorderRadius.only(
           topRight: Radius.circular(30.0),
           topLeft: Radius.circular(30.0),
-        ),
-      ),
+        ), */
+          ),
       padding: const EdgeInsets.symmetric(
         horizontal: 15,
         vertical: 30,

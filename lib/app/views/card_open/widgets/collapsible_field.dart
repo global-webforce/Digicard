@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class CollapsibleField extends StatefulWidget {
@@ -29,7 +28,7 @@ class _CollapsibleFieldState extends State<CollapsibleField> {
                   onTap: () {
                     setState(() {
                       expanded = !expanded;
-                      expanded ? animatedHeight = 570.0 : animatedHeight = 0.0;
+                      expanded ? animatedHeight = 510.0 : animatedHeight = 0.0;
                       widget.onToggle(expanded);
                     });
                   },
@@ -38,44 +37,33 @@ class _CollapsibleFieldState extends State<CollapsibleField> {
                   enableInteractiveSelection: true,
                   decoration: InputDecoration(
                       label: const Text("Name*"),
-                      alignLabelWithHint: true,
-                      filled: false,
-                      fillColor: Colors.transparent,
-                      border: const UnderlineInputBorder(),
-                      enabledBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
-                      ),
-                      floatingLabelBehavior: FloatingLabelBehavior.auto,
+                      contentPadding: const EdgeInsets.all(12),
+                      isDense: true,
+                      border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
                       suffixIconConstraints:
                           const BoxConstraints(minWidth: 0, minHeight: 0),
                       suffixIcon: expanded
-                          ? const Padding(
-                              padding: EdgeInsets.fromLTRB(15, 14, 8, 0),
-                              child: Icon(
-                                Icons.arrow_drop_down_rounded,
-                                size: 32,
-                              ),
+                          ? const Icon(
+                              Icons.arrow_drop_down_rounded,
+                              size: 32,
                             )
-                          : const Padding(
-                              padding: EdgeInsets.fromLTRB(15, 14, 8, 0),
-                              child: Icon(
-                                Icons.arrow_drop_up_rounded,
-                                size: 32,
-                              ),
+                          : const Icon(
+                              Icons.arrow_drop_up_rounded,
+                              size: 32,
                             )))),
         ),
         AnimatedSize(
           duration: const Duration(milliseconds: 300),
           reverseDuration: const Duration(milliseconds: 300),
+          key: UniqueKey(),
+          clipBehavior: Clip.antiAlias,
           child: SizedBox(
-            height: expanded
-                ? (kIsWeb)
-                    ? 502
-                    : 580
-                : 0.0,
+            height: animatedHeight,
             child: Column(
               children: [
-                const SizedBox(height: 5),
+                const SizedBox(height: 10),
                 widget.body,
               ],
             ),

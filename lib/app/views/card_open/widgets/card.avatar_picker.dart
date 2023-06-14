@@ -1,8 +1,6 @@
 import 'dart:typed_data';
-import 'dart:ui';
 
 import 'package:digicard/app/constants/colors.dart';
-import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
@@ -26,73 +24,40 @@ class CardAvatar extends StatelessWidget {
           return FadeTransition(opacity: animation, child: child);
         },
         child: (imagePath is! Uint8List)
-            ? Material(
-                color: color.darken(0.2),
-                child: InkWell(
-                  onTap: onTap != null ? () => onTap!() : null,
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      maxHeight: 450,
-                      minWidth: double.infinity,
-                    ),
-                    child: AspectRatio(
-                      aspectRatio: 1 / 1,
-                      child: Center(
-                        child: Wrap(
-                          spacing: 10,
-                          alignment: WrapAlignment.center,
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          direction: Axis.vertical,
-                          children: const [
-                            Icon(Icons.add, size: 20, color: Colors.white),
-                            Text(
-                              "PROFILE IMAGE",
-                              style:
-                                  TextStyle(fontSize: 15, color: Colors.white),
-                            )
-                          ],
-                        ),
+            ? InkWell(
+                borderRadius: BorderRadius.circular(15),
+                onTap: onTap != null ? () => onTap!() : null,
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(15)),
+                  width: 80,
+                  height: 80,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Icon(
+                        Icons.image_rounded,
+                        size: 20,
                       ),
-                    ),
+                    ],
                   ),
                 ),
               )
-            : Material(
-                color: color.darken(0.2),
-                child: InkWell(
-                  onTap: onTap != null ? () => onTap!() : null,
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      maxHeight: 450,
-                      minWidth: double.infinity,
-                    ),
-                    child: AspectRatio(
-                      aspectRatio: 1 / 1,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: MemoryImage(imagePath!),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        child: ClipRRect(
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: MemoryImage(imagePath!),
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+            : InkWell(
+                onTap: onTap != null ? () => onTap!() : null,
+                borderRadius: BorderRadius.circular(15),
+                child: Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    image: DecorationImage(
+                      image: MemoryImage(imagePath!),
+                      fit: BoxFit.cover,
                     ),
                   ),
-                ),
-              ));
+                )));
   }
 }
 

@@ -91,6 +91,8 @@ class CardOpenViewModel extends ReactiveViewModel {
     initForm();
   }
 
+  final selectedSegment_06 = ValueNotifier(0);
+
   initForm() async {
     _formModel =
         DigitalCardForm(model, DigitalCardForm.formElements(model), null);
@@ -251,6 +253,7 @@ class CardOpenViewModel extends ReactiveViewModel {
       sourcePath: src ?? '',
       aspectRatioPresets: [
         CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio16x9
       ],
       uiSettings: [
         WebUiSettings(

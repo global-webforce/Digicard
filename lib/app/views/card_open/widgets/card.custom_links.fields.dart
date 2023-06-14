@@ -39,42 +39,41 @@ class CustomLinkFields extends StatelessWidget {
                           formModel.form.markAsDirty(updateParent: true);
                         },
                         readOnly: true,
+                        key: UniqueKey(),
                         formControlName: '$index.text'.clean(),
                         maxLines: customLink.type == "Address" ? null : 1,
                         decoration: InputDecoration(
-                            isDense: true,
-                            prefixIcon: Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 15, 15, 0),
-                              child: Icon(
-                                customLink.extras().icon,
-                              ),
+                          contentPadding: const EdgeInsets.all(12),
+                          isDense: true,
+                          border: const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          floatingLabelBehavior: FloatingLabelBehavior.never,
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+                            child: Icon(
+                              customLink.extras().icon,
                             ),
-                            suffixIcon: Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(15, 15, 0, 0),
-                                child: InkWell(
-                                    onTap: () {
-                                      viewModel.removeCustomLink(menu.key);
-                                      formModel.form
-                                          .markAsDirty(updateParent: true);
-                                    },
-                                    child: const Icon(
-                                      Icons.close_rounded,
-                                      size: 25,
-                                    ))),
-                            prefixIconConstraints:
-                                const BoxConstraints(minWidth: 0, minHeight: 0),
-                            suffixIconConstraints:
-                                const BoxConstraints(minWidth: 0, minHeight: 0),
-                            alignLabelWithHint: true,
-                            filled: false,
-                            fillColor: Colors.transparent,
-                            border: const UnderlineInputBorder(),
-                            enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey),
-                            ),
-                            labelText: "${customLink.type}",
-                            floatingLabelBehavior: FloatingLabelBehavior.auto),
+                          ),
+                          suffixIcon: Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
+                              child: InkWell(
+                                  onTap: () {
+                                    viewModel.removeCustomLink(menu.key);
+                                    formModel.form
+                                        .markAsDirty(updateParent: true);
+                                  },
+                                  child: const Icon(
+                                    Icons.close_rounded,
+                                    size: 20,
+                                  ))),
+                          prefixIconConstraints:
+                              const BoxConstraints(minWidth: 0, minHeight: 0),
+                          suffixIconConstraints:
+                              const BoxConstraints(minWidth: 0, minHeight: 0),
+                          alignLabelWithHint: true,
+                          labelText: "${customLink.type}",
+                        ),
                       );
                     }
 
