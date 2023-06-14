@@ -50,7 +50,7 @@ class DigitalCardService with ListenableServiceMixin {
       if (card.avatarFile != null) {
         var mime = lookupMimeType('', headerBytes: card.avatarFile);
         var extension = extensionFromMime("$mime");
-        final avatarName = '${uuid.v4()}$extension';
+        final avatarName = '${uuid.v4()}.$extension';
 
         await Supabase.instance.client.storage
             .from('images')
@@ -69,7 +69,7 @@ class DigitalCardService with ListenableServiceMixin {
       if (card.logoFile != null) {
         var mime = lookupMimeType('', headerBytes: card.logoFile);
         var extension = extensionFromMime("$mime");
-        final logoName = '${uuid.v4()}$extension';
+        final logoName = '${uuid.v4()}.$extension';
 
         await Supabase.instance.client.storage
             .from('images')
@@ -111,7 +111,7 @@ class DigitalCardService with ListenableServiceMixin {
       if (card.avatarFile != null) {
         var mime = lookupMimeType('', headerBytes: card.avatarFile);
         var extension = extensionFromMime("$mime");
-        final avatarName = '${uuid.v4()}$extension';
+        final avatarName = '${uuid.v4()}.$extension';
 
         await Supabase.instance.client.storage
             .from('images')
@@ -131,7 +131,7 @@ class DigitalCardService with ListenableServiceMixin {
       if (card.logoFile != null) {
         var mime = lookupMimeType('', headerBytes: card.logoFile);
         var extension = extensionFromMime("$mime");
-        final logoName = '${uuid.v4()}$extension';
+        final logoName = '${uuid.v4()}.$extension';
 
         await Supabase.instance.client.storage
             .from('images')
@@ -215,7 +215,7 @@ class DigitalCardService with ListenableServiceMixin {
         if (card.avatarFile != null) {
           var mime = lookupMimeType('', headerBytes: card.avatarFile);
           var extension = extensionFromMime("$mime");
-          final avatarName = '${uuid.v4()}$extension';
+          final avatarName = '${uuid.v4()}.$extension';
 
           await Supabase.instance.client.storage
               .from('images')
@@ -252,7 +252,7 @@ class DigitalCardService with ListenableServiceMixin {
         if (card.logoFile != null) {
           var mime = lookupMimeType('', headerBytes: card.logoFile);
           var extension = extensionFromMime("$mime");
-          final logoName = '${uuid.v4()}$extension';
+          final logoName = '${uuid.v4()}.$extension';
 
           await Supabase.instance.client.storage
               .from('images')

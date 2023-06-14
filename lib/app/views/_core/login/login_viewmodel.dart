@@ -1,6 +1,7 @@
 import 'package:digicard/app/app.dialog_ui.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/app.logger.dart';
+import 'package:digicard/app/extensions/dynamic_extension.dart';
 import 'package:digicard/app/routes/app_router.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
 
@@ -49,6 +50,26 @@ class LoginViewModel extends ReactiveViewModel {
   });
   FormGroup get form => _form;
 
+  final FormGroup _passwordResetForm = FormGroup({
+    'password': FormControl<String>(validators: [
+      Validators.required,
+    ]),
+    'passwordConfirmation': FormControl<String>(
+      validators: [
+        Validators.required,
+      ],
+    ),
+  }, validators: [
+    Validators.mustMatch('password', 'passwordConfirmation')
+  ]);
+  FormGroup get passwordResetForm => _passwordResetForm;
+
+  resetPasswordRedirect() {
+    if (passwordResetForm.rawValue["password"].isNullEmptyOrFalse()) {
+      appRouter.back();
+    }
+  }
+
   Future logOut() async {
     await _authService.logOut();
   }
@@ -84,18 +105,11 @@ class LoginViewModel extends ReactiveViewModel {
     }
   }
 
-  Future resetPassword() async {
-    if (!form.hasErrors) {
-      await runBusyFuture(_authService.resetPassword(form.value),
-          throwException: true);
-    }
-  }
-
   Future forgotPassword() async {
     if (!form.control('email').hasErrors) {
       await runBusyFuture(_authService.resetPassword(form.value),
           throwException: true);
-      form.reset();
+
       _dialogService.showCustomDialog(
           variant: DialogType.simple,
           barrierDismissible: true,
@@ -107,6 +121,20 @@ class LoginViewModel extends ReactiveViewModel {
           barrierDismissible: true,
           description:
               "To reset password, enter your account email, then tap Forgot Password again.");
+    }
+  }
+
+  Future resetPassword() async {
+    if (!passwordResetForm.hasErrors) {
+      await runBusyFuture(
+              _authService
+                  .updatePassword("${passwordResetForm.rawValue["password"]}"),
+              throwException: true)
+          .then((value) {
+        appRouter.replace(const InitialRoute());
+      });
+
+      passwordResetForm.reset();
     }
   }
 }

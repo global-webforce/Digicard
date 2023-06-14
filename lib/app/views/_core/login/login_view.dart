@@ -302,7 +302,7 @@ class LoginForm extends StatelessWidget {
           mainButton(),
           vSpaceRegular,
           secondaryButton(),
-          /*    vSpaceTiny,
+          /*   vSpaceTiny,
           forgotPasswordButton(), */
         ],
       );

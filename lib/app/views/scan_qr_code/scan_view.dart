@@ -31,7 +31,10 @@ class ScanView extends StatelessWidget {
               return Scaffold(
                 drawer: child.drawer,
                 bottomNavigationBar: child.bottomNavBar,
-                appBar: AppBar(title: const Text("SCAN")),
+                appBar: AppBar(
+                  automaticallyImplyLeading: false,
+                  title: const Text("SCAN"),
+                ),
                 bottomSheet: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15, vertical: 10),

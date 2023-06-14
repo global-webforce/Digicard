@@ -29,7 +29,6 @@ void main() async {
   await setupSnackBarUI();
   await setupDialogUI();
   await setupBottomSheetUI();
-
   runApp(const StartupView());
 }
 //locator.registerSingleton(AppRoute(StackedService.navigatorKey));
