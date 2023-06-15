@@ -6,7 +6,7 @@ import 'package:digicard/app/models/custom_link.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/ui/_core/sliver_grid_delegate.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
-import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
+import 'package:digicard/app/views/card_editor/card_editor_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -17,7 +17,7 @@ class CustomLinkOptions extends StatelessWidget {
   Widget build(BuildContext context) {
     ReactiveDigitalCardForm.of(context);
     final viewModel =
-        getParentViewModel<CardOpenViewModel>(context, listen: true);
+        getParentViewModel<CardEditorViewModel>(context, listen: true);
     final formModel = viewModel.formModel;
     final colorTheme =
         Color(formModel.colorControl?.value ?? kcPrimaryColorInt);

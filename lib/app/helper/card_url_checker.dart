@@ -15,7 +15,7 @@ class CardUrl {
   bool isValid() {
     // var regex = RegExp(r'^https://markbulingit\.github\.io/p/\d+$');
     var regex = RegExp(
-      r'^https://markbulingit\.github\.io/p/[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$',
+      r'^https://markbulingit\.github\.io/#/p/[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$',
       caseSensitive: false,
     );
 

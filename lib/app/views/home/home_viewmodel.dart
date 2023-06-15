@@ -8,8 +8,8 @@ import 'package:digicard/app/services/_core/user_service.dart';
 import 'package:digicard/app/services/contacts_service.dart';
 
 import 'package:digicard/app/services/digital_card_service.dart';
-import 'package:digicard/app/views/card_open/card_open_view.dart';
-import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
+import 'package:digicard/app/views/card_editor/card_editor_view.dart';
+import 'package:digicard/app/views/card_editor/card_editor_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -57,7 +57,7 @@ class HomeViewModel extends ReactiveViewModel {
 
   view(DigitalCard card) {
     _navigationService.navigateToView(
-      CardOpenView(
+      CardEditorView(
         actionType: ActionType.view,
         card: card,
       ),
@@ -79,7 +79,7 @@ class HomeViewModel extends ReactiveViewModel {
 
   create() {
     _navigationService.navigateToView(
-      CardOpenView(
+      CardEditorView(
         actionType: ActionType.create,
         card: DigitalCard(),
       ),

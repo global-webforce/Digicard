@@ -4,11 +4,11 @@ import 'package:digicard/app/helper/screen_size.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/ui/_core/scaffold_body_wrapper.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
-import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
-import 'package:digicard/app/views/card_open/widgets/card.custom_links.fields.dart';
-import 'package:digicard/app/views/card_open/widgets/card.custom_links.options.dart';
-import 'package:digicard/app/views/card_open/widgets/collapsible_field.dart';
-import 'package:digicard/app/views/card_open/widgets/card.color_picker.dart';
+import 'package:digicard/app/views/card_editor/card_editor_viewmodel.dart';
+import 'package:digicard/app/views/card_editor/widgets/card.custom_links.fields.dart';
+import 'package:digicard/app/views/card_editor/widgets/card.custom_links.options.dart';
+import 'package:digicard/app/views/card_editor/widgets/collapsible_field.dart';
+import 'package:digicard/app/views/card_editor/widgets/card.color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 import 'package:stacked/stacked.dart';
@@ -28,12 +28,12 @@ class _CardFormState extends State<CardForm>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
-  final _selectedColor = kcPrimaryColor;
-  final _unselectedColor = const Color(0xff5f6368);
   final _tabs = [
-    const Tab(text: 'General'),
-    const Tab(text: 'Display'),
-    const Tab(text: 'Fields'),
+    const Tab(
+      text: 'Info',
+    ),
+    const Tab(text: 'Designs'),
+    const Tab(text: 'Links'),
   ];
 
   @override
@@ -52,7 +52,7 @@ class _CardFormState extends State<CardForm>
   Widget build(BuildContext context) {
     ReactiveDigitalCardForm.of(context);
     final viewModel =
-        getParentViewModel<CardOpenViewModel>(context, listen: true);
+        getParentViewModel<CardEditorViewModel>(context, listen: true);
     final formModel = viewModel.formModel;
 
     final colorTheme =
@@ -283,13 +283,40 @@ class _CardFormState extends State<CardForm>
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Create Card"),
+        leading: const BackButton(),
+        title: Text(viewModel.actionType == ActionType.edit
+            ? "Edit Card"
+            : viewModel.actionType == ActionType.duplicate
+                ? "Copy Card "
+                : "Create Card"),
+        actions: [
+          ReactiveDigitalCardFormConsumer(builder: (context, f, w) {
+            return ((viewModel.editMode) &&
+                    viewModel.formModel.form.pristine != true)
+                ? TextButton(
+                    onPressed: () async {
+                      await viewModel.save();
+                    },
+                    child: Text(
+                      "Save",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                      ),
+                    ))
+                : const SizedBox.shrink();
+          }),
+        ],
         bottom: TabBar(
           controller: _tabController,
           tabs: _tabs,
-          labelColor: _selectedColor,
-          indicatorColor: _selectedColor,
-          unselectedLabelColor: _unselectedColor,
+          labelColor: Colors.white,
+          indicatorColor: colorTheme,
+          //  indicatorSize: TabBarIndicatorSize.label,
+          indicator: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+              color: colorTheme),
         ),
       ),
       body: TabBarView(
@@ -393,6 +420,11 @@ class _CardFormState extends State<CardForm>
                       hSpaceRegular,
                       CardLayout(
                           customPaint: Layout2Paint(
+                        colorTheme,
+                      )),
+                      hSpaceRegular,
+                      CardLayout(
+                          customPaint: Layout3Paint(
                         colorTheme,
                       )),
                     ],

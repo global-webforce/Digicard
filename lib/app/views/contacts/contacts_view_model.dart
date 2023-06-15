@@ -4,8 +4,8 @@ import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/services/contacts_service.dart';
-import 'package:digicard/app/views/card_open/card_open_view.dart';
-import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
+import 'package:digicard/app/views/card_editor/card_editor_view.dart';
+import 'package:digicard/app/views/card_editor/card_editor_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -54,7 +54,7 @@ class ContactsViewModel extends ReactiveViewModel {
   }
 
   view(DigitalCard card) {
-    _navigationService.navigateToView(CardOpenView(
+    _navigationService.navigateToView(CardEditorView(
       actionType: ActionType.view,
       card: card,
     ));

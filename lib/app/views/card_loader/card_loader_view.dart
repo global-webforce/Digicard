@@ -1,12 +1,12 @@
 import 'package:auto_route/annotations.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/models/digital_card.dart';
-import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
+import 'package:digicard/app/views/card_display/card_display_view.dart';
+import 'package:digicard/app/views/card_display/card_display_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../ui/_core/empty_display.dart';
-import '../card_open/card_open_view.dart';
 import 'card_loader_viewmodel.dart';
 
 @RoutePage()
@@ -34,9 +34,9 @@ class CardLoaderView extends StatelessWidget {
                         child: CircularProgressIndicator(),
                       ))
                   : viewModel.card != null
-                      ? CardOpenView(
+                      ? CardDisplayView(
                           card: viewModel.card ?? DigitalCard(),
-                          actionType: ActionType.externalView)
+                          action: DisplayType.public)
                       : Scaffold(
                           appBar: AppBar(),
                           body: const EmptyDisplay(

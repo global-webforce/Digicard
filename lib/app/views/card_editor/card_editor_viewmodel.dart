@@ -40,8 +40,8 @@ const String saveBusyKey = 'saveBusyKey';
 const String doneBusyKey = 'doneBusyKey';
 const String deleteBusyKey = 'deleteBusyKey';
 
-class CardOpenViewModel extends ReactiveViewModel {
-  final log = getLogger('CardOpenViewModel');
+class CardEditorViewModel extends ReactiveViewModel {
+  final log = getLogger('CardEditorViewModel');
   final _supabase = Supabase.instance.client;
   User? get user => _supabase.auth.currentUser;
 

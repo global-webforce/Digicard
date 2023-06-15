@@ -1,7 +1,7 @@
 import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/routes/app_router.dart';
-import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
+import 'package:digicard/app/views/card_editor/card_editor_viewmodel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -14,7 +14,7 @@ class CardAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel =
-        getParentViewModel<CardOpenViewModel>(context, listen: false);
+        getParentViewModel<CardEditorViewModel>(context, listen: false);
 
     final formModel = ReactiveDigitalCardForm.of(context, listen: true);
 

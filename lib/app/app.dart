@@ -11,7 +11,7 @@ import 'package:digicard/app/ui/bottom_sheets/bs.card_send_viewmodel.dart';
 import 'package:digicard/app/ui/bottom_sheets/bs.card_tools_viewmodel.dart';
 import 'package:digicard/app/views/card_loader/card_loader_viewmodel.dart';
 import 'package:digicard/app/views/dashboard/dashboard_viewmodel.dart';
-import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
+import 'package:digicard/app/views/card_editor/card_editor_viewmodel.dart';
 import 'package:digicard/app/views/home/home_viewmodel.dart';
 import 'package:digicard/app/views/contacts/contacts_view_model.dart';
 import 'package:digicard/app/views/scan_qr_code/scan_viewmodel.dart';
@@ -20,6 +20,7 @@ import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 
+import 'views/card_display/card_display_viewmodel.dart';
 import 'views/custom_link/custom_link_view_model.dart';
 
 @StackedApp(
@@ -51,7 +52,8 @@ import 'views/custom_link/custom_link_view_model.dart';
     Singleton(classType: CardToolsBottomSheetViewModel),
     Singleton(classType: CardSendBottomSheetViewModel),
     Singleton(classType: CardLoaderViewModel),
-    Singleton(classType: CardOpenViewModel),
+    Singleton(classType: CardEditorViewModel),
+    Singleton(classType: CardDisplayViewModel),
     Singleton(classType: CustomLinkViewModel),
     Singleton(classType: ScanViewModel),
     Singleton(classType: ContactsViewModel),

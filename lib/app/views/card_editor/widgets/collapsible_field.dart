@@ -34,7 +34,7 @@ class _CollapsibleFieldState extends State<CollapsibleField> {
                   },
                   key: UniqueKey(),
                   readOnly: true,
-                  enableInteractiveSelection: true,
+                  enableInteractiveSelection: false,
                   decoration: InputDecoration(
                       label: const Text("Name*"),
                       contentPadding: const EdgeInsets.all(12),
@@ -57,7 +57,6 @@ class _CollapsibleFieldState extends State<CollapsibleField> {
         AnimatedSize(
           duration: const Duration(milliseconds: 300),
           reverseDuration: const Duration(milliseconds: 300),
-          key: UniqueKey(),
           clipBehavior: Clip.antiAlias,
           child: SizedBox(
             height: animatedHeight,

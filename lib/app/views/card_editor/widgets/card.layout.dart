@@ -6,8 +6,12 @@ class CardLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(15),
+    return Card(
+      margin: const EdgeInsets.all(0),
+      clipBehavior: Clip.hardEdge,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
       child: Container(
         height: 80,
         width: 80,
@@ -73,6 +77,35 @@ class Layout2Paint extends CustomPainter {
     path0.lineTo(size.width, size.height * 0.1633333);
     path0.lineTo(size.width, 0);
     path0.lineTo(0, 0);
+
+    canvas.drawPath(path0, paint0);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
+}
+
+class Layout3Paint extends CustomPainter {
+  final Color color;
+
+  Layout3Paint(this.color);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint0 = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill
+      ..strokeWidth = 1.0;
+
+    Path path0 = Path();
+    path0.moveTo(0, size.height * 0.5000000);
+    path0.lineTo(size.width, size.height * 0.5000000);
+    path0.lineTo(size.width, 0);
+    path0.lineTo(0, 0);
+    path0.lineTo(0, size.height * 0.5000000);
+    path0.close();
 
     canvas.drawPath(path0, paint0);
   }

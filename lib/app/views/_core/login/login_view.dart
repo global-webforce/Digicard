@@ -109,16 +109,8 @@ class LoginForm extends StatelessWidget {
         formControlName: 'email',
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           labelText: "Email",
-          floatingLabelBehavior: FloatingLabelBehavior.never,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: const BorderSide(
-              width: 0,
-              style: BorderStyle.none,
-            ),
-          ),
         ),
       );
     }
@@ -130,16 +122,8 @@ class LoginForm extends StatelessWidget {
         keyboardType: TextInputType.visiblePassword,
         textInputAction: TextInputAction.done,
         obscureText: true,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           labelText: "Password",
-          floatingLabelBehavior: FloatingLabelBehavior.never,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: const BorderSide(
-              width: 0,
-              style: BorderStyle.none,
-            ),
-          ),
         ),
       );
     }

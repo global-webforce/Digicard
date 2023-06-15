@@ -3,8 +3,10 @@ import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/app.bottomsheet_ui.dart';
 import 'package:digicard/app/app.dialog_ui.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
-import 'package:digicard/app/views/card_open/card_open_view.dart';
-import 'package:digicard/app/views/card_open/card_open_viewmodel.dart';
+import 'package:digicard/app/views/card_display/card_display_view.dart';
+import 'package:digicard/app/views/card_display/card_display_viewmodel.dart';
+import 'package:digicard/app/views/card_editor/card_editor_view.dart';
+import 'package:digicard/app/views/card_editor/card_editor_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:flutter/material.dart';
@@ -61,10 +63,7 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
   view(DigitalCard card) {
     _bottomSheetService.completeSheet(SheetResponse());
     _navigationService.navigateToView(
-      CardOpenView(
-        actionType: ActionType.view,
-        card: card,
-      ),
+      CardDisplayView(card: card, action: DisplayType.private),
       transitionStyle: Transition.fade,
       curve: Curves.easeIn,
     );
@@ -73,7 +72,7 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
   edit(DigitalCard card) {
     _bottomSheetService.completeSheet(SheetResponse());
     _navigationService.navigateToView(
-      CardOpenView(
+      CardEditorView(
         actionType: ActionType.edit,
         card: card,
       ),
@@ -85,7 +84,7 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
   duplicate(DigitalCard digitalCard) async {
     _bottomSheetService.completeSheet(SheetResponse());
     _navigationService.navigateToView(
-      CardOpenView(
+      CardEditorView(
         actionType: ActionType.duplicate,
         card: digitalCard.copyWith(title: "${digitalCard.title} Copy"),
       ),

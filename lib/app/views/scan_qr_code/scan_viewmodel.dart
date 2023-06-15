@@ -49,6 +49,8 @@ class ScanViewModel extends ReactiveViewModel {
               .then((value) {
             controller.resumeCamera();
           });
+        } else {
+          //controller.resumeCamera();
         }
       } catch (e) {
         rethrow;
