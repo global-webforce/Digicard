@@ -152,38 +152,6 @@ class CardDisplayView extends StatelessWidget {
             );
           }
 
-          Widget avatarFieldCircle() {
-            return CachedNetworkImage(
-              imageUrl: "$avatarUrlPrefix${viewModel.card.avatarUrl}",
-              imageBuilder: (context, imageProvider) {
-                return Container(
-                  height: 180,
-                  width: 180,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(100)),
-                    image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                );
-              },
-              placeholder: (context, url) {
-                return Container(
-                  height: 100,
-                  width: 100,
-                  decoration: BoxDecoration(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(100)),
-                      color: viewModel.color.darken(0.2)),
-                );
-              },
-              errorWidget: (context, url, error) {
-                return const SizedBox.shrink();
-              },
-            );
-          }
-
           Widget logoField() {
             return CachedNetworkImage(
               imageUrl: "$logoUrlPrefix${viewModel.card.logoUrl}",
@@ -213,10 +181,9 @@ class CardDisplayView extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Text(
                 viewModel.card.fullName().clean().toTitleCase(),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+                overflow: TextOverflow.visible,
                 style:
-                    const TextStyle(fontSize: 26, fontWeight: FontWeight.w900),
+                    const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
             );
           }
@@ -492,62 +459,17 @@ class CardDisplayView extends StatelessWidget {
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     bottom: 18),
-                                                child: Positioned(
-                                                  right: 0,
-                                                  bottom: 0,
-                                                  child: ConstrainedBox(
-                                                    constraints:
-                                                        const BoxConstraints(
-                                                      maxHeight: 450,
-                                                      minWidth: double.infinity,
-                                                    ),
-                                                    child: AspectRatio(
-                                                      aspectRatio: 1 / 1,
-                                                      child: Container(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: viewModel.color
-                                                              .darken(0.2),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
+                                                child: avatarField(),
                                               ),
                                               Positioned(
                                                   left: 0,
                                                   right: 0,
                                                   bottom: 0,
                                                   child: CardWaveDivider(
-                                                      context,
-                                                      color: viewModel.color,
-                                                      size: size,
-                                                      child: const SizedBox
-                                                          .shrink())),
-                                              Positioned(
-                                                right: 0,
-                                                bottom: 0,
-                                                child: avatarFieldCircle(),
-                                              ),
-                                              Positioned(
-                                                  left: 15,
-                                                  top: 40,
-                                                  height: 70,
-                                                  child: logoField()),
-                                              Positioned(
-                                                  left: 15,
-                                                  top: 110,
-                                                  width: screenWidth(context),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      fullNameField(),
-                                                      vSpaceRegular,
-                                                      positionField(),
-                                                      departmentField(),
-                                                    ],
+                                                    context,
+                                                    color: viewModel.color,
+                                                    size: size,
+                                                    child: logoField(),
                                                   )),
                                             ],
                                           ),
@@ -565,6 +487,9 @@ class CardDisplayView extends StatelessWidget {
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.start,
                                                 children: [
+                                                  fullNameField(),
+                                                  positionField(),
+                                                  departmentField(),
                                                   companyField(),
                                                   headlineField(),
                                                   pronounsField(),
