@@ -108,7 +108,11 @@ class CustomLinkView extends StatelessWidget {
                                   },
                                   textInputAction: textInputAction(
                                       "${formModel.typeControl?.value}"),
-                                  maxLines: null,
+                                  maxLines:
+                                      ("${formModel.typeControl?.value}" ==
+                                              "Address")
+                                          ? null
+                                          : 1,
                                   maxLength:
                                       ("${formModel.typeControl?.value}" ==
                                               "Address")

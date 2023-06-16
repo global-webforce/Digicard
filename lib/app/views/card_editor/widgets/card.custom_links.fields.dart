@@ -20,68 +20,68 @@ class CustomLinkFields extends StatelessWidget {
     return ReactiveFormArray<Map<String, Object?>>(
       formArray: formModel.customLinksControl,
       builder: (context, formArray, child) {
-        return Wrap(
-            runSpacing: 10,
-            spacing: 10,
-            children: formArray.value != null
-                ? formArray.value!.asMap().entries.map((menu) {
-                    final index = menu.key;
-                    final customLink = CustomLink(
-                      text: "${formArray.control('$index.text').value}".clean(),
-                      label: "${formArray.control('$index.label').value}",
-                      type: "${formArray.control('$index.type').value}",
-                    );
+        final customLinks = formArray.value ?? [];
+        return Padding(
+          padding: EdgeInsets.only(bottom: customLinks.isNotEmpty ? 15 : 0.0),
+          child: Wrap(
+              runSpacing: 10,
+              spacing: 10,
+              children: customLinks.asMap().entries.map((menu) {
+                final index = menu.key;
+                final customLink = CustomLink(
+                  text: "${formArray.control('$index.text').value}".clean(),
+                  label: "${formArray.control('$index.label').value}",
+                  type: "${formArray.control('$index.type').value}",
+                );
 
-                    Widget linkField() {
-                      return ReactiveTextField<String>(
-                        onTap: (control) {
-                          viewModel.editCustomLink(customLink, index: index);
-                          formModel.form.markAsDirty(updateParent: true);
-                        },
-                        readOnly: true,
-                        key: UniqueKey(),
-                        formControlName: '$index.text'.clean(),
-                        maxLines: customLink.type == "Address" ? null : 1,
-                        style: const TextStyle(fontSize: 14),
-                        decoration: InputDecoration(
-                          filled: true,
-                          contentPadding: const EdgeInsets.all(12),
-                          isDense: true,
-                          border: const OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          floatingLabelBehavior: FloatingLabelBehavior.never,
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-                            child: Icon(
-                              customLink.extras().icon,
-                            ),
-                          ),
-                          suffixIcon: Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
-                              child: InkWell(
-                                  onTap: () {
-                                    viewModel.removeCustomLink(menu.key);
-                                    formModel.form
-                                        .markAsDirty(updateParent: true);
-                                  },
-                                  child: const Icon(
-                                    Icons.close_rounded,
-                                    size: 20,
-                                  ))),
-                          prefixIconConstraints:
-                              const BoxConstraints(minWidth: 0, minHeight: 0),
-                          suffixIconConstraints:
-                              const BoxConstraints(minWidth: 0, minHeight: 0),
-                          alignLabelWithHint: true,
-                          labelText: "${customLink.type}",
+                Widget linkField() {
+                  return ReactiveTextField<String>(
+                    onTap: (control) {
+                      viewModel.editCustomLink(customLink, index: index);
+                      formModel.form.markAsDirty(updateParent: true);
+                    },
+                    readOnly: true,
+                    key: UniqueKey(),
+                    formControlName: '$index.text'.clean(),
+                    maxLines: customLink.type == "Address" ? null : 1,
+                    style: const TextStyle(fontSize: 14),
+                    decoration: InputDecoration(
+                      filled: true,
+                      contentPadding: const EdgeInsets.all(12),
+                      isDense: true,
+                      border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+                        child: Icon(
+                          customLink.extras().icon,
                         ),
-                      );
-                    }
+                      ),
+                      suffixIcon: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
+                          child: InkWell(
+                              onTap: () {
+                                viewModel.removeCustomLink(menu.key);
+                                formModel.form.markAsDirty(updateParent: true);
+                              },
+                              child: const Icon(
+                                Icons.close_rounded,
+                                size: 20,
+                              ))),
+                      prefixIconConstraints:
+                          const BoxConstraints(minWidth: 0, minHeight: 0),
+                      suffixIconConstraints:
+                          const BoxConstraints(minWidth: 0, minHeight: 0),
+                      alignLabelWithHint: true,
+                      labelText: "${customLink.type}",
+                    ),
+                  );
+                }
 
-                    return linkField();
-                  }).toList()
-                : []);
+                return linkField();
+              }).toList()),
+        );
       },
     );
   }

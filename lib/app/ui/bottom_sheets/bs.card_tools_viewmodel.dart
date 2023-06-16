@@ -4,13 +4,14 @@ import 'package:digicard/app/app.bottomsheet_ui.dart';
 import 'package:digicard/app/app.dialog_ui.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:digicard/app/views/card_display/card_display_view.dart';
-import 'package:digicard/app/views/card_display/card_display_viewmodel.dart';
 import 'package:digicard/app/views/card_editor/card_editor_view.dart';
 import 'package:digicard/app/views/card_editor/card_editor_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
+
+import '../../views/card_display/card_display_viewmodel.dart';
 
 const String duplicateBusyKey = 'duplicateBusyKey';
 const String downloadQRBusyKey = 'downloadQRBusyKey';
@@ -86,7 +87,11 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
     _navigationService.navigateToView(
       CardEditorView(
         actionType: ActionType.duplicate,
-        card: digitalCard.copyWith(title: "${digitalCard.title} Copy"),
+        card: digitalCard.copyWith(
+          title: "${digitalCard.title} Copy",
+          createdAt: null,
+          addedAt: null,
+        ),
       ),
       transitionStyle: Transition.zoom,
       curve: Curves.easeIn,

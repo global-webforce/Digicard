@@ -68,9 +68,9 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
         ),
         AutoRoute(
           path: "/p/:uuid",
-          page: CardLoaderRoute.page,
+          page: CardDisplayRoute.page,
         ),
-        RedirectRoute(path: '/p', redirectTo: '/'),
+        //  RedirectRoute(path: '/p', redirectTo: '/'),
         RedirectRoute(path: "*", redirectTo: "/"),
       ];
 }

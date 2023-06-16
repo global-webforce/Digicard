@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class CollapsibleField extends StatefulWidget {
@@ -28,7 +29,9 @@ class _CollapsibleFieldState extends State<CollapsibleField> {
                   onTap: () {
                     setState(() {
                       expanded = !expanded;
-                      expanded ? animatedHeight = 510.0 : animatedHeight = 0.0;
+                      expanded
+                          ? animatedHeight = !kIsWeb ? 510.0 : 400
+                          : animatedHeight = 0.0;
                       widget.onToggle(expanded);
                     });
                   },

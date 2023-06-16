@@ -39,13 +39,13 @@ class StartupView extends StatelessWidget {
               key: UniqueKey(),
               title: "Digicard",
               theme: ThemeData(
-                // useMaterial3: true,
-                /*  cardTheme: CardTheme(
+                useMaterial3: true,
+                cardTheme: CardTheme(
                   margin: const EdgeInsets.all(0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                ), */
+                ),
                 colorSchemeSeed: kcPrimaryColor,
                 /*      colorScheme: ColorScheme(
                     primary: Colors.orange,
@@ -72,7 +72,8 @@ class StartupView extends StatelessWidget {
                 fontFamily: GoogleFonts.poppins().fontFamily,
                 inputDecorationTheme: const InputDecorationTheme(
                   isDense: true,
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
                   floatingLabelBehavior: FloatingLabelBehavior.auto,
                 ),
               ),

@@ -118,7 +118,7 @@ class ContactsService with ListenableServiceMixin {
       });
       notifyListeners();
     } catch (e) {
-      Future.error(e.toString());
+      return Future.error(e.toString());
     }
   }
 

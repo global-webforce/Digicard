@@ -6,11 +6,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
-  // GoogleFonts.config.allowRuntimeFetching = false;
+  GoogleFonts.config.allowRuntimeFetching = true;
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   if (!kIsWeb) FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   try {
