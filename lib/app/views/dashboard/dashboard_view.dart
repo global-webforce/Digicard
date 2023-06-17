@@ -141,7 +141,9 @@ class _DashboardBuilderState extends State<DashboardBuilder> {
                 ? () async {
                     return await widget.onPop!(viewModel);
                   }
-                : null,
+                : () async {
+                    return true;
+                  },
             child: widget.builder(context, part));
   }
 }

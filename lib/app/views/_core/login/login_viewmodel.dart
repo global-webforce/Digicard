@@ -40,11 +40,12 @@ class LoginViewModel extends ReactiveViewModel {
 
   final FormGroup _form = FormGroup({
     'email': FormControl<String>(
-        /* value: 'dionnie_bulingit@yahoo.com', */ validators: [
+        value: 'bulingitmarkdionnie@gmail.com',
+        validators: [
           Validators.required,
           Validators.email,
         ]),
-    'password': FormControl<String>(/* value: 'abc12345', */ validators: [
+    'password': FormControl<String>(value: 'abc12345', validators: [
       Validators.required,
     ]),
   });
@@ -86,7 +87,9 @@ class LoginViewModel extends ReactiveViewModel {
     if (!form.hasErrors) {
       await runBusyFuture(_authService.login(form.value), throwException: true)
           .then((value) {
-        appRouter.replace(const InitialRoute());
+        appRouter.replaceAll([
+          const DashboardRoute(),
+        ]);
       });
 
       form.reset();
@@ -98,7 +101,9 @@ class LoginViewModel extends ReactiveViewModel {
       await runBusyFuture(_authService.register(form.value),
               throwException: true)
           .then((value) {
-        appRouter.replace(const InitialRoute());
+        appRouter.replaceAll([
+          const DashboardRoute(),
+        ]);
       });
 
       form.reset();
@@ -131,7 +136,9 @@ class LoginViewModel extends ReactiveViewModel {
                   .updatePassword("${passwordResetForm.rawValue["password"]}"),
               throwException: true)
           .then((value) {
-        appRouter.replace(const InitialRoute());
+        appRouter.replaceAll([
+          const DashboardRoute(),
+        ]);
       });
 
       passwordResetForm.reset();

@@ -44,11 +44,6 @@ class HomeView extends StatelessWidget {
                 v.visited = true;
               }
             },
-            onPop: (v) async {
-              return await viewModel.confirmExit().then((value) {
-                return Future.value(value?.confirmed);
-              });
-            },
             builder: (context, child) {
               return Scaffold(
                 drawer: child.drawer,

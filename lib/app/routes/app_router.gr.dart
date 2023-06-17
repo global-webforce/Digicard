@@ -17,7 +17,7 @@ import 'package:digicard/app/views/_core/login/forgot_password_view.dart'
 import 'package:digicard/app/views/_core/login/login_view.dart' as _i6;
 import 'package:digicard/app/views/_core/login/password_reset_view.dart' as _i7;
 import 'package:digicard/app/views/_core/welcome/welcome_view.dart' as _i8;
-import 'package:digicard/app/views/card_display/card_display_view.dart' as _i3;
+import 'package:digicard/app/views/card_display/card_display_view1.dart' as _i3;
 import 'package:digicard/app/views/card_display/card_display_viewmodel.dart'
     as _i12;
 import 'package:digicard/app/views/dashboard/dashboard_view.dart' as _i4;

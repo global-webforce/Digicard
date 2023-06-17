@@ -37,6 +37,7 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
     String routePath = resolver.route.path;
+
     if (["/welcome", "/login"].contains(routePath)) {
       if (isAuthenticated) {
         router.navigate(const InitialRoute());
@@ -46,6 +47,7 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
     } else {
       resolver.next(true);
     }
+
     if (!kIsWeb) FlutterNativeSplash.remove();
   }
 
@@ -55,6 +57,14 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
           path: "/",
           page: InitialRoute.page,
           initial: true,
+        ),
+        AutoRoute(
+          path: "/",
+          page: WelcomeRoute.page,
+        ),
+        AutoRoute(
+          path: "/",
+          page: DashboardRoute.page,
         ),
         AutoRoute(
           path: "/login",
@@ -70,7 +80,6 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
           path: "/p/:uuid",
           page: CardDisplayRoute.page,
         ),
-        //  RedirectRoute(path: '/p', redirectTo: '/'),
         RedirectRoute(path: "*", redirectTo: "/"),
       ];
 }
