@@ -2,10 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:digicard/app/services/_core/user_service.dart';
-import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import '../app.locator.dart';
@@ -47,8 +45,6 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
     } else {
       resolver.next(true);
     }
-
-    if (!kIsWeb) FlutterNativeSplash.remove();
   }
 
   @override

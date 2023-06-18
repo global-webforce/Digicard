@@ -19,11 +19,14 @@ class InitialView extends StatelessWidget {
         onViewModelReady: (viewModel) async {
           final a = locator<AppRouter>();
           if (viewModel.isPresent) {
-            a.replaceAll([const DashboardRoute()]);
+            a.replaceAll([const DashboardRoute()]).then((value) {
+              if (!kIsWeb) FlutterNativeSplash.remove();
+            });
           } else {
-            a.replaceAll([const WelcomeRoute()]);
+            a.replaceAll([const WelcomeRoute()]).then((value) {
+              if (!kIsWeb) FlutterNativeSplash.remove();
+            });
           }
-          if (!kIsWeb) FlutterNativeSplash.remove();
         },
         builder: (context, viewModel, child) {
           return const Scaffold(
