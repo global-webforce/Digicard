@@ -58,6 +58,8 @@ mixin _$DigitalCard {
   Uint8List? get logoFile => throw _privateConstructorUsedError;
   @FormControlAnnotation<int>()
   int? get color => throw _privateConstructorUsedError;
+  @FormControlAnnotation<int>()
+  int? get layout => throw _privateConstructorUsedError;
   @FormControlAnnotation<String>()
   String? get position => throw _privateConstructorUsedError;
   @FormControlAnnotation<String>()
@@ -123,6 +125,8 @@ abstract class $DigitalCardCopyWith<$Res> {
           Uint8List? logoFile,
       @FormControlAnnotation<int>()
           int? color,
+      @FormControlAnnotation<int>()
+          int? layout,
       @FormControlAnnotation<String>()
           String? position,
       @FormControlAnnotation<String>()
@@ -169,6 +173,7 @@ class _$DigitalCardCopyWithImpl<$Res, $Val extends DigitalCard>
     Object? avatarFile = freezed,
     Object? logoFile = freezed,
     Object? color = freezed,
+    Object? layout = freezed,
     Object? position = freezed,
     Object? department = freezed,
     Object? company = freezed,
@@ -250,6 +255,10 @@ class _$DigitalCardCopyWithImpl<$Res, $Val extends DigitalCard>
       color: freezed == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
+              as int?,
+      layout: freezed == layout
+          ? _value.layout
+          : layout // ignore: cast_nullable_to_non_nullable
               as int?,
       position: freezed == position
           ? _value.position
@@ -334,6 +343,8 @@ abstract class _$$_DigitalCardCopyWith<$Res>
           Uint8List? logoFile,
       @FormControlAnnotation<int>()
           int? color,
+      @FormControlAnnotation<int>()
+          int? layout,
       @FormControlAnnotation<String>()
           String? position,
       @FormControlAnnotation<String>()
@@ -378,6 +389,7 @@ class __$$_DigitalCardCopyWithImpl<$Res>
     Object? avatarFile = freezed,
     Object? logoFile = freezed,
     Object? color = freezed,
+    Object? layout = freezed,
     Object? position = freezed,
     Object? department = freezed,
     Object? company = freezed,
@@ -460,6 +472,10 @@ class __$$_DigitalCardCopyWithImpl<$Res>
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as int?,
+      layout: freezed == layout
+          ? _value.layout
+          : layout // ignore: cast_nullable_to_non_nullable
+              as int?,
       position: freezed == position
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
@@ -539,6 +555,8 @@ class _$_DigitalCard implements _DigitalCard {
           this.logoFile,
       @FormControlAnnotation<int>()
           this.color = kcPrimaryColorInt,
+      @FormControlAnnotation<int>()
+          this.layout = 0,
       @FormControlAnnotation<String>()
           this.position,
       @FormControlAnnotation<String>()
@@ -616,6 +634,10 @@ class _$_DigitalCard implements _DigitalCard {
   @FormControlAnnotation<int>()
   final int? color;
   @override
+  @JsonKey()
+  @FormControlAnnotation<int>()
+  final int? layout;
+  @override
   @FormControlAnnotation<String>()
   final String? position;
   @override
@@ -646,7 +668,7 @@ class _$_DigitalCard implements _DigitalCard {
 
   @override
   String toString() {
-    return 'DigitalCard(id: $id, userId: $userId, uuid: $uuid, title: $title, prefix: $prefix, firstName: $firstName, middleName: $middleName, lastName: $lastName, suffix: $suffix, accreditations: $accreditations, preferredName: $preferredName, maidenName: $maidenName, pronouns: $pronouns, logoUrl: $logoUrl, avatarUrl: $avatarUrl, avatarFile: $avatarFile, logoFile: $logoFile, color: $color, position: $position, department: $department, company: $company, headline: $headline, customLinks: $customLinks, createdAt: $createdAt, updatedAt: $updatedAt, addedAt: $addedAt)';
+    return 'DigitalCard(id: $id, userId: $userId, uuid: $uuid, title: $title, prefix: $prefix, firstName: $firstName, middleName: $middleName, lastName: $lastName, suffix: $suffix, accreditations: $accreditations, preferredName: $preferredName, maidenName: $maidenName, pronouns: $pronouns, logoUrl: $logoUrl, avatarUrl: $avatarUrl, avatarFile: $avatarFile, logoFile: $logoFile, color: $color, layout: $layout, position: $position, department: $department, company: $company, headline: $headline, customLinks: $customLinks, createdAt: $createdAt, updatedAt: $updatedAt, addedAt: $addedAt)';
   }
 
   @override
@@ -681,6 +703,7 @@ class _$_DigitalCard implements _DigitalCard {
                 .equals(other.avatarFile, avatarFile) &&
             const DeepCollectionEquality().equals(other.logoFile, logoFile) &&
             (identical(other.color, color) || other.color == color) &&
+            (identical(other.layout, layout) || other.layout == layout) &&
             (identical(other.position, position) ||
                 other.position == position) &&
             (identical(other.department, department) ||
@@ -719,6 +742,7 @@ class _$_DigitalCard implements _DigitalCard {
         const DeepCollectionEquality().hash(avatarFile),
         const DeepCollectionEquality().hash(logoFile),
         color,
+        layout,
         position,
         department,
         company,
@@ -783,6 +807,8 @@ abstract class _DigitalCard implements DigitalCard {
           final Uint8List? logoFile,
       @FormControlAnnotation<int>()
           final int? color,
+      @FormControlAnnotation<int>()
+          final int? layout,
       @FormControlAnnotation<String>()
           final String? position,
       @FormControlAnnotation<String>()
@@ -856,6 +882,9 @@ abstract class _DigitalCard implements DigitalCard {
   @override
   @FormControlAnnotation<int>()
   int? get color;
+  @override
+  @FormControlAnnotation<int>()
+  int? get layout;
   @override
   @FormControlAnnotation<String>()
   String? get position;

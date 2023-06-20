@@ -10,7 +10,7 @@ class SettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<SettingsViewModel>.reactive(
+    return ViewModelBuilder<SettingsViewModel>.nonReactive(
         viewModelBuilder: () => locator<SettingsViewModel>(),
         onViewModelReady: (viewModel) async {},
         disposeViewModel: false,

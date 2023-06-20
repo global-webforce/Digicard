@@ -224,6 +224,8 @@ class DigitalCardForm implements FormModel<DigitalCard> {
 
   static String colorControlName = "color";
 
+  static String layoutControlName = "layout";
+
   static String positionControlName = "position";
 
   static String departmentControlName = "department";
@@ -260,6 +262,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   String avatarFileControlPath() => pathBuilder(avatarFileControlName);
   String logoFileControlPath() => pathBuilder(logoFileControlName);
   String colorControlPath() => pathBuilder(colorControlName);
+  String layoutControlPath() => pathBuilder(layoutControlName);
   String positionControlPath() => pathBuilder(positionControlName);
   String departmentControlPath() => pathBuilder(departmentControlName);
   String companyControlPath() => pathBuilder(companyControlName);
@@ -283,6 +286,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   Uint8List? get _avatarFileValue => avatarFileControl?.value;
   Uint8List? get _logoFileValue => logoFileControl?.value;
   int? get _colorValue => colorControl?.value;
+  int? get _layoutValue => layoutControl?.value;
   String? get _positionValue => positionControl?.value;
   String? get _departmentValue => departmentControl?.value;
   String? get _companyValue => companyControl?.value;
@@ -463,6 +467,15 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     }
   }
 
+  bool get containsLayout {
+    try {
+      form.control(layoutControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   bool get containsPosition {
     try {
       form.control(positionControlPath());
@@ -526,6 +539,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   Object? get avatarFileErrors => avatarFileControl?.errors;
   Object? get logoFileErrors => logoFileControl?.errors;
   Object? get colorErrors => colorControl?.errors;
+  Object? get layoutErrors => layoutControl?.errors;
   Object? get positionErrors => positionControl?.errors;
   Object? get departmentErrors => departmentControl?.errors;
   Object? get companyErrors => companyControl?.errors;
@@ -549,6 +563,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   void get avatarFileFocus => form.focus(avatarFileControlPath());
   void get logoFileFocus => form.focus(logoFileControlPath());
   void get colorFocus => form.focus(colorControlPath());
+  void get layoutFocus => form.focus(layoutControlPath());
   void get positionFocus => form.focus(positionControlPath());
   void get departmentFocus => form.focus(departmentControlPath());
   void get companyFocus => form.focus(companyControlPath());
@@ -1022,6 +1037,32 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     }
   }
 
+  void layoutRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsLayout) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          layoutControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            layoutControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
   void positionRemove({
     bool updateParent = true,
     bool emitEvent = true,
@@ -1285,6 +1326,15 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     bool emitEvent = true,
   }) {
     colorControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void layoutValueUpdate(
+    int? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    layoutControl?.updateValue(value,
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
@@ -1583,6 +1633,15 @@ class DigitalCardForm implements FormModel<DigitalCard> {
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
+  void layoutValuePatch(
+    int? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    layoutControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
   void positionValuePatch(
     String? value, {
     bool updateParent = true,
@@ -1807,6 +1866,15 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       colorControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void layoutValueReset(
+    int? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      layoutControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
   void positionValueReset(
     String? value, {
     bool updateParent = true,
@@ -1908,6 +1976,9 @@ class DigitalCardForm implements FormModel<DigitalCard> {
       : null;
   FormControl<int>? get colorControl => containsColor
       ? form.control(colorControlPath()) as FormControl<int>?
+      : null;
+  FormControl<int>? get layoutControl => containsLayout
+      ? form.control(layoutControlPath()) as FormControl<int>?
       : null;
   FormControl<String>? get positionControl => containsPosition
       ? form.control(positionControlPath()) as FormControl<String>?
@@ -2247,6 +2318,24 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     }
   }
 
+  void layoutSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      layoutControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      layoutControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
   void positionSetDisabled(
     bool disabled, {
     bool updateParent = true,
@@ -2395,6 +2484,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
         avatarFile: _avatarFileValue,
         logoFile: _logoFileValue,
         color: _colorValue,
+        layout: _layoutValue,
         position: _positionValue,
         department: _departmentValue,
         company: _companyValue,
@@ -2553,6 +2643,13 @@ class DigitalCardForm implements FormModel<DigitalCard> {
             touched: false),
         colorControlName: FormControl<int>(
             value: digitalCard?.color,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        layoutControlName: FormControl<int>(
+            value: digitalCard?.layout,
             validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,

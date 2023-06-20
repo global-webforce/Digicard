@@ -7,6 +7,7 @@ import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/views/card_editor/card_editor_viewmodel.dart';
 import 'package:digicard/app/views/card_editor/widgets/card.custom_links.fields.dart';
 import 'package:digicard/app/views/card_editor/widgets/card.custom_links.options.dart';
+import 'package:digicard/app/views/card_editor/widgets/card.layout_picker.dart';
 import 'package:digicard/app/views/card_editor/widgets/collapsible_field.dart';
 import 'package:digicard/app/views/card_editor/widgets/card.color_picker.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,6 @@ import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 import 'package:stacked/stacked.dart';
 
 import 'card.avatar_picker.dart';
-import 'card.layout.dart';
 import 'card.logo_picker.dart';
 
 class CardForm extends StatefulWidget {
@@ -102,13 +102,16 @@ class _CardFormState extends State<CardForm>
     }
 
     Widget colorPickerField() {
-      return Column(
-        children: [
-          ReactiveColorPicker(
-            colors: cardColors,
-            formControl: formModel.colorControl,
-          ),
-        ],
+      return ReactiveColorPicker(
+        colors: cardColors,
+        formControl: formModel.colorControl,
+      );
+    }
+
+    Widget layoutPickerField() {
+      return ReactiveLayoutPicker(
+        color: colorTheme,
+        formControl: formModel.layoutControl,
       );
     }
 
@@ -402,24 +405,7 @@ class _CardFormState extends State<CardForm>
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     vSpaceRegular,
-                    Row(
-                      children: [
-                        CardLayout(
-                            customPaint: Layout1Paint(
-                          colorTheme,
-                        )),
-                        hSpaceRegular,
-                        CardLayout(
-                            customPaint: Layout2Paint(
-                          colorTheme,
-                        )),
-                        hSpaceRegular,
-                        CardLayout(
-                            customPaint: Layout3Paint(
-                          colorTheme,
-                        )),
-                      ],
-                    ),
+                    layoutPickerField(),
                     vSpaceRegular,
                     const Text(
                       "Color",

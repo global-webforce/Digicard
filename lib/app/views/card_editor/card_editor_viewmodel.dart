@@ -315,31 +315,28 @@ class CardEditorViewModel extends ReactiveViewModel {
         if (result == ImagePickerType.computer) {
           await _logoPicker
               .pickImage(source: ImageSource.gallery)
-              .then((value) async {
-            await cropImage(value?.path).then((value) {
-              if (value != null) {
-                formModel.logoFileControl?.value = value;
-              }
+              .then((orig) async {
+            await cropImage(orig?.path).then((cropped) async {
+              formModel.logoFileControl?.value =
+                  cropped ?? await orig?.readAsBytes();
             });
           });
         } else if (result == ImagePickerType.gallery) {
           await _logoPicker
               .pickImage(source: ImageSource.gallery)
-              .then((value) async {
-            await cropImage(value?.path).then((value) {
-              if (value != null) {
-                formModel.logoFileControl?.value = value;
-              }
+              .then((orig) async {
+            await cropImage(orig?.path).then((cropped) async {
+              formModel.logoFileControl?.value =
+                  cropped ?? await orig?.readAsBytes();
             });
           });
         } else if (result == ImagePickerType.camera) {
           await _logoPicker
               .pickImage(source: ImageSource.camera)
-              .then((value) async {
-            await cropImage(value?.path).then((value) {
-              if (value != null) {
-                formModel.logoFileControl?.value = value;
-              }
+              .then((orig) async {
+            await cropImage(orig?.path).then((cropped) async {
+              formModel.logoFileControl?.value =
+                  cropped ?? await orig?.readAsBytes();
             });
           });
         } else if (result == ImagePickerType.remove) {

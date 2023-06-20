@@ -28,6 +28,7 @@ _$_DigitalCard _$$_DigitalCardFromJson(Map<String, dynamic> json) =>
       logoFile:
           const Uint8ListConverter().fromJson(json['logo_file'] as List<int>?),
       color: json['color'] as int? ?? kcPrimaryColorInt,
+      layout: json['layout'] as int? ?? 0,
       position: json['position'] as String?,
       department: json['department'] as String?,
       company: json['company'] as String?,
@@ -67,6 +68,7 @@ Map<String, dynamic> _$$_DigitalCardToJson(_$_DigitalCard instance) =>
       'avatar_file': const Uint8ListConverter().toJson(instance.avatarFile),
       'logo_file': const Uint8ListConverter().toJson(instance.logoFile),
       'color': instance.color,
+      'layout': instance.layout,
       'position': instance.position,
       'department': instance.department,
       'company': instance.company,

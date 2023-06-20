@@ -30,7 +30,7 @@ class _CollapsibleFieldState extends State<CollapsibleField> {
                     setState(() {
                       expanded = !expanded;
                       expanded
-                          ? animatedHeight = !kIsWeb ? 510.0 : 400
+                          ? animatedHeight = !kIsWeb ? 510.0 : 440
                           : animatedHeight = 0.0;
                       widget.onToggle(expanded);
                     });
