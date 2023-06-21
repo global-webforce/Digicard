@@ -9,7 +9,8 @@ class CloseViewButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = getParentViewModel<CardDisplayViewModel>(context);
+    final viewModel =
+        getParentViewModel<CardDisplayViewModel>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 10, 8, 10),
       child: Container(

@@ -9,7 +9,8 @@ class AdPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = getParentViewModel<CardDisplayViewModel>(context);
+    final viewModel =
+        getParentViewModel<CardDisplayViewModel>(context, listen: false);
     return InkWell(
       onTap: () async {
         final Uri url = Uri.parse('https://www.apple.com/app-store/');

@@ -14,17 +14,15 @@ import '../routes/app_router.dart';
 class DeeplinkService with ListenableServiceMixin {
   final log = getLogger('DeeplinkService');
 
-  final _navService = locator<AppRouter>();
-
   StreamSubscription? _streamSubscription;
 
   Future<void> initURIHandler() async {
+    final navService = locator<AppRouter>();
     final String? initialLink = await getInitialLink();
 
     if (initialLink != null) {
-      print(initialLink);
       if (CardUrl(initialLink).isValid()) {
-        _navService.push(CardDisplayRoute(
+        navService.push(CardDisplayRoute(
             action: DisplayType.private, uuid: CardUrl(initialLink).uuid));
       }
     }
@@ -33,11 +31,18 @@ class DeeplinkService with ListenableServiceMixin {
   void incomingLinkHandler() {
     if (!kIsWeb) {
       _streamSubscription = uriLinkStream.listen((Uri? uri) {
+        final navService = locator<AppRouter>();
         if (uri != null) {
           if (CardUrl(uri.toString()).isValid()) {
-            _navService.push(CardDisplayRoute(
-                action: DisplayType.private,
-                uuid: CardUrl(uri.toString()).uuid));
+            if (navService.topRoute.name == CardDisplayRoute.name) {
+              navService.popAndPush(CardDisplayRoute(
+                  action: DisplayType.private,
+                  uuid: CardUrl(uri.toString()).uuid));
+            } else {
+              navService.push(CardDisplayRoute(
+                  action: DisplayType.private,
+                  uuid: CardUrl(uri.toString()).uuid));
+            }
           } else {}
         }
       }, onError: (Object err) {});
