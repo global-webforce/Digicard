@@ -22,6 +22,7 @@ class DeeplinkService with ListenableServiceMixin {
     final String? initialLink = await getInitialLink();
 
     if (initialLink != null) {
+      print(initialLink);
       if (CardUrl(initialLink).isValid()) {
         _navService.push(CardDisplayRoute(
             action: DisplayType.private, uuid: CardUrl(initialLink).uuid));

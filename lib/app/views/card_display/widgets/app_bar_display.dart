@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import '../card_display_viewmodel.dart';
+import 'close_view_button.dart';
 
 class AppBarDisplay extends StatelessWidget implements PreferredSizeWidget {
   const AppBarDisplay({super.key});
@@ -35,7 +36,7 @@ class AppBarDisplay extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
         if (!kIsWeb || viewModel.action == DisplayType.private)
-          const CloseButton(),
+          const CloseViewButton(),
       ],
     );
   }
