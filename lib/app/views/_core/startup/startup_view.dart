@@ -80,8 +80,8 @@ class StartupView extends StatelessWidget {
               scrollBehavior: MyCustomScrollBehavior(),
               debugShowCheckedModeBanner: false,
               routerConfig: appRouter.config(
-                  /* includePrefixMatches: true, */
-                  ),
+                includePrefixMatches: true,
+              ),
             ),
           );
         });

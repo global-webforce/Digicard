@@ -88,7 +88,7 @@ class LoginViewModel extends ReactiveViewModel {
       await runBusyFuture(_authService.login(form.value), throwException: true)
           .then((value) {
         appRouter.replaceAll([
-          const DashboardRoute(),
+          const InitialRoute(),
         ]);
       });
 
@@ -102,7 +102,7 @@ class LoginViewModel extends ReactiveViewModel {
               throwException: true)
           .then((value) {
         appRouter.replaceAll([
-          const DashboardRoute(),
+          const InitialRoute(),
         ]);
       });
 
@@ -137,7 +137,7 @@ class LoginViewModel extends ReactiveViewModel {
               throwException: true)
           .then((value) {
         appRouter.replaceAll([
-          const DashboardRoute(),
+          const InitialRoute(),
         ]);
       });
 

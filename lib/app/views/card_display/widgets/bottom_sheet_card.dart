@@ -14,7 +14,8 @@ class BottomSheetCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = getParentViewModel<CardDisplayViewModel>(context);
+    final viewModel =
+        getParentViewModel<CardDisplayViewModel>(context, listen: false);
 
     return LayoutBuilder(builder: (context, size) {
       final cardWidth = Dimens.computedWidth(

@@ -2,8 +2,9 @@ import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/app.bottomsheet_ui.dart';
 import 'package:digicard/app/app.dialog_ui.dart';
+import 'package:digicard/app/routes/app_router.dart';
+import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
-import 'package:digicard/app/views/card_display/card_display_view.dart';
 import 'package:digicard/app/views/card_editor/card_editor_view.dart';
 import 'package:digicard/app/views/card_editor/card_editor_viewmodel.dart';
 import 'package:stacked/stacked.dart';
@@ -25,7 +26,7 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
   final _bottomSheetService = locator<BottomSheetService>();
   final _dialogService = locator<DialogService>();
   final _digitalCardsService = locator<DigitalCardService>();
-  final _navigationService = locator<NavigationService>();
+  final _navigationService = locator<AppRouter>();
 
   showDoneOverlay() async {
     setBusyForObject(doneBusyKey, true);
@@ -63,28 +64,24 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
 
   view(DigitalCard card) {
     _bottomSheetService.completeSheet(SheetResponse());
-    _navigationService.navigateToView(
-      CardDisplayView(card: card, action: DisplayType.private),
-      transitionStyle: Transition.fade,
-      curve: Curves.easeIn,
+    _navigationService.push(
+      CardDisplayRoute(card: card, action: DisplayType.private),
     );
   }
 
   edit(DigitalCard card) {
     _bottomSheetService.completeSheet(SheetResponse());
-    _navigationService.navigateToView(
+    _navigationService.pushWidget(
       CardEditorView(
         actionType: ActionType.edit,
         card: card,
       ),
-      transitionStyle: Transition.fade,
-      curve: Curves.easeIn,
     );
   }
 
   duplicate(DigitalCard digitalCard) async {
     _bottomSheetService.completeSheet(SheetResponse());
-    _navigationService.navigateToView(
+    _navigationService.pushWidget(
       CardEditorView(
         actionType: ActionType.duplicate,
         card: digitalCard.copyWith(
@@ -93,8 +90,6 @@ class CardToolsBottomSheetViewModel extends ReactiveViewModel {
           addedAt: null,
         ),
       ),
-      transitionStyle: Transition.zoom,
-      curve: Curves.easeIn,
     );
   }
 

@@ -49,19 +49,11 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
 
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(
-          path: "/",
-          page: InitialRoute.page,
-          initial: true,
-        ),
-        AutoRoute(
-          path: "/",
-          page: WelcomeRoute.page,
-        ),
-        AutoRoute(
-          path: "/",
-          page: DashboardRoute.page,
-        ),
+        CustomRoute(
+            path: "/",
+            page: InitialRoute.page,
+            initial: true,
+            transitionsBuilder: TransitionsBuilders.noTransition),
         AutoRoute(
           path: "/login",
           page: LoginRoute.page,

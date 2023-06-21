@@ -67,13 +67,13 @@ class CardDisplayViewModel extends ReactiveViewModel {
             busyObject: loadingCardBusyKey, throwException: true) ??
         DigitalCard();
 
-    if (card.id == null) {
+/*     if (card.id == null) {
       await _dialogService.showCustomDialog(
         variant: DialogType.simple,
         title: "Card not found",
         description: "This card might be deleted by the owner.",
       );
-    }
+    } */
   }
 
   Future saveToContacts() async {

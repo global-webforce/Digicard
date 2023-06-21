@@ -40,7 +40,9 @@ class CardDisplayView extends StatelessWidget {
           model.card = card ?? DigitalCard();
           model.action = action ?? DisplayType.public;
           if (uuid != null) {
-            await model.loadCardbyUuid("$uuid");
+            WidgetsBinding.instance.addPostFrameCallback((_) async {
+              await model.loadCardbyUuid("$uuid");
+            });
           }
         },
         builder: (context, viewModel, child) {
@@ -49,16 +51,13 @@ class CardDisplayView extends StatelessWidget {
                 icon: Icons.error_rounded, title: "Card not found");
           }
 
-          return SafeArea(
-            top: false,
-            child: LayoutBuilder(builder: (context, size) {
-              final cardWidth = Dimens.computedWidth(
-                  screenSize: size,
-                  targetWidth: 480.000,
-                  vPadding: 0,
-                  hPadding: 0);
-
-              return LoaderOverlayWrapper(
+          return viewModel.busy(loadingCardBusyKey)
+              ? const Scaffold(
+                  body: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              : LoaderOverlayWrapper(
                   color: viewModel.color,
                   type: viewModel.busy(saveBusyKey)
                       ? LoadingType.save
@@ -68,31 +67,41 @@ class CardDisplayView extends StatelessWidget {
                               ? LoadingType.done
                               : null,
                   builder: (context) {
-                    return Scaffold(
-                      appBar: const AppBarDisplay(),
-                      bottomSheet: const BottomSheetCard(),
-                      body: ScaffoldBodyWrapper(
-                          isBusy: viewModel.busy(loadingCardBusyKey),
-                          isFullWidth: true,
-                          isEmpty: viewModel.card.id == null,
-                          emptyIndicatorWidget: empty(),
-                          padding: cardWidth,
-                          builder: (context, size) {
-                            return CardHolder(
-                              children: [
-                                if (viewModel.card.layout == 0)
-                                  const Heading0(),
-                                if (viewModel.card.layout == 1)
-                                  const Heading1(),
-                                if (viewModel.card.layout == 0) const Body0(),
-                                if (viewModel.card.layout == 1) const Body1(),
-                              ],
-                            );
-                          }),
+                    return SafeArea(
+                      top: false,
+                      child: LayoutBuilder(builder: (context, size) {
+                        final cardWidth = Dimens.computedWidth(
+                            screenSize: size,
+                            targetWidth: 480.000,
+                            vPadding: 0,
+                            hPadding: 0);
+
+                        return Scaffold(
+                          appBar: const AppBarDisplay(),
+                          bottomSheet: const BottomSheetCard(),
+                          body: ScaffoldBodyWrapper(
+                              isFullWidth: true,
+                              isEmpty: viewModel.card.id == null,
+                              emptyIndicatorWidget: empty(),
+                              padding: cardWidth,
+                              builder: (context, size) {
+                                return CardHolder(
+                                  children: [
+                                    if (viewModel.card.layout == 0)
+                                      const Heading0(),
+                                    if (viewModel.card.layout == 1)
+                                      const Heading1(),
+                                    if (viewModel.card.layout == 0)
+                                      const Body0(),
+                                    if (viewModel.card.layout == 1)
+                                      const Body1(),
+                                  ],
+                                );
+                              }),
+                        );
+                      }),
                     );
                   });
-            }),
-          );
         });
   }
 }

@@ -13,7 +13,8 @@ class Heading1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = getParentViewModel<CardDisplayViewModel>(context);
+    final viewModel =
+        getParentViewModel<CardDisplayViewModel>(context, listen: false);
     const avatarSize = 160.0;
     Widget logoField() {
       return CachedNetworkImage(
@@ -60,6 +61,7 @@ class Heading1 extends StatelessWidget {
                       filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
                       child: Container(
                         decoration: BoxDecoration(
+                          color: viewModel.color.darken(0.1),
                           image: DecorationImage(
                               image: imageProvider, fit: BoxFit.cover),
                         ),
@@ -71,13 +73,11 @@ class Heading1 extends StatelessWidget {
               placeholder: (context, url) {
                 return Container(
                   color: viewModel.color.darken(0.1),
-                  height: 130,
                 );
               },
               errorWidget: (context, url, error) {
                 return Container(
                   color: viewModel.color.darken(0.1),
-                  height: 130,
                 );
               },
             ),

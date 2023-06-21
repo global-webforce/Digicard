@@ -1,6 +1,5 @@
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/routes/app_router.dart';
-import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:digicard/app/services/_core/auth_service_supabase.dart';
 import 'package:digicard/app/services/_core/user_service.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
@@ -18,9 +17,9 @@ class SettingsViewModel extends BaseViewModel {
     _digitalCardService.clean();
     await _authService.logOut();
 
-    _navService.pushAndPopUntil(
-      const WelcomeRoute(),
+    /*    _navService.pushAndPopUntil(
+      const InitialRoute(),
       predicate: (_) => false,
-    );
+    ); */
   }
 }

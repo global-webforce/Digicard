@@ -1,6 +1,5 @@
 // ignore_for_file: implementation_imports
 import 'dart:ui';
-import 'package:auto_route/annotations.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/routes/app_router.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
@@ -10,7 +9,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
-@RoutePage()
 class WelcomeView extends StatefulWidget {
   const WelcomeView({Key? key}) : super(key: key);
 

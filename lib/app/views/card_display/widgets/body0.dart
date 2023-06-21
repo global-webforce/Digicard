@@ -13,7 +13,8 @@ class Body0 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = getParentViewModel<CardDisplayViewModel>(context);
+    final viewModel =
+        getParentViewModel<CardDisplayViewModel>(context, listen: false);
 
     Widget headlineField() {
       return !"${viewModel.card.headline}".isNotNullOrEmpty()

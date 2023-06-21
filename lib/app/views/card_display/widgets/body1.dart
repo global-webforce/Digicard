@@ -14,7 +14,8 @@ class Body1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = getParentViewModel<CardDisplayViewModel>(context);
+    final viewModel =
+        getParentViewModel<CardDisplayViewModel>(context, listen: false);
 
     Widget fullNameField() {
       return Padding(
