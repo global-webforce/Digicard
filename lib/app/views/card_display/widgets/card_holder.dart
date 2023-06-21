@@ -28,7 +28,7 @@ class CardHolder extends StatelessWidget {
             clipBehavior: Clip.hardEdge,
             shape: cardShape,
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 50.0),
+              padding: const EdgeInsets.only(bottom: 120.0),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
