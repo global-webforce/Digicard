@@ -1,3 +1,4 @@
+import 'package:digicard/app/env/env.dart';
 import 'package:digicard/app/views/_core/startup/startup_view.dart';
 import 'package:digicard/app/app.bottomsheet_ui.dart';
 import 'package:digicard/app/app.dialog_ui.dart';
@@ -16,9 +17,8 @@ void main() async {
   if (!kIsWeb) FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   try {
     await Supabase.initialize(
-      url: "https://kbetklswsjdfouluglbr.supabase.co",
-      anonKey:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtiZXRrbHN3c2pkZm91bHVnbGJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzczNTU3NDcsImV4cCI6MTk5MjkzMTc0N30.8Ce3XIm1bQco_ntU4ssnnnfdvASNZOIsyQrxanvEVVk",
+      url: Env.supabaseUrl,
+      anonKey: Env.supabaseAnonKey,
     );
   } catch (e) {
     rethrow;

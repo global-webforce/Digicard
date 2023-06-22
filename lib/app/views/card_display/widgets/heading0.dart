@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:digicard/app/constants/env.dart';
+import 'package:digicard/app/env/env.dart';
 import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/extensions/digital_card_extension.dart';
 import 'package:digicard/app/extensions/string_extension.dart';
@@ -19,7 +19,7 @@ class Heading0 extends StatelessWidget {
     const avatarSize = 160.0;
     Widget logoField() {
       return CachedNetworkImage(
-        imageUrl: "$logoUrlPrefix${viewModel.card.logoUrl}",
+        imageUrl: "${Env.supabaseLogoUrl}${viewModel.card.logoUrl}",
         imageBuilder: (context, imageProvider) {
           return Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
@@ -100,7 +100,7 @@ class Heading0 extends StatelessWidget {
 
     Widget avatarFieldCircle() {
       return CachedNetworkImage(
-        imageUrl: "$avatarUrlPrefix${viewModel.card.avatarUrl}",
+        imageUrl: "${Env.supabaseAvatarUrl}}${viewModel.card.avatarUrl}",
         imageBuilder: (context, imageProvider) {
           return Container(
             height: avatarSize,

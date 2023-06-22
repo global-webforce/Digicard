@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:digicard/app/constants/env.dart';
+import 'package:digicard/app/env/env.dart';
 import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/views/card_display/card_display_viewmodel.dart';
 import 'package:digicard/app/views/card_editor/widgets/card.wave_divider.dart';
@@ -18,7 +18,7 @@ class Heading1 extends StatelessWidget {
     const avatarSize = 160.0;
     Widget logoField() {
       return CachedNetworkImage(
-        imageUrl: "$logoUrlPrefix${viewModel.card.logoUrl}",
+        imageUrl: "${Env.supabaseLogoUrl}${viewModel.card.logoUrl}",
         imageBuilder: (context, imageProvider) {
           return AspectRatio(
             aspectRatio: 1 / 1,
@@ -48,7 +48,7 @@ class Heading1 extends StatelessWidget {
           clipBehavior: Clip.none,
           children: [
             CachedNetworkImage(
-              imageUrl: "$avatarUrlPrefix${viewModel.card.avatarUrl}",
+              imageUrl: "${Env.supabaseAvatarUrl}${viewModel.card.avatarUrl}",
               imageBuilder: (context, imageProvider) {
                 return Container(
                   decoration: BoxDecoration(

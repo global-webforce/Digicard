@@ -1,3 +1,6 @@
+import 'package:digicard/app/env/env.dart';
+import 'package:uuid/uuid.dart';
+
 class CardUrl {
   final String link;
 
@@ -13,16 +16,17 @@ class CardUrl {
   }
 
   bool isValid() {
-    RegExp pattern = RegExp(
-        r'^https:\/\/markbulingit\.github\.io\/#\/p\/([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12})$');
-    RegExp uuidPattern = RegExp(r'^[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$');
-
-    if (!pattern.hasMatch(link)) {
+    String pattern = Env.cardUrl;
+    if (!link.startsWith(pattern)) {
       return false;
     }
 
-    String uuid = link.split('/').last;
-
-    return uuidPattern.hasMatch(uuid);
+    String uuidString = link.substring(pattern.length);
+    try {
+      Uuid.parse(uuidString); // Try parsing the UUID string
+      return true; // Return true if parsing succeeds (valid UUIDv4)
+    } catch (_) {
+      return false; // Return false if parsing fails (invalid UUIDv4)
+    }
   }
 }

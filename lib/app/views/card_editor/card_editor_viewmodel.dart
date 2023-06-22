@@ -2,6 +2,7 @@ import 'package:digicard/app/app.bottomsheet_ui.dart';
 import 'package:digicard/app/app.dialog_ui.dart';
 import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/constants/colors.dart';
+import 'package:digicard/app/env/env.dart';
 import 'package:digicard/app/models/custom_link.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/services/contacts_service.dart';
@@ -17,8 +18,6 @@ import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../../constants/env.dart';
 
 Future<Uint8List> getNetworkImageData(String url) async {
   final file = await DefaultCacheManager().getSingleFile(url);
@@ -97,11 +96,11 @@ class CardEditorViewModel extends ReactiveViewModel {
     }
     _formModel.form.addAll(elements.controls);
 
-    _formModel.avatarFileControl?.value =
-        await getNetworkImageData("$avatarUrlPrefix${model.avatarUrl}");
+    _formModel.avatarFileControl?.value = await getNetworkImageData(
+        "${Env.supabaseAvatarUrl}}${model.avatarUrl}");
 
     _formModel.logoFileControl?.value =
-        await getNetworkImageData("$logoUrlPrefix${model.logoUrl}");
+        await getNetworkImageData("${Env.supabaseLogoUrl}${model.logoUrl}");
   }
 
   editCustomLink(CustomLink customLink, {int? index}) async {

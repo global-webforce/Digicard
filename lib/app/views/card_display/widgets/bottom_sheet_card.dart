@@ -19,7 +19,7 @@ class BottomSheetCard extends StatelessWidget {
 
     return LayoutBuilder(builder: (context, size) {
       final cardWidth = Dimens.computedWidth(
-          screenSize: size, targetWidth: 480.000, vPadding: 0, hPadding: 0);
+          screenSize: size, targetWidth: 450.000, vPadding: 0, hPadding: 0);
       return Container(
         padding: cardWidth,
         child: Padding(
@@ -27,36 +27,41 @@ class BottomSheetCard extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (viewModel.action == DisplayType.public &&
+              if (viewModel.card.id != null &&
+                  viewModel.action == DisplayType.public &&
                   viewModel.isCardOwnedByUser())
                 const OwnButton(),
               vSpaceSmall,
-              Row(
-                children: [
-                  if (!viewModel.isCardOwnedByUser() &&
-                      !viewModel.isCardInContacts())
-                    Expanded(
-                      child: EzButton.elevated(
-                        background: viewModel.color,
-                        title: "Add to Contacts",
-                        onTap: () async {
-                          await viewModel.saveToContacts();
-                        },
+              if (viewModel.card.id != null)
+                Row(
+                  children: [
+                    if (!viewModel.isCardOwnedByUser() &&
+                        !viewModel.isCardInContacts() &&
+                        viewModel.isUserPresent())
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: EzButton.elevated(
+                            background: viewModel.color,
+                            title: "Add to Contacts",
+                            onTap: () async {
+                              await viewModel.saveToContacts();
+                            },
+                          ),
+                        ),
                       ),
-                    ),
-                  hSpaceSmall,
-                  if (kIsWeb && viewModel.action == DisplayType.public)
-                    Expanded(
-                      child: EzButton.elevated(
-                        background: viewModel.color,
-                        title: "Download Contact",
-                        onTap: () async {
-                          await viewModel.downloadVcf();
-                        },
+                    if (kIsWeb && viewModel.action == DisplayType.public)
+                      Expanded(
+                        child: EzButton.elevated(
+                          background: viewModel.color,
+                          title: "Download Contact",
+                          onTap: () async {
+                            await viewModel.downloadVcf();
+                          },
+                        ),
                       ),
-                    ),
-                ],
-              ),
+                  ],
+                ),
               vSpaceSmall,
               if (kIsWeb && viewModel.action == DisplayType.public)
                 const AdPanel()

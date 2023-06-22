@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:digicard/app/constants/colors.dart';
-import 'package:digicard/app/constants/typography.dart';
 import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/ui/_core/value_widget.dart';
@@ -92,9 +91,13 @@ class CardToolsBottomSheet extends StatelessWidget {
                                     builder: (value) {
                                       return Column(
                                         children: [
-                                          Text(value,
-                                              style: headline,
-                                              textAlign: TextAlign.center),
+                                          Text(
+                                            value,
+                                            maxLines: 2,
+                                            style: const TextStyle(
+                                              fontSize: 22,
+                                            ),
+                                          ),
                                           vSpaceRegular,
                                         ],
                                       );
