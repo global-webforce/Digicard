@@ -1,5 +1,5 @@
 import 'package:digicard/app/app.locator.dart';
-import 'package:digicard/app/views/card_editor/card_editor_viewmodel.dart';
+import 'package:reactive_image_picker/reactive_image_picker.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -8,25 +8,25 @@ class ImagePickerBottomSheetViewModel extends ReactiveViewModel {
 
   pickFromComputer() {
     _bottomSheetService.completeSheet(
-      SheetResponse(data: ImagePickerType.computer),
+      SheetResponse(data: ImageSource.gallery),
     );
   }
 
   pickFromGallery() {
     _bottomSheetService.completeSheet(
-      SheetResponse(data: ImagePickerType.gallery),
+      SheetResponse(data: ImageSource.gallery),
     );
   }
 
   pickFromCamera() {
     _bottomSheetService.completeSheet(
-      SheetResponse(data: ImagePickerType.camera),
+      SheetResponse(data: ImageSource.camera),
     );
   }
 
   removeImage() {
     _bottomSheetService.completeSheet(
-      SheetResponse(data: ImagePickerType.remove),
+      SheetResponse(data: false),
     );
   }
 

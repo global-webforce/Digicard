@@ -36,6 +36,9 @@ class DigitalCardService with ListenableServiceMixin {
     ]);
   }
 
+  final ReactiveValue<List<DigitalCard>> _digitalCards =
+      ReactiveValue<List<DigitalCard>>([]);
+
   Future<String?> imageSave(Uint8List? image, {required String path}) async {
     try {
       var mime = lookupMimeType('', headerBytes: image);
@@ -72,8 +75,21 @@ class DigitalCardService with ListenableServiceMixin {
     }
   }
 
-  final ReactiveValue<List<DigitalCard>> _digitalCards =
-      ReactiveValue<List<DigitalCard>>([]);
+  Future getAll() async {
+    try {
+      final data = await _supabase.from('cards').select('*').in_(
+          'user_id', [_userService.id]).order('created_at', ascending: true);
+      if (data is List && data.isNotEmpty) {
+        _digitalCards.value = data.map((e) => DigitalCard.fromJson(e)).toList();
+      }
+    } catch (e) {
+      return errorMessage(e.toString());
+    }
+  }
+
+  List<DigitalCard> get digitalCards {
+    return _digitalCards.value.reversed.toList();
+  }
 
   Future create(DigitalCard card) async {
     try {
@@ -121,42 +137,30 @@ class DigitalCardService with ListenableServiceMixin {
     }
   }
 
-  Future getAll() async {
-    try {
-      final data = await _supabase.from('cards').select('*').in_(
-          'user_id', [_userService.id]).order('created_at', ascending: true);
-      if (data is List && data.isNotEmpty) {
-        _digitalCards.value = data.map((e) => DigitalCard.fromJson(e)).toList();
-      }
-    } catch (e) {
-      return errorMessage(e.toString());
-    }
-  }
-
-  List<DigitalCard> get digitalCards {
-    return _digitalCards.value.reversed.toList();
-  }
-
   duplicate(DigitalCard card) async {
-    final data = DigitalCardExtension.create(
-        card.copyWith(userId: _userService.id).toJson());
-
-    data["custom_links"] = card.customLinks.map((e) => e.toJson()).toList();
-
     try {
-      final og = _digitalCards.value.firstWhere((e) => e.id == card.id);
-      if (og.avatarUrl == card.avatarUrl && card.avatarFile == null) {
-        final avatarName = "${uuid.v4()}${path.extension('${og.avatarUrl}')}";
+      final data = DigitalCardExtension.create(
+          card.copyWith(userId: _userService.id).toJson());
+      data["custom_links"] = card.customLinks.map((e) => e.toJson()).toList();
+      final originalCard =
+          _digitalCards.value.firstWhere((e) => e.id == card.id);
+
+      final bool noAvatarChangeRequest =
+          originalCard.avatarUrl == card.avatarUrl && card.avatarFile == null;
+
+      if (noAvatarChangeRequest) {
+        final avatarNewName =
+            "${uuid.v4()}${path.extension('${originalCard.avatarUrl}')}";
 
         try {
           await _supabase.storage.from("images").copy(
-                "avatars/${og.avatarUrl}",
-                "avatars/$avatarName",
+                "avatars/${originalCard.avatarUrl}",
+                "avatars/$avatarNewName",
               );
         } catch (e) {
           if (e.toString().contains(
               "type 'Null' is not a subtype of type 'String' in type cast")) {
-            data["avatar_url"] = avatarName;
+            data["avatar_url"] = avatarNewName;
           }
         }
       } else {
@@ -182,12 +186,13 @@ class DigitalCardService with ListenableServiceMixin {
       }
 
 //LOGO
-      if (og.logoUrl == card.logoUrl && card.logoFile == null) {
-        final logoName = "${uuid.v4()}${path.extension('${og.logoUrl}')}";
+      if (originalCard.logoUrl == card.logoUrl && card.logoFile == null) {
+        final logoName =
+            "${uuid.v4()}${path.extension('${originalCard.logoUrl}')}";
 
         try {
           await _supabase.storage.from("images").copy(
-                "logos/${og.logoUrl}",
+                "logos/${originalCard.logoUrl}",
                 "logos/$logoName",
               );
         } catch (e) {
