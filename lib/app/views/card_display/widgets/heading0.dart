@@ -100,7 +100,7 @@ class Heading0 extends StatelessWidget {
 
     Widget avatarFieldCircle() {
       return CachedNetworkImage(
-        imageUrl: "${Env.supabaseAvatarUrl}}${viewModel.card.avatarUrl}",
+        imageUrl: "${Env.supabaseAvatarUrl}${viewModel.card.avatarUrl}",
         imageBuilder: (context, imageProvider) {
           return Container(
             height: avatarSize,

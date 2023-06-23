@@ -18,10 +18,14 @@ import 'package:digicard/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-Future<Uint8List> getNetworkImageData(String url) async {
-  final file = await DefaultCacheManager().getSingleFile(url);
-  final bytes = await file.readAsBytes();
-  return Uint8List.fromList(bytes);
+Future<Uint8List?> getNetworkImageData(String url) async {
+  try {
+    final file = await DefaultCacheManager().getSingleFile(url);
+    final bytes = await file.readAsBytes();
+    return Uint8List.fromList(bytes);
+  } catch (e) {
+    return null;
+  }
 }
 
 enum ActionType {
@@ -94,8 +98,8 @@ class CardEditorViewModel extends ReactiveViewModel {
     }
     _formModel.form.addAll(elements.controls);
 
-    _formModel.avatarFileControl?.value = await getNetworkImageData(
-        "${Env.supabaseAvatarUrl}}${model.avatarUrl}");
+    _formModel.avatarFileControl?.value =
+        await getNetworkImageData("${Env.supabaseAvatarUrl}${model.avatarUrl}");
 
     _formModel.logoFileControl?.value =
         await getNetworkImageData("${Env.supabaseLogoUrl}${model.logoUrl}");
