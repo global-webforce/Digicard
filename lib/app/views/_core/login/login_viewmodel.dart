@@ -39,12 +39,11 @@ class LoginViewModel extends ReactiveViewModel {
   List<ListenableServiceMixin> get listenableServices => [];
 
   final FormGroup _form = FormGroup({
-    'email': FormControl<String>(
-        value: 'bulingitmarkdionnie@gmail.com',
-        validators: [
-          Validators.required,
-          Validators.email,
-        ]),
+    'email':
+        FormControl<String>(value: 'dionnie_bulingit@yahoo.com', validators: [
+      Validators.required,
+      Validators.email,
+    ]),
     'password': FormControl<String>(value: 'abc12345', validators: [
       Validators.required,
     ]),
@@ -136,9 +135,9 @@ class LoginViewModel extends ReactiveViewModel {
                   .updatePassword("${passwordResetForm.rawValue["password"]}"),
               throwException: true)
           .then((value) {
-        appRouter.replaceAll([
+        appRouter.replace(
           const InitialRoute(),
-        ]);
+        );
       });
 
       passwordResetForm.reset();

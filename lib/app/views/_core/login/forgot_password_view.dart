@@ -89,16 +89,8 @@ class ForgotPasswordForm extends StatelessWidget {
         showErrors: (control) =>
             control.invalid && control.touched && control.dirty,
         validationMessages: {ValidationMessage.required: (error) => 'Required'},
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           labelText: "Password",
-          floatingLabelBehavior: FloatingLabelBehavior.never,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: const BorderSide(
-              width: 0,
-              style: BorderStyle.none,
-            ),
-          ),
         ),
       );
     }
@@ -114,16 +106,8 @@ class ForgotPasswordForm extends StatelessWidget {
         keyboardType: TextInputType.visiblePassword,
         textInputAction: TextInputAction.done,
         obscureText: true,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           labelText: "Confirm Password",
-          floatingLabelBehavior: FloatingLabelBehavior.never,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: const BorderSide(
-              width: 0,
-              style: BorderStyle.none,
-            ),
-          ),
         ),
       );
     }

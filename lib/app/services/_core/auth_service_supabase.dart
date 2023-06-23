@@ -1,16 +1,25 @@
 import 'dart:async';
+import 'package:digicard/app/app.logger.dart';
+import 'package:digicard/app/env/env.dart';
+import 'package:digicard/app/routes/app_router.dart';
+import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:digicard/app/services/_core/user_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../app.locator.dart';
 
 class AuthService {
+  final log = getLogger('AuthService');
   final _supabase = Supabase.instance.client;
   final _userService = locator<UserService>();
-  //final navService = locator<NavigationService>();
+  final _navService = locator<AppRouter>();
 
   AuthService() {
     _supabase.auth.onAuthStateChange.listen((event) async {
+      log.w(event.event.name);
+      if (event.event.name == "passwordRecovery") {
+        _navService.push(ForgotPasswordRoute());
+      }
       _userService.user = event.session?.user;
       if (event.session != null) {
         final expiresAt = DateTime.fromMillisecondsSinceEpoch(
@@ -84,7 +93,7 @@ class AuthService {
     try {
       return await _supabase.auth.resetPasswordForEmail(
         formData["email"],
-        redirectTo: 'https://markbulingit.github.io/#/update-password',
+        redirectTo: Env.siteUrlNoHash,
       );
     } catch (e) {
       if (e is AuthException) {
