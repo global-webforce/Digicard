@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:digicard/app/constants/colors.dart';
-import 'package:digicard/app/constants/env.dart';
+import 'package:digicard/app/env/env.dart';
 import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/ui/bottom_sheets/bs.card_send_viewmodel.dart';
@@ -107,7 +107,7 @@ class CardSendBottomSheet extends StatelessWidget {
                                                 BorderRadius.circular(8),
                                             child: QrImage(
                                               data:
-                                                  "https://markbulingit.github.io/#/p/${request.data.uuid}",
+                                                  "${Env.cardUrl}${request.data.uuid}",
                                               version: QrVersions.auto,
                                               errorCorrectionLevel:
                                                   QrErrorCorrectLevel.M,
@@ -126,7 +126,7 @@ class CardSendBottomSheet extends StatelessWidget {
                                                       const EdgeInsets.all(3),
                                                   child: CachedNetworkImage(
                                                       imageUrl:
-                                                          "$logoUrlPrefix${request.data.logoUrl}",
+                                                          "${Env.supabaseLogoUrl}${request.data.logoUrl}",
                                                       imageBuilder: (context,
                                                               imageProvider) =>
                                                           Image(
@@ -225,7 +225,7 @@ class CardSendBottomSheet extends StatelessWidget {
                                             onTap: () async {
                                               await Clipboard.setData(ClipboardData(
                                                   text:
-                                                      "https://markbulingit.github.io/#/p/${request.data.uuid}"));
+                                                      "${Env.cardUrl}${request.data.uuid}"));
                                             },
                                             icon: const Icon(
                                                 FontAwesomeIcons.copy),

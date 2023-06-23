@@ -1,17 +1,14 @@
 import 'dart:async';
+import 'package:digicard/app/services/user_service.dart';
 import 'package:mime/mime.dart';
 import 'package:digicard/app/extensions/digital_card_extension.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:flutter/foundation.dart';
-
 import 'package:stacked/stacked.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
-
 import 'package:path/path.dart' as path;
-
 import '../app.locator.dart';
-import '_core/user_service.dart';
 
 class DigitalCardService with ListenableServiceMixin {
   final _supabase = Supabase.instance.client;

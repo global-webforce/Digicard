@@ -72,6 +72,9 @@ class DigitalCard with _$DigitalCard {
     @Default(kcPrimaryColorInt)
     @FormControlAnnotation<int>()
         int? color,
+    @Default(0)
+    @FormControlAnnotation<int>()
+        int? layout,
     @FormControlAnnotation<String>()
         String? position,
     @FormControlAnnotation<String>()

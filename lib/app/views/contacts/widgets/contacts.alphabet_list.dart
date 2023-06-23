@@ -1,7 +1,6 @@
 import 'package:alphabet_list_view/alphabet_list_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:digicard/app/constants/env.dart';
-import 'package:digicard/app/constants/typography.dart';
+import 'package:digicard/app/env/env.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/views/contacts/contacts_view_model.dart';
@@ -23,16 +22,12 @@ class AlphabetList extends StatelessWidget {
         afterList: vSpaceRegular,
         listHeaderBuilder: (context, symbol) {
           return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-            decoration: BoxDecoration(
-              color: null,
-              borderRadius: BorderRadius.circular(100),
-            ),
-            child: Text(
-              symbol,
-              style: headline,
-            ),
-          );
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+              decoration: BoxDecoration(
+                color: null,
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: Text(symbol));
         },
       ),
       scrollbarOptions: ScrollbarOptions(
@@ -96,7 +91,8 @@ class AlphabetList extends StatelessWidget {
                             child: CachedNetworkImage(
                               width: 50,
                               height: 50,
-                              imageUrl: "$avatarUrlPrefix${card.avatarUrl}",
+                              imageUrl:
+                                  "${Env.supabaseAvatarUrl}${card.avatarUrl}",
                               imageBuilder: (context, imageProvider) {
                                 return Center(
                                   child: Container(

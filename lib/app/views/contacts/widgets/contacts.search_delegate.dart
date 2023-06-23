@@ -1,11 +1,11 @@
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/extensions/string_extension.dart';
-import 'package:digicard/app/views/card_open/card_open_view.dart';
+import 'package:digicard/app/routes/app_router.dart';
+import 'package:digicard/app/routes/app_router.gr.dart';
+import 'package:digicard/app/views/card_display/card_display_viewmodel.dart';
 import 'package:flutter/material.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 import '../../../models/digital_card.dart';
-import '../../card_open/card_open_viewmodel.dart';
 
 class MySearchDelegate extends SearchDelegate<String> {
   final List<DigitalCard> items;
@@ -99,8 +99,8 @@ class MySearchDelegate extends SearchDelegate<String> {
             ),
             onTap: () {
               close(context, "");
-              locator<NavigationService>().navigateToView(CardOpenView(
-                actionType: ActionType.view,
+              locator<AppRouter>().push(CardDisplayRoute(
+                action: DisplayType.private,
                 card: contact,
               ));
             },

@@ -1,4 +1,3 @@
-import 'package:digicard/app/constants/typography.dart';
 import 'package:flutter/material.dart';
 
 class PanelButtons extends StatelessWidget {
@@ -100,7 +99,7 @@ class MinButtons extends StatelessWidget {
                 Expanded(
                   child: Text(
                     title,
-                    style: caption,
+                    style: const TextStyle(fontSize: 14),
                   ),
                 ),
                 trailing ?? const SizedBox.shrink(),

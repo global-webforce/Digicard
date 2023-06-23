@@ -1,7 +1,7 @@
 import 'package:digicard/app/app.locator.dart';
-import 'package:digicard/app/services/_core/auth_service_supabase.dart';
-import 'package:digicard/app/services/_core/user_service.dart';
+import 'package:digicard/app/services/auth_service_supabase.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
+import 'package:digicard/app/services/user_service.dart';
 import 'package:stacked/stacked.dart';
 
 class SettingsViewModel extends BaseViewModel {
@@ -14,6 +14,5 @@ class SettingsViewModel extends BaseViewModel {
   logout() async {
     _digitalCardService.clean();
     await _authService.logOut();
-    // _appRouter.replaceAll([const InitialRoute()]);
   }
 }

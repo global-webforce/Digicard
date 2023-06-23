@@ -1,13 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
-import 'package:digicard/app/services/_core/user_service.dart';
-import 'package:flutter/foundation.dart';
-
+import 'package:digicard/app/services/user_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:stacked_services/stacked_services.dart';
-
 import '../app.locator.dart';
 
 /*
@@ -21,24 +16,16 @@ class AuthWrapperView extends AutoRouter {
 
 @AutoRouterConfig(replaceInRouteName: 'View,Route')
 class AppRouter extends $AppRouter implements AutoRouteGuard {
-  final log = getLogger('AppRouter');
-  late UserService userService;
-  bool isAuthenticated = false;
+  final userService = locator<UserService>();
   AppRouter({GlobalKey<NavigatorState>? navigatorKey})
-      : super(navigatorKey: StackedService.navigatorKey) {
-    userService = locator<UserService>();
-
-    userService.addListener(() {
-      isAuthenticated = userService.isPresent;
-      notifyListeners();
-    });
-  }
+      : super(navigatorKey: StackedService.navigatorKey);
 
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
     String routePath = resolver.route.path;
+
     if (["/welcome", "/login"].contains(routePath)) {
-      if (isAuthenticated) {
+      if (userService.isPresent) {
         router.navigate(const InitialRoute());
       } else {
         resolver.next(true);
@@ -46,16 +33,15 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
     } else {
       resolver.next(true);
     }
-    if (!kIsWeb) FlutterNativeSplash.remove();
   }
 
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(
-          path: "/",
-          page: InitialRoute.page,
-          initial: true,
-        ),
+        CustomRoute(
+            path: "/",
+            page: InitialRoute.page,
+            initial: true,
+            transitionsBuilder: TransitionsBuilders.noTransition),
         AutoRoute(
           path: "/login",
           page: LoginRoute.page,
@@ -68,9 +54,8 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
         ),
         AutoRoute(
           path: "/p/:uuid",
-          page: CardLoaderRoute.page,
+          page: CardDisplayRoute.page,
         ),
-        RedirectRoute(path: '/p', redirectTo: '/'),
         RedirectRoute(path: "*", redirectTo: "/"),
       ];
 }

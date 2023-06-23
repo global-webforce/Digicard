@@ -1,12 +1,11 @@
 import 'dart:convert';
-
 import 'package:collection/collection.dart';
 import 'package:digicard/app/app.locator.dart';
-import 'package:digicard/app/constants/env.dart';
+import 'package:digicard/app/env/env.dart';
 import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:digicard/app/models/custom_link.dart';
 import 'package:digicard/app/models/digital_card.dart';
-import 'package:digicard/app/services/_core/user_service.dart';
+import 'package:digicard/app/services/user_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:http/http.dart' as http;
@@ -118,7 +117,7 @@ class ContactsService with ListenableServiceMixin {
       });
       notifyListeners();
     } catch (e) {
-      Future.error(e.toString());
+      return Future.error(e.toString());
     }
   }
 
@@ -144,7 +143,8 @@ class ContactsService with ListenableServiceMixin {
         groupBy(card.customLinks, (e) => "${e.type}");
     Uint8List? bytes;
     if (card.avatarUrl.isNotNullOrEmpty()) {
-      bytes = await getBytesFromUrl("$avatarUrlPrefix${card.avatarUrl}");
+      bytes =
+          await getBytesFromUrl("${Env.supabaseAvatarUrl}${card.avatarUrl}");
     }
 
     return Contact()

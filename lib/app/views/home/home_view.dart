@@ -44,10 +44,8 @@ class HomeView extends StatelessWidget {
                 v.visited = true;
               }
             },
-            onPop: (v) async {
-              return await viewModel.confirmExit().then((value) {
-                return Future.value(value?.confirmed);
-              });
+            onPop: (viewModel) async {
+              return await viewModel.confirmExit();
             },
             builder: (context, child) {
               return Scaffold(
@@ -61,10 +59,9 @@ class HomeView extends StatelessWidget {
                 body: ScaffoldListWrapper(
                   isBusy: viewModel.isBusy,
                   emptyIndicatorWidget: const EmptyDisplay(
-                      icon: Icons.card_giftcard_rounded,
-                      title: "No Cards",
-                      subtitle:
-                          "Click the button on bottom right corner to add."),
+                    icon: Icons.card_giftcard_rounded,
+                    title: "No Cards",
+                  ),
                   onRefresh: () async {
                     await viewModel.init();
                   },

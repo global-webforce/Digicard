@@ -1,6 +1,9 @@
-import 'package:digicard/app/app.dialog_ui.dart';
+import 'package:digicard/app/dialog_ui.dart';
 import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/helper/card_url_checker.dart';
+import 'package:digicard/app/models/digital_card.dart';
+import 'package:digicard/app/routes/app_router.gr.dart';
+import 'package:digicard/app/views/card_display/card_display_viewmodel.dart';
 import 'package:digicard/app/views/scan_qr_code/scan_qr_code_view.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -9,7 +12,6 @@ import 'package:digicard/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import '../../routes/app_router.dart';
-import '../../routes/app_router.gr.dart';
 
 const String loadingCardBusyKey = 'loadingCardBusyKey';
 
@@ -44,11 +46,21 @@ class ScanViewModel extends ReactiveViewModel {
         result = scanData;
         log.d(result?.code);
         if (CardUrl("${result?.code}").isValid()) {
-          _navService
+          /*   _navService
               .push(CardLoaderRoute(uuid: CardUrl("${result?.code}").uuid))
               .then((value) {
             controller.resumeCamera();
+          }); */
+          _navService
+              .push(CardDisplayRoute(
+                  card: DigitalCard(),
+                  action: DisplayType.private,
+                  uuid: CardUrl("${result?.code}").uuid))
+              .then((value) {
+            controller.resumeCamera();
           });
+        } else {
+          //controller.resumeCamera();
         }
       } catch (e) {
         rethrow;
