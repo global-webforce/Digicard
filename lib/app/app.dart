@@ -1,12 +1,12 @@
 import 'package:digicard/app/routes/app_router.dart';
-import 'package:digicard/app/services/_core/auth_service_supabase.dart';
-import 'package:digicard/app/services/_core/user_service.dart';
+import 'package:digicard/app/services/auth_service_supabase.dart';
 import 'package:digicard/app/services/contacts_service.dart';
 import 'package:digicard/app/services/deeplink_service.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
-import 'package:digicard/app/views/_core/login/login_viewmodel.dart';
-import 'package:digicard/app/views/_core/startup/startup_viewmodel.dart';
-import 'package:digicard/app/services/_core/local_storage_service.dart';
+import 'package:digicard/app/services/local_storage_service.dart';
+import 'package:digicard/app/services/user_service.dart';
+import 'package:digicard/app/views/login/login_viewmodel.dart';
+import 'package:digicard/app/views/startup/startup_viewmodel.dart';
 import 'package:digicard/app/ui/bottom_sheets/bs.card_send_viewmodel.dart';
 import 'package:digicard/app/ui/bottom_sheets/bs.card_tools_viewmodel.dart';
 import 'package:digicard/app/views/dashboard/dashboard_viewmodel.dart';

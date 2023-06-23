@@ -1,7 +1,7 @@
 import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/models/digital_card.dart';
-import 'package:digicard/app/app.bottomsheet_ui.dart';
-import 'package:digicard/app/app.dialog_ui.dart';
+import 'package:digicard/app/bottomsheet_ui.dart';
+import 'package:digicard/app/dialog_ui.dart';
 import 'package:digicard/app/routes/app_router.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:digicard/app/services/digital_card_service.dart';

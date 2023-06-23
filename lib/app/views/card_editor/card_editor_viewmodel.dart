@@ -1,11 +1,10 @@
-import 'package:digicard/app/app.bottomsheet_ui.dart';
-import 'package:digicard/app/app.dialog_ui.dart';
+import 'package:digicard/app/bottomsheet_ui.dart';
+import 'package:digicard/app/dialog_ui.dart';
 import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/env/env.dart';
 import 'package:digicard/app/models/custom_link.dart';
 import 'package:digicard/app/models/digital_card.dart';
-import 'package:digicard/app/services/contacts_service.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:digicard/app/views/custom_link/custom_link_view.dart';
 import 'package:flutter/foundation.dart';
@@ -47,7 +46,6 @@ class CardEditorViewModel extends ReactiveViewModel {
   final _dialogService = locator<DialogService>();
   final _bottomSheetService = locator<BottomSheetService>();
   final _digitalCardsService = locator<DigitalCardService>();
-  final _contactsService = locator<ContactsService>();
   final _navigationService = locator<NavigationService>();
 
   @override

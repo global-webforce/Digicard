@@ -1,8 +1,8 @@
 import 'package:digicard/app/env/env.dart';
-import 'package:digicard/app/views/_core/startup/startup_view.dart';
-import 'package:digicard/app/app.bottomsheet_ui.dart';
-import 'package:digicard/app/app.dialog_ui.dart';
-import 'package:digicard/app/app.snackbar_ui.dart';
+import 'package:digicard/app/views/startup/startup_view.dart';
+import 'package:digicard/app/bottomsheet_ui.dart';
+import 'package:digicard/app/dialog_ui.dart';
+import 'package:digicard/app/snackbar_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:digicard/app/app.locator.dart';
@@ -32,4 +32,3 @@ void main() async {
   await setupBottomSheetUI();
   runApp(const StartupView());
 }
-//locator.registerSingleton(AppRoute(StackedService.navigatorKey));

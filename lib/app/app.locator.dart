@@ -14,24 +14,24 @@ import 'package:stacked_shared/stacked_shared.dart';
 import 'package:stacked_themes/src/theme_service.dart';
 
 import 'routes/app_router.dart';
-import 'services/_core/auth_service_supabase.dart';
-import 'services/_core/local_storage_service.dart';
-import 'services/_core/user_service.dart';
+import 'services/auth_service_supabase.dart';
 import 'services/contacts_service.dart';
 import 'services/deeplink_service.dart';
 import 'services/digital_card_service.dart';
+import 'services/local_storage_service.dart';
+import 'services/user_service.dart';
 import 'ui/bottom_sheets/bs.card_send_viewmodel.dart';
 import 'ui/bottom_sheets/bs.card_tools_viewmodel.dart';
-import 'views/_core/login/login_viewmodel.dart';
-import 'views/_core/startup/startup_viewmodel.dart';
 import 'views/card_display/card_display_viewmodel.dart';
 import 'views/card_editor/card_editor_viewmodel.dart';
 import 'views/contacts/contacts_view_model.dart';
 import 'views/custom_link/custom_link_view_model.dart';
 import 'views/dashboard/dashboard_viewmodel.dart';
 import 'views/home/home_viewmodel.dart';
+import 'views/login/login_viewmodel.dart';
 import 'views/scan_qr_code/scan_viewmodel.dart';
 import 'views/settings/settings_view_model.dart';
+import 'views/startup/startup_viewmodel.dart';
 
 final locator = StackedLocator.instance;
 

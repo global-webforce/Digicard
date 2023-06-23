@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:digicard/app/ui/_core/ez_button.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/constants/colors.dart';
-import 'package:digicard/app/views/_core/login/login_viewmodel.dart';
+import 'package:digicard/app/views/login/login_viewmodel.dart';
 import 'package:digicard/app/constants/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';

@@ -1,4 +1,4 @@
-import 'package:digicard/app/app.dialog_ui.dart';
+import 'package:digicard/app/dialog_ui.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/views/contacts/contacts_view.dart';
 import 'package:digicard/app/views/home/home_view.dart';

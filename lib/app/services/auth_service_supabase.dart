@@ -1,12 +1,11 @@
 import 'dart:async';
+import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/env/env.dart';
 import 'package:digicard/app/routes/app_router.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
-import 'package:digicard/app/services/_core/user_service.dart';
+import 'package:digicard/app/services/user_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../../app.locator.dart';
 
 class AuthService {
   final log = getLogger('AuthService');
@@ -117,7 +116,6 @@ class AuthService {
   }
 
   Future updateProfile(Map<String, dynamic> formData) async {}
-
   Future<void> logOut() async {
     await _supabase.auth.signOut();
     _userService.user = null;

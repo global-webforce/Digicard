@@ -1,11 +1,10 @@
-import 'package:digicard/app/app.dialog_ui.dart';
+import 'package:digicard/app/dialog_ui.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/extensions/dynamic_extension.dart';
 import 'package:digicard/app/routes/app_router.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
-
-import 'package:digicard/app/services/_core/auth_service_supabase.dart';
+import 'package:digicard/app/services/auth_service_supabase.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:stacked/stacked.dart';

@@ -1,7 +1,7 @@
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/routes/app_router.dart';
 import 'package:digicard/app/constants/colors.dart';
-import 'package:digicard/app/views/_core/startup/startup_viewmodel.dart';
+import 'package:digicard/app/views/startup/startup_viewmodel.dart';
 import 'package:flutter/gestures.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';

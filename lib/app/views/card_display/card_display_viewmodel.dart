@@ -1,11 +1,10 @@
 import 'dart:ui';
 
-import 'package:digicard/app/app.bottomsheet_ui.dart';
-import 'package:digicard/app/app.dialog_ui.dart';
+import 'package:digicard/app/bottomsheet_ui.dart';
+import 'package:digicard/app/dialog_ui.dart';
 import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/models/digital_card.dart';
-import 'package:digicard/app/routes/app_router.dart';
 import 'package:digicard/app/services/contacts_service.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:stacked/stacked.dart';
@@ -29,7 +28,6 @@ class CardDisplayViewModel extends ReactiveViewModel {
   User? get user => _supabase.auth.currentUser;
 
   final _contactsService = locator<ContactsService>();
-  final _navigationService = locator<AppRouter>();
   final _digitalCardService = locator<DigitalCardService>();
   final _dialogService = locator<DialogService>();
   final _bottomSheetService = locator<BottomSheetService>();

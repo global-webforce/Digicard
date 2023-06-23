@@ -12,14 +12,13 @@ import 'package:auto_route/auto_route.dart' as _i8;
 import 'package:digicard/app/models/digital_card.dart' as _i10;
 import 'package:digicard/app/routes/app_router.dart' as _i1;
 import 'package:digicard/app/routes/initial_view.dart' as _i2;
-import 'package:digicard/app/views/_core/login/forgot_password_view.dart'
-    as _i5;
-import 'package:digicard/app/views/_core/login/login_view.dart' as _i6;
-import 'package:digicard/app/views/_core/login/password_reset_view.dart' as _i7;
 import 'package:digicard/app/views/card_display/card_display_view.dart' as _i3;
 import 'package:digicard/app/views/card_display/card_display_viewmodel.dart'
     as _i11;
 import 'package:digicard/app/views/dashboard/dashboard_view.dart' as _i4;
+import 'package:digicard/app/views/login/forgot_password_view.dart' as _i5;
+import 'package:digicard/app/views/login/login_view.dart' as _i6;
+import 'package:digicard/app/views/login/password_reset_view.dart' as _i7;
 import 'package:flutter/material.dart' as _i9;
 
 abstract class $AppRouter extends _i8.RootStackRouter {

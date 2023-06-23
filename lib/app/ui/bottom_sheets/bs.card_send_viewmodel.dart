@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:digicard/app/app.logger.dart';
-import 'package:digicard/app/app.snackbar_ui.dart';
+import 'package:digicard/app/snackbar_ui.dart';
 import 'package:digicard/app/models/digital_card.dart';
-import 'package:digicard/app/app.dialog_ui.dart';
+import 'package:digicard/app/dialog_ui.dart';
 import 'package:digicard/app/services/contacts_service.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:flutter/foundation.dart';

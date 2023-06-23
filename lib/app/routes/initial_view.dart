@@ -1,11 +1,10 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:digicard/app/views/_core/startup/startup_viewmodel.dart';
+import 'package:digicard/app/views/startup/startup_viewmodel.dart';
 import 'package:digicard/app/views/dashboard/dashboard_view.dart';
+import 'package:digicard/app/views/welcome/welcome_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:stacked/stacked.dart';
-
-import '../views/_core/welcome/welcome_view.dart';
 
 @RoutePage(name: 'InitialRoute')
 class InitialView extends StatelessWidget {

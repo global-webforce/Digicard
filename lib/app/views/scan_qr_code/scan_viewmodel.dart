@@ -1,4 +1,4 @@
-import 'package:digicard/app/app.dialog_ui.dart';
+import 'package:digicard/app/dialog_ui.dart';
 import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/helper/card_url_checker.dart';
 import 'package:digicard/app/models/digital_card.dart';
