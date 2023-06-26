@@ -212,26 +212,29 @@ class CardEditorViewModel extends ReactiveViewModel {
   }
 
   showAvatarPicker() async {
+    // ignore: unused_local_variable
+
     await _bottomSheetService.showCustomSheet(
         data: {
           'assetType': 'avatar',
-          'removeOption': _formModel.avatarFileControl?.value != null
+          'removeOption': formModel.model.avatarFile != null
         },
         isScrollControlled: false,
         barrierDismissible: true,
         variant: BottomSheetType.imagepicker).then((res) async {
       var result = res?.data;
       if (result is ImageSource) {
-        formModel.avatarFileControl?.value =
-            await ImagePickerX(context, type: result, crop: true).pick();
-        _formModel.form.markAsDirty();
-      } else if (result is bool && result == false) {
-        formModel.avatarUrlControl?.value = null;
-        formModel.avatarFileControl?.value = null;
+        formModel.avatarFileValueUpdate(
+            await XImagePicker(context, type: result, crop: true).pick());
+        if (formModel.model.avatarFile != null) {
+          formModel.avatarUrlValueUpdate("&!&");
+          _formModel.form.markAsDirty();
+        }
+      } else if (result == false) {
+        formModel.avatarUrlValueUpdate(null);
+        formModel.avatarFileValueUpdate(null);
         _formModel.form.markAsDirty();
       }
-
-      notifyListeners();
     });
   }
 
@@ -239,23 +242,24 @@ class CardEditorViewModel extends ReactiveViewModel {
     await _bottomSheetService.showCustomSheet(
         data: {
           'assetType': 'logo',
-          'removeOption': _formModel.logoFileControl?.value != null
+          'removeOption': formModel.model.logoFile != null
         },
         isScrollControlled: false,
         barrierDismissible: true,
         variant: BottomSheetType.imagepicker).then((res) async {
       var result = res?.data;
       if (result is ImageSource) {
-        formModel.logoFileControl?.value =
-            await ImagePickerX(context, type: result, crop: true).pick();
-        _formModel.form.markAsDirty();
-      } else if (result is bool && result == false) {
-        formModel.logoUrlControl?.value = null;
-        formModel.logoFileControl?.value = null;
+        formModel.logoFileValueUpdate(
+            await XImagePicker(context, type: result, crop: true).pick());
+        if (formModel.model.logoFile != null) {
+          formModel.logoUrlValueUpdate("&!&");
+          _formModel.form.markAsDirty();
+        }
+      } else if (result == false) {
+        formModel.logoUrlValueUpdate(null);
+        formModel.logoFileValueUpdate(null);
         _formModel.form.markAsDirty();
       }
-
-      notifyListeners();
     });
   }
 }

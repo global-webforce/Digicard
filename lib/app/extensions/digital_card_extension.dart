@@ -8,7 +8,7 @@ extension DigitalCardExtension on DigitalCard {
         .trim();
   }
 
-  static Map<String, dynamic> create(Map<String, dynamic> value) {
+  static Map<String?, dynamic> create(Map<String, dynamic> value) {
     value.remove("id");
     value.remove("uuid");
     value.remove("added_at");
@@ -21,7 +21,7 @@ extension DigitalCardExtension on DigitalCard {
     return value;
   }
 
-  static Map<String, dynamic> update(Map<String, dynamic> value) {
+  static Map<String?, dynamic> update(Map<String, dynamic> value) {
     value.remove("id");
     value.remove("avatar_file");
     value.remove("logo_file");

@@ -21,8 +21,8 @@ const String shareBusyKey = 'shareBusyKey';
 const String saveToContactsBusyKey = 'saveToContactsBusyKey';
 const String doneBusyKey = 'doneBusyKey';
 
-class CardToolsBottomSheetViewModel extends ReactiveViewModel {
-  final log = getLogger('CardToolsBottomSheetViewModel');
+class CardManagerBottomSheetViewModel extends ReactiveViewModel {
+  final log = getLogger('CardManagerBottomSheetViewModel');
   final _bottomSheetService = locator<BottomSheetService>();
   final _dialogService = locator<DialogService>();
   final _digitalCardsService = locator<DigitalCardService>();

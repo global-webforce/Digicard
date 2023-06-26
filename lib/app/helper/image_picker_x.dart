@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:reactive_image_picker/reactive_image_picker.dart';
 
-class ImagePickerX {
+class XImagePicker {
   final BuildContext context;
   final ImageSource type;
   final bool crop;
 
-  ImagePickerX(this.context, {required this.type, this.crop = true});
+  XImagePicker(this.context, {required this.type, this.crop = true});
   final ImagePicker _logoPicker = ImagePicker();
 
   Future<Uint8List?> pick() async {

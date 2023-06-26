@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:digicard/app/app.logger.dart';
+import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:digicard/app/services/user_service.dart';
 import 'package:mime/mime.dart';
 import 'package:digicard/app/extensions/digital_card_extension.dart';
@@ -8,11 +9,10 @@ import 'package:flutter/foundation.dart';
 import 'package:stacked/stacked.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
-import 'package:path/path.dart' as path;
 import '../app.locator.dart';
 
 class DigitalCardService with ListenableServiceMixin {
-  final log = getLogger('LocalStorageService');
+  final log = getLogger('DigitalCardService');
   final _supabase = Supabase.instance.client;
   final _userService = locator<UserService>();
 
@@ -39,14 +39,15 @@ class DigitalCardService with ListenableServiceMixin {
   final ReactiveValue<List<DigitalCard>> _digitalCards =
       ReactiveValue<List<DigitalCard>>([]);
 
-  Future<String?> imageSave(Uint8List? image, {required String path}) async {
+  Future<String?> imageSave(Uint8List? image,
+      {required String folderPath}) async {
     try {
       var mime = lookupMimeType('', headerBytes: image);
       var extension = extensionFromMime("$mime");
       final fileName = '${uuid.v4()}.$extension';
       if (image != null) {
         await Supabase.instance.client.storage.from('images').uploadBinary(
-              "$path/$fileName",
+              "$folderPath/$fileName",
               image,
               fileOptions: const FileOptions(
                 cacheControl: '3600',
@@ -63,13 +64,34 @@ class DigitalCardService with ListenableServiceMixin {
     }
   }
 
-  Future imageDelete({required String path}) async {
+  Future<String?> imageCopy(
+      {required String sourceFileName, required String folderPath}) async {
+    String extension = StringExtension.getFileExtension(sourceFileName);
+    final fileName = '${uuid.v4()}.$extension';
+    try {
+      await _supabase.storage.from("images").copy(
+            "$folderPath/$sourceFileName",
+            "$folderPath/$fileName",
+          );
+      return fileName;
+    } catch (e) {
+      /// A weird supabase file copy bug that returns exception
+      /// even if the operation is successful
+      if (e.toString().contains("Expected a value of type 'String'")) {
+        return fileName;
+      }
+      log.e("imageCopy() : ${e.toString()}");
+      return null;
+    }
+  }
+
+  Future imageDelete({required String folderPath}) async {
     try {
       await _supabase
           .from('storage.objects')
           .delete()
           .eq('bucket_id', 'images')
-          .eq('name', path);
+          .eq('name', folderPath);
     } catch (e) {
       log.e(e.toString());
     }
@@ -96,8 +118,9 @@ class DigitalCardService with ListenableServiceMixin {
       final data = DigitalCardExtension.create(
           card.copyWith(userId: _userService.id).toJson());
       data["custom_links"] = card.customLinks.map((e) => e.toJson()).toList();
-      data["avatar_url"] = await imageSave(card.avatarFile, path: 'avatars');
-      data["logo_url"] = await imageSave(card.logoFile, path: 'logos');
+      data["avatar_url"] =
+          await imageSave(card.avatarFile, folderPath: 'avatars');
+      data["logo_url"] = await imageSave(card.logoFile, folderPath: 'logos');
       final insertedCard = await _supabase.from('cards').insert(data).select();
       if (insertedCard is List<dynamic>) {
         _digitalCards.value.add(DigitalCard.fromJson(insertedCard[0]));
@@ -112,8 +135,9 @@ class DigitalCardService with ListenableServiceMixin {
     try {
       final data = DigitalCardExtension.update(card.toJson());
       data["custom_links"] = card.customLinks.map((e) => e.toJson()).toList();
-      data["avatar_url"] = await imageSave(card.avatarFile, path: 'avatars');
-      data["logo_url"] = await imageSave(card.logoFile, path: 'logos');
+      data["avatar_url"] =
+          await imageSave(card.avatarFile, folderPath: 'avatars');
+      data["logo_url"] = await imageSave(card.logoFile, folderPath: 'logos');
       final updatedCard =
           await _supabase.from('cards').update(data).eq('id', card.id).select();
       if (updatedCard is List<dynamic>) {
@@ -145,89 +169,39 @@ class DigitalCardService with ListenableServiceMixin {
       final originalCard =
           _digitalCards.value.firstWhere((e) => e.id == card.id);
 
-      final bool noAvatarChangeRequest =
-          originalCard.avatarUrl == card.avatarUrl && card.avatarFile == null;
+      final bool isCopyOriginalAvatar =
+          card.avatarUrl == originalCard.avatarUrl &&
+              originalCard.avatarUrl != null;
+      final bool isUploadNewAvatar =
+          card.avatarUrl == "&!&" && card.avatarFile != null;
 
-      if (noAvatarChangeRequest) {
-        final avatarNewName =
-            "${uuid.v4()}${path.extension('${originalCard.avatarUrl}')}";
-
-        try {
-          await _supabase.storage.from("images").copy(
-                "avatars/${originalCard.avatarUrl}",
-                "avatars/$avatarNewName",
-              );
-        } catch (e) {
-          if (e.toString().contains(
-              "type 'Null' is not a subtype of type 'String' in type cast")) {
-            data["avatar_url"] = avatarNewName;
-          }
-        }
-      } else {
-        if (card.avatarFile != null) {
-          var mime = lookupMimeType('', headerBytes: card.avatarFile);
-          var extension = extensionFromMime("$mime");
-          final avatarName = '${uuid.v4()}.$extension';
-
-          await Supabase.instance.client.storage
-              .from('images')
-              .uploadBinary(
-                "avatars/$avatarName",
-                card.avatarFile ?? Uint8List(0),
-                fileOptions: const FileOptions(
-                  cacheControl: '3600',
-                  upsert: true,
-                ),
-              )
-              .then((_) {
-            data["avatar_url"] = avatarName;
-          });
-        }
+      if (isCopyOriginalAvatar) {
+        data["avatar_url"] = await imageCopy(
+            sourceFileName: "${originalCard.avatarUrl}", folderPath: 'avatars');
+      }
+      if (isUploadNewAvatar) {
+        data["avatar_url"] =
+            await imageSave(card.avatarFile, folderPath: 'avatars');
       }
 
-//LOGO
-      if (originalCard.logoUrl == card.logoUrl && card.logoFile == null) {
-        final logoName =
-            "${uuid.v4()}${path.extension('${originalCard.logoUrl}')}";
+      final bool isCopyOriginalLogo =
+          card.logoUrl == originalCard.logoUrl && originalCard.logoUrl != null;
+      final bool isUploadNewLogo =
+          card.logoUrl == "&!&" && card.logoFile != null;
 
-        try {
-          await _supabase.storage.from("images").copy(
-                "logos/${originalCard.logoUrl}",
-                "logos/$logoName",
-              );
-        } catch (e) {
-          if (e.toString().contains(
-              "type 'Null' is not a subtype of type 'String' in type cast")) {
-            data["logo_url"] = logoName;
-          }
-        }
-      } else {
-        if (card.logoFile != null) {
-          var mime = lookupMimeType('', headerBytes: card.logoFile);
-          var extension = extensionFromMime("$mime");
-          final logoName = '${uuid.v4()}.$extension';
+      if (isCopyOriginalLogo) {
+        data["logo_url"] = await imageCopy(
+            sourceFileName: "${originalCard.logoUrl}", folderPath: 'logos');
+      }
 
-          await Supabase.instance.client.storage
-              .from('images')
-              .uploadBinary(
-                "logos/$logoName",
-                card.logoFile ?? Uint8List(0),
-                fileOptions: const FileOptions(
-                  cacheControl: '3600',
-                  upsert: true,
-                ),
-              )
-              .then((_) {
-            data["logo_url"] = logoName;
-          });
-        }
+      if (isUploadNewLogo) {
+        data["logo_url"] = await imageSave(card.logoFile, folderPath: 'logos');
       }
 
       final insertedCard = await _supabase.from('cards').insert(data).select();
 
-      if (insertedCard is List<dynamic> && insertedCard.isNotEmpty) {
+      if (insertedCard is List<dynamic>) {
         DigitalCard? temp = DigitalCard.fromJson(insertedCard[0]);
-
         _digitalCards.value.add(temp);
         notifyListeners();
       }

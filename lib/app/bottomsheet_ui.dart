@@ -1,9 +1,9 @@
 import 'package:digicard/app/app.locator.dart';
-import 'package:digicard/app/ui/bottom_sheets/bs.card_send.dart';
-import 'package:digicard/app/ui/bottom_sheets/bs.card_tools.dart';
+import 'package:digicard/app/ui/bottom_sheets/bs.card_share.dart';
+import 'package:digicard/app/ui/bottom_sheets/bs.card_manager.dart';
 import 'package:digicard/app/ui/bottom_sheets/bs.image_picker.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'ui/bottom_sheets/bs.delete_card.dart';
+import 'ui/bottom_sheets/bs.delete.dart';
 
 enum BottomSheetType { digitalCard, send, imagepicker, delete }
 
@@ -12,12 +12,12 @@ Future<void> setupBottomSheetUI() async {
 
   final builders = {
     BottomSheetType.digitalCard: (context, sheetRequest, completer) =>
-        CardToolsBottomSheet(
+        CardManagerBottomSheet(
           request: sheetRequest,
           completer: completer,
         ),
     BottomSheetType.send: (context, sheetRequest, completer) =>
-        CardSendBottomSheet(
+        CardShareBottomSheet(
           request: sheetRequest,
           completer: completer,
         ),

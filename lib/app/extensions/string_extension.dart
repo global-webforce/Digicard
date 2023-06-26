@@ -1,4 +1,12 @@
 extension StringExtension on String? {
+  static String getFileExtension(String fileName) {
+    try {
+      return fileName.split('.').last;
+    } catch (e) {
+      return '';
+    }
+  }
+
   /// ensures that string has real value
   bool isNotNullOrEmpty() {
     if (this == null) return false;

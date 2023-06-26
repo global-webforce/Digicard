@@ -7,8 +7,8 @@ import 'package:digicard/app/ui/_core/empty_display.dart';
 import 'package:digicard/app/ui/_core/scaffold_list_wrapper.dart';
 import 'package:digicard/app/ui/_core/sliver_grid_delegate.dart';
 import 'package:digicard/app/constants/dimensions.dart';
-import 'package:digicard/app/ui/widgets/app_icon.dart';
-import 'package:digicard/app/ui/widgets/digital_card_list_item.dart';
+import 'package:digicard/app/views/home/widgets/app_icon.dart';
+import 'package:digicard/app/views/home/widgets/digital_card_list_item.dart';
 import 'package:digicard/app/views/dashboard/dashboard_view.dart';
 import 'package:digicard/app/views/home/home_viewmodel.dart';
 
