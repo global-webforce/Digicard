@@ -11,7 +11,8 @@ class OwnButton extends StatelessWidget {
         padding: EdgeInsets.all(8.0),
         child: Text(
           "You own this card",
-          style: TextStyle(fontStyle: FontStyle.italic, fontSize: 14),
+          style: TextStyle(
+              color: Colors.white, fontStyle: FontStyle.italic, fontSize: 14),
         ),
       ),
     );

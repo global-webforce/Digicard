@@ -5,6 +5,7 @@ import 'package:digicard/app/env/env.dart';
 import 'package:digicard/app/routes/app_router.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:digicard/app/services/user_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthService {
@@ -29,6 +30,22 @@ class AuthService {
         }
       }
     });
+  }
+
+  Future loginOAuth(Map<String, dynamic> formData) async {
+    try {
+      await _supabase.auth.signInWithOAuth(
+        Provider.facebook,
+        redirectTo: kIsWeb ? null : 'io.supabase.digicard://login-callback/',
+      );
+    } catch (e) {
+      if (e is AuthException) {
+        return Future.error(e.message);
+      } else if (e.toString().toLowerCase().contains("confirmation link")) {
+        return Future.error(e);
+      }
+      return Future.error("Unknown error occured");
+    }
   }
 
   Future login(Map<String, dynamic> formData) async {

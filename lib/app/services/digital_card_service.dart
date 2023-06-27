@@ -59,7 +59,7 @@ class DigitalCardService with ListenableServiceMixin {
         return null;
       }
     } catch (e) {
-      log.e(e.toString());
+      log.e("imageSave() : ${e.toString()}");
       return null;
     }
   }
@@ -93,7 +93,7 @@ class DigitalCardService with ListenableServiceMixin {
           .eq('bucket_id', 'images')
           .eq('name', folderPath);
     } catch (e) {
-      log.e(e.toString());
+      log.e("imageDelete() : ${e.toString()}");
     }
   }
 

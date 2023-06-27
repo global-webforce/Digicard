@@ -201,12 +201,12 @@ class LoginForm extends StatelessWidget {
       );
     }
 
-    Widget socialIcon(Icon icon) {
+    Widget socialIcon({required Icon icon, Function()? onTap}) {
       return ClipOval(
         child: Material(
           color: kcPrimaryColor,
           child: InkWell(
-            onTap: () {},
+            onTap: onTap != null ? () => onTap() : null,
             child: SizedBox(width: 56, height: 56, child: icon),
           ),
         ),
@@ -239,11 +239,18 @@ class LoginForm extends StatelessWidget {
                       Wrap(
                         spacing: 10,
                         children: [
-                          socialIcon(const Icon(FontAwesomeIcons.google)),
-                          socialIcon(const Icon(FontAwesomeIcons.twitter)),
-                          socialIcon(const Icon(FontAwesomeIcons.facebook)),
-                          socialIcon(const Icon(FontAwesomeIcons.apple)),
-                          socialIcon(const Icon(FontAwesomeIcons.microsoft)),
+                          socialIcon(icon: const Icon(FontAwesomeIcons.google)),
+                          socialIcon(
+                              icon: const Icon(FontAwesomeIcons.twitter)),
+                          socialIcon(
+                            icon: const Icon(FontAwesomeIcons.facebook),
+                            onTap: () {
+                              viewModel.loginOAuth();
+                            },
+                          ),
+                          socialIcon(icon: const Icon(FontAwesomeIcons.apple)),
+                          socialIcon(
+                              icon: const Icon(FontAwesomeIcons.microsoft)),
                         ],
                       ),
                       Padding(

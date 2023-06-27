@@ -33,7 +33,7 @@ class Body0 extends StatelessWidget {
               !"${viewModel.card.pronouns}".isNotNullOrEmpty()
           ? const SizedBox.shrink()
           : IconListItem(
-              color: Colors.transparent,
+              iconColor: viewModel.isDarkMode ? Colors.white : Colors.black,
               icon: Icons.chat_rounded,
               text:
                   "Goes By ${viewModel.card.preferredName} ( ${viewModel.card.pronouns} )"
@@ -44,8 +44,8 @@ class Body0 extends StatelessWidget {
 
     Widget customLinks() {
       return Wrap(
-        runSpacing: 8,
-        spacing: 8,
+        runSpacing: 5,
+        spacing: 5,
         children: viewModel.card.customLinks.map((e) {
           return GestureDetector(
               onTap: (e.extras().uri != null)
@@ -57,7 +57,8 @@ class Body0 extends StatelessWidget {
                   : null,
               child: IconListItem(
                 icon: e.extras().icon,
-                color: viewModel.color,
+                iconColor: Colors.white,
+                backgroundColor: viewModel.color,
                 text: e.text.clean(),
               ));
         }).toList(),
@@ -68,7 +69,8 @@ class Body0 extends StatelessWidget {
       return !"${viewModel.card.createdAt}".isNotNullOrEmpty()
           ? const SizedBox.shrink()
           : IconListItem(
-              color: Colors.transparent,
+              iconColor: viewModel.isDarkMode ? Colors.white : Colors.black,
+              backgroundColor: Colors.transparent,
               icon: FontAwesomeIcons.circleInfo,
               text:
                   "Created ${DateFormat('MMM dd, yyyy hh:mm a').format(viewModel.card.createdAt ?? DateTime.now())}"
@@ -80,7 +82,8 @@ class Body0 extends StatelessWidget {
       return !"${viewModel.card.createdAt}".isNotNullOrEmpty()
           ? const SizedBox.shrink()
           : IconListItem(
-              color: Colors.transparent,
+              iconColor: viewModel.isDarkMode ? Colors.white : Colors.black,
+              backgroundColor: Colors.transparent,
               icon: FontAwesomeIcons.handshake,
               text:
                   "Added ${DateFormat('MMM dd, yyyy hh:mm a').format(viewModel.card.addedAt ?? DateTime.now())}"

@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:digicard/app/env/env.dart';
-import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/extensions/digital_card_extension.dart';
 import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:digicard/app/views/card_display/card_display_viewmodel.dart';
@@ -42,7 +41,10 @@ class Heading0 extends StatelessWidget {
           );
         },
         errorWidget: (context, url, error) {
-          return const SizedBox.shrink();
+          return const Padding(
+            padding: EdgeInsets.only(bottom: 16.0),
+            child: SizedBox(height: 56),
+          );
         },
       );
     }
@@ -55,6 +57,7 @@ class Heading0 extends StatelessWidget {
               child: AutoSizeText(
                 viewModel.card.fullName().clean().toTitleCase(),
                 style: GoogleFonts.poppins(
+                  color: Colors.white,
                   fontWeight: FontWeight.w800,
                   fontSize: 30,
                   height: 1.2,
@@ -74,6 +77,7 @@ class Heading0 extends StatelessWidget {
               viewModel.card.position.clean().toTitleCase(),
               style: GoogleFonts.poppins(
                 fontSize: 16,
+                color: Colors.white,
                 fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.bold,
               ),
@@ -89,6 +93,7 @@ class Heading0 extends StatelessWidget {
           : AutoSizeText(
               viewModel.card.company.clean().toTitleCase(),
               style: GoogleFonts.poppins(
+                color: Colors.white,
                 fontSize: 16,
                 fontStyle: FontStyle.italic,
               ),
@@ -106,7 +111,7 @@ class Heading0 extends StatelessWidget {
             height: avatarSize,
             width: avatarSize,
             decoration: BoxDecoration(
-              border: Border.all(color: viewModel.color.darken(0.1), width: 5),
+              border: Border.all(color: viewModel.color, width: 5),
               borderRadius: const BorderRadius.all(Radius.circular(100)),
               image: DecorationImage(
                 image: imageProvider,
@@ -134,7 +139,7 @@ class Heading0 extends StatelessWidget {
               width: size.maxWidth,
               constraints: const BoxConstraints(minHeight: 160),
               decoration: BoxDecoration(
-                color: viewModel.color.darken(0.1),
+                color: viewModel.color,
               ),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(

@@ -37,6 +37,7 @@ class CardDisplayView extends StatelessWidget {
         viewModelBuilder: () => locator<CardDisplayViewModel>(),
         disposeViewModel: false,
         onViewModelReady: (model) async {
+          model.checkTheme();
           model.card = card ?? DigitalCard();
           model.action = action ?? DisplayType.public;
           if (uuid != null) {
