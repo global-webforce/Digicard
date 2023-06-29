@@ -9,8 +9,14 @@ extension StringExtension on String? {
 
   /// ensures that string has real value
   bool isNotNullOrEmpty() {
+    final x = ["null", "Null", "NULL", ""];
     if (this == null) return false;
-    return "$this".trim() != "null" && "$this".trim() != "";
+    for (String value in x) {
+      if ("$this".contains(value)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /// checks if the string is a valid url
@@ -34,8 +40,9 @@ extension StringExtension on String? {
   }
 
   String clean() {
-    return isNotNullOrEmpty() == true
-        ? "$this".replaceAll(RegExp(r"\s+"), " ").trim()
-        : "";
+    return "$this"
+        .replaceAll(RegExp(r'\bnull\b', caseSensitive: false), '')
+        .replaceAll(RegExp(r"\s+"), " ")
+        .trim();
   }
 }
