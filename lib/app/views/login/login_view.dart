@@ -65,26 +65,6 @@ class LoginView extends StatelessWidget {
                         ),
                       ),
                     )
-                    /*     SliverToBoxAdapter(
-                        child: Center(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              SizedBox(
-                                width: 500,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                   
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ), */
                   ],
                 );
               }),
@@ -213,6 +193,56 @@ class LoginForm extends StatelessWidget {
       );
     }
 
+    Widget socialMediaOAuthIcons() {
+      return Wrap(
+        spacing: 10,
+        children: [
+          socialIcon(icon: const Icon(FontAwesomeIcons.google)),
+          socialIcon(icon: const Icon(FontAwesomeIcons.twitter)),
+          socialIcon(
+            icon: const Icon(FontAwesomeIcons.facebook),
+            onTap: () {
+              viewModel.loginOAuth();
+            },
+          ),
+          socialIcon(icon: const Icon(FontAwesomeIcons.apple)),
+          socialIcon(icon: const Icon(FontAwesomeIcons.microsoft)),
+        ],
+      );
+    }
+
+    Widget divider() {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Row(
+          children: const [
+            Expanded(
+              child: Divider(
+                color: Colors.white,
+                thickness: 1,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'OR',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Divider(
+                color: Colors.white,
+                thickness: 1,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     return KeyboardVisibilityBuilder(builder: (
       context,
       isKeyboardVisible,
@@ -226,66 +256,20 @@ class LoginForm extends StatelessWidget {
             duration: const Duration(milliseconds: 500),
             child: !isKeyboardVisible
                 ? Column(
-                    children: [
-                      const Text(
-                        "SIGN-IN WITH",
+                    children: const [
+                      Text(
+                        "LOGIN",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      vSpaceRegular,
-                      Wrap(
-                        spacing: 10,
-                        children: [
-                          socialIcon(icon: const Icon(FontAwesomeIcons.google)),
-                          socialIcon(
-                              icon: const Icon(FontAwesomeIcons.twitter)),
-                          socialIcon(
-                            icon: const Icon(FontAwesomeIcons.facebook),
-                            onTap: () {
-                              viewModel.loginOAuth();
-                            },
-                          ),
-                          socialIcon(icon: const Icon(FontAwesomeIcons.apple)),
-                          socialIcon(
-                              icon: const Icon(FontAwesomeIcons.microsoft)),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: Row(
-                          children: const [
-                            Expanded(
-                              child: Divider(
-                                color: Colors.white,
-                                thickness: 1,
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(
-                                'OR',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Divider(
-                                color: Colors.white,
-                                thickness: 1,
-                              ),
-                            ),
-                          ],
                         ),
                       ),
                     ],
                   )
                 : const SizedBox.shrink(),
           ),
+          vSpaceRegular,
           emailField(),
           vSpaceRegular,
           passwordField(),

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_themes/stacked_themes.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Body1 extends StatelessWidget {
@@ -57,7 +58,9 @@ class Body1 extends StatelessWidget {
           ? const SizedBox.shrink()
           : IconListItem(
               icon: Icons.domain,
-              iconColor: viewModel.isDarkMode ? Colors.white : Colors.black,
+              iconColor: getThemeManager(context).isDarkMode
+                  ? Colors.white
+                  : Colors.black,
               text: "${viewModel.card.company}".clean().toTitleCase(),
               textStyle: TextStyle(
                 fontSize: 18,
@@ -85,7 +88,9 @@ class Body1 extends StatelessWidget {
           ? const SizedBox.shrink()
           : IconListItem(
               icon: Icons.chat_rounded,
-              iconColor: viewModel.isDarkMode ? Colors.white : Colors.black,
+              iconColor: getThemeManager(context).isDarkMode
+                  ? Colors.white
+                  : Colors.black,
               text:
                   "Goes By ${viewModel.card.preferredName} ( ${viewModel.card.pronouns} )"
                       .clean()
@@ -120,7 +125,9 @@ class Body1 extends StatelessWidget {
       return !"${viewModel.card.createdAt}".isNotNullOrEmpty()
           ? const SizedBox.shrink()
           : IconListItem(
-              iconColor: viewModel.isDarkMode ? Colors.white : Colors.black,
+              iconColor: getThemeManager(context).isDarkMode
+                  ? Colors.white
+                  : Colors.black,
               backgroundColor: Colors.transparent,
               icon: FontAwesomeIcons.circleInfo,
               text:
@@ -133,7 +140,9 @@ class Body1 extends StatelessWidget {
       return !"${viewModel.card.createdAt}".isNotNullOrEmpty()
           ? const SizedBox.shrink()
           : IconListItem(
-              iconColor: viewModel.isDarkMode ? Colors.white : Colors.black,
+              iconColor: getThemeManager(context).isDarkMode
+                  ? Colors.white
+                  : Colors.black,
               backgroundColor: Colors.transparent,
               icon: FontAwesomeIcons.handshake,
               text:

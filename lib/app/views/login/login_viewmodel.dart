@@ -5,6 +5,7 @@ import 'package:digicard/app/extensions/dynamic_extension.dart';
 import 'package:digicard/app/routes/app_router.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:digicard/app/services/auth_service_supabase.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:stacked/stacked.dart';
@@ -39,12 +40,13 @@ class LoginViewModel extends ReactiveViewModel {
 
   final FormGroup _form = FormGroup({
     'email': FormControl<String>(
-        value: 'bulingitmarkdionnie@gmail.com',
+        value: kDebugMode ? 'dionnie_bulingit@yahoo.com' : null,
         validators: [
           Validators.required,
           Validators.email,
         ]),
-    'password': FormControl<String>(value: 'abc12345', validators: [
+    'password':
+        FormControl<String>(value: kDebugMode ? 'abc12345' : null, validators: [
       Validators.required,
     ]),
   });
