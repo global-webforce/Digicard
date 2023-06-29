@@ -39,7 +39,9 @@ class LocalStorageService {
       var value = _preferences?.get(key);
 
       return value;
-    } catch (e) {}
+    } catch (e) {
+      rethrow;
+    }
   }
 
   void _save<T>(String key, T content) {
@@ -59,6 +61,8 @@ class LocalStorageService {
       if (content is List<String>) {
         _preferences?.setStringList(key, content);
       }
-    } catch (e) {}
+    } catch (e) {
+      rethrow;
+    }
   }
 }

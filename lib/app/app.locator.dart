@@ -19,8 +19,8 @@ import 'services/contacts_service.dart';
 import 'services/deeplink_service.dart';
 import 'services/digital_card_service.dart';
 import 'services/user_service.dart';
-import 'ui/bottom_sheets/bs.card_share_viewmodel.dart';
 import 'ui/bottom_sheets/bs.card_manager_viewmodel.dart';
+import 'ui/bottom_sheets/bs.card_share_viewmodel.dart';
 import 'views/card_display/card_display_viewmodel.dart';
 import 'views/card_editor/card_editor_viewmodel.dart';
 import 'views/contacts/contacts_view_model.dart';
@@ -45,9 +45,6 @@ Future<void> setupLocator({
 // Register dependencies
   locator.registerLazySingleton(() => UserService());
   locator.registerLazySingleton(() => AuthService());
-  /* final localStorageService = await LocalStorageService.getInstance();
-  locator.registerSingleton(localStorageService); */
-
   locator.registerLazySingleton(() => ThemeService.getInstance());
   locator.registerSingleton(AppRouter());
   locator.registerLazySingleton(() => DeeplinkService());

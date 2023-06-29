@@ -1,12 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:digicard/app/ui/_core/ez_button.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
-import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/views/login/login_viewmodel.dart';
 import 'package:digicard/app/constants/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
@@ -181,7 +179,7 @@ class LoginForm extends StatelessWidget {
       );
     }
 
-    Widget socialIcon({required Icon icon, Function()? onTap}) {
+/*     Widget socialIcon({required Icon icon, Function()? onTap}) {
       return ClipOval(
         child: Material(
           color: kcPrimaryColor,
@@ -191,9 +189,9 @@ class LoginForm extends StatelessWidget {
           ),
         ),
       );
-    }
+    } */
 
-    Widget socialMediaOAuthIcons() {
+    /*    Widget socialMediaOAuthIcons() {
       return Wrap(
         spacing: 10,
         children: [
@@ -241,7 +239,7 @@ class LoginForm extends StatelessWidget {
           ],
         ),
       );
-    }
+    } */
 
     return KeyboardVisibilityBuilder(builder: (
       context,
