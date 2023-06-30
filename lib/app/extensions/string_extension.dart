@@ -10,13 +10,7 @@ extension StringExtension on String? {
   /// ensures that string has real value
   bool isNotNullOrEmpty() {
     final x = ["null", "Null", "NULL", ""];
-    if (this == null) return false;
-    for (String value in x) {
-      if ("$this".contains(value)) {
-        return true;
-      }
-    }
-    return false;
+    return x.contains("$this".trim()) == false;
   }
 
   /// checks if the string is a valid url

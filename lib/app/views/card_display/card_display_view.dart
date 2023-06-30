@@ -5,19 +5,18 @@ import 'package:digicard/app/constants/dimensions.dart';
 import 'package:digicard/app/ui/_core/empty_display.dart';
 import 'package:digicard/app/ui/_core/scaffold_body_wrapper.dart';
 import 'package:digicard/app/ui/overlays/loader_overlay_wrapper.dart';
+
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-
 import 'card_display_viewmodel.dart';
 import 'package:digicard/app/models/digital_card.dart';
-
+import 'layouts/body0.dart';
+import 'layouts/body1.dart';
+import 'layouts/heading0.dart';
+import 'layouts/heading1.dart';
 import 'widgets/app_bar_display.dart';
-import 'widgets/body0.dart';
-import 'widgets/body1.dart';
 import 'widgets/bottom_sheet_card.dart';
 import 'widgets/card_holder.dart';
-import 'widgets/heading0.dart';
-import 'widgets/heading1.dart';
 
 @RoutePage()
 class CardDisplayView extends StatelessWidget {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stacked_themes/stacked_themes.dart';
 
 class CardLayout extends StatelessWidget {
   final CustomPainter customPaint;
@@ -14,17 +15,22 @@ class CardLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.all(0),
-      clipBehavior: Clip.hardEdge,
+      clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(8),
         side: BorderSide(
-            color: isSelected ? Colors.white : Colors.transparent, width: 2.0),
+            color: isSelected
+                ? getThemeManager(context).isDarkMode
+                    ? Colors.white
+                    : Colors.black
+                : Colors.transparent,
+            width: 1.5),
       ),
       child: InkWell(
         onTap: () => onTap(),
         child: Ink(
-          height: 80,
-          width: 80,
+          height: 70,
+          width: 70,
           decoration: const BoxDecoration(
             color: Colors.white,
           ),

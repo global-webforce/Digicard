@@ -19,20 +19,22 @@ class CardHolder extends StatelessWidget {
           width: isSmallScreen ? 0 : 2,
         ),
       );
-      return Container(
-        margin: isSmallScreen ? EdgeInsets.zero : const EdgeInsets.all(15.0),
-        child: Center(
-          child: Card(
-            margin: EdgeInsetsDirectional.zero,
-            elevation: 0,
-            clipBehavior: Clip.hardEdge,
-            shape: cardShape,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 120.0),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: children),
+      return SelectionArea(
+        child: Container(
+          margin: isSmallScreen ? EdgeInsets.zero : const EdgeInsets.all(15.0),
+          child: Center(
+            child: Card(
+              margin: EdgeInsetsDirectional.zero,
+              elevation: 0,
+              clipBehavior: Clip.hardEdge,
+              shape: cardShape,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 120.0),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: children),
+              ),
             ),
           ),
         ),

@@ -45,10 +45,11 @@ class LoginViewModel extends ReactiveViewModel {
           Validators.required,
           Validators.email,
         ]),
-    'password':
-        FormControl<String>(value: kDebugMode ? 'abc12345' : null, validators: [
-      Validators.required,
-    ]),
+    'password': FormControl<String>(
+        value: kDebugMode ? 'qweqwe123' : null,
+        validators: [
+          Validators.required,
+        ]),
   });
   FormGroup get form => _form;
 
@@ -97,12 +98,11 @@ class LoginViewModel extends ReactiveViewModel {
     if (!form.hasErrors) {
       await runBusyFuture(_authService.login(form.value), throwException: true)
           .then((value) {
+        form.reset();
         appRouter.replaceAll([
           const InitialRoute(),
         ]);
       });
-
-      form.reset();
     }
   }
 
@@ -110,13 +110,22 @@ class LoginViewModel extends ReactiveViewModel {
     if (!form.hasErrors) {
       await runBusyFuture(_authService.register(form.value),
               throwException: true)
-          .then((value) {
-        appRouter.replaceAll([
+          .then((value) async {
+        form.reset();
+        if (value is String) {
+          await _dialogService
+              .showCustomDialog(
+                  variant: DialogType.simple,
+                  title: "Confirm Registration",
+                  description: value)
+              .then((value) async {
+            await Future.delayed(const Duration(seconds: 1));
+          });
+        }
+        await appRouter.replaceAll([
           const InitialRoute(),
         ]);
       });
-
-      form.reset();
     }
   }
 

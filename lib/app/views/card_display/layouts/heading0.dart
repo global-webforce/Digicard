@@ -50,9 +50,8 @@ class Heading0 extends StatelessWidget {
     }
 
     Widget fullNameField() {
-      return !viewModel.card.fullName().isNotNullOrEmpty()
-          ? const SizedBox.shrink()
-          : Padding(
+      return viewModel.card.firstName?.isNotEmpty ?? false
+          ? Padding(
               padding: const EdgeInsets.only(bottom: 16.0),
               child: AutoSizeText(
                 viewModel.card.fullName().clean().toTitleCase(),
@@ -67,13 +66,13 @@ class Heading0 extends StatelessWidget {
                 minFontSize: 14,
                 overflow: TextOverflow.ellipsis,
               ),
-            );
+            )
+          : const SizedBox.shrink();
     }
 
     Widget positionField() {
-      return !"${viewModel.card.position}".isNotNullOrEmpty()
-          ? const SizedBox.shrink()
-          : AutoSizeText(
+      return viewModel.card.position?.isNotEmpty ?? false
+          ? AutoSizeText(
               viewModel.card.position.clean().toTitleCase(),
               style: GoogleFonts.poppins(
                 fontSize: 16,
@@ -84,13 +83,13 @@ class Heading0 extends StatelessWidget {
               maxLines: 2,
               maxFontSize: 16,
               minFontSize: 12,
-            );
+            )
+          : const SizedBox.shrink();
     }
 
     Widget companyField() {
-      return !"${viewModel.card.company}".isNotNullOrEmpty()
-          ? const SizedBox.shrink()
-          : AutoSizeText(
+      return viewModel.card.company?.isNotEmpty ?? false
+          ? AutoSizeText(
               viewModel.card.company.clean().toTitleCase(),
               style: GoogleFonts.poppins(
                 color: Colors.white,
@@ -100,7 +99,8 @@ class Heading0 extends StatelessWidget {
               maxLines: 2,
               maxFontSize: 16,
               minFontSize: 12,
-            );
+            )
+          : const SizedBox.shrink();
     }
 
     Widget avatarFieldCircle() {

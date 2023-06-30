@@ -23,13 +23,12 @@ class DoneOverlay extends StatelessWidget {
               color: color != null
                   ? color?.withOpacity(0.8)
                   : kcPrimaryColor.withOpacity(0.8),
-              child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 10),
+              child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
                   child: Icon(
                     Icons.check_rounded,
                     size: 40,
-                    color: Theme.of(ctx).colorScheme.onBackground,
+                    color: Colors.white,
                   )),
             ),
             const SizedBox(height: 12),

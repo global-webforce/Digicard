@@ -88,7 +88,7 @@ class AuthService {
           );
         }
         if (value.session == null) {
-          return Future.error(
+          return Future.value(
             "We've sent confirmation link to your email, Please check",
           );
         }

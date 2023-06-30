@@ -15,6 +15,7 @@ class Heading1 extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel =
         getParentViewModel<CardDisplayViewModel>(context, listen: false);
+
     Widget logoField() {
       return CachedNetworkImage(
         imageUrl: "${Env.supabaseLogoUrl}${viewModel.card.logoUrl}",
