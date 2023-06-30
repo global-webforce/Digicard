@@ -72,7 +72,7 @@ class CardDisplayView extends StatelessWidget {
                       child: LayoutBuilder(builder: (context, size) {
                         final cardWidth = Dimens.computedWidth(
                             screenSize: size,
-                            targetWidth: 480.000,
+                            targetWidth: 440.000,
                             vPadding: 0,
                             hPadding: 0);
 
@@ -85,17 +85,20 @@ class CardDisplayView extends StatelessWidget {
                               emptyIndicatorWidget: empty(),
                               padding: cardWidth,
                               builder: (context, size) {
-                                return CardHolder(
-                                  children: [
-                                    if (viewModel.card.layout == 0)
-                                      const Heading0(),
-                                    if (viewModel.card.layout == 1)
-                                      const Heading1(),
-                                    if (viewModel.card.layout == 0)
-                                      const Body0(),
-                                    if (viewModel.card.layout == 1)
-                                      const Body1(),
-                                  ],
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 100.0),
+                                  child: CardHolder(
+                                    children: [
+                                      if (viewModel.card.layout == 0)
+                                        const Heading0(),
+                                      if (viewModel.card.layout == 1)
+                                        const Heading1(),
+                                      if (viewModel.card.layout == 0)
+                                        const Body0(),
+                                      if (viewModel.card.layout == 1)
+                                        const Body1(),
+                                    ],
+                                  ),
                                 );
                               }),
                         );
