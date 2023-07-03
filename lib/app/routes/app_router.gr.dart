@@ -66,7 +66,7 @@ abstract class $AppRouter extends _i8.RootStackRouter {
         routeData: routeData,
         child: _i5.ForgotPasswordView(
           key: args.key,
-          onSuccessfulLogin: args.onSuccessfulLogin,
+          fromLink: args.fromLink,
         ),
       );
     },
@@ -186,13 +186,13 @@ class DashboardRoute extends _i8.PageRouteInfo<void> {
 class ForgotPasswordRoute extends _i8.PageRouteInfo<ForgotPasswordRouteArgs> {
   ForgotPasswordRoute({
     _i9.Key? key,
-    void Function(bool)? onSuccessfulLogin,
+    bool fromLink = false,
     List<_i8.PageRouteInfo>? children,
   }) : super(
           ForgotPasswordRoute.name,
           args: ForgotPasswordRouteArgs(
             key: key,
-            onSuccessfulLogin: onSuccessfulLogin,
+            fromLink: fromLink,
           ),
           initialChildren: children,
         );
@@ -206,16 +206,16 @@ class ForgotPasswordRoute extends _i8.PageRouteInfo<ForgotPasswordRouteArgs> {
 class ForgotPasswordRouteArgs {
   const ForgotPasswordRouteArgs({
     this.key,
-    this.onSuccessfulLogin,
+    this.fromLink = false,
   });
 
   final _i9.Key? key;
 
-  final void Function(bool)? onSuccessfulLogin;
+  final bool fromLink;
 
   @override
   String toString() {
-    return 'ForgotPasswordRouteArgs{key: $key, onSuccessfulLogin: $onSuccessfulLogin}';
+    return 'ForgotPasswordRouteArgs{key: $key, fromLink: $fromLink}';
   }
 }
 

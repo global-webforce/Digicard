@@ -13,17 +13,15 @@ import 'login_viewmodel.dart';
 
 @RoutePage()
 class ForgotPasswordView extends StatelessWidget {
-  final void Function(bool)? onSuccessfulLogin;
-  const ForgotPasswordView({Key? key, this.onSuccessfulLogin})
-      : super(key: key);
+  /// this route cannot be accessed manual so we put flag to prevent it.
+  final bool fromLink;
+  const ForgotPasswordView({Key? key, this.fromLink = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<LoginViewModel>.reactive(
         viewModelBuilder: () => LoginViewModel(),
-        onViewModelReady: (viewModel) {
-          //  viewModel.resetPasswordRedirect();
-        },
+        onViewModelReady: (viewModel) {},
         onDispose: (viewModel) {
           viewModel.passwordResetForm.dispose();
         },
@@ -58,7 +56,9 @@ class ForgotPasswordView extends StatelessWidget {
                         child: Center(
                           child: ReactiveForm(
                               formGroup: viewModel.passwordResetForm,
-                              child: const ForgotPasswordForm()),
+                              child: ForgotPasswordForm(
+                                fromLink: fromLink,
+                              )),
                         ),
                       ),
                     )
@@ -72,8 +72,10 @@ class ForgotPasswordView extends StatelessWidget {
 }
 
 class ForgotPasswordForm extends StatelessWidget {
+  final bool fromLink;
   const ForgotPasswordForm({
     super.key,
+    required this.fromLink,
   });
   @override
   Widget build(BuildContext context) {
@@ -82,6 +84,7 @@ class ForgotPasswordForm extends StatelessWidget {
 
     Widget passwordField() {
       return ReactiveTextField(
+        readOnly: !fromLink,
         formControlName: 'password',
         keyboardType: TextInputType.visiblePassword,
         textInputAction: TextInputAction.done,
@@ -97,6 +100,7 @@ class ForgotPasswordForm extends StatelessWidget {
 
     Widget passwordConfirmation() {
       return ReactiveTextField(
+        readOnly: !fromLink,
         formControlName: 'passwordConfirmation',
         validationMessages: {
           ValidationMessage.mustMatch: (error) => 'The passwords do not match'
@@ -115,7 +119,7 @@ class ForgotPasswordForm extends StatelessWidget {
     Widget mainButton() {
       return ReactiveFormConsumer(builder: (context, formGroup, child) {
         return EzButton.elevated(
-          disabled: viewModel.passwordResetForm.invalid,
+          disabled: viewModel.passwordResetForm.invalid || fromLink == false,
           title: "RESET PASSWORD",
           onTap: () async {
             await viewModel.resetPassword();
@@ -148,6 +152,14 @@ class ForgotPasswordForm extends StatelessWidget {
           passwordConfirmation(),
           vSpaceRegular,
           mainButton(),
+          if (!fromLink)
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                "Check password reset link on your email",
+                style: TextStyle(fontSize: 14),
+              ),
+            )
         ],
       );
     });

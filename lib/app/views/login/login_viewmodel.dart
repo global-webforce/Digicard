@@ -18,8 +18,8 @@ const String updateProfile = 'updateProfile-busy-key';
 class LoginViewModel extends ReactiveViewModel {
   final log = getLogger('LoginViewModel');
   final _dialogService = locator<DialogService>();
-  final appRouter = locator<AppRouter>();
-  final _authService = locator<AuthService>();
+  final navigationService = locator<AppRouter>();
+  final authService = locator<AuthService>();
 
   @override
   void onFutureError(error, Object? key) {
@@ -69,12 +69,12 @@ class LoginViewModel extends ReactiveViewModel {
 
   resetPasswordRedirect() {
     if (passwordResetForm.rawValue["password"].isNullEmptyOrFalse()) {
-      appRouter.back();
+      navigationService.back();
     }
   }
 
   Future logOut() async {
-    await _authService.logOut();
+    await authService.logOut();
   }
 
   ActionType _action = ActionType.login;
@@ -87,7 +87,7 @@ class LoginViewModel extends ReactiveViewModel {
 
   Future loginOAuth() async {
     if (!form.hasErrors) {
-      await runBusyFuture(_authService.loginOAuth(form.value),
+      await runBusyFuture(authService.loginOAuth(form.value),
           throwException: true);
 
       form.reset();
@@ -96,10 +96,10 @@ class LoginViewModel extends ReactiveViewModel {
 
   Future login() async {
     if (!form.hasErrors) {
-      await runBusyFuture(_authService.login(form.value), throwException: true)
+      await runBusyFuture(authService.login(form.value), throwException: true)
           .then((value) {
         form.reset();
-        appRouter.replaceAll([
+        navigationService.replaceAll([
           const InitialRoute(),
         ]);
       });
@@ -108,7 +108,7 @@ class LoginViewModel extends ReactiveViewModel {
 
   Future register() async {
     if (!form.hasErrors) {
-      await runBusyFuture(_authService.register(form.value),
+      await runBusyFuture(authService.register(form.value),
               throwException: true)
           .then((value) async {
         form.reset();
@@ -122,7 +122,7 @@ class LoginViewModel extends ReactiveViewModel {
             await Future.delayed(const Duration(seconds: 1));
           });
         }
-        await appRouter.replaceAll([
+        await navigationService.replaceAll([
           const InitialRoute(),
         ]);
       });
@@ -131,7 +131,7 @@ class LoginViewModel extends ReactiveViewModel {
 
   Future forgotPassword() async {
     if (!form.control('email').hasErrors) {
-      await runBusyFuture(_authService.resetPassword(form.value),
+      await runBusyFuture(authService.resetPassword(form.value),
           throwException: true);
 
       _dialogService.showCustomDialog(
@@ -149,14 +149,14 @@ class LoginViewModel extends ReactiveViewModel {
   }
 
   Future resetPassword() async {
-    if (!passwordResetForm.hasErrors && !form.control('email').hasErrors) {
+    if (!passwordResetForm.hasErrors) {
       await runBusyFuture(
-              _authService
+              authService
                   .updatePassword("${passwordResetForm.rawValue["password"]}"),
               throwException: true)
           .then((value) {
         passwordResetForm.reset();
-        appRouter.replace(
+        navigationService.replace(
           const InitialRoute(),
         );
       });

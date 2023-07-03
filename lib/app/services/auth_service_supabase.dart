@@ -18,7 +18,7 @@ class AuthService {
     _supabase.auth.onAuthStateChange.listen((event) async {
       log.w(event.event.name);
       if (event.event.name == "passwordRecovery") {
-        _navService.push(ForgotPasswordRoute());
+        _navService.push(ForgotPasswordRoute(fromLink: true));
       }
       _userService.user = event.session?.user;
       if (event.session != null) {
