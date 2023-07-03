@@ -1,6 +1,4 @@
-import 'package:digicard/app/views/card_display/card_display_viewmodel.dart';
 import 'package:flutter/material.dart';
-import 'package:stacked/stacked.dart';
 
 class CardHolder extends StatelessWidget {
   final List<Widget> children;
@@ -11,8 +9,6 @@ class CardHolder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel =
-        getParentViewModel<CardDisplayViewModel>(context, listen: false);
     const cardWidth = 440.000;
     return LayoutBuilder(builder: (context, size) {
       final isSmallScreen = size.maxWidth < cardWidth;

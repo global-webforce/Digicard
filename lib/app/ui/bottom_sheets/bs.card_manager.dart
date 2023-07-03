@@ -124,7 +124,7 @@ class CardManagerBottomSheet extends StatelessWidget {
                               await viewModel.duplicate(request.data);
                             },
                             icon: const Icon(FontAwesomeIcons.copy),
-                            title: "Copy"),
+                            title: "Duplicate"),
                       ),
                       hSpaceSmall,
                       Expanded(

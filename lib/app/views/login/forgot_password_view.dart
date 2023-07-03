@@ -22,7 +22,7 @@ class ForgotPasswordView extends StatelessWidget {
     return ViewModelBuilder<LoginViewModel>.reactive(
         viewModelBuilder: () => LoginViewModel(),
         onViewModelReady: (viewModel) {
-          viewModel.resetPasswordRedirect();
+          //  viewModel.resetPasswordRedirect();
         },
         onDispose: (viewModel) {
           viewModel.passwordResetForm.dispose();

@@ -13,37 +13,37 @@ import '../routes/app_router.dart';
 
 class DeeplinkService with ListenableServiceMixin {
   final log = getLogger('DeeplinkService');
-
+  final _navigationService = locator<AppRouter>();
   StreamSubscription? _streamSubscription;
 
   Future<void> initURIHandler() async {
-    final navService = locator<AppRouter>();
-    final String? initialLink = await getInitialLink();
+    final Uri? uri = await getInitialUri();
 
-    if (initialLink != null) {
-      if (CardUrl(initialLink).isValid()) {
-        navService.push(CardDisplayRoute(
-            action: DisplayType.private, uuid: CardUrl(initialLink).uuid));
+    if (uri != null) {
+      if (CardUrl(uri.toString()).isValid()) {
+        _navigationService.push(CardDisplayRoute(
+            action: DisplayType.private, uuid: CardUrl(uri.toString()).uuid));
       }
+      log.d("Initial Deeplink: ${uri.toString()}");
     }
   }
 
   void incomingLinkHandler() {
     if (!kIsWeb) {
       _streamSubscription = uriLinkStream.listen((Uri? uri) {
-        final navService = locator<AppRouter>();
         if (uri != null) {
           if (CardUrl(uri.toString()).isValid()) {
-            if (navService.topRoute.name == CardDisplayRoute.name) {
-              navService.popAndPush(CardDisplayRoute(
+            if (_navigationService.topRoute.name == CardDisplayRoute.name) {
+              _navigationService.popAndPush(CardDisplayRoute(
                   action: DisplayType.private,
                   uuid: CardUrl(uri.toString()).uuid));
             } else {
-              navService.push(CardDisplayRoute(
+              _navigationService.push(CardDisplayRoute(
                   action: DisplayType.private,
                   uuid: CardUrl(uri.toString()).uuid));
             }
-          } else {}
+          }
+          log.i("Stream Deeplink: ${uri.toString()}");
         }
       }, onError: (Object err) {});
     }

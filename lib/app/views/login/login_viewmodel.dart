@@ -149,12 +149,13 @@ class LoginViewModel extends ReactiveViewModel {
   }
 
   Future resetPassword() async {
-    if (!passwordResetForm.hasErrors) {
+    if (!passwordResetForm.hasErrors && !form.control('email').hasErrors) {
       await runBusyFuture(
               _authService
                   .updatePassword("${passwordResetForm.rawValue["password"]}"),
               throwException: true)
           .then((value) {
+        passwordResetForm.reset();
         appRouter.replace(
           const InitialRoute(),
         );
