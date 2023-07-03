@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:digicard/app/env/env.dart';
-import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/extensions/digital_card_extension.dart';
 import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:digicard/app/views/card_display/card_display_viewmodel.dart';
@@ -42,19 +41,22 @@ class Heading0 extends StatelessWidget {
           );
         },
         errorWidget: (context, url, error) {
-          return const SizedBox.shrink();
+          return const Padding(
+            padding: EdgeInsets.only(bottom: 16.0),
+            child: SizedBox(height: 56),
+          );
         },
       );
     }
 
     Widget fullNameField() {
-      return !viewModel.card.fullName().isNotNullOrEmpty()
-          ? const SizedBox.shrink()
-          : Padding(
+      return viewModel.card.firstName?.isNotEmpty ?? false
+          ? Padding(
               padding: const EdgeInsets.only(bottom: 16.0),
               child: AutoSizeText(
                 viewModel.card.fullName().clean().toTitleCase(),
                 style: GoogleFonts.poppins(
+                  color: Colors.white,
                   fontWeight: FontWeight.w800,
                   fontSize: 30,
                   height: 1.2,
@@ -64,49 +66,52 @@ class Heading0 extends StatelessWidget {
                 minFontSize: 14,
                 overflow: TextOverflow.ellipsis,
               ),
-            );
+            )
+          : const SizedBox.shrink();
     }
 
     Widget positionField() {
-      return !"${viewModel.card.position}".isNotNullOrEmpty()
-          ? const SizedBox.shrink()
-          : AutoSizeText(
+      return viewModel.card.position?.isNotEmpty ?? false
+          ? AutoSizeText(
               viewModel.card.position.clean().toTitleCase(),
               style: GoogleFonts.poppins(
                 fontSize: 16,
+                color: Colors.white,
                 fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.bold,
               ),
               maxLines: 2,
               maxFontSize: 16,
               minFontSize: 12,
-            );
+            )
+          : const SizedBox.shrink();
     }
 
     Widget companyField() {
-      return !"${viewModel.card.company}".isNotNullOrEmpty()
-          ? const SizedBox.shrink()
-          : AutoSizeText(
+      return viewModel.card.company?.isNotEmpty ?? false
+          ? AutoSizeText(
               viewModel.card.company.clean().toTitleCase(),
               style: GoogleFonts.poppins(
+                color: Colors.white,
                 fontSize: 16,
                 fontStyle: FontStyle.italic,
               ),
               maxLines: 2,
               maxFontSize: 16,
               minFontSize: 12,
-            );
+            )
+          : const SizedBox.shrink();
     }
 
     Widget avatarFieldCircle() {
       return CachedNetworkImage(
-        imageUrl: "${Env.supabaseAvatarUrl}}${viewModel.card.avatarUrl}",
+        imageUrl: "${Env.supabaseAvatarUrl}${viewModel.card.avatarUrl}",
         imageBuilder: (context, imageProvider) {
           return Container(
             height: avatarSize,
             width: avatarSize,
             decoration: BoxDecoration(
-              border: Border.all(color: viewModel.color.darken(0.1), width: 5),
+              border: Border.all(color: viewModel.color, width: 5),
               borderRadius: const BorderRadius.all(Radius.circular(100)),
               image: DecorationImage(
                 image: imageProvider,
@@ -134,7 +139,7 @@ class Heading0 extends StatelessWidget {
               width: size.maxWidth,
               constraints: const BoxConstraints(minHeight: 160),
               decoration: BoxDecoration(
-                color: viewModel.color.darken(0.1),
+                color: viewModel.color,
               ),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(

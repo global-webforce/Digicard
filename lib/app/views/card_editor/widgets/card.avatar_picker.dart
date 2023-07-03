@@ -23,8 +23,22 @@ class CardAvatar extends StatelessWidget {
         transitionBuilder: (Widget child, Animation<double> animation) {
           return FadeTransition(opacity: animation, child: child);
         },
-        child: (imagePath is! Uint8List)
+        child: (imagePath is Uint8List)
             ? InkWell(
+                onTap: onTap != null ? () => onTap!() : null,
+                borderRadius: BorderRadius.circular(15),
+                child: Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    image: DecorationImage(
+                      image: MemoryImage(imagePath!),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ))
+            : InkWell(
                 borderRadius: BorderRadius.circular(15),
                 onTap: onTap != null ? () => onTap!() : null,
                 child: Container(
@@ -43,21 +57,7 @@ class CardAvatar extends StatelessWidget {
                     ],
                   ),
                 ),
-              )
-            : InkWell(
-                onTap: onTap != null ? () => onTap!() : null,
-                borderRadius: BorderRadius.circular(15),
-                child: Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    image: DecorationImage(
-                      image: MemoryImage(imagePath!),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                )));
+              ));
   }
 }
 

@@ -25,7 +25,7 @@ class _HorizontalColorPickerState extends State<HorizontalColorPicker> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 28,
+      height: 32,
       child: ListView.builder(
         physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,

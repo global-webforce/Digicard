@@ -15,6 +15,7 @@ class Heading1 extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel =
         getParentViewModel<CardDisplayViewModel>(context, listen: false);
+
     Widget logoField() {
       return CachedNetworkImage(
         imageUrl: "${Env.supabaseLogoUrl}${viewModel.card.logoUrl}",
@@ -51,7 +52,7 @@ class Heading1 extends StatelessWidget {
               imageBuilder: (context, imageProvider) {
                 return Container(
                   decoration: BoxDecoration(
-                    color: viewModel.color.darken(0.1),
+                    color: viewModel.color,
                     image: DecorationImage(
                         image: imageProvider, fit: BoxFit.contain),
                   ),
@@ -60,7 +61,7 @@ class Heading1 extends StatelessWidget {
                       filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: viewModel.color.darken(0.1),
+                          color: viewModel.color,
                           image: DecorationImage(
                               image: imageProvider, fit: BoxFit.cover),
                         ),

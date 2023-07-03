@@ -173,4 +173,8 @@ class ContactsService with ListenableServiceMixin {
           customLinks["Address"]?.map((e) => Address(e.text ?? '')).toList() ??
               [];
   }
+
+  clean() {
+    _contacts.value = [];
+  }
 }

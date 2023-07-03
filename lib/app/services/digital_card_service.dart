@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:digicard/app/app.logger.dart';
+import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:digicard/app/services/user_service.dart';
 import 'package:mime/mime.dart';
 import 'package:digicard/app/extensions/digital_card_extension.dart';
@@ -7,10 +9,10 @@ import 'package:flutter/foundation.dart';
 import 'package:stacked/stacked.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
-import 'package:path/path.dart' as path;
 import '../app.locator.dart';
 
 class DigitalCardService with ListenableServiceMixin {
+  final log = getLogger('DigitalCardService');
   final _supabase = Supabase.instance.client;
   final _userService = locator<UserService>();
 
@@ -37,136 +39,61 @@ class DigitalCardService with ListenableServiceMixin {
   final ReactiveValue<List<DigitalCard>> _digitalCards =
       ReactiveValue<List<DigitalCard>>([]);
 
-  Future create(DigitalCard card) async {
-    final data = DigitalCardExtension.create(
-        card.copyWith(userId: _userService.id).toJson());
-
-    data["custom_links"] = card.customLinks.map((e) => e.toJson()).toList();
-
+  Future<String?> imageSave(Uint8List? image,
+      {required String folderPath}) async {
     try {
-      if (card.avatarFile != null) {
-        var mime = lookupMimeType('', headerBytes: card.avatarFile);
-        var extension = extensionFromMime("$mime");
-        final avatarName = '${uuid.v4()}.$extension';
-
-        await Supabase.instance.client.storage
-            .from('images')
-            .uploadBinary(
-              "avatars/$avatarName",
-              card.avatarFile ?? Uint8List(0),
+      var mime = lookupMimeType('', headerBytes: image);
+      var extension = extensionFromMime("$mime");
+      final fileName = '${uuid.v4()}.$extension';
+      if (image != null) {
+        await Supabase.instance.client.storage.from('images').uploadBinary(
+              "$folderPath/$fileName",
+              image,
               fileOptions: const FileOptions(
                 cacheControl: '3600',
                 upsert: true,
               ),
-            )
-            .then((_) {
-          data["avatar_url"] = avatarName;
-        });
-      }
-      if (card.logoFile != null) {
-        var mime = lookupMimeType('', headerBytes: card.logoFile);
-        var extension = extensionFromMime("$mime");
-        final logoName = '${uuid.v4()}.$extension';
-
-        await Supabase.instance.client.storage
-            .from('images')
-            .uploadBinary(
-              "logos/$logoName",
-              card.logoFile ?? Uint8List(0),
-              fileOptions: const FileOptions(
-                cacheControl: '3600',
-                upsert: true,
-              ),
-            )
-            .then((_) {
-          data["logo_url"] = logoName;
-        });
-      }
-      final insertedCard = await _supabase.from('cards').insert(data).select();
-
-      if (insertedCard is List<dynamic> && insertedCard.isNotEmpty) {
-        DigitalCard? temp = DigitalCard.fromJson(insertedCard[0]);
-        _digitalCards.value.add(temp);
-        notifyListeners();
+            );
+        return fileName;
       } else {
-        /*    await _supabase
-            .from('storage.objects')
-            .delete()
-            .eq('bucket_id', 'images')
-            .eq('name', 'avatars/fdsfsdf.png'); */
+        return null;
       }
     } catch (e) {
-      return Future.error(e.toString());
+      log.e("imageSave() : ${e.toString()}");
+      return null;
     }
   }
 
-  Future update(DigitalCard card) async {
-    final data = DigitalCardExtension.update(card.toJson());
-    data["custom_links"] = card.customLinks.map((e) => e.toJson()).toList();
-
+  Future<String?> imageCopy(
+      {required String sourceFileName, required String folderPath}) async {
+    String extension = StringExtension.getFileExtension(sourceFileName);
+    final fileName = '${uuid.v4()}.$extension';
     try {
-      if (card.avatarFile != null) {
-        var mime = lookupMimeType('', headerBytes: card.avatarFile);
-        var extension = extensionFromMime("$mime");
-        final avatarName = '${uuid.v4()}.$extension';
-
-        await Supabase.instance.client.storage
-            .from('images')
-            .uploadBinary(
-              "avatars/$avatarName",
-              card.avatarFile ?? Uint8List(0),
-              fileOptions: const FileOptions(
-                cacheControl: '3600',
-                upsert: true,
-              ),
-            )
-            .then((_) {
-          data["avatar_url"] = avatarName;
-        });
-      }
-
-      if (card.logoFile != null) {
-        var mime = lookupMimeType('', headerBytes: card.logoFile);
-        var extension = extensionFromMime("$mime");
-        final logoName = '${uuid.v4()}.$extension';
-
-        await Supabase.instance.client.storage
-            .from('images')
-            .uploadBinary(
-              "logos/$logoName",
-              card.logoFile ?? Uint8List(0),
-              fileOptions: const FileOptions(
-                cacheControl: '3600',
-                upsert: true,
-              ),
-            )
-            .then((_) {
-          data["logo_url"] = logoName;
-        });
-      }
-
-      final updatedCard =
-          await _supabase.from('cards').update(data).eq('id', card.id).select();
-      if (updatedCard is List<dynamic> && updatedCard.isNotEmpty) {
-        DigitalCard? temp = DigitalCard.fromJson(updatedCard[0]);
-
-        final index =
-            _digitalCards.value.indexWhere((element) => element.id == card.id);
-        _digitalCards.value[index] = temp;
-        notifyListeners();
-      }
+      await _supabase.storage.from("images").copy(
+            "$folderPath/$sourceFileName",
+            "$folderPath/$fileName",
+          );
+      return fileName;
     } catch (e) {
-      return Future.error(e.toString());
+      /// A weird supabase file copy bug that returns exception
+      /// even if the operation is successful
+      if (e.toString().contains("Expected a value of type 'String'")) {
+        return fileName;
+      }
+      log.e("imageCopy() : ${e.toString()}");
+      return null;
     }
   }
 
-  Future delete(DigitalCard card) async {
+  Future imageDelete({required String folderPath}) async {
     try {
-      await _supabase.from('cards').delete().eq('id', card.id);
-      _digitalCards.value.removeWhere((element) => element.id == card.id);
-      notifyListeners();
+      await _supabase
+          .from('storage.objects')
+          .delete()
+          .eq('bucket_id', 'images')
+          .eq('name', folderPath);
     } catch (e) {
-      return errorMessage(e.toString());
+      log.e("imageDelete() : ${e.toString()}");
     }
   }
 
@@ -186,92 +113,95 @@ class DigitalCardService with ListenableServiceMixin {
     return _digitalCards.value.reversed.toList();
   }
 
-  duplicate(DigitalCard card) async {
-    final data = DigitalCardExtension.create(
-        card.copyWith(userId: _userService.id).toJson());
-
-    data["custom_links"] = card.customLinks.map((e) => e.toJson()).toList();
-
+  Future create(DigitalCard card) async {
     try {
-      final og = _digitalCards.value.firstWhere((e) => e.id == card.id);
-      if (og.avatarUrl == card.avatarUrl && card.avatarFile == null) {
-        final avatarName = "${uuid.v4()}${path.extension('${og.avatarUrl}')}";
+      final data = DigitalCardExtension.create(
+          card.copyWith(userId: _userService.id).toJson());
+      data["custom_links"] = card.customLinks.map((e) => e.toJson()).toList();
+      data["avatar_url"] =
+          await imageSave(card.avatarFile, folderPath: 'avatars');
+      data["logo_url"] = await imageSave(card.logoFile, folderPath: 'logos');
+      final insertedCard = await _supabase.from('cards').insert(data).select();
+      if (insertedCard is List<dynamic>) {
+        _digitalCards.value.add(DigitalCard.fromJson(insertedCard[0]));
+        notifyListeners();
+      }
+    } catch (e) {
+      return Future.error(e.toString());
+    }
+  }
 
-        try {
-          await _supabase.storage.from("images").copy(
-                "avatars/${og.avatarUrl}",
-                "avatars/$avatarName",
-              );
-        } catch (e) {
-          if (e.toString().contains(
-              "type 'Null' is not a subtype of type 'String' in type cast")) {
-            data["avatar_url"] = avatarName;
-          }
-        }
-      } else {
-        if (card.avatarFile != null) {
-          var mime = lookupMimeType('', headerBytes: card.avatarFile);
-          var extension = extensionFromMime("$mime");
-          final avatarName = '${uuid.v4()}.$extension';
+  Future update(DigitalCard card) async {
+    try {
+      final data = DigitalCardExtension.update(card.toJson());
+      data["custom_links"] = card.customLinks.map((e) => e.toJson()).toList();
+      data["avatar_url"] =
+          await imageSave(card.avatarFile, folderPath: 'avatars');
+      data["logo_url"] = await imageSave(card.logoFile, folderPath: 'logos');
+      final updatedCard =
+          await _supabase.from('cards').update(data).eq('id', card.id).select();
+      if (updatedCard is List<dynamic>) {
+        final index =
+            _digitalCards.value.indexWhere((element) => element.id == card.id);
+        _digitalCards.value[index] = DigitalCard.fromJson(updatedCard[0]);
+        notifyListeners();
+      }
+    } catch (e) {
+      return Future.error(e.toString());
+    }
+  }
 
-          await Supabase.instance.client.storage
-              .from('images')
-              .uploadBinary(
-                "avatars/$avatarName",
-                card.avatarFile ?? Uint8List(0),
-                fileOptions: const FileOptions(
-                  cacheControl: '3600',
-                  upsert: true,
-                ),
-              )
-              .then((_) {
-            data["avatar_url"] = avatarName;
-          });
-        }
+  Future delete(DigitalCard card) async {
+    try {
+      await _supabase.from('cards').delete().eq('id', card.id);
+      _digitalCards.value.removeWhere((element) => element.id == card.id);
+      notifyListeners();
+    } catch (e) {
+      return errorMessage(e.toString());
+    }
+  }
+
+  duplicate(DigitalCard card) async {
+    try {
+      final data = DigitalCardExtension.create(
+          card.copyWith(userId: _userService.id).toJson());
+      data["custom_links"] = card.customLinks.map((e) => e.toJson()).toList();
+      final originalCard =
+          _digitalCards.value.firstWhere((e) => e.id == card.id);
+
+      final bool isCopyOriginalAvatar =
+          card.avatarUrl == originalCard.avatarUrl &&
+              originalCard.avatarUrl != null;
+      final bool isUploadNewAvatar =
+          card.avatarUrl == "&!&" && card.avatarFile != null;
+
+      if (isCopyOriginalAvatar) {
+        data["avatar_url"] = await imageCopy(
+            sourceFileName: "${originalCard.avatarUrl}", folderPath: 'avatars');
+      }
+      if (isUploadNewAvatar) {
+        data["avatar_url"] =
+            await imageSave(card.avatarFile, folderPath: 'avatars');
       }
 
-//LOGO
-      if (og.logoUrl == card.logoUrl && card.logoFile == null) {
-        final logoName = "${uuid.v4()}${path.extension('${og.logoUrl}')}";
+      final bool isCopyOriginalLogo =
+          card.logoUrl == originalCard.logoUrl && originalCard.logoUrl != null;
+      final bool isUploadNewLogo =
+          card.logoUrl == "&!&" && card.logoFile != null;
 
-        try {
-          await _supabase.storage.from("images").copy(
-                "logos/${og.logoUrl}",
-                "logos/$logoName",
-              );
-        } catch (e) {
-          if (e.toString().contains(
-              "type 'Null' is not a subtype of type 'String' in type cast")) {
-            data["logo_url"] = logoName;
-          }
-        }
-      } else {
-        if (card.logoFile != null) {
-          var mime = lookupMimeType('', headerBytes: card.logoFile);
-          var extension = extensionFromMime("$mime");
-          final logoName = '${uuid.v4()}.$extension';
+      if (isCopyOriginalLogo) {
+        data["logo_url"] = await imageCopy(
+            sourceFileName: "${originalCard.logoUrl}", folderPath: 'logos');
+      }
 
-          await Supabase.instance.client.storage
-              .from('images')
-              .uploadBinary(
-                "logos/$logoName",
-                card.logoFile ?? Uint8List(0),
-                fileOptions: const FileOptions(
-                  cacheControl: '3600',
-                  upsert: true,
-                ),
-              )
-              .then((_) {
-            data["logo_url"] = logoName;
-          });
-        }
+      if (isUploadNewLogo) {
+        data["logo_url"] = await imageSave(card.logoFile, folderPath: 'logos');
       }
 
       final insertedCard = await _supabase.from('cards').insert(data).select();
 
-      if (insertedCard is List<dynamic> && insertedCard.isNotEmpty) {
+      if (insertedCard is List<dynamic>) {
         DigitalCard? temp = DigitalCard.fromJson(insertedCard[0]);
-
         _digitalCards.value.add(temp);
         notifyListeners();
       }

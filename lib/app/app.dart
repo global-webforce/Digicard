@@ -3,12 +3,11 @@ import 'package:digicard/app/services/auth_service_supabase.dart';
 import 'package:digicard/app/services/contacts_service.dart';
 import 'package:digicard/app/services/deeplink_service.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
-import 'package:digicard/app/services/local_storage_service.dart';
 import 'package:digicard/app/services/user_service.dart';
 import 'package:digicard/app/views/login/login_viewmodel.dart';
 import 'package:digicard/app/views/startup/startup_viewmodel.dart';
-import 'package:digicard/app/ui/bottom_sheets/bs.card_send_viewmodel.dart';
-import 'package:digicard/app/ui/bottom_sheets/bs.card_tools_viewmodel.dart';
+import 'package:digicard/app/ui/bottom_sheets/bs.card_share_viewmodel.dart';
+import 'package:digicard/app/ui/bottom_sheets/bs.card_manager_viewmodel.dart';
 import 'package:digicard/app/views/dashboard/dashboard_viewmodel.dart';
 import 'package:digicard/app/views/card_editor/card_editor_viewmodel.dart';
 import 'package:digicard/app/views/home/home_viewmodel.dart';
@@ -28,10 +27,10 @@ import 'views/custom_link/custom_link_view_model.dart';
   dependencies: [
     LazySingleton(classType: UserService),
     LazySingleton(classType: AuthService),
-    Presolve(
+    /*   Presolve(
       classType: LocalStorageService,
       presolveUsing: LocalStorageService.getInstance,
-    ),
+    ), */
     LazySingleton(
       classType: ThemeService,
       resolveUsing: ThemeService.getInstance,
@@ -48,8 +47,8 @@ import 'views/custom_link/custom_link_view_model.dart';
     Singleton(classType: LoginViewModel),
     Singleton(classType: DashboardViewModel),
     Singleton(classType: HomeViewModel),
-    Singleton(classType: CardToolsBottomSheetViewModel),
-    Singleton(classType: CardSendBottomSheetViewModel),
+    Singleton(classType: CardManagerBottomSheetViewModel),
+    Singleton(classType: CardShareBottomSheetViewModel),
     Singleton(classType: CardEditorViewModel),
     Singleton(classType: CardDisplayViewModel),
     Singleton(classType: CustomLinkViewModel),

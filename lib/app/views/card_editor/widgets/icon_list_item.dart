@@ -1,19 +1,26 @@
-import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:flutter/material.dart';
 
 class IconListItem extends StatelessWidget {
-  final Color? color;
+  final Color? iconColor;
+  final Color? backgroundColor;
   final String? text;
   final IconData? icon;
   final TextStyle? textStyle;
   final bool border;
   const IconListItem(
-      {super.key, this.color, this.text, this.icon, this.textStyle})
+      {super.key,
+      this.backgroundColor,
+      this.text,
+      this.icon,
+      this.textStyle,
+      this.iconColor})
       : border = false;
 
-  const IconListItem.border({super.key, this.color, this.text, this.textStyle})
+  const IconListItem.border(
+      {super.key, this.backgroundColor, this.text, this.textStyle})
       : icon = null,
+        iconColor = null,
         border = true;
 
   @override
@@ -38,11 +45,10 @@ class IconListItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 CircleAvatar(
-                    backgroundColor:
-                        color != null ? color?.darken() : Colors.transparent,
+                    backgroundColor: backgroundColor ?? Colors.transparent,
                     child: Icon(
                       icon,
-                      color: Colors.white,
+                      color: iconColor,
                     )),
                 hSpaceRegular,
                 Expanded(

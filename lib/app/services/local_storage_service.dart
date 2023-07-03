@@ -1,15 +1,11 @@
 import 'dart:convert';
 
-import 'package:digicard/app/app.logger.dart';
-
 import 'package:digicard/app/models/user.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorageService {
   static const String userKey = 'user';
-
-  final log = getLogger('LocalStorageService');
 
   static LocalStorageService? _instance;
   static SharedPreferences? _preferences;
@@ -36,22 +32,20 @@ class LocalStorageService {
 
   void deleteUser() {
     _preferences?.remove(userKey);
-    log.d("LocalStorageService:deleteUser() $userKey removed");
   }
 
   dynamic _retrieve(String key) {
     try {
       var value = _preferences?.get(key);
-      log.d("LocalStorageService: _retrieve() | key: $key value: $value");
+
       return value;
     } catch (e) {
-      log.d("LocalStorageService: _retrieve() failed");
+      rethrow;
     }
   }
 
   void _save<T>(String key, T content) {
     try {
-      log.d("LocalStorageService: save() | key: $key value: $content");
       if (content is String) {
         _preferences?.setString(key, content);
       }
@@ -68,7 +62,7 @@ class LocalStorageService {
         _preferences?.setStringList(key, content);
       }
     } catch (e) {
-      log.d("LocalStorageService: save() failed");
+      rethrow;
     }
   }
 }

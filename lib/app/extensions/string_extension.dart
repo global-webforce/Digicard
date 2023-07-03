@@ -1,8 +1,16 @@
 extension StringExtension on String? {
+  static String getFileExtension(String fileName) {
+    try {
+      return fileName.split('.').last;
+    } catch (e) {
+      return '';
+    }
+  }
+
   /// ensures that string has real value
   bool isNotNullOrEmpty() {
-    if (this == null) return false;
-    return "$this".trim() != "null" && "$this".trim() != "";
+    final x = ["null", "Null", "NULL", ""];
+    return x.contains("$this".trim()) == false;
   }
 
   /// checks if the string is a valid url
@@ -26,8 +34,9 @@ extension StringExtension on String? {
   }
 
   String clean() {
-    return isNotNullOrEmpty() == true
-        ? "$this".replaceAll(RegExp(r"\s+"), " ").trim()
-        : "";
+    return "$this"
+        .replaceAll(RegExp(r'\bnull\b', caseSensitive: false), '')
+        .replaceAll(RegExp(r"\s+"), " ")
+        .trim();
   }
 }

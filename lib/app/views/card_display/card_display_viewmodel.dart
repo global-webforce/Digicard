@@ -7,6 +7,7 @@ import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/services/contacts_service.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -72,6 +73,13 @@ class CardDisplayViewModel extends ReactiveViewModel {
         description: "This card might be deleted by the owner.",
       );
     } */
+  }
+
+  bool isDarkMode = false;
+  checkTheme() {
+    var brightness =
+        SchedulerBinding.instance.platformDispatcher.platformBrightness;
+    isDarkMode = brightness == Brightness.dark;
   }
 
   Future saveToContacts() async {

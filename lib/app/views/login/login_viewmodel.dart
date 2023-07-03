@@ -5,6 +5,7 @@ import 'package:digicard/app/extensions/dynamic_extension.dart';
 import 'package:digicard/app/routes/app_router.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:digicard/app/services/auth_service_supabase.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:stacked/stacked.dart';
@@ -38,14 +39,17 @@ class LoginViewModel extends ReactiveViewModel {
   List<ListenableServiceMixin> get listenableServices => [];
 
   final FormGroup _form = FormGroup({
-    'email':
-        FormControl<String>(value: 'dionnie_bulingit@yahoo.com', validators: [
-      Validators.required,
-      Validators.email,
-    ]),
-    'password': FormControl<String>(value: 'abc12345', validators: [
-      Validators.required,
-    ]),
+    'email': FormControl<String>(
+        value: kDebugMode ? 'dionnie_bulingit@yahoo.com' : null,
+        validators: [
+          Validators.required,
+          Validators.email,
+        ]),
+    'password': FormControl<String>(
+        value: kDebugMode ? 'qweqwe123' : null,
+        validators: [
+          Validators.required,
+        ]),
   });
   FormGroup get form => _form;
 
@@ -81,16 +85,24 @@ class LoginViewModel extends ReactiveViewModel {
     rebuildUi();
   }
 
+  Future loginOAuth() async {
+    if (!form.hasErrors) {
+      await runBusyFuture(_authService.loginOAuth(form.value),
+          throwException: true);
+
+      form.reset();
+    }
+  }
+
   Future login() async {
     if (!form.hasErrors) {
       await runBusyFuture(_authService.login(form.value), throwException: true)
           .then((value) {
+        form.reset();
         appRouter.replaceAll([
           const InitialRoute(),
         ]);
       });
-
-      form.reset();
     }
   }
 
@@ -98,13 +110,22 @@ class LoginViewModel extends ReactiveViewModel {
     if (!form.hasErrors) {
       await runBusyFuture(_authService.register(form.value),
               throwException: true)
-          .then((value) {
-        appRouter.replaceAll([
+          .then((value) async {
+        form.reset();
+        if (value is String) {
+          await _dialogService
+              .showCustomDialog(
+                  variant: DialogType.simple,
+                  title: "Confirm Registration",
+                  description: value)
+              .then((value) async {
+            await Future.delayed(const Duration(seconds: 1));
+          });
+        }
+        await appRouter.replaceAll([
           const InitialRoute(),
         ]);
       });
-
-      form.reset();
     }
   }
 

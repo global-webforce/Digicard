@@ -4,6 +4,7 @@ import 'package:digicard/app/views/dashboard/dashboard_view.dart';
 import 'package:digicard/app/views/settings/settings_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_themes/stacked_themes.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({Key? key}) : super(key: key);
@@ -34,18 +35,6 @@ class SettingsView extends StatelessWidget {
                         leading: "Digicard Free",
                         subtitle: "Contact us to upgrade your plan.",
                       ),
-                      const SettingsItem.header(leading: "Account"),
-                      SettingsItem(
-                        leading: "Email",
-                        trailing: viewModel.email,
-                      ),
-                      const Divider(height: 0),
-                      SettingsItem(
-                        leading: "Logout",
-                        onTap: () {
-                          viewModel.logout();
-                        },
-                      ),
                       const SettingsItem.header(
                         leading: "Digicard",
                       ),
@@ -57,6 +46,28 @@ class SettingsView extends StatelessWidget {
                       const SettingsItem(
                         leading: "Developer",
                         trailing: "Global Webforce",
+                      ),
+                      const SettingsItem.header(
+                        leading: "Digicard",
+                      ),
+                      SettingsItem(
+                        leading: "Theme",
+                        trailing: "Toggle Dark Mode",
+                        onTap: () {
+                          getThemeManager(context).toggleDarkLightTheme();
+                        },
+                      ),
+                      const SettingsItem.header(leading: "Account"),
+                      SettingsItem(
+                        leading: "Email",
+                        trailing: viewModel.email,
+                      ),
+                      const Divider(height: 0),
+                      SettingsItem(
+                        leading: "Logout",
+                        onTap: () {
+                          viewModel.logout();
+                        },
                       ),
                     ],
                   ),
