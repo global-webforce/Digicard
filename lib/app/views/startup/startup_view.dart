@@ -28,7 +28,7 @@ class StartupView extends StatelessWidget {
           AppRouter appRouter = locator<AppRouter>();
 
           return ThemeBuilder(
-              defaultThemeMode: ThemeMode.system,
+              defaultThemeMode: ThemeMode.dark,
               darkTheme: darkTheme,
               lightTheme: lightTheme,
               builder: (context, regularTheme, darkTheme, themeMode) {

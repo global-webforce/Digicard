@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/extensions/color_extension.dart';
+import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:flutter/material.dart';
 
 class BottomSheetWrapper extends StatelessWidget {
@@ -124,14 +125,12 @@ class PanelButton extends StatelessWidget {
             width: double.infinity,
             height: 150,
             padding: const EdgeInsets.all(15),
-            child: Wrap(
-              direction: Axis.vertical,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              runAlignment: WrapAlignment.center,
-              alignment: WrapAlignment.center,
-              spacing: 8.0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 icon,
+                vSpaceSmall,
                 Text(
                   title,
                   textAlign: TextAlign.center,
@@ -143,7 +142,6 @@ class PanelButton extends StatelessWidget {
                     subtitle!,
                     textAlign: TextAlign.center,
                     maxLines: 2,
-                    overflow: TextOverflow.fade,
                     style: const TextStyle(fontSize: 12),
                   ),
               ],
