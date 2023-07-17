@@ -1,7 +1,9 @@
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/constants/colors.dart';
+import 'package:digicard/app/constants/keys.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/ui/overlays/loader_overlay_wrapper.dart';
+import 'package:digicard/app/views/card_display/card_display_view.dart';
 import 'package:digicard/app/views/card_editor/card_editor_viewmodel.dart';
 import 'package:digicard/app/views/card_editor/widgets/card_form.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +52,25 @@ class CardEditorView extends StatelessWidget {
                                 ? LoadingType.done
                                 : null,
                         builder: (context) {
-                          return const CardForm();
+                          return Row(
+                            children: [
+                              const Expanded(child: CardForm()),
+                              const VerticalDivider(
+                                width: 1,
+                                thickness: 1,
+                              ),
+                              Expanded(
+                                child: ReactiveDigitalCardFormConsumer(
+                                    builder: (context, f, c) {
+                                  return CardDisplayView(
+                                    key: UniqueKey(),
+                                    card: f.model,
+                                    action: DisplayType.private,
+                                  );
+                                }),
+                              )
+                            ],
+                          );
                         }),
                   );
                 }),

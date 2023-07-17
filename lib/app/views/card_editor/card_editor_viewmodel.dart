@@ -1,4 +1,5 @@
 import 'package:digicard/app/bottomsheet_ui.dart';
+import 'package:digicard/app/constants/keys.dart';
 import 'package:digicard/app/dialog_ui.dart';
 import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/env/env.dart';
@@ -14,20 +15,6 @@ import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-enum ActionType {
-  view,
-  create,
-  edit,
-  duplicate,
-  externalView,
-}
-
-enum ImagePickerType { gallery, camera, computer, remove }
-
-const String saveBusyKey = 'saveBusyKey';
-const String doneBusyKey = 'doneBusyKey';
-const String deleteBusyKey = 'deleteBusyKey';
 
 class CardEditorViewModel extends ReactiveViewModel {
   final log = getLogger('CardEditorViewModel');
@@ -84,7 +71,6 @@ class CardEditorViewModel extends ReactiveViewModel {
       _formModel.form.markAsDisabled();
     }
     _formModel.form.addAll(elements.controls);
-
     _formModel.avatarFileControl?.value =
         await getNetworkImageData("${Env.supabaseAvatarUrl}${model.avatarUrl}");
 

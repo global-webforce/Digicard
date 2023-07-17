@@ -1,8 +1,8 @@
 import 'package:digicard/app/app.locator.dart';
+import 'package:digicard/app/constants/keys.dart';
 import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:digicard/app/routes/app_router.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
-import 'package:digicard/app/views/card_display/card_display_viewmodel.dart';
 import 'package:flutter/material.dart';
 
 import '../../../models/digital_card.dart';

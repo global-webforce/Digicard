@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:digicard/app/bottomsheet_ui.dart';
+import 'package:digicard/app/constants/keys.dart';
 import 'package:digicard/app/dialog_ui.dart';
 import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/constants/colors.dart';
@@ -12,16 +13,6 @@ import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-enum DisplayType {
-  private,
-  public,
-}
-
-const String saveBusyKey = 'saveBusyKey';
-const String doneBusyKey = 'doneBusyKey';
-const String deleteBusyKey = 'deleteBusyKey';
-const String loadingCardBusyKey = 'loadingCardBusyKey';
 
 class CardDisplayViewModel extends ReactiveViewModel {
   final log = getLogger('CardDisplayViewModel');

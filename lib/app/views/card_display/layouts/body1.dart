@@ -10,7 +10,7 @@ class Body1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel =
-        getParentViewModel<CardDisplayViewModel>(context, listen: false);
+        getParentViewModel<CardDisplayViewModel>(context, listen: true);
 
     final cardItems = CardItems(context, color: viewModel.color);
     return Padding(

@@ -1,4 +1,5 @@
 import 'package:digicard/app/app.logger.dart';
+import 'package:digicard/app/constants/keys.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/bottomsheet_ui.dart';
 import 'package:digicard/app/dialog_ui.dart';
@@ -6,13 +7,10 @@ import 'package:digicard/app/routes/app_router.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:digicard/app/views/card_editor/card_editor_view.dart';
-import 'package:digicard/app/views/card_editor/card_editor_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
-
-import '../../views/card_display/card_display_viewmodel.dart';
 
 const String duplicateBusyKey = 'duplicateBusyKey';
 const String downloadQRBusyKey = 'downloadQRBusyKey';

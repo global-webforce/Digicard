@@ -1,9 +1,9 @@
+import 'package:digicard/app/constants/keys.dart';
 import 'package:digicard/app/dialog_ui.dart';
 import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/helper/card_url_checker.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
-import 'package:digicard/app/views/card_display/card_display_viewmodel.dart';
 import 'package:digicard/app/views/scan_qr_code/scan_qr_code_view.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
