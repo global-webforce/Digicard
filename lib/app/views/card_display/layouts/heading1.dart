@@ -14,7 +14,7 @@ class Heading1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel =
-        getParentViewModel<CardDisplayViewModel>(context, listen: false);
+        getParentViewModel<CardDisplayViewModel>(context, listen: true);
 
     Widget logoField() {
       return CachedNetworkImage(

@@ -6,7 +6,7 @@ https://codewithandrea.com/articles/flutter-api-keys-dart-define-env-files/
 https://github.com/petercinibulk/envied/issues/28
 */
 
-@Envied(obfuscate: true, path: '.env')
+@Envied(obfuscate: true, path: '.env.dev')
 abstract class Env {
   @EnviedField(varName: 'SITE_URL')
   static final String siteUrl = _Env.siteUrl;
