@@ -48,6 +48,7 @@ class CardDisplayView extends StatelessWidget {
               await model.loadCardbyUuid("$uuid");
             });
           }
+          // await model.loadCardImage();
         },
         builder: (context, viewModel, child) {
           return viewModel.busy(loadingCardBusyKey)

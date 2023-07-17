@@ -5,6 +5,7 @@ import 'package:digicard/app/constants/keys.dart';
 import 'package:digicard/app/dialog_ui.dart';
 import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/constants/colors.dart';
+import 'package:digicard/app/env/env.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/services/contacts_service.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
@@ -13,6 +14,8 @@ import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../helper/image_cache_downloader.dart';
 
 class CardDisplayViewModel extends ReactiveViewModel {
   final log = getLogger('CardDisplayViewModel');
@@ -45,6 +48,19 @@ class CardDisplayViewModel extends ReactiveViewModel {
   bool isCardInContacts() {
     final temp = _contactsService.contacts.indexWhere((e) => e.id == card.id);
     return temp != -1 ? true : false;
+  }
+
+  loadCardImage() async {
+    try {
+      final avatar = await getNetworkImageData(
+          "${Env.supabaseAvatarUrl}${card.avatarUrl}");
+      final logo =
+          await getNetworkImageData("${Env.supabaseLogoUrl}${card.logoUrl}");
+      card = card.copyWith(avatarFile: avatar, logoFile: logo);
+      notifyListeners();
+    } catch (e) {
+      log.e("loadCardImage : ${e.toString()}");
+    }
   }
 
   Future downloadVcf() async {

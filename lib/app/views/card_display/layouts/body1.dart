@@ -13,25 +13,30 @@ class Body1 extends StatelessWidget {
         getParentViewModel<CardDisplayViewModel>(context, listen: true);
 
     final cardItems = CardItems(context, color: viewModel.color);
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          cardItems.fullName(viewModel.card.fullName()),
-          cardItems.position(viewModel.card.position),
-          cardItems.company(viewModel.card.company),
-          cardItems.headline(viewModel.card.headline),
-          cardItems.pronouns(context,
-              preferredName: viewModel.card.preferredName,
-              pronouns: viewModel.card.pronouns),
-          cardItems.customLinks(viewModel.card.customLinks),
-          if (viewModel.isCardOwnedByUser())
-            cardItems.dateCreated(viewModel.card.createdAt),
-          if (viewModel.isCardInContacts())
-            cardItems.dateCreated(viewModel.card.addedAt)
-        ],
+    return Container(
+      constraints: const BoxConstraints(
+        minHeight: 300,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            cardItems.fullName(viewModel.card.fullName()),
+            cardItems.position(viewModel.card.position),
+            cardItems.company(viewModel.card.company),
+            cardItems.headline(viewModel.card.headline),
+            cardItems.pronouns(context,
+                preferredName: viewModel.card.preferredName,
+                pronouns: viewModel.card.pronouns),
+            cardItems.customLinks(viewModel.card.customLinks),
+            if (viewModel.isCardOwnedByUser())
+              cardItems.dateCreated(viewModel.card.createdAt),
+            if (viewModel.isCardInContacts())
+              cardItems.dateCreated(viewModel.card.addedAt)
+          ],
+        ),
       ),
     );
   }

@@ -4,8 +4,8 @@ import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/bottomsheet_ui.dart';
 import 'package:digicard/app/dialog_ui.dart';
 import 'package:digicard/app/routes/app_router.dart';
-import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
+import 'package:digicard/app/views/card_display/card_display_view.dart';
 import 'package:digicard/app/views/card_editor/card_editor_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
@@ -60,17 +60,19 @@ class CardManagerBottomSheetViewModel extends ReactiveViewModel {
     );
   }
 
-  view(DigitalCard card) {
+  view(DigitalCard card) async {
     _bottomSheetService.completeSheet(SheetResponse());
-    _navigationService.push(
-      CardDisplayRoute(card: card, action: DisplayType.private),
+    await _navigationService.pushWidget(
+      CardDisplayView(
+          key: UniqueKey(), card: card, action: DisplayType.private),
     );
   }
 
-  edit(DigitalCard card) {
+  edit(DigitalCard card) async {
     _bottomSheetService.completeSheet(SheetResponse());
-    _navigationService.pushWidget(
+    await _navigationService.pushWidget(
       CardEditorView(
+        key: UniqueKey(),
         actionType: ActionType.edit,
         card: card,
       ),
@@ -79,7 +81,7 @@ class CardManagerBottomSheetViewModel extends ReactiveViewModel {
 
   duplicate(DigitalCard digitalCard) async {
     _bottomSheetService.completeSheet(SheetResponse());
-    _navigationService.pushWidget(
+    await _navigationService.pushWidget(
       CardEditorView(
         actionType: ActionType.duplicate,
         card: digitalCard.copyWith(
