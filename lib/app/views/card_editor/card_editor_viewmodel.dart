@@ -2,29 +2,18 @@ import 'package:digicard/app/bottomsheet_ui.dart';
 import 'package:digicard/app/dialog_ui.dart';
 import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/env/env.dart';
+import 'package:digicard/app/helper/image_cache_downloader.dart';
 import 'package:digicard/app/helper/image_picker_x.dart';
 import 'package:digicard/app/models/custom_link.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:digicard/app/views/custom_link/custom_link_view.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-Future<Uint8List?> getNetworkImageData(String url) async {
-  try {
-    final file = await DefaultCacheManager().getSingleFile(url);
-    final bytes = await file.readAsBytes();
-    return Uint8List.fromList(bytes);
-  } catch (e) {
-    return null;
-  }
-}
 
 enum ActionType {
   view,
