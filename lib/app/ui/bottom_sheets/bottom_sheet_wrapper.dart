@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
@@ -37,9 +35,8 @@ class BottomSheetWrapper extends StatelessWidget {
       );
     }
 
-    EdgeInsets padding = EdgeInsets.symmetric(
-        vertical: 16,
-        horizontal: max((MediaQuery.of(context).size.width - 500) / 2, 15));
+    EdgeInsets padding =
+        const EdgeInsets.symmetric(vertical: 16, horizontal: 16);
 
     return SafeArea(
       child: ClipRRect(

@@ -62,8 +62,7 @@ class CardEditorViewModel extends ReactiveViewModel {
   final selectedSegment_06 = ValueNotifier(0);
 
   initForm() async {
-    _formModel =
-        DigitalCardForm(model, DigitalCardForm.formElements(model), null);
+    _formModel = DigitalCardForm(DigitalCardForm.formElements(model), null);
     final elements = DigitalCardForm.formElements(model);
     _formModel.form.setValidators(elements.validators);
     _formModel.form.setAsyncValidators(elements.asyncValidators);
@@ -98,8 +97,8 @@ class CardEditorViewModel extends ReactiveViewModel {
   addCustomLink(CustomLink customLink) async {
     formModel.form.unfocus();
     var x = await _navigationService.navigateToView(CustomLinkView(customLink));
-    _formModel.customLinksControl
-        .add(CustomLinkForm.formElements(x["customLink"]));
+    _formModel.addCustomLinksItem(x["customLink"]);
+
     _formModel.form.markAsDirty();
   }
 

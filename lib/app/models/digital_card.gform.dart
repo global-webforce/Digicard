@@ -123,8 +123,8 @@ class _DigitalCardFormBuilderState extends State<DigitalCardFormBuilder> {
 
   @override
   void initState() {
-    _formModel = DigitalCardForm(
-        widget.model, DigitalCardForm.formElements(widget.model), null);
+    _formModel =
+        DigitalCardForm(DigitalCardForm.formElements(widget.model), null);
 
     if (_formModel.form.disabled) {
       _formModel.form.markAsDisabled();
@@ -138,8 +138,8 @@ class _DigitalCardFormBuilderState extends State<DigitalCardFormBuilder> {
   @override
   void didUpdateWidget(covariant DigitalCardFormBuilder oldWidget) {
     if (widget.model != oldWidget.model) {
-      _formModel = DigitalCardForm(
-          widget.model, DigitalCardForm.formElements(widget.model), null);
+      _formModel =
+          DigitalCardForm(DigitalCardForm.formElements(widget.model), null);
 
       if (_formModel.form.disabled) {
         _formModel.form.markAsDisabled();
@@ -176,73 +176,67 @@ class _DigitalCardFormBuilderState extends State<DigitalCardFormBuilder> {
 
 class DigitalCardForm implements FormModel<DigitalCard> {
   DigitalCardForm(
-    this.digitalCard,
     this.form,
     this.path,
-  ) {
-    customLinksCustomLinkForm = (digitalCard?.customLinks ?? [])
-        .asMap()
-        .map((k, v) =>
-            MapEntry(k, CustomLinkForm(v, form, pathBuilder("customLinks.$k"))))
-        .values
-        .toList();
-  }
+  );
 
-  static String idControlName = "id";
+  static const String idControlName = "id";
 
-  static String userIdControlName = "userId";
+  static const String userIdControlName = "userId";
 
-  static String uuidControlName = "uuid";
+  static const String uuidControlName = "uuid";
 
-  static String titleControlName = "title";
+  static const String titleControlName = "title";
 
-  static String prefixControlName = "prefix";
+  static const String prefixControlName = "prefix";
 
-  static String firstNameControlName = "firstName";
+  static const String firstNameControlName = "firstName";
 
-  static String middleNameControlName = "middleName";
+  static const String middleNameControlName = "middleName";
 
-  static String lastNameControlName = "lastName";
+  static const String lastNameControlName = "lastName";
 
-  static String suffixControlName = "suffix";
+  static const String suffixControlName = "suffix";
 
-  static String accreditationsControlName = "accreditations";
+  static const String accreditationsControlName = "accreditations";
 
-  static String preferredNameControlName = "preferredName";
+  static const String preferredNameControlName = "preferredName";
 
-  static String maidenNameControlName = "maidenName";
+  static const String maidenNameControlName = "maidenName";
 
-  static String pronounsControlName = "pronouns";
+  static const String pronounsControlName = "pronouns";
 
-  static String logoUrlControlName = "logoUrl";
+  static const String logoUrlControlName = "logoUrl";
 
-  static String avatarUrlControlName = "avatarUrl";
+  static const String avatarUrlControlName = "avatarUrl";
 
-  static String avatarFileControlName = "avatarFile";
+  static const String avatarFileControlName = "avatarFile";
 
-  static String logoFileControlName = "logoFile";
+  static const String logoFileControlName = "logoFile";
 
-  static String colorControlName = "color";
+  static const String colorControlName = "color";
 
-  static String layoutControlName = "layout";
+  static const String layoutControlName = "layout";
 
-  static String positionControlName = "position";
+  static const String positionControlName = "position";
 
-  static String departmentControlName = "department";
+  static const String departmentControlName = "department";
 
-  static String companyControlName = "company";
+  static const String companyControlName = "company";
 
-  static String headlineControlName = "headline";
+  static const String headlineControlName = "headline";
 
-  static String customLinksControlName = "customLinks";
+  static const String customLinksControlName = "customLinks";
 
-  final DigitalCard? digitalCard;
+  static const String createdAtControlName = "createdAt";
+
+  static const String updatedAtControlName = "updatedAt";
+
+  static const String addedAtControlName = "addedAt";
 
   final FormGroup form;
 
   final String? path;
-
-  late List<CustomLinkForm> customLinksCustomLinkForm;
 
   String idControlPath() => pathBuilder(idControlName);
   String userIdControlPath() => pathBuilder(userIdControlName);
@@ -267,6 +261,9 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   String departmentControlPath() => pathBuilder(departmentControlName);
   String companyControlPath() => pathBuilder(companyControlName);
   String headlineControlPath() => pathBuilder(headlineControlName);
+  String createdAtControlPath() => pathBuilder(createdAtControlName);
+  String updatedAtControlPath() => pathBuilder(updatedAtControlName);
+  String addedAtControlPath() => pathBuilder(addedAtControlName);
   String customLinksControlPath() => pathBuilder(customLinksControlName);
   int? get _idValue => idControl?.value;
   String? get _userIdValue => userIdControl?.value;
@@ -291,20 +288,11 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   String? get _departmentValue => departmentControl?.value;
   String? get _companyValue => companyControl?.value;
   String? get _headlineValue => headlineControl?.value;
-  List<CustomLink> get _customLinksValue => customLinksCustomLinkForm
-      .asMap()
-      .map(
-        (k, v) => MapEntry(
-          k,
-          v
-              .copyWithPath(
-                pathBuilder("customLinks.$k"),
-              )
-              .model,
-        ),
-      )
-      .values
-      .toList();
+  DateTime? get _createdAtValue => createdAtControl?.value;
+  DateTime? get _updatedAtValue => updatedAtControl?.value;
+  DateTime? get _addedAtValue => addedAtControl?.value;
+  List<CustomLink> get _customLinksValue =>
+      customLinksCustomLinkForm.map((e) => e.model).toList();
   bool get containsId {
     try {
       form.control(idControlPath());
@@ -512,6 +500,33 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     }
   }
 
+  bool get containsCreatedAt {
+    try {
+      form.control(createdAtControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool get containsUpdatedAt {
+    try {
+      form.control(updatedAtControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool get containsAddedAt {
+    try {
+      form.control(addedAtControlPath());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   bool get containsCustomLinks {
     try {
       form.control(customLinksControlPath());
@@ -544,6 +559,9 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   Object? get departmentErrors => departmentControl?.errors;
   Object? get companyErrors => companyControl?.errors;
   Object? get headlineErrors => headlineControl?.errors;
+  Object? get createdAtErrors => createdAtControl?.errors;
+  Object? get updatedAtErrors => updatedAtControl?.errors;
+  Object? get addedAtErrors => addedAtControl?.errors;
   Object? get customLinksErrors => customLinksControl.errors;
   void get idFocus => form.focus(idControlPath());
   void get userIdFocus => form.focus(userIdControlPath());
@@ -568,6 +586,9 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   void get departmentFocus => form.focus(departmentControlPath());
   void get companyFocus => form.focus(companyControlPath());
   void get headlineFocus => form.focus(headlineControlPath());
+  void get createdAtFocus => form.focus(createdAtControlPath());
+  void get updatedAtFocus => form.focus(updatedAtControlPath());
+  void get addedAtFocus => form.focus(addedAtControlPath());
   void get customLinksFocus => form.focus(customLinksControlPath());
   void idRemove({
     bool updateParent = true,
@@ -1167,6 +1188,84 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     }
   }
 
+  void createdAtRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsCreatedAt) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          createdAtControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            createdAtControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
+  void updatedAtRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsUpdatedAt) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          updatedAtControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            updatedAtControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
+  void addedAtRemove({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (containsAddedAt) {
+      final controlPath = path;
+      if (controlPath == null) {
+        form.removeControl(
+          addedAtControlName,
+          updateParent: updateParent,
+          emitEvent: emitEvent,
+        );
+      } else {
+        final formGroup = form.control(controlPath);
+
+        if (formGroup is FormGroup) {
+          formGroup.removeControl(
+            addedAtControlName,
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+      }
+    }
+  }
+
   void idValueUpdate(
     int? value, {
     bool updateParent = true,
@@ -1374,35 +1473,49 @@ class DigitalCardForm implements FormModel<DigitalCard> {
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
+  void createdAtValueUpdate(
+    DateTime? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    createdAtControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void updatedAtValueUpdate(
+    DateTime? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    updatedAtControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void addedAtValueUpdate(
+    DateTime? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    addedAtControl?.updateValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
   void customLinksValueUpdate(
     List<CustomLink> value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
-    if ((value).isEmpty) {
+    final localValue = (value);
+    if (localValue.isEmpty) {
       customLinksClear(updateParent: updateParent, emitEvent: emitEvent);
 
       return;
     }
 
-    final updateList = (value)
-        .asMap()
-        .map(
-          (k, v) => MapEntry(
-            k,
-            CustomLinkForm(v, form, pathBuilder("customLinks.$k")),
-          ),
-        )
-        .values
-        .toList();
+    final toUpdate = <CustomLink>[];
+    final toAdd = <CustomLink>[];
 
-    customLinksCustomLinkForm.clear();
-    customLinksCustomLinkForm.addAll(updateList);
-
-    final toUpdate = <CustomLinkForm>[];
-    final toAdd = <CustomLinkForm>[];
-
-    updateList.asMap().forEach((k, v) {
+    localValue.asMap().forEach((k, v) {
       if (customLinksCustomLinkForm.asMap().containsKey(k) &&
           (customLinksControl.value ?? []).asMap().containsKey(k)) {
         toUpdate.add(v);
@@ -1413,16 +1526,14 @@ class DigitalCardForm implements FormModel<DigitalCard> {
 
     if (toUpdate.isNotEmpty) {
       customLinksControl.updateValue(
-          toUpdate
-              .map((e) => CustomLinkForm.formElements(e.customLink).rawValue)
-              .toList(),
+          toUpdate.map((e) => CustomLinkForm.formElements(e).rawValue).toList(),
           updateParent: updateParent,
           emitEvent: emitEvent);
     }
 
     if (toAdd.isNotEmpty) {
       toAdd.forEach((e) {
-        customLinksControl.add(CustomLinkForm.formElements(e.customLink),
+        customLinksControl.add(CustomLinkForm.formElements(e),
             updateParent: updateParent, emitEvent: emitEvent);
       });
     }
@@ -1434,26 +1545,10 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
-    if (customLinksCustomLinkForm.length < i) {
+    if ((customLinksControl.value ?? []).length < i) {
       addCustomLinksItem(value);
       return;
     }
-
-    final item = CustomLinkForm(
-      value,
-      form,
-      pathBuilder('customLinks.$i'),
-    );
-
-    customLinksCustomLinkForm.insert(i, item);
-
-    customLinksCustomLinkForm.asMap().forEach((k, v) {
-      if (k > i) {
-        customLinksCustomLinkForm[k] = v.copyWithPath(
-          pathBuilder("customLinks.$k"),
-        );
-      }
-    });
 
     customLinksControl.insert(
       i,
@@ -1678,6 +1773,33 @@ class DigitalCardForm implements FormModel<DigitalCard> {
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
+  void createdAtValuePatch(
+    DateTime? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    createdAtControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void updatedAtValuePatch(
+    DateTime? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    updatedAtControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
+  void addedAtValuePatch(
+    DateTime? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    addedAtControl?.patchValue(value,
+        updateParent: updateParent, emitEvent: emitEvent);
+  }
+
   void customLinksValuePatch(
     List<CustomLink> value, {
     bool updateParent = true,
@@ -1685,21 +1807,17 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) {
     final keys = customLinksCustomLinkForm.asMap().keys;
 
-    final toPatch = <CustomLinkForm>[];
+    final toPatch = <CustomLink>[];
     (value).asMap().forEach(
       (k, v) {
         if (keys.contains(k)) {
-          final patch = CustomLinkForm(v, form, pathBuilder("customLinks.$k"));
-          customLinksCustomLinkForm[k] = patch;
-          toPatch.add(patch);
+          toPatch.add(v);
         }
       },
     );
 
     customLinksControl.patchValue(
-        toPatch
-            .map((e) => CustomLinkForm.formElements(e.customLink).rawValue)
-            .toList(),
+        toPatch.map((e) => CustomLinkForm.formElements(e).rawValue).toList(),
         updateParent: updateParent,
         emitEvent: emitEvent);
   }
@@ -1911,6 +2029,33 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       headlineControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void createdAtValueReset(
+    DateTime? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      createdAtControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void updatedAtValueReset(
+    DateTime? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      updatedAtControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
+  void addedAtValueReset(
+    DateTime? value, {
+    bool updateParent = true,
+    bool emitEvent = true,
+    bool removeFocus = false,
+    bool? disabled,
+  }) =>
+      addedAtControl?.reset(
+          value: value, updateParent: updateParent, emitEvent: emitEvent);
   void customLinksValueReset(
     List<CustomLink> value, {
     bool updateParent = true,
@@ -1992,8 +2137,24 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   FormControl<String>? get headlineControl => containsHeadline
       ? form.control(headlineControlPath()) as FormControl<String>?
       : null;
+  FormControl<DateTime>? get createdAtControl => containsCreatedAt
+      ? form.control(createdAtControlPath()) as FormControl<DateTime>?
+      : null;
+  FormControl<DateTime>? get updatedAtControl => containsUpdatedAt
+      ? form.control(updatedAtControlPath()) as FormControl<DateTime>?
+      : null;
+  FormControl<DateTime>? get addedAtControl => containsAddedAt
+      ? form.control(addedAtControlPath()) as FormControl<DateTime>?
+      : null;
   FormArray<Map<String, Object?>> get customLinksControl =>
       form.control(customLinksControlPath()) as FormArray<Map<String, Object?>>;
+  List<CustomLinkForm> get customLinksCustomLinkForm =>
+      (customLinksControl.value ?? [])
+          .asMap()
+          .map((k, v) =>
+              MapEntry(k, CustomLinkForm(form, pathBuilder("customLinks.$k"))))
+          .values
+          .toList();
   void idSetDisabled(
     bool disabled, {
     bool updateParent = true,
@@ -2408,6 +2569,60 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     }
   }
 
+  void createdAtSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      createdAtControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      createdAtControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void updatedAtSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      updatedAtControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      updatedAtControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
+  void addedAtSetDisabled(
+    bool disabled, {
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    if (disabled) {
+      addedAtControl?.markAsDisabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    } else {
+      addedAtControl?.markAsEnabled(
+        updateParent: updateParent,
+        emitEvent: emitEvent,
+      );
+    }
+  }
+
   void customLinksSetDisabled(
     bool disabled, {
     bool updateParent = true,
@@ -2433,23 +2648,11 @@ class DigitalCardForm implements FormModel<DigitalCard> {
                   as FormArray<Map<String, Object?>>,
               () => customLinksCustomLinkForm);
   void addCustomLinksItem(CustomLink value) {
-    final formClass = CustomLinkForm(value, form,
-        pathBuilder('customLinks.${customLinksCustomLinkForm.length}'));
-
-    customLinksCustomLinkForm.add(formClass);
     customLinksControl.add(CustomLinkForm.formElements(value));
   }
 
   void removeCustomLinksItemAtIndex(int i) {
-    if (customLinksCustomLinkForm.asMap().containsKey(i) &&
-        (customLinksControl.value ?? []).asMap().containsKey(i)) {
-      customLinksCustomLinkForm.removeAt(i);
-
-      customLinksCustomLinkForm.asMap().forEach((k, v) {
-        customLinksCustomLinkForm[k] =
-            v.copyWithPath(pathBuilder("customLinks.$k"));
-      });
-
+    if ((customLinksControl.value ?? []).length > i) {
       customLinksControl.removeAt(i);
     }
   }
@@ -2460,10 +2663,11 @@ class DigitalCardForm implements FormModel<DigitalCard> {
 
   @override
   DigitalCard get model {
-    if (!form.valid) {
+    final currentForm = path == null ? form : form.control(path!);
+
+    if (!currentForm.valid) {
       debugPrint(
-        'Prefer not to call `model` on non-valid form it could cause unexpected exceptions in case you created a non-nullable field in model and expect it to be guarded by some kind of `required` validator.',
-      );
+          '[${path ?? 'DigitalCardForm'}]\n┗━ Avoid calling `model` on invalid form. Possible exceptions for non-nullable fields which should be guarded by `required` validator.');
     }
     return DigitalCard(
         id: _idValue,
@@ -2490,13 +2694,21 @@ class DigitalCardForm implements FormModel<DigitalCard> {
         company: _companyValue,
         headline: _headlineValue,
         customLinks: _customLinksValue,
-        createdAt: digitalCard?.createdAt,
-        updatedAt: digitalCard?.updatedAt,
-        addedAt: digitalCard?.addedAt);
+        createdAt: _createdAtValue,
+        updatedAt: _updatedAtValue,
+        addedAt: _addedAtValue);
   }
 
-  DigitalCardForm copyWithPath(String? path) {
-    return DigitalCardForm(digitalCard, form, path);
+  void submit({
+    required void Function(DigitalCard model) onValid,
+    void Function()? onNotValid,
+  }) {
+    form.markAllAsTouched();
+    if (form.valid) {
+      onValid(model);
+    } else {
+      onNotValid?.call();
+    }
   }
 
   @override
@@ -2557,9 +2769,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
             touched: false),
         firstNameControlName: FormControl<String>(
             value: digitalCard?.firstName,
-            validators: [
-              (control) => requiredValidator(control as FormControl<String>)
-            ],
+            validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
             disabled: false,
@@ -2690,7 +2900,28 @@ class DigitalCardForm implements FormModel<DigitalCard> {
             validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
-            disabled: false)
+            disabled: false),
+        createdAtControlName: FormControl<DateTime>(
+            value: digitalCard?.createdAt,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        updatedAtControlName: FormControl<DateTime>(
+            value: digitalCard?.updatedAt,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false),
+        addedAtControlName: FormControl<DateTime>(
+            value: digitalCard?.addedAt,
+            validators: [],
+            asyncValidators: [],
+            asyncValidatorsDebounceTime: 250,
+            disabled: false,
+            touched: false)
       },
           validators: [],
           asyncValidators: [],
@@ -2700,18 +2931,15 @@ class DigitalCardForm implements FormModel<DigitalCard> {
 
 class CustomLinkForm implements FormModel<CustomLink> {
   CustomLinkForm(
-    this.customLink,
     this.form,
     this.path,
-  ) {}
+  );
 
-  static String textControlName = "text";
+  static const String textControlName = "text";
 
-  static String labelControlName = "label";
+  static const String labelControlName = "label";
 
-  static String typeControlName = "type";
-
-  final CustomLink? customLink;
+  static const String typeControlName = "type";
 
   final FormGroup form;
 
@@ -2980,16 +3208,25 @@ class CustomLinkForm implements FormModel<CustomLink> {
 
   @override
   CustomLink get model {
-    if (!form.valid) {
+    final currentForm = path == null ? form : form.control(path!);
+
+    if (!currentForm.valid) {
       debugPrint(
-        'Prefer not to call `model` on non-valid form it could cause unexpected exceptions in case you created a non-nullable field in model and expect it to be guarded by some kind of `required` validator.',
-      );
+          '[${path ?? 'CustomLinkForm'}]\n┗━ Avoid calling `model` on invalid form. Possible exceptions for non-nullable fields which should be guarded by `required` validator.');
     }
     return CustomLink(text: _textValue, label: _labelValue, type: _typeValue);
   }
 
-  CustomLinkForm copyWithPath(String? path) {
-    return CustomLinkForm(customLink, form, path);
+  void submit({
+    required void Function(CustomLink model) onValid,
+    void Function()? onNotValid,
+  }) {
+    form.markAllAsTouched();
+    if (form.valid) {
+      onValid(model);
+    } else {
+      onNotValid?.call();
+    }
   }
 
   @override
@@ -3015,7 +3252,7 @@ class CustomLinkForm implements FormModel<CustomLink> {
   static FormGroup formElements(CustomLink? customLink) => FormGroup({
         textControlName: FormControl<String>(
             value: customLink?.text,
-            validators: [requiredValidator],
+            validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,
             disabled: false,

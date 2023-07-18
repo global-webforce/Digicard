@@ -1,7 +1,6 @@
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:digicard/app/models/custom_link.dart';
-import 'package:digicard/app/models/digital_card.dart';
 
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -17,8 +16,8 @@ class CustomLinkViewModel extends BaseViewModel {
     initForm();
   }
 
-  final formModel = CustomLinkForm(
-      CustomLink(), CustomLinkForm.formElements(CustomLink()), null);
+  final formModel =
+      CustomLinkForm(CustomLinkForm.formElements(CustomLink()), null);
 
   initForm() {
     final elements = CustomLinkForm.formElements(model);
@@ -31,7 +30,7 @@ class CustomLinkViewModel extends BaseViewModel {
   }
 
   save() {
-    formModel.textControl?.value = formModel.textControl?.value.clean();
+    formModel.textControl?.value = formModel.textControl?.value?.clean();
     _navigationService
         .back(result: {'index': i, 'customLink': formModel.model});
   }
