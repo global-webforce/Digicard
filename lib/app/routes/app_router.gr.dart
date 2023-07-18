@@ -48,7 +48,7 @@ abstract class $AppRouter extends _i8.RootStackRouter {
           key: args.key,
           uuid: args.uuid,
           card: args.card,
-          action: args.action,
+          displayType: args.displayType,
         ),
       );
     },
@@ -124,7 +124,7 @@ class CardDisplayRoute extends _i8.PageRouteInfo<CardDisplayRouteArgs> {
     _i9.Key? key,
     String? uuid,
     _i10.DigitalCard? card,
-    _i11.DisplayType? action,
+    _i11.DisplayType? displayType,
     List<_i8.PageRouteInfo>? children,
   }) : super(
           CardDisplayRoute.name,
@@ -132,7 +132,7 @@ class CardDisplayRoute extends _i8.PageRouteInfo<CardDisplayRouteArgs> {
             key: key,
             uuid: uuid,
             card: card,
-            action: action,
+            displayType: displayType,
           ),
           rawPathParams: {'uuid': uuid},
           initialChildren: children,
@@ -149,7 +149,7 @@ class CardDisplayRouteArgs {
     this.key,
     this.uuid,
     this.card,
-    this.action,
+    this.displayType,
   });
 
   final _i9.Key? key;
@@ -158,11 +158,11 @@ class CardDisplayRouteArgs {
 
   final _i10.DigitalCard? card;
 
-  final _i11.DisplayType? action;
+  final _i11.DisplayType? displayType;
 
   @override
   String toString() {
-    return 'CardDisplayRouteArgs{key: $key, uuid: $uuid, card: $card, action: $action}';
+    return 'CardDisplayRouteArgs{key: $key, uuid: $uuid, card: $card, displayType: $displayType}';
   }
 }
 

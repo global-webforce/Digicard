@@ -64,7 +64,7 @@ class CardManagerBottomSheetViewModel extends ReactiveViewModel {
     _bottomSheetService.completeSheet(SheetResponse());
     await _navigationService.pushWidget(
       CardDisplayView(
-          key: UniqueKey(), card: card, action: DisplayType.private),
+          key: UniqueKey(), card: card, displayType: DisplayType.private),
     );
   }
 

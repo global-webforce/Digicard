@@ -100,8 +100,8 @@ class MySearchDelegate extends SearchDelegate<String> {
             onTap: () {
               close(context, "");
               locator<AppRouter>().push(CardDisplayRoute(
-                action: DisplayType.private,
                 card: contact,
+                displayType: DisplayType.private,
               ));
             },
           );

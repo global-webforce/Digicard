@@ -54,10 +54,10 @@ class ContactsViewModel extends ReactiveViewModel {
     return grouped;
   }
 
-  view(DigitalCard card) {
-    _navigationService.push(CardDisplayRoute(
-      action: DisplayType.private,
+  view(DigitalCard card) async {
+    await _navigationService.push(CardDisplayRoute(
       card: card,
+      displayType: DisplayType.private,
     ));
   }
 

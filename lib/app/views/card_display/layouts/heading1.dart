@@ -15,39 +15,42 @@ class Heading1 extends StatelessWidget {
         getParentViewModel<CardDisplayViewModel>(context, listen: true);
 
     Widget logoField() {
-      return AspectRatio(
-        aspectRatio: 1 / 1,
-        child: ClipRRect(
-          child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: MemoryImage(
-                  viewModel.card.logoFile ?? Uint8List(0),
+      return viewModel.card.logoFile != null
+          ? AspectRatio(
+              aspectRatio: 1 / 1,
+              child: ClipRRect(
+                child: Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                    image: MemoryImage(
+                      viewModel.card.logoFile ?? Uint8List(0),
+                    ),
+                    fit: BoxFit.contain,
+                  )),
                 ),
-                fit: BoxFit.contain,
               ),
-            ),
-          ),
-        ),
-      );
+            )
+          : const SizedBox.shrink();
     }
 
     return LayoutBuilder(builder: (context, size) {
       return SizedBox(
         width: size.maxWidth,
-        height: size.maxWidth,
+        height: viewModel.card.avatarFile != null ? size.maxWidth : 120,
         child: Stack(
           clipBehavior: Clip.none,
           children: [
             Container(
               decoration: BoxDecoration(
                 color: viewModel.color,
-                image: DecorationImage(
-                  image: MemoryImage(
-                    viewModel.card.avatarFile ?? Uint8List(0),
-                  ),
-                  fit: BoxFit.contain,
-                ),
+                image: viewModel.card.avatarFile != null
+                    ? DecorationImage(
+                        image: MemoryImage(
+                          viewModel.card.avatarFile ?? Uint8List(0),
+                        ),
+                        fit: BoxFit.contain,
+                      )
+                    : null,
               ),
               child: ClipRRect(
                 child: BackdropFilter(
@@ -55,12 +58,14 @@ class Heading1 extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       color: viewModel.color,
-                      image: DecorationImage(
-                          image: MemoryImage(viewModel.card.avatarFile ??
-                              Uint8List(
-                                0,
-                              )),
-                          fit: BoxFit.cover),
+                      image: viewModel.card.avatarFile != null
+                          ? DecorationImage(
+                              image: MemoryImage(viewModel.card.avatarFile ??
+                                  Uint8List(
+                                    0,
+                                  )),
+                              fit: BoxFit.cover)
+                          : null,
                     ),
                   ),
                 ),

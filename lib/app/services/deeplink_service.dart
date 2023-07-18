@@ -21,8 +21,9 @@ class DeeplinkService with ListenableServiceMixin {
 
     if (uri != null) {
       if (CardUrl(uri.toString()).isValid()) {
-        _navigationService.push(CardDisplayRoute(
-            action: DisplayType.private, uuid: CardUrl(uri.toString()).uuid));
+        await _navigationService.push(CardDisplayRoute(
+            displayType: DisplayType.private,
+            uuid: CardUrl(uri.toString()).uuid));
       }
       log.d("Initial Deeplink: ${uri.toString()}");
     }
@@ -30,16 +31,16 @@ class DeeplinkService with ListenableServiceMixin {
 
   void incomingLinkHandler() {
     if (!kIsWeb) {
-      _streamSubscription = uriLinkStream.listen((Uri? uri) {
+      _streamSubscription = uriLinkStream.listen((Uri? uri) async {
         if (uri != null) {
           if (CardUrl(uri.toString()).isValid()) {
             if (_navigationService.topRoute.name == CardDisplayRoute.name) {
-              _navigationService.popAndPush(CardDisplayRoute(
-                  action: DisplayType.private,
+              await _navigationService.popAndPush(CardDisplayRoute(
+                  displayType: DisplayType.private,
                   uuid: CardUrl(uri.toString()).uuid));
             } else {
-              _navigationService.push(CardDisplayRoute(
-                  action: DisplayType.private,
+              await _navigationService.push(CardDisplayRoute(
+                  displayType: DisplayType.private,
                   uuid: CardUrl(uri.toString()).uuid));
             }
           }

@@ -37,7 +37,7 @@ class AppBarDisplay extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
           ),
-        if (!kIsWeb || viewModel.action == DisplayType.private)
+        if (!kIsWeb || viewModel.displayType == DisplayType.private)
           const CloseViewButton(),
       ],
     );

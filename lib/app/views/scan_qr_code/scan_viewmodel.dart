@@ -54,7 +54,7 @@ class ScanViewModel extends ReactiveViewModel {
           _navService
               .push(CardDisplayRoute(
                   card: DigitalCard(),
-                  action: DisplayType.private,
+                  displayType: DisplayType.private,
                   uuid: CardUrl("${result?.code}").uuid))
               .then((value) {
             controller.resumeCamera();

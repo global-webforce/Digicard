@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/extensions/digital_card_extension.dart';
 import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:digicard/app/views/card_display/card_display_viewmodel.dart';
@@ -16,20 +17,18 @@ class Heading0 extends StatelessWidget {
         getParentViewModel<CardDisplayViewModel>(context, listen: true);
     const avatarSize = 160.0;
     Widget logoField() {
-      return Padding(
-        padding: const EdgeInsets.only(bottom: 16.0),
-        child: Container(
-          height: 56,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              alignment: Alignment.centerLeft,
-              image: MemoryImage(
-                viewModel.card.logoFile ?? Uint8List(0),
-              ),
-              fit: BoxFit.contain,
-            ),
-          ),
-        ),
+      return Container(
+        height: 56,
+        decoration: viewModel.card.logoFile != null
+            ? BoxDecoration(
+                image: DecorationImage(
+                alignment: Alignment.centerLeft,
+                image: MemoryImage(
+                  viewModel.card.logoFile ?? Uint8List(0),
+                ),
+                fit: BoxFit.contain,
+              ))
+            : null,
       );
     }
 
@@ -88,20 +87,22 @@ class Heading0 extends StatelessWidget {
     }
 
     Widget avatarFieldCircle() {
-      return Container(
-        height: avatarSize,
-        width: avatarSize,
-        decoration: BoxDecoration(
-          border: Border.all(color: viewModel.color, width: 5),
-          borderRadius: const BorderRadius.all(Radius.circular(100)),
-          image: DecorationImage(
-            image: MemoryImage(
-              viewModel.card.avatarFile ?? Uint8List(0),
-            ),
-            fit: BoxFit.cover,
-          ),
-        ),
-      );
+      return viewModel.card.avatarFile != null
+          ? Container(
+              height: avatarSize,
+              width: avatarSize,
+              decoration: BoxDecoration(
+                  color: viewModel.color.darken(),
+                  border: Border.all(color: viewModel.color, width: 5),
+                  borderRadius: const BorderRadius.all(Radius.circular(100)),
+                  image: DecorationImage(
+                    image: MemoryImage(
+                      viewModel.card.avatarFile ?? Uint8List(0),
+                    ),
+                    fit: BoxFit.cover,
+                  )),
+            )
+          : const SizedBox.shrink();
     }
 
     return Padding(
@@ -109,10 +110,11 @@ class Heading0 extends StatelessWidget {
       child: LayoutBuilder(builder: (context, size) {
         return Stack(
           clipBehavior: Clip.none,
+          alignment: Alignment.center,
           children: [
             Container(
               width: size.maxWidth,
-              constraints: const BoxConstraints(minHeight: 160),
+              constraints: const BoxConstraints(minHeight: 260),
               decoration: BoxDecoration(
                 color: viewModel.color,
               ),
