@@ -41,18 +41,24 @@ class CardItems {
 
   Widget position(String? value) {
     return value.isNotNullOrEmpty()
-        ? Text(
-            value.clean().toTitleCase(),
-            style: const TextStyle(),
+        ? Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Text(
+              value.clean().toTitleCase(),
+              style: const TextStyle(),
+            ),
           )
         : const SizedBox.shrink();
   }
 
   Widget department(String? value) {
     return value.isNotNullOrEmpty()
-        ? Text(
-            value.clean().toTitleCase(),
-            style: const TextStyle(),
+        ? Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Text(
+              value.clean().toTitleCase(),
+              style: const TextStyle(),
+            ),
           )
         : const SizedBox.shrink();
   }
