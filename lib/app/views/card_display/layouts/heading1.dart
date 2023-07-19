@@ -37,52 +37,66 @@ class Heading1 extends StatelessWidget {
     }
 
     return LayoutBuilder(builder: (context, size) {
-      return SizedBox(
-        width: size.maxWidth,
-        height: size.maxWidth,
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: viewModel.color,
-                image: DecorationImage(
-                  image: CachedMemoryImageProvider(
-                    viewModel.card.avatarHttpUrl,
-                    bytes: viewModel.card.avatarFile ?? Uint8List(0),
-                  ),
-                  fit: BoxFit.contain,
-                ),
-              ),
-              child: ClipRRect(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: viewModel.color,
-                      image: DecorationImage(
-                          image: CachedMemoryImageProvider(
-                            viewModel.card.avatarHttpUrl,
-                            bytes: viewModel.card.avatarFile ?? Uint8List(0),
+      return AnimatedSize(
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.fastOutSlowIn,
+        child: SizedBox(
+            width: size.maxWidth,
+            height: viewModel.card.avatarFile == null ? 120 : size.maxWidth,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                AnimatedSize(
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.fastOutSlowIn,
+                  child: viewModel.card.avatarFile == null
+                      ? Container(
+                          height: 120,
+                          color: viewModel.color,
+                        )
+                      : Container(
+                          decoration: BoxDecoration(
+                            color: viewModel.color,
+                            image: DecorationImage(
+                              image: CachedMemoryImageProvider(
+                                viewModel.card.avatarHttpUrl,
+                                bytes:
+                                    viewModel.card.avatarFile ?? Uint8List(0),
+                              ),
+                              fit: BoxFit.contain,
+                            ),
                           ),
-                          fit: BoxFit.cover),
-                    ),
-                  ),
+                          child: ClipRRect(
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: viewModel.color,
+                                  image: DecorationImage(
+                                      image: CachedMemoryImageProvider(
+                                        viewModel.card.avatarHttpUrl,
+                                        bytes: viewModel.card.avatarFile ??
+                                            Uint8List(0),
+                                      ),
+                                      fit: BoxFit.cover),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                 ),
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              width: size.maxWidth,
-              child: CardWaveDivider(
-                context,
-                color: viewModel.color,
-                size: size,
-                child: logoField(),
-              ),
-            )
-          ],
-        ),
+                Positioned(
+                  bottom: 0,
+                  width: size.maxWidth,
+                  child: CardWaveDivider(
+                    context,
+                    color: viewModel.color,
+                    size: size,
+                    child: logoField(),
+                  ),
+                )
+              ],
+            )),
       );
     });
   }

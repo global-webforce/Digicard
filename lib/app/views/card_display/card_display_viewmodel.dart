@@ -52,6 +52,7 @@ class CardDisplayViewModel extends ReactiveViewModel {
     if (uuid != null) {
       await loadCardbyUuid(uuid);
     }
+
     final avatar = await getNetworkImageData(card.avatarHttpUrl);
     final logo = await getNetworkImageData(card.logoHttpUrl);
     card = card.copyWith(avatarFile: avatar, logoFile: logo);
