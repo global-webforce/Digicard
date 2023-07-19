@@ -115,7 +115,7 @@ class DigitalCardService with ListenableServiceMixin {
 
   Future create(DigitalCard card) async {
     try {
-      final data = DigitalCardExtension.create(
+      final data = DigitalCardExtension.toMapCreate(
           card.copyWith(userId: _userService.id).toJson());
       data["custom_links"] = card.customLinks.map((e) => e.toJson()).toList();
       data["avatar_url"] =
@@ -133,7 +133,7 @@ class DigitalCardService with ListenableServiceMixin {
 
   Future update(DigitalCard card) async {
     try {
-      final data = DigitalCardExtension.update(card.toJson());
+      final data = DigitalCardExtension.toMapUpdate(card.toJson());
       data["custom_links"] = card.customLinks.map((e) => e.toJson()).toList();
       data["avatar_url"] =
           await imageSave(card.avatarFile, folderPath: 'avatars');
@@ -163,7 +163,7 @@ class DigitalCardService with ListenableServiceMixin {
 
   duplicate(DigitalCard card) async {
     try {
-      final data = DigitalCardExtension.create(
+      final data = DigitalCardExtension.toMapCreate(
           card.copyWith(userId: _userService.id).toJson());
       data["custom_links"] = card.customLinks.map((e) => e.toJson()).toList();
       final originalCard =

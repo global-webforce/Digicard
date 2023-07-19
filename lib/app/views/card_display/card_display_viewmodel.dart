@@ -1,27 +1,20 @@
 import 'dart:ui';
 
 import 'package:digicard/app/bottomsheet_ui.dart';
+import 'package:digicard/app/constants/keys.dart';
 import 'package:digicard/app/dialog_ui.dart';
 import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/constants/colors.dart';
+import 'package:digicard/app/extensions/contacts_service_extension.dart';
+import 'package:digicard/app/extensions/digital_card_extension.dart';
+import 'package:digicard/app/helper/image_cache_downloader.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/services/contacts_service.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-enum DisplayType {
-  private,
-  public,
-}
-
-const String saveBusyKey = 'saveBusyKey';
-const String doneBusyKey = 'doneBusyKey';
-const String deleteBusyKey = 'deleteBusyKey';
-const String loadingCardBusyKey = 'loadingCardBusyKey';
 
 class CardDisplayViewModel extends ReactiveViewModel {
   final log = getLogger('CardDisplayViewModel');
@@ -36,50 +29,47 @@ class CardDisplayViewModel extends ReactiveViewModel {
   @override
   void onFutureError(error, Object? key) {
     log.e(error);
-
     _dialogService.showCustomDialog(
         variant: DialogType.error,
         barrierDismissible: true,
         description: error.toString());
-
     super.onFutureError(error, key);
   }
 
   late DigitalCard card;
-  late DisplayType action;
+  DisplayType displayType = DisplayType.public;
   Color get color => Color(card.color ?? kcPrimaryColorInt);
+  bool isDarkMode = false;
+
+  Future start({
+    DigitalCard? cardParam,
+    DisplayType? displayTypeParam,
+    String? uuid,
+  }) async {
+    card = cardParam ?? DigitalCard();
+    displayType = displayTypeParam ?? DisplayType.public;
+
+    if (uuid != null) {
+      await loadCardbyUuid(uuid);
+    }
+
+    final avatar = await getNetworkImageData(card.avatarHttpUrl);
+    final logo = await getNetworkImageData(card.logoHttpUrl);
+    card = card.copyWith(avatarFile: avatar, logoFile: logo);
+    notifyListeners();
+  }
 
   bool isUserPresent() => user != null;
-  isCardOwnedByUser() => "${card.userId}" == "${user?.id}";
-  bool isCardInContacts() {
-    final temp = _contactsService.contacts.indexWhere((e) => e.id == card.id);
-    return temp != -1 ? true : false;
+  bool isCardOwnedByUser() => card.isOwnedBy(user?.id);
+  bool isCardInContacts() => _contactsService.isExist(id: card.id);
+
+  Future loadCardbyUuid(String uuid) async {
+    card = await _digitalCardService.findOne(uuid) ?? DigitalCard();
   }
 
   Future downloadVcf() async {
     await runBusyFuture(_contactsService.downloadVcf(card),
         throwException: true, busyObject: saveBusyKey);
-  }
-
-  loadCardbyUuid(String uuid) async {
-    card = await runBusyFuture(_digitalCardService.findOne(uuid),
-            busyObject: loadingCardBusyKey, throwException: true) ??
-        DigitalCard();
-
-/*     if (card.id == null) {
-      await _dialogService.showCustomDialog(
-        variant: DialogType.simple,
-        title: "Card not found",
-        description: "This card might be deleted by the owner.",
-      );
-    } */
-  }
-
-  bool isDarkMode = false;
-  checkTheme() {
-    var brightness =
-        SchedulerBinding.instance.platformDispatcher.platformBrightness;
-    isDarkMode = brightness == Brightness.dark;
   }
 
   Future saveToContacts() async {
@@ -106,16 +96,19 @@ class CardDisplayViewModel extends ReactiveViewModel {
   }
 
   Future delete(int? id) async {
-    final value = await _dialogService.showCustomDialog(
+    final dialogResponse = await _dialogService.showCustomDialog(
       variant: DialogType.confirmation,
       title: "Card Delete",
       description: "You sure you want to delete this contact?",
       mainButtonTitle: "Delete",
       barrierDismissible: true,
     );
-    if (value?.confirmed ?? false) {
-      await runBusyFuture(_contactsService.delete(card),
-          busyObject: deleteBusyKey, throwException: true);
+    if (dialogResponse?.confirmed ?? false) {
+      await runBusyFuture(
+        _contactsService.delete(card),
+        busyObject: deleteBusyKey,
+        throwException: true,
+      );
     }
     return null;
   }

@@ -1,3 +1,4 @@
+import 'package:digicard/app/constants/keys.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -36,7 +37,7 @@ class AppBarDisplay extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
           ),
-        if (!kIsWeb || viewModel.action == DisplayType.private)
+        if (!kIsWeb || viewModel.displayType == DisplayType.private)
           const CloseViewButton(),
       ],
     );

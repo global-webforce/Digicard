@@ -2,7 +2,7 @@ import 'package:digicard/app/ui/_core/dashboard/ez_appbar_avatar.dart';
 import 'package:digicard/app/ui/_core/dashboard/ez_appbar_icon.dart';
 import 'package:flutter/material.dart';
 
-class EZAppBar extends StatelessWidget with PreferredSizeWidget {
+class EZAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
   final Widget appName;

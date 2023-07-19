@@ -1,12 +1,8 @@
-import 'package:auto_route/annotations.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/constants/dimensions.dart';
 import 'package:digicard/app/constants/keys.dart';
-
 import 'package:digicard/app/ui/_core/empty_display.dart';
 import 'package:digicard/app/ui/_core/scaffold_body_wrapper.dart';
-import 'package:digicard/app/ui/overlays/loader_overlay_wrapper.dart';
-
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'card_display_viewmodel.dart';
@@ -19,16 +15,11 @@ import 'widgets/app_bar_display.dart';
 import 'widgets/bottom_sheet_card.dart';
 import 'widgets/card_holder.dart';
 
-@RoutePage()
-class CardDisplayView extends StatelessWidget {
-  final DigitalCard? card;
-  final String? uuid;
-  final DisplayType? displayType;
-  const CardDisplayView({
+class CardDisplaySplitView extends StatelessWidget {
+  final DigitalCard card;
+  const CardDisplaySplitView({
     Key? key,
-    @PathParam('uuid') this.uuid,
-    this.card,
-    this.displayType,
+    required this.card,
   }) : super(key: key);
 
   @override
@@ -40,18 +31,8 @@ class CardDisplayView extends StatelessWidget {
         fireOnViewModelReadyOnce: false,
         createNewViewModelOnInsert: true,
         onViewModelReady: (viewModel) async {
-          await viewModel.start(
-            cardParam: card,
-            displayTypeParam: displayType,
-            uuid: uuid,
-          );
-          /*     WidgetsBinding.instance.addPostFrameCallback((_) async {
-            await viewModel.start(
-              cardParam: card,
-              displayTypeParam: displayType,
-              uuid: uuid,
-            );
-          }); */
+          viewModel.card = card;
+          viewModel.displayType = DisplayType.private;
         },
         builder: (context, viewModel, child) {
           return viewModel.busy(loadingCardBusyKey)
@@ -60,18 +41,7 @@ class CardDisplayView extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   ),
                 )
-              : LoaderOverlayWrapper(
-                  color: viewModel.color,
-                  type: viewModel.busy(saveBusyKey)
-                      ? LoadingType.save
-                      : viewModel.busy(deleteBusyKey)
-                          ? LoadingType.delete
-                          : viewModel.busy(doneBusyKey)
-                              ? LoadingType.done
-                              : null,
-                  builder: (context) {
-                    return const MainWidget();
-                  });
+              : const MainWidget();
         });
   }
 }
@@ -87,7 +57,7 @@ class MainWidget extends StatelessWidget {
 
     Widget empty() {
       return const EmptyDisplay(
-          icon: Icons.error_rounded, title: "Card not found");
+          icon: Icons.preview_rounded, title: "Card Preview");
     }
 
     return SafeArea(
@@ -101,8 +71,6 @@ class MainWidget extends StatelessWidget {
           bottomSheet: const BottomSheetCard(),
           body: ScaffoldBodyWrapper(
               isFullWidth: true,
-              isEmpty: viewModel.card.id == null &&
-                  viewModel.busy(loadingCardBusyKey) == false,
               emptyIndicatorWidget: empty(),
               padding: cardWidth,
               builder: (context, size) {

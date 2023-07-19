@@ -30,7 +30,7 @@ mixin _$DigitalCard {
   String? get title => throw _privateConstructorUsedError;
   @FormControlAnnotation<String>()
   String? get prefix => throw _privateConstructorUsedError;
-  @FormControlAnnotation<String>(validators: [requiredValidator])
+  @FormControlAnnotation<String>()
   String? get firstName => throw _privateConstructorUsedError;
   @FormControlAnnotation<String>()
   String? get middleName => throw _privateConstructorUsedError;
@@ -97,7 +97,7 @@ abstract class $DigitalCardCopyWith<$Res> {
           String? title,
       @FormControlAnnotation<String>()
           String? prefix,
-      @FormControlAnnotation<String>(validators: [requiredValidator])
+      @FormControlAnnotation<String>()
           String? firstName,
       @FormControlAnnotation<String>()
           String? middleName,
@@ -315,7 +315,7 @@ abstract class _$$_DigitalCardCopyWith<$Res>
           String? title,
       @FormControlAnnotation<String>()
           String? prefix,
-      @FormControlAnnotation<String>(validators: [requiredValidator])
+      @FormControlAnnotation<String>()
           String? firstName,
       @FormControlAnnotation<String>()
           String? middleName,
@@ -517,56 +517,30 @@ class __$$_DigitalCardCopyWithImpl<$Res>
 @JsonSerializable(fieldRename: FieldRename.snake)
 class _$_DigitalCard implements _DigitalCard {
   _$_DigitalCard(
-      {@FormControlAnnotation<int>()
-          this.id,
-      @FormControlAnnotation<String>()
-          this.userId,
-      @FormControlAnnotation<String>()
-          this.uuid,
-      @FormControlAnnotation<String>()
-          this.title = "New Card",
-      @FormControlAnnotation<String>()
-          this.prefix,
-      @FormControlAnnotation<String>(validators: [requiredValidator])
-          this.firstName,
-      @FormControlAnnotation<String>()
-          this.middleName,
-      @FormControlAnnotation<String>()
-          this.lastName,
-      @FormControlAnnotation<String>()
-          this.suffix,
-      @FormControlAnnotation<String>()
-          this.accreditations,
-      @FormControlAnnotation<String>()
-          this.preferredName,
-      @FormControlAnnotation<String>()
-          this.maidenName,
-      @FormControlAnnotation<String>()
-          this.pronouns,
-      @FormControlAnnotation<String>()
-          this.logoUrl,
-      @FormControlAnnotation<String>()
-          this.avatarUrl,
-      @Uint8ListConverter()
-      @FormControlAnnotation<Uint8List>()
-          this.avatarFile,
-      @Uint8ListConverter()
-      @FormControlAnnotation<Uint8List>()
-          this.logoFile,
-      @FormControlAnnotation<int>()
-          this.color = kcPrimaryColorInt,
-      @FormControlAnnotation<int>()
-          this.layout = 0,
-      @FormControlAnnotation<String>()
-          this.position,
-      @FormControlAnnotation<String>()
-          this.department,
-      @FormControlAnnotation<String>()
-          this.company,
-      @FormControlAnnotation<String>()
-          this.headline,
-      @FormArrayAnnotation()
-          final List<CustomLink> customLinks = const [],
+      {@FormControlAnnotation<int>() this.id,
+      @FormControlAnnotation<String>() this.userId,
+      @FormControlAnnotation<String>() this.uuid,
+      @FormControlAnnotation<String>() this.title = "New Card",
+      @FormControlAnnotation<String>() this.prefix,
+      @FormControlAnnotation<String>() this.firstName,
+      @FormControlAnnotation<String>() this.middleName,
+      @FormControlAnnotation<String>() this.lastName,
+      @FormControlAnnotation<String>() this.suffix,
+      @FormControlAnnotation<String>() this.accreditations,
+      @FormControlAnnotation<String>() this.preferredName,
+      @FormControlAnnotation<String>() this.maidenName,
+      @FormControlAnnotation<String>() this.pronouns,
+      @FormControlAnnotation<String>() this.logoUrl,
+      @FormControlAnnotation<String>() this.avatarUrl,
+      @Uint8ListConverter() @FormControlAnnotation<Uint8List>() this.avatarFile,
+      @Uint8ListConverter() @FormControlAnnotation<Uint8List>() this.logoFile,
+      @FormControlAnnotation<int>() this.color = kcPrimaryColorInt,
+      @FormControlAnnotation<int>() this.layout = 0,
+      @FormControlAnnotation<String>() this.position,
+      @FormControlAnnotation<String>() this.department,
+      @FormControlAnnotation<String>() this.company,
+      @FormControlAnnotation<String>() this.headline,
+      @FormArrayAnnotation() final List<CustomLink> customLinks = const [],
       this.createdAt,
       this.updatedAt,
       this.addedAt})
@@ -592,7 +566,7 @@ class _$_DigitalCard implements _DigitalCard {
   @FormControlAnnotation<String>()
   final String? prefix;
   @override
-  @FormControlAnnotation<String>(validators: [requiredValidator])
+  @FormControlAnnotation<String>()
   final String? firstName;
   @override
   @FormControlAnnotation<String>()
@@ -779,7 +753,7 @@ abstract class _DigitalCard implements DigitalCard {
           final String? title,
       @FormControlAnnotation<String>()
           final String? prefix,
-      @FormControlAnnotation<String>(validators: [requiredValidator])
+      @FormControlAnnotation<String>()
           final String? firstName,
       @FormControlAnnotation<String>()
           final String? middleName,
@@ -842,7 +816,7 @@ abstract class _DigitalCard implements DigitalCard {
   @FormControlAnnotation<String>()
   String? get prefix;
   @override
-  @FormControlAnnotation<String>(validators: [requiredValidator])
+  @FormControlAnnotation<String>()
   String? get firstName;
   @override
   @FormControlAnnotation<String>()

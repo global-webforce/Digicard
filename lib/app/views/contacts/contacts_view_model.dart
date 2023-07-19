@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:digicard/app/constants/keys.dart';
 import 'package:digicard/app/dialog_ui.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/app.logger.dart';
@@ -6,7 +7,6 @@ import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/routes/app_router.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:digicard/app/services/contacts_service.dart';
-import 'package:digicard/app/views/card_display/card_display_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -54,10 +54,10 @@ class ContactsViewModel extends ReactiveViewModel {
     return grouped;
   }
 
-  view(DigitalCard card) {
-    _navigationService.push(CardDisplayRoute(
-      action: DisplayType.private,
+  view(DigitalCard card) async {
+    await _navigationService.push(CardDisplayRoute(
       card: card,
+      displayType: DisplayType.private,
     ));
   }
 

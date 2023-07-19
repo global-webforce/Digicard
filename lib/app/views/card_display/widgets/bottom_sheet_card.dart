@@ -1,4 +1,5 @@
 import 'package:digicard/app/constants/dimensions.dart';
+import 'package:digicard/app/constants/keys.dart';
 import 'package:digicard/app/ui/_core/ez_button.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
 import 'package:digicard/app/views/card_display/card_display_viewmodel.dart';
@@ -15,7 +16,7 @@ class BottomSheetCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel =
-        getParentViewModel<CardDisplayViewModel>(context, listen: false);
+        getParentViewModel<CardDisplayViewModel>(context, listen: true);
 
     return LayoutBuilder(builder: (context, size) {
       final cardWidth = Dimens.computedWidth(
@@ -28,7 +29,7 @@ class BottomSheetCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               if (viewModel.card.id != null &&
-                  viewModel.action == DisplayType.public &&
+                  viewModel.displayType == DisplayType.public &&
                   viewModel.isCardOwnedByUser())
                 const OwnButton(),
               vSpaceSmall,
@@ -50,7 +51,7 @@ class BottomSheetCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                    if (kIsWeb && viewModel.action == DisplayType.public)
+                    if (kIsWeb && viewModel.displayType == DisplayType.public)
                       Expanded(
                         child: EzButton.elevated(
                           background: viewModel.color,
@@ -63,7 +64,7 @@ class BottomSheetCard extends StatelessWidget {
                   ],
                 ),
               vSpaceSmall,
-              if (kIsWeb && viewModel.action == DisplayType.public)
+              if (kIsWeb && viewModel.displayType == DisplayType.public)
                 const AdPanel()
             ],
           ),

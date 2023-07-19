@@ -1,14 +1,30 @@
+import 'package:digicard/app/env/env.dart';
 import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:digicard/app/models/digital_card.dart';
 
 extension DigitalCardExtension on DigitalCard {
   String fullName() {
     return "${accreditations ?? ''} ${prefix ?? ''} ${firstName ?? ''} ${middleName ?? ''} ${lastName ?? ''} ${suffix ?? ''}"
-        .replaceAll(RegExp(r"\s+"), " ")
-        .trim();
+        .clean();
   }
 
-  static Map<String?, dynamic> create(Map<String, dynamic> value) {
+  String get avatarHttpUrl {
+    return "${Env.supabaseAvatarUrl}$avatarUrl";
+  }
+
+  String get logoHttpUrl {
+    return "${Env.supabaseLogoUrl}$logoUrl";
+  }
+
+  bool isOwnedBy(val) {
+    return userId == val;
+  }
+
+  bool isInContacts(List<DigitalCard> contactList) {
+    return false;
+  }
+
+  static Map<String?, dynamic> toMapCreate(Map<String, dynamic> value) {
     value.remove("id");
     value.remove("uuid");
     value.remove("added_at");
@@ -21,7 +37,7 @@ extension DigitalCardExtension on DigitalCard {
     return value;
   }
 
-  static Map<String?, dynamic> update(Map<String, dynamic> value) {
+  static Map<String?, dynamic> toMapUpdate(Map<String, dynamic> value) {
     value.remove("id");
     value.remove("avatar_file");
     value.remove("logo_file");

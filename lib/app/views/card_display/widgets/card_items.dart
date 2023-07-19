@@ -15,7 +15,7 @@ class CardItems {
   CardItems(this.context, {this.color = kcPrimaryColor});
 
   Widget headline(String? value) {
-    return value != null
+    return value.isNotNullOrEmpty()
         ? Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Text(
@@ -27,35 +27,44 @@ class CardItems {
   }
 
   Widget fullName(String? value) {
-    return value != null
-        ? Text(
-            value.clean().toTitleCase(),
-            overflow: TextOverflow.visible,
-            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+    return value.isNotNullOrEmpty()
+        ? Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Text(
+              value.clean().toTitleCase(),
+              overflow: TextOverflow.visible,
+              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
           )
         : const SizedBox.shrink();
   }
 
   Widget position(String? value) {
-    return value != null
-        ? Text(
-            value.clean().toTitleCase(),
-            style: const TextStyle(),
+    return value.isNotNullOrEmpty()
+        ? Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Text(
+              value.clean().toTitleCase(),
+              style: const TextStyle(),
+            ),
           )
         : const SizedBox.shrink();
   }
 
   Widget department(String? value) {
-    return value != null
-        ? Text(
-            value.clean().toTitleCase(),
-            style: const TextStyle(),
+    return value.isNotNullOrEmpty()
+        ? Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Text(
+              value.clean().toTitleCase(),
+              style: const TextStyle(),
+            ),
           )
         : const SizedBox.shrink();
   }
 
   Widget company(String? value) {
-    return value != null
+    return value.isNotNullOrEmpty()
         ? IconListItem(
             icon: Icons.domain,
             iconColor: getThemeManager(context).isDarkMode

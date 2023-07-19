@@ -9,12 +9,11 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i8;
+import 'package:digicard/app/constants/keys.dart' as _i11;
 import 'package:digicard/app/models/digital_card.dart' as _i10;
 import 'package:digicard/app/routes/app_router.dart' as _i1;
 import 'package:digicard/app/routes/initial_view.dart' as _i2;
 import 'package:digicard/app/views/card_display/card_display_view.dart' as _i3;
-import 'package:digicard/app/views/card_display/card_display_viewmodel.dart'
-    as _i11;
 import 'package:digicard/app/views/dashboard/dashboard_view.dart' as _i4;
 import 'package:digicard/app/views/login/forgot_password_view.dart' as _i5;
 import 'package:digicard/app/views/login/login_view.dart' as _i6;
@@ -49,7 +48,7 @@ abstract class $AppRouter extends _i8.RootStackRouter {
           key: args.key,
           uuid: args.uuid,
           card: args.card,
-          action: args.action,
+          displayType: args.displayType,
         ),
       );
     },
@@ -125,7 +124,7 @@ class CardDisplayRoute extends _i8.PageRouteInfo<CardDisplayRouteArgs> {
     _i9.Key? key,
     String? uuid,
     _i10.DigitalCard? card,
-    _i11.DisplayType? action,
+    _i11.DisplayType? displayType,
     List<_i8.PageRouteInfo>? children,
   }) : super(
           CardDisplayRoute.name,
@@ -133,7 +132,7 @@ class CardDisplayRoute extends _i8.PageRouteInfo<CardDisplayRouteArgs> {
             key: key,
             uuid: uuid,
             card: card,
-            action: action,
+            displayType: displayType,
           ),
           rawPathParams: {'uuid': uuid},
           initialChildren: children,
@@ -150,7 +149,7 @@ class CardDisplayRouteArgs {
     this.key,
     this.uuid,
     this.card,
-    this.action,
+    this.displayType,
   });
 
   final _i9.Key? key;
@@ -159,11 +158,11 @@ class CardDisplayRouteArgs {
 
   final _i10.DigitalCard? card;
 
-  final _i11.DisplayType? action;
+  final _i11.DisplayType? displayType;
 
   @override
   String toString() {
-    return 'CardDisplayRouteArgs{key: $key, uuid: $uuid, card: $card, action: $action}';
+    return 'CardDisplayRouteArgs{key: $key, uuid: $uuid, card: $card, displayType: $displayType}';
   }
 }
 

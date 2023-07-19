@@ -20,7 +20,7 @@ CustomLink _$CustomLinkFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CustomLink {
-  @FormControlAnnotation(validators: [requiredValidator])
+  @FormControlAnnotation()
   String? get text => throw _privateConstructorUsedError;
   @FormControlAnnotation()
   String? get label => throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ abstract class $CustomLinkCopyWith<$Res> {
       _$CustomLinkCopyWithImpl<$Res, CustomLink>;
   @useResult
   $Res call(
-      {@FormControlAnnotation(validators: [requiredValidator]) String? text,
+      {@FormControlAnnotation() String? text,
       @FormControlAnnotation() String? label,
       @FormControlAnnotation() String? type});
 }
@@ -88,7 +88,7 @@ abstract class _$$_CustomLinkCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@FormControlAnnotation(validators: [requiredValidator]) String? text,
+      {@FormControlAnnotation() String? text,
       @FormControlAnnotation() String? label,
       @FormControlAnnotation() String? type});
 }
@@ -130,7 +130,7 @@ class __$$_CustomLinkCopyWithImpl<$Res>
 @JsonSerializable(fieldRename: FieldRename.snake)
 class _$_CustomLink implements _CustomLink {
   _$_CustomLink(
-      {@FormControlAnnotation(validators: [requiredValidator]) this.text,
+      {@FormControlAnnotation() this.text,
       @FormControlAnnotation() this.label,
       @FormControlAnnotation() this.type});
 
@@ -138,7 +138,7 @@ class _$_CustomLink implements _CustomLink {
       _$$_CustomLinkFromJson(json);
 
   @override
-  @FormControlAnnotation(validators: [requiredValidator])
+  @FormControlAnnotation()
   final String? text;
   @override
   @FormControlAnnotation()
@@ -182,18 +182,15 @@ class _$_CustomLink implements _CustomLink {
 
 abstract class _CustomLink implements CustomLink {
   factory _CustomLink(
-      {@FormControlAnnotation(validators: [requiredValidator])
-          final String? text,
-      @FormControlAnnotation()
-          final String? label,
-      @FormControlAnnotation()
-          final String? type}) = _$_CustomLink;
+      {@FormControlAnnotation() final String? text,
+      @FormControlAnnotation() final String? label,
+      @FormControlAnnotation() final String? type}) = _$_CustomLink;
 
   factory _CustomLink.fromJson(Map<String, dynamic> json) =
       _$_CustomLink.fromJson;
 
   @override
-  @FormControlAnnotation(validators: [requiredValidator])
+  @FormControlAnnotation()
   String? get text;
   @override
   @FormControlAnnotation()
