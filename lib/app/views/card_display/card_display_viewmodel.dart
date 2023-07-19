@@ -48,21 +48,19 @@ class CardDisplayViewModel extends ReactiveViewModel {
   }) async {
     card = cardParam ?? DigitalCard();
     displayType = displayTypeParam ?? DisplayType.public;
-    await runBusyFuture(
-        Future.wait([if (uuid != null) loadCardbyUuid(uuid), loadImages()]),
-        throwException: true,
-        busyObject: loadingCardBusyKey);
+
+    if (uuid != null) {
+      await loadCardbyUuid(uuid);
+    }
+    final avatar = await getNetworkImageData(card.avatarHttpUrl);
+    final logo = await getNetworkImageData(card.logoHttpUrl);
+    card = card.copyWith(avatarFile: avatar, logoFile: logo);
+    notifyListeners();
   }
 
   bool isUserPresent() => user != null;
   bool isCardOwnedByUser() => card.isOwnedBy(user?.id);
   bool isCardInContacts() => _contactsService.isExist(id: card.id);
-
-  Future loadImages() async {
-    final avatar = await getNetworkImageData(card.avatarHttpUrl());
-    final logo = await getNetworkImageData(card.logoHttpUrl());
-    card = card.copyWith(avatarFile: avatar, logoFile: logo);
-  }
 
   Future loadCardbyUuid(String uuid) async {
     card = await _digitalCardService.findOne(uuid) ?? DigitalCard();

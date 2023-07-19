@@ -8,11 +8,11 @@ extension DigitalCardExtension on DigitalCard {
         .clean();
   }
 
-  String avatarHttpUrl() {
+  String get avatarHttpUrl {
     return "${Env.supabaseAvatarUrl}$avatarUrl";
   }
 
-  String logoHttpUrl() {
+  String get logoHttpUrl {
     return "${Env.supabaseLogoUrl}$logoUrl";
   }
 

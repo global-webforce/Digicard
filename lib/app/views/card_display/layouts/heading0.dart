@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_memory_image/provider/cached_memory_image_provider.dart';
 import 'package:digicard/app/extensions/color_extension.dart';
 import 'package:digicard/app/extensions/digital_card_extension.dart';
 import 'package:digicard/app/extensions/string_extension.dart';
@@ -23,8 +24,9 @@ class Heading0 extends StatelessWidget {
             ? BoxDecoration(
                 image: DecorationImage(
                 alignment: Alignment.centerLeft,
-                image: MemoryImage(
-                  viewModel.card.logoFile ?? Uint8List(0),
+                image: CachedMemoryImageProvider(
+                  viewModel.card.logoHttpUrl,
+                  bytes: viewModel.card.logoFile ?? Uint8List(0),
                 ),
                 fit: BoxFit.contain,
               ))
@@ -87,22 +89,21 @@ class Heading0 extends StatelessWidget {
     }
 
     Widget avatarFieldCircle() {
-      return viewModel.card.avatarFile != null
-          ? Container(
-              height: avatarSize,
-              width: avatarSize,
-              decoration: BoxDecoration(
-                  color: viewModel.color.darken(),
-                  border: Border.all(color: viewModel.color, width: 5),
-                  borderRadius: const BorderRadius.all(Radius.circular(100)),
-                  image: DecorationImage(
-                    image: MemoryImage(
-                      viewModel.card.avatarFile ?? Uint8List(0),
-                    ),
-                    fit: BoxFit.cover,
-                  )),
-            )
-          : const SizedBox.shrink();
+      return Container(
+        height: avatarSize,
+        width: avatarSize,
+        decoration: BoxDecoration(
+            color: viewModel.color.darken(),
+            border: Border.all(color: viewModel.color, width: 5),
+            borderRadius: const BorderRadius.all(Radius.circular(100)),
+            image: DecorationImage(
+              image: CachedMemoryImageProvider(
+                viewModel.card.avatarHttpUrl,
+                bytes: viewModel.card.avatarFile ?? Uint8List(0),
+              ),
+              fit: BoxFit.cover,
+            )),
+      );
     }
 
     return Padding(
