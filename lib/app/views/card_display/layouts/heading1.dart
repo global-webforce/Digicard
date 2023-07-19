@@ -18,22 +18,66 @@ class Heading1 extends StatelessWidget {
 
     Widget logoField() {
       return viewModel.card.logoFile != null
-          ? AspectRatio(
-              aspectRatio: 1 / 1,
-              child: ClipRRect(
-                child: Container(
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                    image: CachedMemoryImageProvider(
-                      viewModel.card.logoHttpUrl,
-                      bytes: viewModel.card.logoFile ?? Uint8List(0),
-                    ),
-                    fit: BoxFit.contain,
-                  )),
+          ? AnimatedOpacity(
+              opacity: viewModel.card.logoFile != null ? 1.0 : 0.0,
+              duration: const Duration(milliseconds: 500),
+              child: AspectRatio(
+                aspectRatio: 1 / 1,
+                child: ClipRRect(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                      image: CachedMemoryImageProvider(
+                        viewModel.card.logoHttpUrl,
+                        bytes: viewModel.card.logoFile ?? Uint8List(0),
+                      ),
+                      fit: BoxFit.contain,
+                    )),
+                  ),
                 ),
               ),
             )
           : const SizedBox.shrink();
+    }
+
+    Widget avatar() {
+      return AnimatedSize(
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.fastOutSlowIn,
+        child: viewModel.card.avatarFile == null
+            ? Container(
+                height: 120,
+                color: viewModel.color,
+              )
+            : Container(
+                decoration: BoxDecoration(
+                  color: viewModel.color,
+                  image: DecorationImage(
+                    image: CachedMemoryImageProvider(
+                      viewModel.card.avatarHttpUrl,
+                      bytes: viewModel.card.avatarFile ?? Uint8List(0),
+                    ),
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                child: ClipRRect(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: viewModel.color,
+                        image: DecorationImage(
+                            image: CachedMemoryImageProvider(
+                              viewModel.card.avatarHttpUrl,
+                              bytes: viewModel.card.avatarFile ?? Uint8List(0),
+                            ),
+                            fit: BoxFit.cover),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+      );
     }
 
     return LayoutBuilder(builder: (context, size) {
@@ -46,45 +90,7 @@ class Heading1 extends StatelessWidget {
             child: Stack(
               clipBehavior: Clip.none,
               children: [
-                AnimatedSize(
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.fastOutSlowIn,
-                  child: viewModel.card.avatarFile == null
-                      ? Container(
-                          height: 120,
-                          color: viewModel.color,
-                        )
-                      : Container(
-                          decoration: BoxDecoration(
-                            color: viewModel.color,
-                            image: DecorationImage(
-                              image: CachedMemoryImageProvider(
-                                viewModel.card.avatarHttpUrl,
-                                bytes:
-                                    viewModel.card.avatarFile ?? Uint8List(0),
-                              ),
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          child: ClipRRect(
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: viewModel.color,
-                                  image: DecorationImage(
-                                      image: CachedMemoryImageProvider(
-                                        viewModel.card.avatarHttpUrl,
-                                        bytes: viewModel.card.avatarFile ??
-                                            Uint8List(0),
-                                      ),
-                                      fit: BoxFit.cover),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                ),
+                avatar(),
                 Positioned(
                   bottom: 0,
                   width: size.maxWidth,

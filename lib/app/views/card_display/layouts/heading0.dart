@@ -18,19 +18,50 @@ class Heading0 extends StatelessWidget {
         getParentViewModel<CardDisplayViewModel>(context, listen: true);
     const avatarSize = 160.0;
     Widget logoField() {
-      return Container(
-        height: 56,
-        decoration: viewModel.card.logoFile != null
-            ? BoxDecoration(
-                image: DecorationImage(
-                alignment: Alignment.centerLeft,
-                image: CachedMemoryImageProvider(
-                  viewModel.card.logoHttpUrl,
-                  bytes: viewModel.card.logoFile ?? Uint8List(0),
-                ),
-                fit: BoxFit.contain,
-              ))
-            : null,
+      return AnimatedOpacity(
+        opacity: viewModel.card.logoFile != null ? 1.0 : 0.0,
+        duration: const Duration(milliseconds: 500),
+        child: Container(
+          height: 56,
+          decoration: viewModel.card.logoFile != null
+              ? BoxDecoration(
+                  image: DecorationImage(
+                  alignment: Alignment.centerLeft,
+                  image: CachedMemoryImageProvider(
+                    viewModel.card.logoHttpUrl,
+                    bytes: viewModel.card.logoFile ?? Uint8List(0),
+                  ),
+                  fit: BoxFit.contain,
+                ))
+              : null,
+        ),
+      );
+    }
+
+    Widget avatarFieldCircle() {
+      return AnimatedOpacity(
+        opacity: viewModel.card.avatarFile != null ? 1.0 : 0.0,
+        duration: const Duration(milliseconds: 500),
+        child: viewModel.card.avatarFile == null
+            ? const SizedBox(
+                height: avatarSize,
+                width: avatarSize,
+              )
+            : Container(
+                height: avatarSize,
+                width: avatarSize,
+                decoration: BoxDecoration(
+                    color: viewModel.color.darken(),
+                    border: Border.all(color: viewModel.color, width: 5),
+                    borderRadius: const BorderRadius.all(Radius.circular(100)),
+                    image: DecorationImage(
+                      image: CachedMemoryImageProvider(
+                        viewModel.card.avatarHttpUrl,
+                        bytes: viewModel.card.avatarFile ?? Uint8List(0),
+                      ),
+                      fit: BoxFit.cover,
+                    )),
+              ),
       );
     }
 
@@ -86,24 +117,6 @@ class Heading0 extends StatelessWidget {
               minFontSize: 12,
             )
           : const SizedBox.shrink();
-    }
-
-    Widget avatarFieldCircle() {
-      return Container(
-        height: avatarSize,
-        width: avatarSize,
-        decoration: BoxDecoration(
-            color: viewModel.color.darken(),
-            border: Border.all(color: viewModel.color, width: 5),
-            borderRadius: const BorderRadius.all(Radius.circular(100)),
-            image: DecorationImage(
-              image: CachedMemoryImageProvider(
-                viewModel.card.avatarHttpUrl,
-                bytes: viewModel.card.avatarFile ?? Uint8List(0),
-              ),
-              fit: BoxFit.cover,
-            )),
-      );
     }
 
     return Padding(
