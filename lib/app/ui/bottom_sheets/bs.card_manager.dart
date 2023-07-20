@@ -83,7 +83,7 @@ class CardManagerBottomSheet extends StatelessWidget {
                       ),
                     ],
                   ),
-                  vSpaceSmall,
+                  /*       vSpaceSmall,
                   Row(
                     children: [
                       Expanded(
@@ -113,6 +113,20 @@ class CardManagerBottomSheet extends StatelessWidget {
                         ),
                       ),
                     ],
+                  ), */
+                  vSpaceSmall,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: PanelButton(
+                            color: colorTheme,
+                            onTap: () async {
+                              viewModel.edit(request.data);
+                            },
+                            icon: const Icon(FontAwesomeIcons.penToSquare),
+                            title: "Edit"),
+                      ),
+                    ],
                   ),
                   vSpaceSmall,
                   Row(
@@ -126,7 +140,11 @@ class CardManagerBottomSheet extends StatelessWidget {
                             icon: const Icon(FontAwesomeIcons.copy),
                             title: "Duplicate"),
                       ),
-                      hSpaceSmall,
+                    ],
+                  ),
+                  vSpaceSmall,
+                  Row(
+                    children: [
                       Expanded(
                         child: PanelButton(
                             color: colorTheme,
