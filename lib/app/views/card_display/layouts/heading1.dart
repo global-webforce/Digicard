@@ -1,12 +1,11 @@
-import 'dart:typed_data';
-import 'dart:ui';
-
 import 'package:cached_memory_image/provider/cached_memory_image_provider.dart';
 import 'package:digicard/app/extensions/digital_card_extension.dart';
 import 'package:digicard/app/views/card_display/card_display_viewmodel.dart';
 import 'package:digicard/app/views/card_editor/widgets/card.wave_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'dart:typed_data';
+import 'dart:ui';
 
 class Heading1 extends StatelessWidget {
   const Heading1({super.key});

@@ -50,12 +50,12 @@ class _WelcomeViewState extends State<WelcomeView> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
+                  const Column(
                     children: [
-                      const SizedBox(
+                      SizedBox(
                         height: 60,
                       ),
-                      Wrap(direction: Axis.horizontal, children: const [
+                      Wrap(direction: Axis.horizontal, children: [
                         Text(
                           "   DIGICARD",
                           textAlign: TextAlign.center,
@@ -72,12 +72,12 @@ class _WelcomeViewState extends State<WelcomeView> {
                               fontFeatures: [FontFeature.superscripts()]),
                         ),
                       ]),
-                      const Icon(
+                      Icon(
                         Icons.qr_code_2_rounded,
                         size: 100,
                         color: Colors.white,
                       ),
-                      const Text(
+                      Text(
                         "Create a business card for \nevery situation",
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white, fontSize: 20),

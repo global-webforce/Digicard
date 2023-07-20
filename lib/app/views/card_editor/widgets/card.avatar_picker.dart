@@ -47,9 +47,9 @@ class CardAvatar extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15)),
                   width: 80,
                   height: 80,
-                  child: Column(
+                  child: const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       Icon(
                         Icons.image_rounded,
                         size: 20,

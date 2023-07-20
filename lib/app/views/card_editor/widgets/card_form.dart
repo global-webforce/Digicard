@@ -443,8 +443,8 @@ class _CardFormState extends State<CardForm>
                   vPadding: 15,
                   hPadding: 15),
               builder: (context, size) {
-                return Column(
-                  children: const [
+                return const Column(
+                  children: [
                     CustomLinkFields(),
                     CustomLinkOptions(),
                   ],

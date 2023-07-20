@@ -253,8 +253,8 @@ class LoginForm extends StatelessWidget {
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 500),
             child: !isKeyboardVisible
-                ? Column(
-                    children: const [
+                ? const Column(
+                    children: [
                       Text(
                         "LOGIN",
                         textAlign: TextAlign.center,

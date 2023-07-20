@@ -141,8 +141,8 @@ class _LoginForm extends StatelessWidget {
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 500),
             child: !isKeyboardVisible
-                ? Column(
-                    children: const [
+                ? const Column(
+                    children: [
                       Text(
                         "PASSWORD RESET",
                         textAlign: TextAlign.center,
