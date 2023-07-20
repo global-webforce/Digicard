@@ -26,6 +26,7 @@ class CardDisplayViewModel extends ReactiveViewModel {
   final _digitalCardService = locator<DigitalCardService>();
   final _dialogService = locator<DialogService>();
   final _bottomSheetService = locator<BottomSheetService>();
+  final _navigationService = locator<NavigationService>();
 
   @override
   void onFutureError(error, Object? key) {
@@ -120,6 +121,7 @@ class CardDisplayViewModel extends ReactiveViewModel {
         busyObject: deleteBusyKey,
         throwException: true,
       );
+      _navigationService.back();
     }
     return null;
   }
