@@ -122,5 +122,6 @@ dependency_overrides:
 flutter:
   assets:
     - assets/images/
+    - google_fonts/
 
   uses-material-design: true

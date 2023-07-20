@@ -3,7 +3,6 @@ import 'package:digicard/app/ui/_core/empty_display.dart';
 import 'package:digicard/app/ui/_core/ez_button.dart';
 import 'package:digicard/app/views/scan_qr_code/scan_viewmodel.dart';
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:stacked/stacked.dart';
 
 import '../dashboard/dashboard_view.dart';
@@ -39,10 +38,7 @@ class ScanView extends StatelessWidget {
                     child: EzButton.elevated(
                       title: "OPEN SCANNER",
                       onTap: () async {
-                        await viewModel.checkCameraPermission();
-                        if (viewModel.cameraStatus?.isGranted ?? false) {
-                          await viewModel.openScanner();
-                        }
+                        await viewModel.openScanner();
                       },
                     )),
                 body: const EmptyDisplay(

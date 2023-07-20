@@ -12,7 +12,7 @@ import 'package:stacked_themes/stacked_themes.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
-  GoogleFonts.config.allowRuntimeFetching = true;
+  GoogleFonts.config.allowRuntimeFetching = false;
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   if (!kIsWeb) FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   try {
