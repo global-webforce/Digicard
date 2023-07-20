@@ -1,4 +1,3 @@
-import 'package:digicard/app/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -16,12 +15,14 @@ class DeleteBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color colorTheme = request.data;
     return BottomSheetWrapper(
+      notchColor: colorTheme,
       children: [
         Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
           child: PanelButton(
-              color: kcPrimaryColor,
+              color: colorTheme,
               onTap: () async {
                 completer(SheetResponse(confirmed: true));
               },
@@ -29,7 +30,7 @@ class DeleteBottomSheet extends StatelessWidget {
               title: "Delete"),
         ),
         PanelButton(
-            color: kcPrimaryColor,
+            color: colorTheme,
             onTap: () async {
               completer(SheetResponse());
             },

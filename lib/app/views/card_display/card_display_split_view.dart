@@ -35,13 +35,7 @@ class CardDisplaySplitView extends StatelessWidget {
           viewModel.displayType = DisplayType.private;
         },
         builder: (context, viewModel, child) {
-          return viewModel.busy(loadingCardBusyKey)
-              ? const Scaffold(
-                  body: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                )
-              : const MainWidget();
+          return const MainWidget();
         });
   }
 }
@@ -70,6 +64,7 @@ class MainWidget extends StatelessWidget {
           appBar: const AppBarDisplay(),
           bottomSheet: const BottomSheetCard(),
           body: ScaffoldBodyWrapper(
+              isBusy: viewModel.busy(loadingCardBusyKey),
               isFullWidth: true,
               emptyIndicatorWidget: empty(),
               padding: cardWidth,

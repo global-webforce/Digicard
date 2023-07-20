@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:digicard/app/bottomsheet_ui.dart';
@@ -46,17 +47,27 @@ class CardDisplayViewModel extends ReactiveViewModel {
     DisplayType? displayTypeParam,
     String? uuid,
   }) async {
+    setBusyForObject(loadingImagesBusyKey, true);
     card = cardParam ?? DigitalCard();
     displayType = displayTypeParam ?? DisplayType.public;
 
     if (uuid != null) {
-      await loadCardbyUuid(uuid);
+      await runBusyFuture(loadCardbyUuid(uuid),
+          throwException: true, busyObject: loadingCardBusyKey);
     }
 
-    final avatar = await getNetworkImageData(card.avatarHttpUrl);
-    final logo = await getNetworkImageData(card.logoHttpUrl);
+    Uint8List? avatar;
+    Uint8List? logo;
+    await runBusyFuture(
+        Future.wait([
+          getNetworkImageData(card.avatarHttpUrl)
+              .then((value) => avatar = value),
+          getNetworkImageData(card.logoHttpUrl).then((value) => logo = value)
+        ]),
+        throwException: true,
+        busyObject: loadingImagesBusyKey);
+
     card = card.copyWith(avatarFile: avatar, logoFile: logo);
-    notifyListeners();
   }
 
   bool isUserPresent() => user != null;
@@ -87,7 +98,7 @@ class CardDisplayViewModel extends ReactiveViewModel {
 
   showOptions() {
     _bottomSheetService
-        .showCustomSheet(variant: BottomSheetType.delete)
+        .showCustomSheet(variant: BottomSheetType.delete, data: color)
         .then((value) async {
       if (value?.confirmed == true) {
         await delete(card.id);

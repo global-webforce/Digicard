@@ -31,7 +31,7 @@ class ConfirmationDialog extends StatelessWidget {
               children: <Widget>[
                 if ("${request.title}".isNotNullOrEmpty())
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 5),
+                    padding: const EdgeInsets.only(bottom: 15),
                     child: Text(
                       "${request.title}",
                       style: const TextStyle(
@@ -42,11 +42,11 @@ class ConfirmationDialog extends StatelessWidget {
                   ),
                 if ("${request.description}".isNotNullOrEmpty())
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 15),
+                    padding: const EdgeInsets.only(bottom: 30),
                     child: Text(
                       "${request.description}",
                       style: const TextStyle(
-                        fontSize: 16,
+                        fontSize: 14,
                       ),
                     ),
                   ),

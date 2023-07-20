@@ -37,8 +37,6 @@ class CardDisplayView extends StatelessWidget {
         viewModelBuilder: () => locator<CardDisplayViewModel>(),
         disposeViewModel: false,
         key: UniqueKey(),
-        fireOnViewModelReadyOnce: false,
-        createNewViewModelOnInsert: true,
         onViewModelReady: (viewModel) async {
           await viewModel.start(
             cardParam: card,
@@ -54,24 +52,18 @@ class CardDisplayView extends StatelessWidget {
           }); */
         },
         builder: (context, viewModel, child) {
-          return viewModel.busy(loadingCardBusyKey)
-              ? const Scaffold(
-                  body: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                )
-              : LoaderOverlayWrapper(
-                  color: viewModel.color,
-                  type: viewModel.busy(saveBusyKey)
-                      ? LoadingType.save
-                      : viewModel.busy(deleteBusyKey)
-                          ? LoadingType.delete
-                          : viewModel.busy(doneBusyKey)
-                              ? LoadingType.done
-                              : null,
-                  builder: (context) {
-                    return const MainWidget();
-                  });
+          return LoaderOverlayWrapper(
+              color: viewModel.color,
+              type: viewModel.busy(saveBusyKey)
+                  ? LoadingType.save
+                  : viewModel.busy(deleteBusyKey)
+                      ? LoadingType.delete
+                      : viewModel.busy(doneBusyKey)
+                          ? LoadingType.done
+                          : null,
+              builder: (context) {
+                return const MainWidget();
+              });
         });
   }
 }
@@ -100,9 +92,9 @@ class MainWidget extends StatelessWidget {
           appBar: const AppBarDisplay(),
           bottomSheet: const BottomSheetCard(),
           body: ScaffoldBodyWrapper(
+              isBusy: viewModel.busy(loadingCardBusyKey),
               isFullWidth: true,
-              isEmpty: viewModel.card.id == null &&
-                  viewModel.busy(loadingCardBusyKey) == false,
+              isEmpty: viewModel.card.id == null,
               emptyIndicatorWidget: empty(),
               padding: cardWidth,
               builder: (context, size) {

@@ -6,6 +6,7 @@ import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
 import 'package:digicard/app/views/scan_qr_code/scan_qr_code_view.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
@@ -37,6 +38,27 @@ class ScanViewModel extends ReactiveViewModel {
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+
+  PermissionStatus? cameraStatus;
+  Future checkCameraPermission() async {
+    var status = await Permission.camera.status;
+    cameraStatus = status;
+    if (status.isGranted == false) {
+      await _dialogService
+          .showCustomDialog(
+              variant: DialogType.confirmation,
+              title: 'Permisson Denied',
+              description:
+                  'To scan QR Code, authorize Digicard to access camera from App Settings.',
+              mainButtonTitle: 'Open Settings')
+          .then((value) {
+        if (value?.confirmed ?? false) {
+          openAppSettings();
+        }
+      });
+    }
+    notifyListeners();
+  }
 
   onQRViewCreated(QRViewController controller) {
     this.controller = controller;

@@ -1,8 +1,10 @@
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/constants/colors.dart';
+import 'package:digicard/app/ui/_core/scaffold_body_wrapper.dart';
 import 'package:digicard/app/ui/overlays/loader_overlay_wrapper.dart';
 import 'package:digicard/app/views/scan_qr_code/scan_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import 'package:stacked/stacked.dart';
@@ -31,18 +33,26 @@ class ScanQRCodeView extends StatelessWidget {
                     backgroundColor: Colors.transparent,
                     automaticallyImplyLeading: true,
                   ),
-                  body: QRView(
-                    key: viewModel.qrKey,
-                    onQRViewCreated: (c) {
-                      viewModel.onQRViewCreated(c);
-                    },
-                    overlay: QrScannerOverlayShape(
-                        borderColor: kcPrimaryColor,
-                        borderRadius: 10,
-                        borderLength: 30,
-                        borderWidth: 10,
-                        cutOutSize: 200),
-                  ),
+                  body: viewModel.cameraStatus?.isGranted ?? false
+                      ? QRView(
+                          key: viewModel.qrKey,
+                          onQRViewCreated: (c) {
+                            viewModel.onQRViewCreated(c);
+                          },
+                          overlay: QrScannerOverlayShape(
+                              borderColor: kcPrimaryColor,
+                              borderRadius: 10,
+                              borderLength: 30,
+                              borderWidth: 10,
+                              cutOutSize: 200),
+                        )
+                      : viewModel.cameraStatus?.isPermanentlyDenied ?? false
+                          ? ScaffoldBodyWrapper(
+                              builder: (context, size) {
+                                return const Text("ALLOW CAMERA!!!");
+                              },
+                            )
+                          : const SizedBox.shrink(),
                 );
               });
         });

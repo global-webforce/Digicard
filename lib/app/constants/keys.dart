@@ -17,3 +17,4 @@ const String saveBusyKey = 'saveBusyKey';
 const String doneBusyKey = 'doneBusyKey';
 const String deleteBusyKey = 'deleteBusyKey';
 const String loadingCardBusyKey = 'loadingCardBusyKey';
+const String loadingImagesBusyKey = 'loadingImagesBusyKey';

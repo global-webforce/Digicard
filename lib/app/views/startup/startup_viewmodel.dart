@@ -3,6 +3,7 @@ import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/services/deeplink_service.dart';
 import 'package:digicard/app/services/user_service.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -20,6 +21,12 @@ class StartupViewModel extends ReactiveViewModel {
   final _deeplinkService = locator<DeeplinkService>();
 
   init() async {
+    await [
+      Permission.camera,
+      Permission.mediaLibrary,
+      Permission.contacts,
+    ].request();
+
     await _deeplinkService.initURIHandler();
     _deeplinkService.incomingLinkHandler();
   }

@@ -1,9 +1,9 @@
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/ui/_core/empty_display.dart';
 import 'package:digicard/app/ui/_core/ez_button.dart';
-import 'package:digicard/app/ui/_core/scaffold_body_wrapper.dart';
 import 'package:digicard/app/views/scan_qr_code/scan_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:stacked/stacked.dart';
 
 import '../dashboard/dashboard_view.dart';
@@ -16,7 +16,6 @@ class ScanView extends StatelessWidget {
     return ViewModelBuilder<ScanViewModel>.reactive(
         viewModelBuilder: () => locator<ScanViewModel>(),
         disposeViewModel: false,
-        onViewModelReady: (viewModel) {},
         onDispose: (viewModel) {
           viewModel.controller?.dispose();
         },
@@ -38,19 +37,17 @@ class ScanView extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15, vertical: 10),
                     child: EzButton.elevated(
-                      title: "OPEN QR SCANNER",
-                      onTap: () {
-                        viewModel.openScanner();
+                      title: "OPEN SCANNER",
+                      onTap: () async {
+                        await viewModel.checkCameraPermission();
+                        if (viewModel.cameraStatus?.isGranted ?? false) {
+                          await viewModel.openScanner();
+                        }
                       },
                     )),
-                body: ScaffoldBodyWrapper(
-                    neverScroll: true,
-                    centered: true,
-                    builder: (context, size) {
-                      return const EmptyDisplay(
-                          icon: Icons.qr_code_rounded,
-                          title: "Point your camera at QR Code.");
-                    }),
+                body: const EmptyDisplay(
+                    icon: Icons.qr_code_rounded,
+                    title: "Point your camera at QR Code."),
               );
             },
           );
