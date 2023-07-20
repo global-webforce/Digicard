@@ -8,7 +8,7 @@ import 'package:digicard/app/helper/image_picker_x.dart';
 import 'package:digicard/app/models/custom_link.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
-import 'package:digicard/app/views/custom_link/custom_link_view.dart';
+import 'package:digicard/app/views/card_editor/custom_link_view.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stacked/stacked.dart';
@@ -77,18 +77,14 @@ class CardEditorViewModel extends ReactiveViewModel {
         await getNetworkImageData("${Env.supabaseLogoUrl}${model.logoUrl}");
   }
 
-  editCustomLink(CustomLink customLink, {int? index}) async {
+  editCustomLink(CustomLink customLink, {required int index}) async {
     var x = await _navigationService.navigateToView(CustomLinkView(
       customLink,
       index: index,
     ));
 
-    _formModel.customLinksControl.control("$index.text").value =
-        x["customLink"].text;
-    _formModel.customLinksControl.control("$index.label").value =
-        x["customLink"].label;
-    _formModel.customLinksControl.control("$index.type").value =
-        x["customLink"].type;
+    _formModel.customLinksInsert(index, x);
+    _formModel.customLinksValueUpdate(x['customLink']);
 
     _formModel.form.markAsDirty();
     notifyListeners();
@@ -98,7 +94,6 @@ class CardEditorViewModel extends ReactiveViewModel {
     formModel.form.unfocus();
     var x = await _navigationService.navigateToView(CustomLinkView(customLink));
     _formModel.addCustomLinksItem(x["customLink"]);
-
     _formModel.form.markAsDirty();
   }
 
@@ -115,7 +110,7 @@ class CardEditorViewModel extends ReactiveViewModel {
     )
         .then((value) async {
       if (value!.confirmed) {
-        _formModel.customLinksControl.removeAt(index);
+        _formModel.removeCustomLinksItemAtIndex(index);
         _formModel.form.markAsDirty();
       }
     });

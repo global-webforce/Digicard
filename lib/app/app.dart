@@ -17,9 +17,7 @@ import 'package:digicard/app/views/settings/settings_view_model.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:stacked_themes/stacked_themes.dart';
-
 import 'views/card_display/card_display_viewmodel.dart';
-import 'views/custom_link/custom_link_view_model.dart';
 
 @StackedApp(
   logger: StackedLogger(),
@@ -51,7 +49,6 @@ import 'views/custom_link/custom_link_view_model.dart';
     Singleton(classType: CardShareBottomSheetViewModel),
     Singleton(classType: CardEditorViewModel),
     Singleton(classType: CardDisplayViewModel),
-    Singleton(classType: CustomLinkViewModel),
     Singleton(classType: ScanViewModel),
     Singleton(classType: ContactsViewModel),
     Singleton(classType: SettingsViewModel),
