@@ -13,7 +13,6 @@ class ScanQRCodeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<ScanViewModel>.reactive(
-        key: UniqueKey(),
         viewModelBuilder: () => locator<ScanViewModel>(),
         disposeViewModel: false,
         onDispose: (viewModel) {

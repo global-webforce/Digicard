@@ -35,7 +35,6 @@ class _CollapsibleFieldState extends State<CollapsibleField> {
                       widget.onToggle(expanded);
                     });
                   },
-                  key: UniqueKey(),
                   readOnly: true,
                   enableInteractiveSelection: false,
                   decoration: InputDecoration(

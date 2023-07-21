@@ -24,7 +24,6 @@ import 'ui/bottom_sheets/bs.card_share_viewmodel.dart';
 import 'views/card_display/card_display_viewmodel.dart';
 import 'views/card_editor/card_editor_viewmodel.dart';
 import 'views/contacts/contacts_view_model.dart';
-
 import 'views/dashboard/dashboard_viewmodel.dart';
 import 'views/home/home_viewmodel.dart';
 import 'views/login/login_viewmodel.dart';

@@ -63,20 +63,20 @@ class CardManagerBottomSheetViewModel extends ReactiveViewModel {
   view(DigitalCard card) async {
     _bottomSheetService.completeSheet(SheetResponse());
     await _navigationService.pushWidget(
-      CardDisplayView(
-          key: UniqueKey(), card: card, displayType: DisplayType.private),
-    );
+        CardDisplayView(
+            key: UniqueKey(), card: card, displayType: DisplayType.private),
+        transitionBuilder: TransitionsBuilders.fadeIn);
   }
 
   edit(DigitalCard card) async {
     _bottomSheetService.completeSheet(SheetResponse());
     await _navigationService.pushWidget(
-      CardEditorView(
-        key: UniqueKey(),
-        actionType: ActionType.edit,
-        card: card,
-      ),
-    );
+        CardEditorView(
+          key: UniqueKey(),
+          actionType: ActionType.edit,
+          card: card,
+        ),
+        transitionBuilder: TransitionsBuilders.fadeIn);
   }
 
   duplicate(DigitalCard digitalCard) async {

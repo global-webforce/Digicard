@@ -51,19 +51,14 @@ class CardEditorViewModel extends ReactiveViewModel {
 
   bool formSubmitAttempt = false;
 
-  void initialize(DigitalCard m, ActionType action) {
+  Future<void> initialize(DigitalCard m, ActionType action) async {
     model = m;
     actionType = action;
     editMode = [ActionType.create, ActionType.edit, ActionType.duplicate]
         .contains(actionType);
-    initForm();
-  }
 
-  final selectedSegment_06 = ValueNotifier(0);
-
-  initForm() async {
-    _formModel = DigitalCardForm(DigitalCardForm.formElements(model), null);
-    final elements = DigitalCardForm.formElements(model);
+    _formModel = DigitalCardForm(DigitalCardForm.formElements(m), null);
+    final elements = DigitalCardForm.formElements(m);
     _formModel.form.setValidators(elements.validators);
     _formModel.form.setAsyncValidators(elements.asyncValidators);
     if (elements.disabled) {
@@ -71,10 +66,11 @@ class CardEditorViewModel extends ReactiveViewModel {
     }
     _formModel.form.addAll(elements.controls);
     _formModel.avatarFileControl?.value =
-        await getNetworkImageData("${Env.supabaseAvatarUrl}${model.avatarUrl}");
+        await getNetworkImageData("${Env.supabaseAvatarUrl}${m.avatarUrl}");
 
     _formModel.logoFileControl?.value =
-        await getNetworkImageData("${Env.supabaseLogoUrl}${model.logoUrl}");
+        await getNetworkImageData("${Env.supabaseLogoUrl}${m.logoUrl}");
+    notifyListeners();
   }
 
   editCustomLink(CustomLink customLink, {required int index}) async {

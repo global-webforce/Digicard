@@ -5,15 +5,15 @@ import 'package:digicard/app/ui/_core/empty_display.dart';
 import 'package:digicard/app/ui/_core/scaffold_body_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'card_display_viewmodel.dart';
+import '../card_display/card_display_viewmodel.dart';
 import 'package:digicard/app/models/digital_card.dart';
-import 'layouts/body0.dart';
-import 'layouts/body1.dart';
-import 'layouts/heading0.dart';
-import 'layouts/heading1.dart';
-import 'widgets/app_bar_display.dart';
-import 'widgets/bottom_sheet_card.dart';
-import 'widgets/card_holder.dart';
+import '../card_display/layouts/body0.dart';
+import '../card_display/layouts/body1.dart';
+import '../card_display/layouts/heading0.dart';
+import '../card_display/layouts/heading1.dart';
+import '../card_display/widgets/app_bar_display.dart';
+import '../card_display/widgets/bottom_sheet_card.dart';
+import '../card_display/widgets/card_holder.dart';
 
 class CardDisplaySplitView extends StatelessWidget {
   final DigitalCard card;
@@ -25,9 +25,9 @@ class CardDisplaySplitView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<CardDisplayViewModel>.reactive(
+        key: UniqueKey(),
         viewModelBuilder: () => locator<CardDisplayViewModel>(),
         disposeViewModel: false,
-        key: UniqueKey(),
         fireOnViewModelReadyOnce: false,
         createNewViewModelOnInsert: true,
         onViewModelReady: (viewModel) async {

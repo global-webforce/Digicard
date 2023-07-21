@@ -36,7 +36,6 @@ class CardDisplayView extends StatelessWidget {
     return ViewModelBuilder<CardDisplayViewModel>.reactive(
         viewModelBuilder: () => locator<CardDisplayViewModel>(),
         disposeViewModel: false,
-        key: UniqueKey(),
         onViewModelReady: (viewModel) async {
           await viewModel.start(
             cardParam: card,

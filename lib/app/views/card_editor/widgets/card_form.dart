@@ -413,10 +413,7 @@ class _CardFormState extends State<CardForm>
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     vSpaceRegular,
-                    Padding(
-                      padding: const EdgeInsets.only(top: 0, bottom: 15),
-                      child: colorPickerField(),
-                    ),
+                    colorPickerField(),
                     vSpaceRegular,
                     const Text(
                       "Profile Image",

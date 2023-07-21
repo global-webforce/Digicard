@@ -4,7 +4,7 @@ import 'package:digicard/app/constants/keys.dart';
 import 'package:digicard/app/helper/screen_size.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/ui/overlays/loader_overlay_wrapper.dart';
-import 'package:digicard/app/views/card_display/card_display_split_view.dart';
+import 'package:digicard/app/views/card_editor/card_display_split_view.dart';
 import 'package:digicard/app/views/card_editor/card_editor_viewmodel.dart';
 import 'package:digicard/app/views/card_editor/widgets/card_form.dart';
 import 'package:flutter/material.dart';
@@ -22,9 +22,9 @@ class CardEditorView extends StatelessWidget {
     return ViewModelBuilder<CardEditorViewModel>.reactive(
         viewModelBuilder: () => locator<CardEditorViewModel>(),
         disposeViewModel: false,
-        onViewModelReady: (model) {
-          model.initialize(card, actionType);
+        onViewModelReady: (model) async {
           model.context = context;
+          await model.initialize(card, actionType);
         },
         onDispose: (model) {
           model.model = DigitalCard();
@@ -66,6 +66,7 @@ class CardEditorView extends StatelessWidget {
                                       child: ReactiveDigitalCardFormConsumer(
                                           builder: (context, f, c) {
                                         return CardDisplaySplitView(
+                                          key: UniqueKey(),
                                           card: f.model,
                                         );
                                       }),
