@@ -20,10 +20,6 @@ extension DigitalCardExtension on DigitalCard {
     return userId == val;
   }
 
-  bool isInContacts(List<DigitalCard> contactList) {
-    return false;
-  }
-
   static Map<String?, dynamic> toMapCreate(Map<String, dynamic> value) {
     value.remove("id");
     value.remove("uuid");

@@ -118,9 +118,14 @@ class DigitalCardService with ListenableServiceMixin {
       final data = DigitalCardExtension.toMapCreate(
           card.copyWith(userId: _userService.id).toJson());
       data["custom_links"] = card.customLinks.map((e) => e.toJson()).toList();
-      data["avatar_url"] =
-          await imageSave(card.avatarFile, folderPath: 'avatars');
-      data["logo_url"] = await imageSave(card.logoFile, folderPath: 'logos');
+      data["avatar_url"] = await imageSave(
+        card.avatarFile,
+        folderPath: 'avatars',
+      );
+      data["logo_url"] = await imageSave(
+        card.logoFile,
+        folderPath: 'logos',
+      );
       final insertedCard = await _supabase.from('cards').insert(data).select();
       if (insertedCard is List<dynamic>) {
         _digitalCards.value.add(DigitalCard.fromJson(insertedCard[0]));
@@ -135,9 +140,14 @@ class DigitalCardService with ListenableServiceMixin {
     try {
       final data = DigitalCardExtension.toMapUpdate(card.toJson());
       data["custom_links"] = card.customLinks.map((e) => e.toJson()).toList();
-      data["avatar_url"] =
-          await imageSave(card.avatarFile, folderPath: 'avatars');
-      data["logo_url"] = await imageSave(card.logoFile, folderPath: 'logos');
+      data["avatar_url"] = await imageSave(
+        card.avatarFile,
+        folderPath: 'avatars',
+      );
+      data["logo_url"] = await imageSave(
+        card.logoFile,
+        folderPath: 'logos',
+      );
       final updatedCard =
           await _supabase.from('cards').update(data).eq('id', card.id).select();
       if (updatedCard is List<dynamic>) {
