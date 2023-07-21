@@ -113,6 +113,10 @@ class DigitalCardService with ListenableServiceMixin {
     return _digitalCards.value.reversed.toList();
   }
 
+  set digitalCards(val) {
+    _digitalCards.value = val;
+  }
+
   Future create(DigitalCard card) async {
     try {
       final data = DigitalCardExtension.toMapCreate(
@@ -226,9 +230,5 @@ class DigitalCardService with ListenableServiceMixin {
       return DigitalCard.fromJson(data[0]);
     }
     return null;
-  }
-
-  clean() {
-    _digitalCards.value = [];
   }
 }

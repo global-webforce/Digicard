@@ -1,4 +1,5 @@
 import 'package:digicard/app/app.locator.dart';
+import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/services/auth_service_supabase.dart';
 import 'package:digicard/app/services/contacts_service.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
@@ -14,8 +15,8 @@ class SettingsViewModel extends BaseViewModel {
   String get email => _userService.user?.email ?? '';
 
   logout() async {
-    _digitalCardService.clean();
-    _contactsService.clean();
+    _digitalCardService.digitalCards = <DigitalCard>[];
+    _contactsService.contacts = <DigitalCard>[];
     await _authService.logOut();
   }
 }

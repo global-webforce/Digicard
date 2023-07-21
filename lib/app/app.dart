@@ -3,6 +3,7 @@ import 'package:digicard/app/services/auth_service_supabase.dart';
 import 'package:digicard/app/services/contacts_service.dart';
 import 'package:digicard/app/services/deeplink_service.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
+import 'package:digicard/app/services/native_contacts_service.dart';
 import 'package:digicard/app/services/user_service.dart';
 import 'package:digicard/app/views/login/login_viewmodel.dart';
 import 'package:digicard/app/views/startup/startup_viewmodel.dart';
@@ -40,6 +41,7 @@ import 'views/card_display/card_display_viewmodel.dart';
     LazySingleton(classType: BottomSheetService),
     LazySingleton(classType: NavigationService),
     LazySingleton(classType: ContactsService),
+    LazySingleton(classType: NativeContactsService),
     LazySingleton(classType: DigitalCardService),
     Singleton(classType: StartupViewModel),
     Singleton(classType: LoginViewModel),

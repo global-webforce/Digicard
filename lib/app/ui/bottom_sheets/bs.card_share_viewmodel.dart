@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:digicard/app/app.logger.dart';
+import 'package:digicard/app/services/native_contacts_service.dart';
 import 'package:digicard/app/snackbar_ui.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/dialog_ui.dart';
-import 'package:digicard/app/services/contacts_service.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -28,7 +28,7 @@ class CardShareBottomSheetViewModel extends ReactiveViewModel {
   final log = getLogger('CardShareBottomSheetViewModel');
   final _dialogService = locator<DialogService>();
   final _digitalCardsService = locator<DigitalCardService>();
-  final _contactsService = locator<ContactsService>();
+  final _nativeContactsService = locator<NativeContactsService>();
   final _snackbarService = locator<SnackbarService>();
 
   @override
@@ -114,10 +114,10 @@ class CardShareBottomSheetViewModel extends ReactiveViewModel {
 
   Future saveToDeviceContacts() async {
     try {
-      await _contactsService.saveToDeviceContacts(card).then((value) {
+      await _nativeContactsService.save(card).then((value) {
         _snackbarService.showCustomSnackBar(
             duration: const Duration(seconds: 2),
-            message: "Contact Saved",
+            message: "Card added to contacts",
             variant: SnackbarType.successful);
       });
     } catch (e) {
@@ -127,10 +127,10 @@ class CardShareBottomSheetViewModel extends ReactiveViewModel {
 
   Future downloadVcf() async {
     try {
-      await _contactsService.downloadVcf(card).then((value) {
+      await _nativeContactsService.download(card).then((value) {
         _snackbarService.showCustomSnackBar(
             duration: const Duration(seconds: 2),
-            message: "Contact Downloaded",
+            message: "Contact downloaded",
             variant: SnackbarType.successful);
       });
     } catch (e) {
