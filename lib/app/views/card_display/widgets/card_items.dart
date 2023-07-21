@@ -99,9 +99,7 @@ class CardItems {
                 : Colors.black,
             backgroundColor: Colors.transparent,
             icon: FontAwesomeIcons.circleInfo,
-            text:
-                "Created ${DateFormat('MMM dd, yyyy hh:mm a').format(DateTime.now())}"
-                    .clean(),
+            text: "Created ${DateFormat('MMM dd, yyyy').format(value)}".clean(),
           )
         : const SizedBox.shrink();
   }

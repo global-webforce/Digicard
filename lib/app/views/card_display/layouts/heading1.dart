@@ -1,5 +1,3 @@
-import 'package:cached_memory_image/provider/cached_memory_image_provider.dart';
-import 'package:digicard/app/extensions/digital_card_extension.dart';
 import 'package:digicard/app/views/card_display/card_display_viewmodel.dart';
 import 'package:digicard/app/views/card_editor/widgets/card.wave_divider.dart';
 import 'package:flutter/material.dart';
@@ -26,9 +24,8 @@ class Heading1 extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                      image: CachedMemoryImageProvider(
-                        viewModel.card.logoHttpUrl,
-                        bytes: viewModel.card.logoFile ?? Uint8List(0),
+                      image: MemoryImage(
+                        viewModel.card.logoFile ?? Uint8List(0),
                       ),
                       fit: BoxFit.contain,
                     )),
@@ -52,9 +49,8 @@ class Heading1 extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: viewModel.color,
                   image: DecorationImage(
-                    image: CachedMemoryImageProvider(
-                      viewModel.card.avatarHttpUrl,
-                      bytes: viewModel.card.avatarFile ?? Uint8List(0),
+                    image: MemoryImage(
+                      viewModel.card.avatarFile ?? Uint8List(0),
                     ),
                     fit: BoxFit.contain,
                   ),
@@ -66,9 +62,8 @@ class Heading1 extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: viewModel.color,
                         image: DecorationImage(
-                            image: CachedMemoryImageProvider(
-                              viewModel.card.avatarHttpUrl,
-                              bytes: viewModel.card.avatarFile ?? Uint8List(0),
+                            image: MemoryImage(
+                              viewModel.card.avatarFile ?? Uint8List(0),
                             ),
                             fit: BoxFit.cover),
                       ),
