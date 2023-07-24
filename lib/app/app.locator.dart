@@ -18,6 +18,7 @@ import 'services/auth_service_supabase.dart';
 import 'services/contacts_service.dart';
 import 'services/deeplink_service.dart';
 import 'services/digital_card_service.dart';
+import 'services/native_contacts_service.dart';
 import 'services/user_service.dart';
 import 'ui/bottom_sheets/bs.card_manager_viewmodel.dart';
 import 'ui/bottom_sheets/bs.card_share_viewmodel.dart';
@@ -52,6 +53,7 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => BottomSheetService());
   locator.registerLazySingleton(() => NavigationService());
   locator.registerLazySingleton(() => ContactsService());
+  locator.registerLazySingleton(() => NativeContactsService());
   locator.registerLazySingleton(() => DigitalCardService());
   locator.registerSingleton(StartupViewModel());
   locator.registerSingleton(LoginViewModel());

@@ -67,8 +67,6 @@ class HomeViewModel extends ReactiveViewModel {
 
   show(DigitalCard? digitalCard) async {
     await _bottomSheetService.showCustomSheet(
-      enterBottomSheetDuration: const Duration(milliseconds: 350),
-      exitBottomSheetDuration: const Duration(milliseconds: 350),
       variant: BottomSheetType.digitalCard,
       data: digitalCard,
       isScrollControlled: true,

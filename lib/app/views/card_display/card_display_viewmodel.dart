@@ -12,6 +12,7 @@ import 'package:digicard/app/helper/image_cache_downloader.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/services/contacts_service.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
+import 'package:digicard/app/services/native_contacts_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -23,6 +24,7 @@ class CardDisplayViewModel extends ReactiveViewModel {
   User? get user => _supabase.auth.currentUser;
 
   final _contactsService = locator<ContactsService>();
+  final _nativeContactsService = locator<NativeContactsService>();
   final _digitalCardService = locator<DigitalCardService>();
   final _dialogService = locator<DialogService>();
   final _bottomSheetService = locator<BottomSheetService>();
@@ -80,15 +82,15 @@ class CardDisplayViewModel extends ReactiveViewModel {
   }
 
   Future downloadVcf() async {
-    await runBusyFuture(_contactsService.downloadVcf(card),
+    await runBusyFuture(_nativeContactsService.download(card),
         throwException: true, busyObject: saveBusyKey);
   }
 
   Future saveToContacts() async {
     await runBusyFuture(
         Future.wait([
-          _contactsService.saveToDeviceContacts(card),
-          _contactsService.saveToAppContacts(card),
+          _contactsService.create(card),
+          _nativeContactsService.save(card),
         ]),
         throwException: true,
         busyObject: saveBusyKey);
