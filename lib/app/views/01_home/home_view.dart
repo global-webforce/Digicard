@@ -64,7 +64,7 @@ class HomeView extends StatelessWidget {
                   isBusy: viewModel.isBusy,
                   emptyIndicatorWidget: const EmptyDisplay(
                     icon: Icons.card_giftcard_rounded,
-                    title: "No Cards",
+                    title: "Ooops! looks empty here",
                   ),
                   onRefresh: () async {
                     await viewModel.init();

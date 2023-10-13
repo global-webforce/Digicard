@@ -25,16 +25,14 @@ class EmptyDisplay extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              icon,
-              color: iconColor,
-            ),
-            vSpaceRegular,
+           Image.asset("assets/icons/empty.png",width: 120,),
+           
             Text(
               title,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                fontSize: 14,
+                fontSize: 18,
+                fontWeight: FontWeight.bold
               ),
             ),
             if (subtitle.isNotEmpty)
