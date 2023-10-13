@@ -18,7 +18,8 @@ import 'package:digicard/app/views/00_startup_login/forgot_password_view.dart'
 import 'package:digicard/app/views/00_startup_login/login_view.dart' as _i4;
 import 'package:digicard/app/views/00_startup_login/password_reset_view.dart'
     as _i5;
-import 'package:digicard/app/views/card_preview/card_display_view.dart' as _i6;
+import 'package:digicard/app/views/06_card_viewer/card_display_view.dart'
+    as _i6;
 import 'package:digicard/app/views/dashboard/dashboard_view.dart' as _i7;
 import 'package:flutter/material.dart' as _i9;
 
