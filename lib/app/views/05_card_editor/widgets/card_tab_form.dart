@@ -14,18 +14,17 @@ import 'package:digicard/app/views/card_editor/widgets/card.reactive_color_picke
 import 'package:flutter/material.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 import 'package:stacked/stacked.dart';
-
 import 'card.reactive_avatar_picker.dart';
 import 'card.reactive_logo_picker.dart';
 
-class CardForm extends StatefulWidget {
-  const CardForm({Key? key}) : super(key: key);
+class CardTabForm extends StatefulWidget {
+  const CardTabForm({Key? key}) : super(key: key);
 
   @override
-  State<CardForm> createState() => _CardFormState();
+  State<CardTabForm> createState() => _CardTabFormState();
 }
 
-class _CardFormState extends State<CardForm>
+class _CardTabFormState extends State<CardTabForm>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -51,7 +50,7 @@ class _CardFormState extends State<CardForm>
 
   @override
   Widget build(BuildContext context) {
-    ReactiveDigitalCardForm.of(context);
+    ReactiveDigitalCardTabForm.of(context);
     final viewModel =
         getParentViewModel<CardEditorViewModel>(context, listen: true);
     final formModel = viewModel.formModel;
@@ -60,18 +59,11 @@ class _CardFormState extends State<CardForm>
         Color(formModel.colorControl?.value ?? kcPrimaryColorInt);
 
     const inputStyle = InputDecoration(
-        // alignLabelWithHint: true,
         contentPadding: EdgeInsets.all(12),
         isDense: true,
         border: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(10))),
 
-        // filled: false,
-        // fillColor: Colors.transparent,
-        //  border: UnderlineInputBorder(),
-        /*     enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey),
-        ), */
         floatingLabelBehavior: FloatingLabelBehavior.never);
 
     Widget avatarField() {
@@ -294,7 +286,7 @@ class _CardFormState extends State<CardForm>
                 ? "Copy Card "
                 : "Create Card"),
         actions: [
-          ReactiveDigitalCardFormConsumer(builder: (context, f, w) {
+          ReactiveDigitalCardTabFormConsumer(builder: (context, f, w) {
             return ((viewModel.editMode) &&
                     viewModel.formModel.form.pristine != true)
                 ? TextButton(
