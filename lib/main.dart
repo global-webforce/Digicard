@@ -1,5 +1,5 @@
 import 'package:digicard/app/env/env.dart';
-import 'package:digicard/app/views/startup/startup_view.dart';
+import 'package:digicard/app/views/00_startup/startup_view.dart';
 import 'package:digicard/app/bottomsheet_ui.dart';
 import 'package:digicard/app/dialog_ui.dart';
 import 'package:digicard/app/snackbar_ui.dart';

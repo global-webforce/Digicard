@@ -14,7 +14,7 @@ Troubleshooting guide: https://github.com/petercinibulk/envied/issues/28
 2. Go to lib > app > env > env.dart
 
 For Local:
- `@Envied(obfuscate:  true, path:  '.env.dev')`
+    @Envied(obfuscate:  true, path:  '.env.dev')
  
 For production:
 

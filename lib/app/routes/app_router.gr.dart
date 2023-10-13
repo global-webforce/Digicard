@@ -13,7 +13,7 @@ import 'package:digicard/app/constants/keys.dart' as _i11;
 import 'package:digicard/app/models/digital_card.dart' as _i10;
 import 'package:digicard/app/routes/app_router.dart' as _i1;
 import 'package:digicard/app/routes/initial_view.dart' as _i2;
-import 'package:digicard/app/views/card_display/card_display_view.dart' as _i3;
+import 'package:digicard/app/views/card_preview/card_display_view.dart' as _i3;
 import 'package:digicard/app/views/dashboard/dashboard_view.dart' as _i4;
 import 'package:digicard/app/views/login/forgot_password_view.dart' as _i5;
 import 'package:digicard/app/views/login/login_view.dart' as _i6;

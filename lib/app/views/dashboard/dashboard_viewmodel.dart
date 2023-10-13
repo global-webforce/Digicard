@@ -1,9 +1,9 @@
 import 'package:digicard/app/dialog_ui.dart';
 import 'package:digicard/app/app.locator.dart';
-import 'package:digicard/app/views/contacts/contacts_view.dart';
-import 'package:digicard/app/views/home/home_view.dart';
-import 'package:digicard/app/views/scan_qr_code/scan_view.dart';
-import 'package:digicard/app/views/settings/settings_view.dart';
+import 'package:digicard/app/views/03_contacts/contacts_view.dart';
+import 'package:digicard/app/views/01_home/home_view.dart';
+import 'package:digicard/app/views/02_scan_qr_code/scan_view.dart';
+import 'package:digicard/app/views/04_settings/settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';

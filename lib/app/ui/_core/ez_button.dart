@@ -97,7 +97,7 @@ class EzButton extends StatelessWidget {
       return Text(
         title,
         style:
-            TextStyle(fontSize: 18, color: outline ? background : foreground),
+            TextStyle(fontSize: 16, color: outline ? background : foreground),
       );
     }
 

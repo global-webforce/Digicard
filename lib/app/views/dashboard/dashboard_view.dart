@@ -6,7 +6,7 @@ import 'package:digicard/app/ui/_core/dashboard/ez_appbar.dart';
 import 'package:digicard/app/ui/_core/dashboard/ez_bottom_navbar.dart';
 import 'package:digicard/app/ui/_core/dashboard/ez_drawer.dart';
 import 'package:digicard/app/constants/colors.dart';
-import 'package:digicard/app/views/home/widgets/app_icon.dart';
+import 'package:digicard/app/views/01_home/widgets/app_icon.dart';
 import 'package:digicard/app/views/dashboard/dashboard_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
