@@ -74,7 +74,7 @@ class MainWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = getParentViewModel<CardDisplayViewModel>(context);
+    final viewModel = getParentViewModel<CardDisplayViewModel>(context,listen: false);
 
     Widget empty() {
       return const EmptyDisplay(

@@ -28,9 +28,7 @@ class Body1 extends StatelessWidget {
             cardItems.position(viewModel.card.position),
             cardItems.company(viewModel.card.company),
             cardItems.headline(viewModel.card.headline),
-            cardItems.pronouns(context,
-                preferredName: viewModel.card.preferredName,
-                pronouns: viewModel.card.pronouns),
+       
             cardItems.customLinks(viewModel.card.customLinks),
             if (viewModel.isCardOwnedByUser())
               cardItems.dateCreated(viewModel.card.createdAt),

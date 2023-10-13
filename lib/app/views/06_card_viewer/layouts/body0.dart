@@ -23,9 +23,7 @@ class Body0 extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             cardItems.headline(viewModel.card.headline),
-            cardItems.pronouns(context,
-                preferredName: viewModel.card.preferredName,
-                pronouns: viewModel.card.pronouns),
+    
             cardItems.customLinks(viewModel.card.customLinks),
             if (viewModel.isCardOwnedByUser())
               cardItems.dateCreated(viewModel.card.createdAt),

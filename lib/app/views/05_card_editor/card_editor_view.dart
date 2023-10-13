@@ -34,18 +34,17 @@ class CardEditorView extends StatelessWidget {
               .map((e) => e.form.dispose());
         },
         builder: (context, viewModel, child) {
-          return ReactiveDigitalCardForm(
-            form: viewModel.formModel,
-            child: ReactiveValueListenableBuilder<dynamic>(
-                formControl: viewModel.formModel.colorControl,
-                builder: (context, color, child) {
-                  final colorTheme = Color(color.value ?? kcPrimaryColorInt);
-
-                  return WillPopScope(
-                    onWillPop: () async {
-                      return await viewModel.confirmExit();
-                    },
-                    child: LoaderOverlayWrapper(
+          return WillPopScope(
+            onWillPop: () async {
+              return await viewModel.confirmExit();
+            },
+            child: ReactiveDigitalCardForm(
+              form: viewModel.formModel,
+              child: ReactiveValueListenableBuilder<dynamic>(
+                  formControl: viewModel.formModel.colorControl,
+                  builder: (context, color, child) {
+                    final colorTheme = Color(color.value ?? kcPrimaryColorInt);
+                    return LoaderOverlayWrapper(
                         color: colorTheme,
                         type: viewModel.busy(saveBusyKey)
                             ? LoadingType.save
@@ -73,9 +72,9 @@ class CardEditorView extends StatelessWidget {
                                     )
                                   ],
                                 );
-                        }),
-                  );
-                }),
+                        });
+                  }),
+            ),
           );
         });
   }

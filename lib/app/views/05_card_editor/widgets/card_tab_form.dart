@@ -197,17 +197,7 @@ class _CardTabFormState extends State<CardTabForm>
       );
     }
 
-    Widget preferredNameField() {
-      return ClipRRect(
-        borderRadius: BorderRadius.circular(5),
-        child: ReactiveTextField(
-          showErrors: (control) => false,
-          formControl: formModel.preferredNameControl,
-          textInputAction: TextInputAction.next,
-          decoration: inputStyle.copyWith(label: const Text("Preferred Name")),
-        ),
-      );
-    }
+  
 
     Widget maidenNameField() {
       return ClipRRect(
@@ -221,17 +211,7 @@ class _CardTabFormState extends State<CardTabForm>
       );
     }
 
-    Widget pronounsField() {
-      return ClipRRect(
-        borderRadius: BorderRadius.circular(5),
-        child: ReactiveTextField(
-          showErrors: (control) => false,
-          formControl: formModel.pronounsControl,
-          textInputAction: TextInputAction.next,
-          decoration: inputStyle.copyWith(label: const Text("Pronouns")),
-        ),
-      );
-    }
+ 
 
     Widget positionField() {
       return ClipRRect(
@@ -359,11 +339,9 @@ class _CardTabFormState extends State<CardTabForm>
                                         vSpaceSmall,
                                         accrediationsField(),
                                         vSpaceSmall,
-                                        preferredNameField(),
-                                        vSpaceSmall,
+                                    
                                         maidenNameField(),
-                                        vSpaceSmall,
-                                        pronounsField(),
+                                  
                                       ],
                                     ),
                                   )),

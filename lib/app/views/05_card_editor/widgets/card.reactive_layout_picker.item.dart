@@ -36,7 +36,7 @@ class LayoutPickerItem extends StatelessWidget {
           ),
           child: CustomPaint(
             size: const Size(80,
-                40), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                20), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
             painter: customPaint,
           ),
         ),

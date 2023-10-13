@@ -77,19 +77,7 @@ class CardItems {
         : const SizedBox.shrink();
   }
 
-  Widget pronouns(BuildContext context,
-      {String? preferredName, String? pronouns}) {
-    return ((preferredName?.isNotEmpty ?? false) ||
-            (pronouns?.isNotEmpty ?? false))
-        ? IconListItem(
-            iconColor: getThemeManager(context).isDarkMode
-                ? Colors.white
-                : Colors.black,
-            icon: Icons.chat_rounded,
-            text: "Goes By $preferredName ( $pronouns )".clean().toTitleCase(),
-          )
-        : const SizedBox.shrink();
-  }
+
 
   Widget dateCreated(DateTime? value) {
     return value != null

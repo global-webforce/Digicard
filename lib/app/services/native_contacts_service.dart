@@ -67,7 +67,7 @@ class NativeContactsService with ListenableServiceMixin {
             first: card.firstName ?? '',
             last: card.lastName ?? '',
             middle: card.middleName ?? '',
-            nickname: card.preferredName ?? '',
+        
             prefix: card.prefix ?? '',
             suffix: card.suffix ?? '',
           ),

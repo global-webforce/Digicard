@@ -200,11 +200,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
 
   static const String accreditationsControlName = "accreditations";
 
-  static const String preferredNameControlName = "preferredName";
-
   static const String maidenNameControlName = "maidenName";
-
-  static const String pronounsControlName = "pronouns";
 
   static const String logoUrlControlName = "logoUrl";
 
@@ -248,9 +244,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   String lastNameControlPath() => pathBuilder(lastNameControlName);
   String suffixControlPath() => pathBuilder(suffixControlName);
   String accreditationsControlPath() => pathBuilder(accreditationsControlName);
-  String preferredNameControlPath() => pathBuilder(preferredNameControlName);
   String maidenNameControlPath() => pathBuilder(maidenNameControlName);
-  String pronounsControlPath() => pathBuilder(pronounsControlName);
   String logoUrlControlPath() => pathBuilder(logoUrlControlName);
   String avatarUrlControlPath() => pathBuilder(avatarUrlControlName);
   String avatarFileControlPath() => pathBuilder(avatarFileControlName);
@@ -275,9 +269,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   String? get _lastNameValue => lastNameControl?.value;
   String? get _suffixValue => suffixControl?.value;
   String? get _accreditationsValue => accreditationsControl?.value;
-  String? get _preferredNameValue => preferredNameControl?.value;
   String? get _maidenNameValue => maidenNameControl?.value;
-  String? get _pronounsValue => pronounsControl?.value;
   String? get _logoUrlValue => logoUrlControl?.value;
   String? get _avatarUrlValue => avatarUrlControl?.value;
   Uint8List? get _avatarFileValue => avatarFileControl?.value;
@@ -383,27 +375,9 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     }
   }
 
-  bool get containsPreferredName {
-    try {
-      form.control(preferredNameControlPath());
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
   bool get containsMaidenName {
     try {
       form.control(maidenNameControlPath());
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  bool get containsPronouns {
-    try {
-      form.control(pronounsControlPath());
       return true;
     } catch (e) {
       return false;
@@ -546,9 +520,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   Object? get lastNameErrors => lastNameControl?.errors;
   Object? get suffixErrors => suffixControl?.errors;
   Object? get accreditationsErrors => accreditationsControl?.errors;
-  Object? get preferredNameErrors => preferredNameControl?.errors;
   Object? get maidenNameErrors => maidenNameControl?.errors;
-  Object? get pronounsErrors => pronounsControl?.errors;
   Object? get logoUrlErrors => logoUrlControl?.errors;
   Object? get avatarUrlErrors => avatarUrlControl?.errors;
   Object? get avatarFileErrors => avatarFileControl?.errors;
@@ -573,9 +545,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   void get lastNameFocus => form.focus(lastNameControlPath());
   void get suffixFocus => form.focus(suffixControlPath());
   void get accreditationsFocus => form.focus(accreditationsControlPath());
-  void get preferredNameFocus => form.focus(preferredNameControlPath());
   void get maidenNameFocus => form.focus(maidenNameControlPath());
-  void get pronounsFocus => form.focus(pronounsControlPath());
   void get logoUrlFocus => form.focus(logoUrlControlPath());
   void get avatarUrlFocus => form.focus(avatarUrlControlPath());
   void get avatarFileFocus => form.focus(avatarFileControlPath());
@@ -850,32 +820,6 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     }
   }
 
-  void preferredNameRemove({
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (containsPreferredName) {
-      final controlPath = path;
-      if (controlPath == null) {
-        form.removeControl(
-          preferredNameControlName,
-          updateParent: updateParent,
-          emitEvent: emitEvent,
-        );
-      } else {
-        final formGroup = form.control(controlPath);
-
-        if (formGroup is FormGroup) {
-          formGroup.removeControl(
-            preferredNameControlName,
-            updateParent: updateParent,
-            emitEvent: emitEvent,
-          );
-        }
-      }
-    }
-  }
-
   void maidenNameRemove({
     bool updateParent = true,
     bool emitEvent = true,
@@ -894,32 +838,6 @@ class DigitalCardForm implements FormModel<DigitalCard> {
         if (formGroup is FormGroup) {
           formGroup.removeControl(
             maidenNameControlName,
-            updateParent: updateParent,
-            emitEvent: emitEvent,
-          );
-        }
-      }
-    }
-  }
-
-  void pronounsRemove({
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (containsPronouns) {
-      final controlPath = path;
-      if (controlPath == null) {
-        form.removeControl(
-          pronounsControlName,
-          updateParent: updateParent,
-          emitEvent: emitEvent,
-        );
-      } else {
-        final formGroup = form.control(controlPath);
-
-        if (formGroup is FormGroup) {
-          formGroup.removeControl(
-            pronounsControlName,
             updateParent: updateParent,
             emitEvent: emitEvent,
           );
@@ -1356,30 +1274,12 @@ class DigitalCardForm implements FormModel<DigitalCard> {
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
-  void preferredNameValueUpdate(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    preferredNameControl?.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
   void maidenNameValueUpdate(
     String? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
     maidenNameControl?.updateValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void pronounsValueUpdate(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    pronounsControl?.updateValue(value,
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
@@ -1656,30 +1556,12 @@ class DigitalCardForm implements FormModel<DigitalCard> {
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
-  void preferredNameValuePatch(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    preferredNameControl?.patchValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
   void maidenNameValuePatch(
     String? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) {
     maidenNameControl?.patchValue(value,
-        updateParent: updateParent, emitEvent: emitEvent);
-  }
-
-  void pronounsValuePatch(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    pronounsControl?.patchValue(value,
         updateParent: updateParent, emitEvent: emitEvent);
   }
 
@@ -1912,15 +1794,6 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       accreditationsControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void preferredNameValueReset(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      preferredNameControl?.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
   void maidenNameValueReset(
     String? value, {
     bool updateParent = true,
@@ -1929,15 +1802,6 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     bool? disabled,
   }) =>
       maidenNameControl?.reset(
-          value: value, updateParent: updateParent, emitEvent: emitEvent);
-  void pronounsValueReset(
-    String? value, {
-    bool updateParent = true,
-    bool emitEvent = true,
-    bool removeFocus = false,
-    bool? disabled,
-  }) =>
-      pronounsControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
   void logoUrlValueReset(
     String? value, {
@@ -2098,14 +1962,8 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   FormControl<String>? get accreditationsControl => containsAccreditations
       ? form.control(accreditationsControlPath()) as FormControl<String>?
       : null;
-  FormControl<String>? get preferredNameControl => containsPreferredName
-      ? form.control(preferredNameControlPath()) as FormControl<String>?
-      : null;
   FormControl<String>? get maidenNameControl => containsMaidenName
       ? form.control(maidenNameControlPath()) as FormControl<String>?
-      : null;
-  FormControl<String>? get pronounsControl => containsPronouns
-      ? form.control(pronounsControlPath()) as FormControl<String>?
       : null;
   FormControl<String>? get logoUrlControl => containsLogoUrl
       ? form.control(logoUrlControlPath()) as FormControl<String>?
@@ -2335,24 +2193,6 @@ class DigitalCardForm implements FormModel<DigitalCard> {
     }
   }
 
-  void preferredNameSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      preferredNameControl?.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      preferredNameControl?.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
   void maidenNameSetDisabled(
     bool disabled, {
     bool updateParent = true,
@@ -2365,24 +2205,6 @@ class DigitalCardForm implements FormModel<DigitalCard> {
       );
     } else {
       maidenNameControl?.markAsEnabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    }
-  }
-
-  void pronounsSetDisabled(
-    bool disabled, {
-    bool updateParent = true,
-    bool emitEvent = true,
-  }) {
-    if (disabled) {
-      pronounsControl?.markAsDisabled(
-        updateParent: updateParent,
-        emitEvent: emitEvent,
-      );
-    } else {
-      pronounsControl?.markAsEnabled(
         updateParent: updateParent,
         emitEvent: emitEvent,
       );
@@ -2680,9 +2502,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
         lastName: _lastNameValue,
         suffix: _suffixValue,
         accreditations: _accreditationsValue,
-        preferredName: _preferredNameValue,
         maidenName: _maidenNameValue,
-        pronouns: _pronounsValue,
         logoUrl: _logoUrlValue,
         avatarUrl: _avatarUrlValue,
         avatarFile: _avatarFileValue,
@@ -2802,22 +2622,8 @@ class DigitalCardForm implements FormModel<DigitalCard> {
             asyncValidatorsDebounceTime: 250,
             disabled: false,
             touched: false),
-        preferredNameControlName: FormControl<String>(
-            value: digitalCard?.preferredName,
-            validators: [],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false,
-            touched: false),
         maidenNameControlName: FormControl<String>(
             value: digitalCard?.maidenName,
-            validators: [],
-            asyncValidators: [],
-            asyncValidatorsDebounceTime: 250,
-            disabled: false,
-            touched: false),
-        pronounsControlName: FormControl<String>(
-            value: digitalCard?.pronouns,
             validators: [],
             asyncValidators: [],
             asyncValidatorsDebounceTime: 250,

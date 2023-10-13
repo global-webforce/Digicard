@@ -40,9 +40,7 @@ class DigitalCard with _$DigitalCard {
     @FormControlAnnotation<String>() String? lastName,
     @FormControlAnnotation<String>() String? suffix,
     @FormControlAnnotation<String>() String? accreditations,
-    @FormControlAnnotation<String>() String? preferredName,
     @FormControlAnnotation<String>() String? maidenName,
-    @FormControlAnnotation<String>() String? pronouns,
     @FormControlAnnotation<String>() String? logoUrl,
     @FormControlAnnotation<String>() String? avatarUrl,
     @Uint8ListConverter()

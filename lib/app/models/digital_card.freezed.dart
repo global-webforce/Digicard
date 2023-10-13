@@ -41,11 +41,7 @@ mixin _$DigitalCard {
   @FormControlAnnotation<String>()
   String? get accreditations => throw _privateConstructorUsedError;
   @FormControlAnnotation<String>()
-  String? get preferredName => throw _privateConstructorUsedError;
-  @FormControlAnnotation<String>()
   String? get maidenName => throw _privateConstructorUsedError;
-  @FormControlAnnotation<String>()
-  String? get pronouns => throw _privateConstructorUsedError;
   @FormControlAnnotation<String>()
   String? get logoUrl => throw _privateConstructorUsedError;
   @FormControlAnnotation<String>()
@@ -108,11 +104,7 @@ abstract class $DigitalCardCopyWith<$Res> {
       @FormControlAnnotation<String>()
           String? accreditations,
       @FormControlAnnotation<String>()
-          String? preferredName,
-      @FormControlAnnotation<String>()
           String? maidenName,
-      @FormControlAnnotation<String>()
-          String? pronouns,
       @FormControlAnnotation<String>()
           String? logoUrl,
       @FormControlAnnotation<String>()
@@ -165,9 +157,7 @@ class _$DigitalCardCopyWithImpl<$Res, $Val extends DigitalCard>
     Object? lastName = freezed,
     Object? suffix = freezed,
     Object? accreditations = freezed,
-    Object? preferredName = freezed,
     Object? maidenName = freezed,
-    Object? pronouns = freezed,
     Object? logoUrl = freezed,
     Object? avatarUrl = freezed,
     Object? avatarFile = freezed,
@@ -224,17 +214,9 @@ class _$DigitalCardCopyWithImpl<$Res, $Val extends DigitalCard>
           ? _value.accreditations
           : accreditations // ignore: cast_nullable_to_non_nullable
               as String?,
-      preferredName: freezed == preferredName
-          ? _value.preferredName
-          : preferredName // ignore: cast_nullable_to_non_nullable
-              as String?,
       maidenName: freezed == maidenName
           ? _value.maidenName
           : maidenName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      pronouns: freezed == pronouns
-          ? _value.pronouns
-          : pronouns // ignore: cast_nullable_to_non_nullable
               as String?,
       logoUrl: freezed == logoUrl
           ? _value.logoUrl
@@ -326,11 +308,7 @@ abstract class _$$_DigitalCardCopyWith<$Res>
       @FormControlAnnotation<String>()
           String? accreditations,
       @FormControlAnnotation<String>()
-          String? preferredName,
-      @FormControlAnnotation<String>()
           String? maidenName,
-      @FormControlAnnotation<String>()
-          String? pronouns,
       @FormControlAnnotation<String>()
           String? logoUrl,
       @FormControlAnnotation<String>()
@@ -381,9 +359,7 @@ class __$$_DigitalCardCopyWithImpl<$Res>
     Object? lastName = freezed,
     Object? suffix = freezed,
     Object? accreditations = freezed,
-    Object? preferredName = freezed,
     Object? maidenName = freezed,
-    Object? pronouns = freezed,
     Object? logoUrl = freezed,
     Object? avatarUrl = freezed,
     Object? avatarFile = freezed,
@@ -440,17 +416,9 @@ class __$$_DigitalCardCopyWithImpl<$Res>
           ? _value.accreditations
           : accreditations // ignore: cast_nullable_to_non_nullable
               as String?,
-      preferredName: freezed == preferredName
-          ? _value.preferredName
-          : preferredName // ignore: cast_nullable_to_non_nullable
-              as String?,
       maidenName: freezed == maidenName
           ? _value.maidenName
           : maidenName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      pronouns: freezed == pronouns
-          ? _value.pronouns
-          : pronouns // ignore: cast_nullable_to_non_nullable
               as String?,
       logoUrl: freezed == logoUrl
           ? _value.logoUrl
@@ -527,9 +495,7 @@ class _$_DigitalCard implements _DigitalCard {
       @FormControlAnnotation<String>() this.lastName,
       @FormControlAnnotation<String>() this.suffix,
       @FormControlAnnotation<String>() this.accreditations,
-      @FormControlAnnotation<String>() this.preferredName,
       @FormControlAnnotation<String>() this.maidenName,
-      @FormControlAnnotation<String>() this.pronouns,
       @FormControlAnnotation<String>() this.logoUrl,
       @FormControlAnnotation<String>() this.avatarUrl,
       @Uint8ListConverter() @FormControlAnnotation<Uint8List>() this.avatarFile,
@@ -582,13 +548,7 @@ class _$_DigitalCard implements _DigitalCard {
   final String? accreditations;
   @override
   @FormControlAnnotation<String>()
-  final String? preferredName;
-  @override
-  @FormControlAnnotation<String>()
   final String? maidenName;
-  @override
-  @FormControlAnnotation<String>()
-  final String? pronouns;
   @override
   @FormControlAnnotation<String>()
   final String? logoUrl;
@@ -642,7 +602,7 @@ class _$_DigitalCard implements _DigitalCard {
 
   @override
   String toString() {
-    return 'DigitalCard(id: $id, userId: $userId, uuid: $uuid, title: $title, prefix: $prefix, firstName: $firstName, middleName: $middleName, lastName: $lastName, suffix: $suffix, accreditations: $accreditations, preferredName: $preferredName, maidenName: $maidenName, pronouns: $pronouns, logoUrl: $logoUrl, avatarUrl: $avatarUrl, avatarFile: $avatarFile, logoFile: $logoFile, color: $color, layout: $layout, position: $position, department: $department, company: $company, headline: $headline, customLinks: $customLinks, createdAt: $createdAt, updatedAt: $updatedAt, addedAt: $addedAt)';
+    return 'DigitalCard(id: $id, userId: $userId, uuid: $uuid, title: $title, prefix: $prefix, firstName: $firstName, middleName: $middleName, lastName: $lastName, suffix: $suffix, accreditations: $accreditations, maidenName: $maidenName, logoUrl: $logoUrl, avatarUrl: $avatarUrl, avatarFile: $avatarFile, logoFile: $logoFile, color: $color, layout: $layout, position: $position, department: $department, company: $company, headline: $headline, customLinks: $customLinks, createdAt: $createdAt, updatedAt: $updatedAt, addedAt: $addedAt)';
   }
 
   @override
@@ -664,12 +624,8 @@ class _$_DigitalCard implements _DigitalCard {
             (identical(other.suffix, suffix) || other.suffix == suffix) &&
             (identical(other.accreditations, accreditations) ||
                 other.accreditations == accreditations) &&
-            (identical(other.preferredName, preferredName) ||
-                other.preferredName == preferredName) &&
             (identical(other.maidenName, maidenName) ||
                 other.maidenName == maidenName) &&
-            (identical(other.pronouns, pronouns) ||
-                other.pronouns == pronouns) &&
             (identical(other.logoUrl, logoUrl) || other.logoUrl == logoUrl) &&
             (identical(other.avatarUrl, avatarUrl) ||
                 other.avatarUrl == avatarUrl) &&
@@ -708,9 +664,7 @@ class _$_DigitalCard implements _DigitalCard {
         lastName,
         suffix,
         accreditations,
-        preferredName,
         maidenName,
-        pronouns,
         logoUrl,
         avatarUrl,
         const DeepCollectionEquality().hash(avatarFile),
@@ -764,11 +718,7 @@ abstract class _DigitalCard implements DigitalCard {
       @FormControlAnnotation<String>()
           final String? accreditations,
       @FormControlAnnotation<String>()
-          final String? preferredName,
-      @FormControlAnnotation<String>()
           final String? maidenName,
-      @FormControlAnnotation<String>()
-          final String? pronouns,
       @FormControlAnnotation<String>()
           final String? logoUrl,
       @FormControlAnnotation<String>()
@@ -832,13 +782,7 @@ abstract class _DigitalCard implements DigitalCard {
   String? get accreditations;
   @override
   @FormControlAnnotation<String>()
-  String? get preferredName;
-  @override
-  @FormControlAnnotation<String>()
   String? get maidenName;
-  @override
-  @FormControlAnnotation<String>()
-  String? get pronouns;
   @override
   @FormControlAnnotation<String>()
   String? get logoUrl;
