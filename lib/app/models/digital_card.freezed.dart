@@ -83,52 +83,32 @@ abstract class $DigitalCardCopyWith<$Res> {
       _$DigitalCardCopyWithImpl<$Res, DigitalCard>;
   @useResult
   $Res call(
-      {@FormControlAnnotation<int>()
-          int? id,
-      @FormControlAnnotation<String>()
-          String? userId,
-      @FormControlAnnotation<String>()
-          String? uuid,
-      @FormControlAnnotation<String>()
-          String? title,
-      @FormControlAnnotation<String>()
-          String? prefix,
-      @FormControlAnnotation<String>()
-          String? firstName,
-      @FormControlAnnotation<String>()
-          String? middleName,
-      @FormControlAnnotation<String>()
-          String? lastName,
-      @FormControlAnnotation<String>()
-          String? suffix,
-      @FormControlAnnotation<String>()
-          String? accreditations,
-      @FormControlAnnotation<String>()
-          String? maidenName,
-      @FormControlAnnotation<String>()
-          String? logoUrl,
-      @FormControlAnnotation<String>()
-          String? avatarUrl,
+      {@FormControlAnnotation<int>() int? id,
+      @FormControlAnnotation<String>() String? userId,
+      @FormControlAnnotation<String>() String? uuid,
+      @FormControlAnnotation<String>() String? title,
+      @FormControlAnnotation<String>() String? prefix,
+      @FormControlAnnotation<String>() String? firstName,
+      @FormControlAnnotation<String>() String? middleName,
+      @FormControlAnnotation<String>() String? lastName,
+      @FormControlAnnotation<String>() String? suffix,
+      @FormControlAnnotation<String>() String? accreditations,
+      @FormControlAnnotation<String>() String? maidenName,
+      @FormControlAnnotation<String>() String? logoUrl,
+      @FormControlAnnotation<String>() String? avatarUrl,
       @Uint8ListConverter()
       @FormControlAnnotation<Uint8List>()
-          Uint8List? avatarFile,
+      Uint8List? avatarFile,
       @Uint8ListConverter()
       @FormControlAnnotation<Uint8List>()
-          Uint8List? logoFile,
-      @FormControlAnnotation<int>()
-          int? color,
-      @FormControlAnnotation<int>()
-          int? layout,
-      @FormControlAnnotation<String>()
-          String? position,
-      @FormControlAnnotation<String>()
-          String? department,
-      @FormControlAnnotation<String>()
-          String? company,
-      @FormControlAnnotation<String>()
-          String? headline,
-      @FormArrayAnnotation()
-          List<CustomLink> customLinks,
+      Uint8List? logoFile,
+      @FormControlAnnotation<int>() int? color,
+      @FormControlAnnotation<int>() int? layout,
+      @FormControlAnnotation<String>() String? position,
+      @FormControlAnnotation<String>() String? department,
+      @FormControlAnnotation<String>() String? company,
+      @FormControlAnnotation<String>() String? headline,
+      @FormArrayAnnotation() List<CustomLink> customLinks,
       DateTime? createdAt,
       DateTime? updatedAt,
       DateTime? addedAt});
@@ -279,71 +259,51 @@ class _$DigitalCardCopyWithImpl<$Res, $Val extends DigitalCard>
 }
 
 /// @nodoc
-abstract class _$$_DigitalCardCopyWith<$Res>
+abstract class _$$DigitalCardImplCopyWith<$Res>
     implements $DigitalCardCopyWith<$Res> {
-  factory _$$_DigitalCardCopyWith(
-          _$_DigitalCard value, $Res Function(_$_DigitalCard) then) =
-      __$$_DigitalCardCopyWithImpl<$Res>;
+  factory _$$DigitalCardImplCopyWith(
+          _$DigitalCardImpl value, $Res Function(_$DigitalCardImpl) then) =
+      __$$DigitalCardImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {@FormControlAnnotation<int>()
-          int? id,
-      @FormControlAnnotation<String>()
-          String? userId,
-      @FormControlAnnotation<String>()
-          String? uuid,
-      @FormControlAnnotation<String>()
-          String? title,
-      @FormControlAnnotation<String>()
-          String? prefix,
-      @FormControlAnnotation<String>()
-          String? firstName,
-      @FormControlAnnotation<String>()
-          String? middleName,
-      @FormControlAnnotation<String>()
-          String? lastName,
-      @FormControlAnnotation<String>()
-          String? suffix,
-      @FormControlAnnotation<String>()
-          String? accreditations,
-      @FormControlAnnotation<String>()
-          String? maidenName,
-      @FormControlAnnotation<String>()
-          String? logoUrl,
-      @FormControlAnnotation<String>()
-          String? avatarUrl,
+      {@FormControlAnnotation<int>() int? id,
+      @FormControlAnnotation<String>() String? userId,
+      @FormControlAnnotation<String>() String? uuid,
+      @FormControlAnnotation<String>() String? title,
+      @FormControlAnnotation<String>() String? prefix,
+      @FormControlAnnotation<String>() String? firstName,
+      @FormControlAnnotation<String>() String? middleName,
+      @FormControlAnnotation<String>() String? lastName,
+      @FormControlAnnotation<String>() String? suffix,
+      @FormControlAnnotation<String>() String? accreditations,
+      @FormControlAnnotation<String>() String? maidenName,
+      @FormControlAnnotation<String>() String? logoUrl,
+      @FormControlAnnotation<String>() String? avatarUrl,
       @Uint8ListConverter()
       @FormControlAnnotation<Uint8List>()
-          Uint8List? avatarFile,
+      Uint8List? avatarFile,
       @Uint8ListConverter()
       @FormControlAnnotation<Uint8List>()
-          Uint8List? logoFile,
-      @FormControlAnnotation<int>()
-          int? color,
-      @FormControlAnnotation<int>()
-          int? layout,
-      @FormControlAnnotation<String>()
-          String? position,
-      @FormControlAnnotation<String>()
-          String? department,
-      @FormControlAnnotation<String>()
-          String? company,
-      @FormControlAnnotation<String>()
-          String? headline,
-      @FormArrayAnnotation()
-          List<CustomLink> customLinks,
+      Uint8List? logoFile,
+      @FormControlAnnotation<int>() int? color,
+      @FormControlAnnotation<int>() int? layout,
+      @FormControlAnnotation<String>() String? position,
+      @FormControlAnnotation<String>() String? department,
+      @FormControlAnnotation<String>() String? company,
+      @FormControlAnnotation<String>() String? headline,
+      @FormArrayAnnotation() List<CustomLink> customLinks,
       DateTime? createdAt,
       DateTime? updatedAt,
       DateTime? addedAt});
 }
 
 /// @nodoc
-class __$$_DigitalCardCopyWithImpl<$Res>
-    extends _$DigitalCardCopyWithImpl<$Res, _$_DigitalCard>
-    implements _$$_DigitalCardCopyWith<$Res> {
-  __$$_DigitalCardCopyWithImpl(
-      _$_DigitalCard _value, $Res Function(_$_DigitalCard) _then)
+class __$$DigitalCardImplCopyWithImpl<$Res>
+    extends _$DigitalCardCopyWithImpl<$Res, _$DigitalCardImpl>
+    implements _$$DigitalCardImplCopyWith<$Res> {
+  __$$DigitalCardImplCopyWithImpl(
+      _$DigitalCardImpl _value, $Res Function(_$DigitalCardImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -375,7 +335,7 @@ class __$$_DigitalCardCopyWithImpl<$Res>
     Object? updatedAt = freezed,
     Object? addedAt = freezed,
   }) {
-    return _then(_$_DigitalCard(
+    return _then(_$DigitalCardImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -483,8 +443,8 @@ class __$$_DigitalCardCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class _$_DigitalCard implements _DigitalCard {
-  _$_DigitalCard(
+class _$DigitalCardImpl implements _DigitalCard {
+  _$DigitalCardImpl(
       {@FormControlAnnotation<int>() this.id,
       @FormControlAnnotation<String>() this.userId,
       @FormControlAnnotation<String>() this.uuid,
@@ -512,8 +472,8 @@ class _$_DigitalCard implements _DigitalCard {
       this.addedAt})
       : _customLinks = customLinks;
 
-  factory _$_DigitalCard.fromJson(Map<String, dynamic> json) =>
-      _$$_DigitalCardFromJson(json);
+  factory _$DigitalCardImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DigitalCardImplFromJson(json);
 
   @override
   @FormControlAnnotation<int>()
@@ -609,7 +569,7 @@ class _$_DigitalCard implements _DigitalCard {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_DigitalCard &&
+            other is _$DigitalCardImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.uuid, uuid) || other.uuid == uuid) &&
@@ -684,12 +644,12 @@ class _$_DigitalCard implements _DigitalCard {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_DigitalCardCopyWith<_$_DigitalCard> get copyWith =>
-      __$$_DigitalCardCopyWithImpl<_$_DigitalCard>(this, _$identity);
+  _$$DigitalCardImplCopyWith<_$DigitalCardImpl> get copyWith =>
+      __$$DigitalCardImplCopyWithImpl<_$DigitalCardImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_DigitalCardToJson(
+    return _$$DigitalCardImplToJson(
       this,
     );
   }
@@ -697,58 +657,38 @@ class _$_DigitalCard implements _DigitalCard {
 
 abstract class _DigitalCard implements DigitalCard {
   factory _DigitalCard(
-      {@FormControlAnnotation<int>()
-          final int? id,
-      @FormControlAnnotation<String>()
-          final String? userId,
-      @FormControlAnnotation<String>()
-          final String? uuid,
-      @FormControlAnnotation<String>()
-          final String? title,
-      @FormControlAnnotation<String>()
-          final String? prefix,
-      @FormControlAnnotation<String>()
-          final String? firstName,
-      @FormControlAnnotation<String>()
-          final String? middleName,
-      @FormControlAnnotation<String>()
-          final String? lastName,
-      @FormControlAnnotation<String>()
-          final String? suffix,
-      @FormControlAnnotation<String>()
-          final String? accreditations,
-      @FormControlAnnotation<String>()
-          final String? maidenName,
-      @FormControlAnnotation<String>()
-          final String? logoUrl,
-      @FormControlAnnotation<String>()
-          final String? avatarUrl,
+      {@FormControlAnnotation<int>() final int? id,
+      @FormControlAnnotation<String>() final String? userId,
+      @FormControlAnnotation<String>() final String? uuid,
+      @FormControlAnnotation<String>() final String? title,
+      @FormControlAnnotation<String>() final String? prefix,
+      @FormControlAnnotation<String>() final String? firstName,
+      @FormControlAnnotation<String>() final String? middleName,
+      @FormControlAnnotation<String>() final String? lastName,
+      @FormControlAnnotation<String>() final String? suffix,
+      @FormControlAnnotation<String>() final String? accreditations,
+      @FormControlAnnotation<String>() final String? maidenName,
+      @FormControlAnnotation<String>() final String? logoUrl,
+      @FormControlAnnotation<String>() final String? avatarUrl,
       @Uint8ListConverter()
       @FormControlAnnotation<Uint8List>()
-          final Uint8List? avatarFile,
+      final Uint8List? avatarFile,
       @Uint8ListConverter()
       @FormControlAnnotation<Uint8List>()
-          final Uint8List? logoFile,
-      @FormControlAnnotation<int>()
-          final int? color,
-      @FormControlAnnotation<int>()
-          final int? layout,
-      @FormControlAnnotation<String>()
-          final String? position,
-      @FormControlAnnotation<String>()
-          final String? department,
-      @FormControlAnnotation<String>()
-          final String? company,
-      @FormControlAnnotation<String>()
-          final String? headline,
-      @FormArrayAnnotation()
-          final List<CustomLink> customLinks,
+      final Uint8List? logoFile,
+      @FormControlAnnotation<int>() final int? color,
+      @FormControlAnnotation<int>() final int? layout,
+      @FormControlAnnotation<String>() final String? position,
+      @FormControlAnnotation<String>() final String? department,
+      @FormControlAnnotation<String>() final String? company,
+      @FormControlAnnotation<String>() final String? headline,
+      @FormArrayAnnotation() final List<CustomLink> customLinks,
       final DateTime? createdAt,
       final DateTime? updatedAt,
-      final DateTime? addedAt}) = _$_DigitalCard;
+      final DateTime? addedAt}) = _$DigitalCardImpl;
 
   factory _DigitalCard.fromJson(Map<String, dynamic> json) =
-      _$_DigitalCard.fromJson;
+      _$DigitalCardImpl.fromJson;
 
   @override
   @FormControlAnnotation<int>()
@@ -826,6 +766,6 @@ abstract class _DigitalCard implements DigitalCard {
   DateTime? get addedAt;
   @override
   @JsonKey(ignore: true)
-  _$$_DigitalCardCopyWith<_$_DigitalCard> get copyWith =>
+  _$$DigitalCardImplCopyWith<_$DigitalCardImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

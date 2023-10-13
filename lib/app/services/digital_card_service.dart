@@ -66,6 +66,7 @@ class DigitalCardService with ListenableServiceMixin {
 
   Future<String?> imageCopy(
       {required String sourceFileName, required String folderPath}) async {
+        log.w("${sourceFileName} ${folderPath}");
     String extension = StringExtension.getFileExtension(sourceFileName);
     final fileName = '${uuid.v4()}.$extension';
     try {

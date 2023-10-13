@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 Widget appIcon() {
   return Row(
     children: [
-      const Icon(
-        Icons.qr_code_2_rounded,
-        size: 30,
-      ),
+      Image.asset(
+            'assets/icons/qr.png',
+            width: 36,
+          ),
       const SizedBox(
         width: 10,
       ),

@@ -190,11 +190,17 @@ class CustomLinkForm implements FormModel<CustomLink> {
   final String? path;
 
   String textControlPath() => pathBuilder(textControlName);
+
   String labelControlPath() => pathBuilder(labelControlName);
+
   String typeControlPath() => pathBuilder(typeControlName);
+
   String? get _textValue => textControl?.value;
+
   String? get _labelValue => labelControl?.value;
+
   String? get _typeValue => typeControl?.value;
+
   bool get containsText {
     try {
       form.control(textControlPath());
@@ -223,11 +229,17 @@ class CustomLinkForm implements FormModel<CustomLink> {
   }
 
   Object? get textErrors => textControl?.errors;
+
   Object? get labelErrors => labelControl?.errors;
+
   Object? get typeErrors => typeControl?.errors;
+
   void get textFocus => form.focus(textControlPath());
+
   void get labelFocus => form.focus(labelControlPath());
+
   void get typeFocus => form.focus(typeControlPath());
+
   void textRemove({
     bool updateParent = true,
     bool emitEvent = true,
@@ -369,6 +381,7 @@ class CustomLinkForm implements FormModel<CustomLink> {
   }) =>
       textControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void labelValueReset(
     String? value, {
     bool updateParent = true,
@@ -378,6 +391,7 @@ class CustomLinkForm implements FormModel<CustomLink> {
   }) =>
       labelControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void typeValueReset(
     String? value, {
     bool updateParent = true,
@@ -387,15 +401,19 @@ class CustomLinkForm implements FormModel<CustomLink> {
   }) =>
       typeControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   FormControl<String>? get textControl => containsText
       ? form.control(textControlPath()) as FormControl<String>?
       : null;
+
   FormControl<String>? get labelControl => containsLabel
       ? form.control(labelControlPath()) as FormControl<String>?
       : null;
+
   FormControl<String>? get typeControl => containsType
       ? form.control(typeControlPath()) as FormControl<String>?
       : null;
+
   void textSetDisabled(
     bool disabled, {
     bool updateParent = true,
@@ -461,6 +479,7 @@ class CustomLinkForm implements FormModel<CustomLink> {
     return CustomLink(text: _textValue, label: _labelValue, type: _typeValue);
   }
 
+  @override
   void submit({
     required void Function(CustomLink model) onValid,
     void Function()? onNotValid,
@@ -481,6 +500,7 @@ class CustomLinkForm implements FormModel<CustomLink> {
   }) =>
       form.updateValue(CustomLinkForm.formElements(value).rawValue,
           updateParent: updateParent, emitEvent: emitEvent);
+
   @override
   void reset({
     CustomLink? value,
@@ -491,8 +511,10 @@ class CustomLinkForm implements FormModel<CustomLink> {
           value: value != null ? formElements(value).rawValue : null,
           updateParent: updateParent,
           emitEvent: emitEvent);
+
   String pathBuilder(String? pathItem) =>
       [path, pathItem].whereType<String>().join(".");
+
   static FormGroup formElements(CustomLink? customLink) => FormGroup({
         textControlName: FormControl<String>(
             value: customLink?.text,
@@ -582,7 +604,7 @@ class ReactiveCustomLinkFormArrayBuilder<T> extends StatelessWidget {
   }
 }
 
-class ReactiveCustomLinkFormFormGroupArrayBuilder<V> extends StatelessWidget {
+class ReactiveCustomLinkFormFormGroupArrayBuilder<T> extends StatelessWidget {
   const ReactiveCustomLinkFormFormGroupArrayBuilder({
     Key? key,
     this.extended,
@@ -593,16 +615,16 @@ class ReactiveCustomLinkFormFormGroupArrayBuilder<V> extends StatelessWidget {
             "You have to specify `control` or `formControl`!"),
         super(key: key);
 
-  final ExtendedControl<List<Map<String, Object?>?>, List<V>>? extended;
+  final ExtendedControl<List<Map<String, Object?>?>, List<T>>? extended;
 
-  final ExtendedControl<List<Map<String, Object?>?>, List<V>> Function(
+  final ExtendedControl<List<Map<String, Object?>?>, List<T>> Function(
       CustomLinkForm formModel)? getExtended;
 
   final Widget Function(BuildContext context, List<Widget> itemList,
       CustomLinkForm formModel)? builder;
 
   final Widget Function(
-          BuildContext context, int i, V? item, CustomLinkForm formModel)
+          BuildContext context, int i, T? item, CustomLinkForm formModel)
       itemBuilder;
 
   @override
@@ -618,7 +640,7 @@ class ReactiveCustomLinkFormFormGroupArrayBuilder<V> extends StatelessWidget {
     return StreamBuilder<List<Map<String, Object?>?>?>(
       stream: value.control.valueChanges,
       builder: (context, snapshot) {
-        final itemList = (value.value() ?? <V>[])
+        final itemList = (value.value() ?? <T>[])
             .asMap()
             .map((i, item) => MapEntry(
                   i,

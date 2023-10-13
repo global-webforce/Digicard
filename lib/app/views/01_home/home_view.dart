@@ -1,3 +1,4 @@
+import 'package:digicard/app/ui/dashboard/bottom_nav_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
@@ -24,7 +25,10 @@ class HomeFloatingActionButton extends StatelessWidget {
         onPressed: () {
           viewModel.create();
         },
-        child: const Icon(Icons.add));
+        child: Image.asset(
+            'assets/icons/create.png',
+            width: 36,
+          ),);
   }
 }
 
@@ -50,7 +54,7 @@ class HomeView extends StatelessWidget {
             builder: (context, child) {
               return Scaffold(
                 drawer: child.drawer,
-                bottomNavigationBar: child.bottomNavBar,
+                bottomNavigationBar:const NavigationBarWidget(),
                 appBar: AppBar(
                   automaticallyImplyLeading: false,
                   title: isDesktop(context) ? null : appIcon(),

@@ -6,8 +6,8 @@ part of 'digital_card.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_DigitalCard _$$_DigitalCardFromJson(Map<String, dynamic> json) =>
-    _$_DigitalCard(
+_$DigitalCardImpl _$$DigitalCardImplFromJson(Map<String, dynamic> json) =>
+    _$DigitalCardImpl(
       id: json['id'] as int?,
       userId: json['user_id'] as String?,
       uuid: json['uuid'] as String?,
@@ -46,7 +46,7 @@ _$_DigitalCard _$$_DigitalCardFromJson(Map<String, dynamic> json) =>
           : DateTime.parse(json['added_at'] as String),
     );
 
-Map<String, dynamic> _$$_DigitalCardToJson(_$_DigitalCard instance) =>
+Map<String, dynamic> _$$DigitalCardImplToJson(_$DigitalCardImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'user_id': instance.userId,

@@ -45,15 +45,15 @@ class _AvatarPicker extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: Colors.grey,
                       borderRadius: BorderRadius.circular(15)),
-                  width: 80,
-                  height: 80,
-                  child: const Column(
+                  width: 70,
+                  height: 70,
+                  child:  Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
-                        Icons.image_rounded,
-                        size: 20,
-                      ),
+                            Image.asset(
+            'assets/icons/profile.png',
+            width: 36,
+          ),
                     ],
                   ),
                 ),

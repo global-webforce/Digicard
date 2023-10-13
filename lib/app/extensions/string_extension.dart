@@ -1,6 +1,7 @@
 extension StringExtension on String? {
   static String getFileExtension(String fileName) {
     try {
+      print(fileName);
       return fileName.split('.').last;
     } catch (e) {
       return '';

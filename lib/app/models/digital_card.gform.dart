@@ -235,56 +235,106 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   final String? path;
 
   String idControlPath() => pathBuilder(idControlName);
+
   String userIdControlPath() => pathBuilder(userIdControlName);
+
   String uuidControlPath() => pathBuilder(uuidControlName);
+
   String titleControlPath() => pathBuilder(titleControlName);
+
   String prefixControlPath() => pathBuilder(prefixControlName);
+
   String firstNameControlPath() => pathBuilder(firstNameControlName);
+
   String middleNameControlPath() => pathBuilder(middleNameControlName);
+
   String lastNameControlPath() => pathBuilder(lastNameControlName);
+
   String suffixControlPath() => pathBuilder(suffixControlName);
+
   String accreditationsControlPath() => pathBuilder(accreditationsControlName);
+
   String maidenNameControlPath() => pathBuilder(maidenNameControlName);
+
   String logoUrlControlPath() => pathBuilder(logoUrlControlName);
+
   String avatarUrlControlPath() => pathBuilder(avatarUrlControlName);
+
   String avatarFileControlPath() => pathBuilder(avatarFileControlName);
+
   String logoFileControlPath() => pathBuilder(logoFileControlName);
+
   String colorControlPath() => pathBuilder(colorControlName);
+
   String layoutControlPath() => pathBuilder(layoutControlName);
+
   String positionControlPath() => pathBuilder(positionControlName);
+
   String departmentControlPath() => pathBuilder(departmentControlName);
+
   String companyControlPath() => pathBuilder(companyControlName);
+
   String headlineControlPath() => pathBuilder(headlineControlName);
+
   String createdAtControlPath() => pathBuilder(createdAtControlName);
+
   String updatedAtControlPath() => pathBuilder(updatedAtControlName);
+
   String addedAtControlPath() => pathBuilder(addedAtControlName);
+
   String customLinksControlPath() => pathBuilder(customLinksControlName);
+
   int? get _idValue => idControl?.value;
+
   String? get _userIdValue => userIdControl?.value;
+
   String? get _uuidValue => uuidControl?.value;
+
   String? get _titleValue => titleControl?.value;
+
   String? get _prefixValue => prefixControl?.value;
+
   String? get _firstNameValue => firstNameControl?.value;
+
   String? get _middleNameValue => middleNameControl?.value;
+
   String? get _lastNameValue => lastNameControl?.value;
+
   String? get _suffixValue => suffixControl?.value;
+
   String? get _accreditationsValue => accreditationsControl?.value;
+
   String? get _maidenNameValue => maidenNameControl?.value;
+
   String? get _logoUrlValue => logoUrlControl?.value;
+
   String? get _avatarUrlValue => avatarUrlControl?.value;
+
   Uint8List? get _avatarFileValue => avatarFileControl?.value;
+
   Uint8List? get _logoFileValue => logoFileControl?.value;
+
   int? get _colorValue => colorControl?.value;
+
   int? get _layoutValue => layoutControl?.value;
+
   String? get _positionValue => positionControl?.value;
+
   String? get _departmentValue => departmentControl?.value;
+
   String? get _companyValue => companyControl?.value;
+
   String? get _headlineValue => headlineControl?.value;
+
   DateTime? get _createdAtValue => createdAtControl?.value;
+
   DateTime? get _updatedAtValue => updatedAtControl?.value;
+
   DateTime? get _addedAtValue => addedAtControl?.value;
+
   List<CustomLink> get _customLinksValue =>
       customLinksCustomLinkForm.map((e) => e.model).toList();
+
   bool get containsId {
     try {
       form.control(idControlPath());
@@ -511,55 +561,105 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }
 
   Object? get idErrors => idControl?.errors;
+
   Object? get userIdErrors => userIdControl?.errors;
+
   Object? get uuidErrors => uuidControl?.errors;
+
   Object? get titleErrors => titleControl?.errors;
+
   Object? get prefixErrors => prefixControl?.errors;
+
   Object? get firstNameErrors => firstNameControl?.errors;
+
   Object? get middleNameErrors => middleNameControl?.errors;
+
   Object? get lastNameErrors => lastNameControl?.errors;
+
   Object? get suffixErrors => suffixControl?.errors;
+
   Object? get accreditationsErrors => accreditationsControl?.errors;
+
   Object? get maidenNameErrors => maidenNameControl?.errors;
+
   Object? get logoUrlErrors => logoUrlControl?.errors;
+
   Object? get avatarUrlErrors => avatarUrlControl?.errors;
+
   Object? get avatarFileErrors => avatarFileControl?.errors;
+
   Object? get logoFileErrors => logoFileControl?.errors;
+
   Object? get colorErrors => colorControl?.errors;
+
   Object? get layoutErrors => layoutControl?.errors;
+
   Object? get positionErrors => positionControl?.errors;
+
   Object? get departmentErrors => departmentControl?.errors;
+
   Object? get companyErrors => companyControl?.errors;
+
   Object? get headlineErrors => headlineControl?.errors;
+
   Object? get createdAtErrors => createdAtControl?.errors;
+
   Object? get updatedAtErrors => updatedAtControl?.errors;
+
   Object? get addedAtErrors => addedAtControl?.errors;
+
   Object? get customLinksErrors => customLinksControl.errors;
+
   void get idFocus => form.focus(idControlPath());
+
   void get userIdFocus => form.focus(userIdControlPath());
+
   void get uuidFocus => form.focus(uuidControlPath());
+
   void get titleFocus => form.focus(titleControlPath());
+
   void get prefixFocus => form.focus(prefixControlPath());
+
   void get firstNameFocus => form.focus(firstNameControlPath());
+
   void get middleNameFocus => form.focus(middleNameControlPath());
+
   void get lastNameFocus => form.focus(lastNameControlPath());
+
   void get suffixFocus => form.focus(suffixControlPath());
+
   void get accreditationsFocus => form.focus(accreditationsControlPath());
+
   void get maidenNameFocus => form.focus(maidenNameControlPath());
+
   void get logoUrlFocus => form.focus(logoUrlControlPath());
+
   void get avatarUrlFocus => form.focus(avatarUrlControlPath());
+
   void get avatarFileFocus => form.focus(avatarFileControlPath());
+
   void get logoFileFocus => form.focus(logoFileControlPath());
+
   void get colorFocus => form.focus(colorControlPath());
+
   void get layoutFocus => form.focus(layoutControlPath());
+
   void get positionFocus => form.focus(positionControlPath());
+
   void get departmentFocus => form.focus(departmentControlPath());
+
   void get companyFocus => form.focus(companyControlPath());
+
   void get headlineFocus => form.focus(headlineControlPath());
+
   void get createdAtFocus => form.focus(createdAtControlPath());
+
   void get updatedAtFocus => form.focus(updatedAtControlPath());
+
   void get addedAtFocus => form.focus(addedAtControlPath());
+
   void get customLinksFocus => form.focus(customLinksControlPath());
+
   void idRemove({
     bool updateParent = true,
     bool emitEvent = true,
@@ -1713,6 +1813,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       idControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void userIdValueReset(
     String? value, {
     bool updateParent = true,
@@ -1722,6 +1823,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       userIdControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void uuidValueReset(
     String? value, {
     bool updateParent = true,
@@ -1731,6 +1833,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       uuidControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void titleValueReset(
     String? value, {
     bool updateParent = true,
@@ -1740,6 +1843,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       titleControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void prefixValueReset(
     String? value, {
     bool updateParent = true,
@@ -1749,6 +1853,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       prefixControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void firstNameValueReset(
     String? value, {
     bool updateParent = true,
@@ -1758,6 +1863,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       firstNameControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void middleNameValueReset(
     String? value, {
     bool updateParent = true,
@@ -1767,6 +1873,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       middleNameControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void lastNameValueReset(
     String? value, {
     bool updateParent = true,
@@ -1776,6 +1883,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       lastNameControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void suffixValueReset(
     String? value, {
     bool updateParent = true,
@@ -1785,6 +1893,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       suffixControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void accreditationsValueReset(
     String? value, {
     bool updateParent = true,
@@ -1794,6 +1903,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       accreditationsControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void maidenNameValueReset(
     String? value, {
     bool updateParent = true,
@@ -1803,6 +1913,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       maidenNameControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void logoUrlValueReset(
     String? value, {
     bool updateParent = true,
@@ -1812,6 +1923,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       logoUrlControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void avatarUrlValueReset(
     String? value, {
     bool updateParent = true,
@@ -1821,6 +1933,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       avatarUrlControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void avatarFileValueReset(
     Uint8List? value, {
     bool updateParent = true,
@@ -1830,6 +1943,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       avatarFileControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void logoFileValueReset(
     Uint8List? value, {
     bool updateParent = true,
@@ -1839,6 +1953,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       logoFileControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void colorValueReset(
     int? value, {
     bool updateParent = true,
@@ -1848,6 +1963,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       colorControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void layoutValueReset(
     int? value, {
     bool updateParent = true,
@@ -1857,6 +1973,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       layoutControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void positionValueReset(
     String? value, {
     bool updateParent = true,
@@ -1866,6 +1983,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       positionControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void departmentValueReset(
     String? value, {
     bool updateParent = true,
@@ -1875,6 +1993,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       departmentControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void companyValueReset(
     String? value, {
     bool updateParent = true,
@@ -1884,6 +2003,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       companyControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void headlineValueReset(
     String? value, {
     bool updateParent = true,
@@ -1893,6 +2013,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       headlineControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void createdAtValueReset(
     DateTime? value, {
     bool updateParent = true,
@@ -1902,6 +2023,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       createdAtControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void updatedAtValueReset(
     DateTime? value, {
     bool updateParent = true,
@@ -1911,6 +2033,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       updatedAtControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void addedAtValueReset(
     DateTime? value, {
     bool updateParent = true,
@@ -1920,6 +2043,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       addedAtControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void customLinksValueReset(
     List<CustomLink> value, {
     bool updateParent = true,
@@ -1933,79 +2057,105 @@ class DigitalCardForm implements FormModel<DigitalCard> {
               .toList(),
           updateParent: updateParent,
           emitEvent: emitEvent);
+
   FormControl<int>? get idControl =>
       containsId ? form.control(idControlPath()) as FormControl<int>? : null;
+
   FormControl<String>? get userIdControl => containsUserId
       ? form.control(userIdControlPath()) as FormControl<String>?
       : null;
+
   FormControl<String>? get uuidControl => containsUuid
       ? form.control(uuidControlPath()) as FormControl<String>?
       : null;
+
   FormControl<String>? get titleControl => containsTitle
       ? form.control(titleControlPath()) as FormControl<String>?
       : null;
+
   FormControl<String>? get prefixControl => containsPrefix
       ? form.control(prefixControlPath()) as FormControl<String>?
       : null;
+
   FormControl<String>? get firstNameControl => containsFirstName
       ? form.control(firstNameControlPath()) as FormControl<String>?
       : null;
+
   FormControl<String>? get middleNameControl => containsMiddleName
       ? form.control(middleNameControlPath()) as FormControl<String>?
       : null;
+
   FormControl<String>? get lastNameControl => containsLastName
       ? form.control(lastNameControlPath()) as FormControl<String>?
       : null;
+
   FormControl<String>? get suffixControl => containsSuffix
       ? form.control(suffixControlPath()) as FormControl<String>?
       : null;
+
   FormControl<String>? get accreditationsControl => containsAccreditations
       ? form.control(accreditationsControlPath()) as FormControl<String>?
       : null;
+
   FormControl<String>? get maidenNameControl => containsMaidenName
       ? form.control(maidenNameControlPath()) as FormControl<String>?
       : null;
+
   FormControl<String>? get logoUrlControl => containsLogoUrl
       ? form.control(logoUrlControlPath()) as FormControl<String>?
       : null;
+
   FormControl<String>? get avatarUrlControl => containsAvatarUrl
       ? form.control(avatarUrlControlPath()) as FormControl<String>?
       : null;
+
   FormControl<Uint8List>? get avatarFileControl => containsAvatarFile
       ? form.control(avatarFileControlPath()) as FormControl<Uint8List>?
       : null;
+
   FormControl<Uint8List>? get logoFileControl => containsLogoFile
       ? form.control(logoFileControlPath()) as FormControl<Uint8List>?
       : null;
+
   FormControl<int>? get colorControl => containsColor
       ? form.control(colorControlPath()) as FormControl<int>?
       : null;
+
   FormControl<int>? get layoutControl => containsLayout
       ? form.control(layoutControlPath()) as FormControl<int>?
       : null;
+
   FormControl<String>? get positionControl => containsPosition
       ? form.control(positionControlPath()) as FormControl<String>?
       : null;
+
   FormControl<String>? get departmentControl => containsDepartment
       ? form.control(departmentControlPath()) as FormControl<String>?
       : null;
+
   FormControl<String>? get companyControl => containsCompany
       ? form.control(companyControlPath()) as FormControl<String>?
       : null;
+
   FormControl<String>? get headlineControl => containsHeadline
       ? form.control(headlineControlPath()) as FormControl<String>?
       : null;
+
   FormControl<DateTime>? get createdAtControl => containsCreatedAt
       ? form.control(createdAtControlPath()) as FormControl<DateTime>?
       : null;
+
   FormControl<DateTime>? get updatedAtControl => containsUpdatedAt
       ? form.control(updatedAtControlPath()) as FormControl<DateTime>?
       : null;
+
   FormControl<DateTime>? get addedAtControl => containsAddedAt
       ? form.control(addedAtControlPath()) as FormControl<DateTime>?
       : null;
+
   FormArray<Map<String, Object?>> get customLinksControl =>
       form.control(customLinksControlPath()) as FormArray<Map<String, Object?>>;
+
   List<CustomLinkForm> get customLinksCustomLinkForm =>
       (customLinksControl.value ?? [])
           .asMap()
@@ -2013,6 +2163,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
               MapEntry(k, CustomLinkForm(form, pathBuilder("customLinks.$k"))))
           .values
           .toList();
+
   void idSetDisabled(
     bool disabled, {
     bool updateParent = true,
@@ -2469,6 +2620,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
               form.control(customLinksControlPath())
                   as FormArray<Map<String, Object?>>,
               () => customLinksCustomLinkForm);
+
   void addCustomLinksItem(CustomLink value) {
     customLinksControl.add(CustomLinkForm.formElements(value));
   }
@@ -2519,6 +2671,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
         addedAt: _addedAtValue);
   }
 
+  @override
   void submit({
     required void Function(DigitalCard model) onValid,
     void Function()? onNotValid,
@@ -2539,6 +2692,7 @@ class DigitalCardForm implements FormModel<DigitalCard> {
   }) =>
       form.updateValue(DigitalCardForm.formElements(value).rawValue,
           updateParent: updateParent, emitEvent: emitEvent);
+
   @override
   void reset({
     DigitalCard? value,
@@ -2549,8 +2703,10 @@ class DigitalCardForm implements FormModel<DigitalCard> {
           value: value != null ? formElements(value).rawValue : null,
           updateParent: updateParent,
           emitEvent: emitEvent);
+
   String pathBuilder(String? pathItem) =>
       [path, pathItem].whereType<String>().join(".");
+
   static FormGroup formElements(DigitalCard? digitalCard) => FormGroup({
         idControlName: FormControl<int>(
             value: digitalCard?.id,
@@ -2752,11 +2908,17 @@ class CustomLinkForm implements FormModel<CustomLink> {
   final String? path;
 
   String textControlPath() => pathBuilder(textControlName);
+
   String labelControlPath() => pathBuilder(labelControlName);
+
   String typeControlPath() => pathBuilder(typeControlName);
+
   String? get _textValue => textControl?.value;
+
   String? get _labelValue => labelControl?.value;
+
   String? get _typeValue => typeControl?.value;
+
   bool get containsText {
     try {
       form.control(textControlPath());
@@ -2785,11 +2947,17 @@ class CustomLinkForm implements FormModel<CustomLink> {
   }
 
   Object? get textErrors => textControl?.errors;
+
   Object? get labelErrors => labelControl?.errors;
+
   Object? get typeErrors => typeControl?.errors;
+
   void get textFocus => form.focus(textControlPath());
+
   void get labelFocus => form.focus(labelControlPath());
+
   void get typeFocus => form.focus(typeControlPath());
+
   void textRemove({
     bool updateParent = true,
     bool emitEvent = true,
@@ -2931,6 +3099,7 @@ class CustomLinkForm implements FormModel<CustomLink> {
   }) =>
       textControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void labelValueReset(
     String? value, {
     bool updateParent = true,
@@ -2940,6 +3109,7 @@ class CustomLinkForm implements FormModel<CustomLink> {
   }) =>
       labelControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   void typeValueReset(
     String? value, {
     bool updateParent = true,
@@ -2949,15 +3119,19 @@ class CustomLinkForm implements FormModel<CustomLink> {
   }) =>
       typeControl?.reset(
           value: value, updateParent: updateParent, emitEvent: emitEvent);
+
   FormControl<String>? get textControl => containsText
       ? form.control(textControlPath()) as FormControl<String>?
       : null;
+
   FormControl<String>? get labelControl => containsLabel
       ? form.control(labelControlPath()) as FormControl<String>?
       : null;
+
   FormControl<String>? get typeControl => containsType
       ? form.control(typeControlPath()) as FormControl<String>?
       : null;
+
   void textSetDisabled(
     bool disabled, {
     bool updateParent = true,
@@ -3023,6 +3197,7 @@ class CustomLinkForm implements FormModel<CustomLink> {
     return CustomLink(text: _textValue, label: _labelValue, type: _typeValue);
   }
 
+  @override
   void submit({
     required void Function(CustomLink model) onValid,
     void Function()? onNotValid,
@@ -3043,6 +3218,7 @@ class CustomLinkForm implements FormModel<CustomLink> {
   }) =>
       form.updateValue(CustomLinkForm.formElements(value).rawValue,
           updateParent: updateParent, emitEvent: emitEvent);
+
   @override
   void reset({
     CustomLink? value,
@@ -3053,8 +3229,10 @@ class CustomLinkForm implements FormModel<CustomLink> {
           value: value != null ? formElements(value).rawValue : null,
           updateParent: updateParent,
           emitEvent: emitEvent);
+
   String pathBuilder(String? pathItem) =>
       [path, pathItem].whereType<String>().join(".");
+
   static FormGroup formElements(CustomLink? customLink) => FormGroup({
         textControlName: FormControl<String>(
             value: customLink?.text,
@@ -3144,7 +3322,7 @@ class ReactiveDigitalCardFormArrayBuilder<T> extends StatelessWidget {
   }
 }
 
-class ReactiveDigitalCardFormFormGroupArrayBuilder<V> extends StatelessWidget {
+class ReactiveDigitalCardFormFormGroupArrayBuilder<T> extends StatelessWidget {
   const ReactiveDigitalCardFormFormGroupArrayBuilder({
     Key? key,
     this.extended,
@@ -3155,16 +3333,16 @@ class ReactiveDigitalCardFormFormGroupArrayBuilder<V> extends StatelessWidget {
             "You have to specify `control` or `formControl`!"),
         super(key: key);
 
-  final ExtendedControl<List<Map<String, Object?>?>, List<V>>? extended;
+  final ExtendedControl<List<Map<String, Object?>?>, List<T>>? extended;
 
-  final ExtendedControl<List<Map<String, Object?>?>, List<V>> Function(
+  final ExtendedControl<List<Map<String, Object?>?>, List<T>> Function(
       DigitalCardForm formModel)? getExtended;
 
   final Widget Function(BuildContext context, List<Widget> itemList,
       DigitalCardForm formModel)? builder;
 
   final Widget Function(
-          BuildContext context, int i, V? item, DigitalCardForm formModel)
+          BuildContext context, int i, T? item, DigitalCardForm formModel)
       itemBuilder;
 
   @override
@@ -3180,7 +3358,7 @@ class ReactiveDigitalCardFormFormGroupArrayBuilder<V> extends StatelessWidget {
     return StreamBuilder<List<Map<String, Object?>?>?>(
       stream: value.control.valueChanges,
       builder: (context, snapshot) {
-        final itemList = (value.value() ?? <V>[])
+        final itemList = (value.value() ?? <T>[])
             .asMap()
             .map((i, item) => MapEntry(
                   i,

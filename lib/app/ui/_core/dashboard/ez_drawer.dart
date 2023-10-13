@@ -74,6 +74,7 @@ class EZDrawer extends StatelessWidget {
       );
     }).toList();
     return Drawer(
+      //backgroundColor: colorTheme,
       child: ListView(
         padding: EdgeInsets.zero,
         children: [

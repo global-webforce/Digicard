@@ -51,12 +51,12 @@ class CardShareBottomSheet extends StatelessWidget {
           Widget qrCode() {
             return ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: QrImage(
+              child: QrImageView(
                 data: "${Env.cardUrl}${request.data.uuid}",
                 version: QrVersions.auto,
                 errorCorrectionLevel: QrErrorCorrectLevel.M,
-                size: 200,
-                foregroundColor: Colors.black,
+                size: 200,eyeStyle: const QrEyeStyle(color: Colors.black,),
+       
                 backgroundColor: Colors.white,
                 gapless: true,
               ),

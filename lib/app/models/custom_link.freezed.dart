@@ -80,11 +80,11 @@ class _$CustomLinkCopyWithImpl<$Res, $Val extends CustomLink>
 }
 
 /// @nodoc
-abstract class _$$_CustomLinkCopyWith<$Res>
+abstract class _$$CustomLinkImplCopyWith<$Res>
     implements $CustomLinkCopyWith<$Res> {
-  factory _$$_CustomLinkCopyWith(
-          _$_CustomLink value, $Res Function(_$_CustomLink) then) =
-      __$$_CustomLinkCopyWithImpl<$Res>;
+  factory _$$CustomLinkImplCopyWith(
+          _$CustomLinkImpl value, $Res Function(_$CustomLinkImpl) then) =
+      __$$CustomLinkImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -94,11 +94,11 @@ abstract class _$$_CustomLinkCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_CustomLinkCopyWithImpl<$Res>
-    extends _$CustomLinkCopyWithImpl<$Res, _$_CustomLink>
-    implements _$$_CustomLinkCopyWith<$Res> {
-  __$$_CustomLinkCopyWithImpl(
-      _$_CustomLink _value, $Res Function(_$_CustomLink) _then)
+class __$$CustomLinkImplCopyWithImpl<$Res>
+    extends _$CustomLinkCopyWithImpl<$Res, _$CustomLinkImpl>
+    implements _$$CustomLinkImplCopyWith<$Res> {
+  __$$CustomLinkImplCopyWithImpl(
+      _$CustomLinkImpl _value, $Res Function(_$CustomLinkImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -108,7 +108,7 @@ class __$$_CustomLinkCopyWithImpl<$Res>
     Object? label = freezed,
     Object? type = freezed,
   }) {
-    return _then(_$_CustomLink(
+    return _then(_$CustomLinkImpl(
       text: freezed == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -128,14 +128,14 @@ class __$$_CustomLinkCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class _$_CustomLink implements _CustomLink {
-  _$_CustomLink(
+class _$CustomLinkImpl implements _CustomLink {
+  _$CustomLinkImpl(
       {@FormControlAnnotation() this.text,
       @FormControlAnnotation() this.label,
       @FormControlAnnotation() this.type});
 
-  factory _$_CustomLink.fromJson(Map<String, dynamic> json) =>
-      _$$_CustomLinkFromJson(json);
+  factory _$CustomLinkImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CustomLinkImplFromJson(json);
 
   @override
   @FormControlAnnotation()
@@ -156,7 +156,7 @@ class _$_CustomLink implements _CustomLink {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CustomLink &&
+            other is _$CustomLinkImpl &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.label, label) || other.label == label) &&
             (identical(other.type, type) || other.type == type));
@@ -169,12 +169,12 @@ class _$_CustomLink implements _CustomLink {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CustomLinkCopyWith<_$_CustomLink> get copyWith =>
-      __$$_CustomLinkCopyWithImpl<_$_CustomLink>(this, _$identity);
+  _$$CustomLinkImplCopyWith<_$CustomLinkImpl> get copyWith =>
+      __$$CustomLinkImplCopyWithImpl<_$CustomLinkImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CustomLinkToJson(
+    return _$$CustomLinkImplToJson(
       this,
     );
   }
@@ -184,10 +184,10 @@ abstract class _CustomLink implements CustomLink {
   factory _CustomLink(
       {@FormControlAnnotation() final String? text,
       @FormControlAnnotation() final String? label,
-      @FormControlAnnotation() final String? type}) = _$_CustomLink;
+      @FormControlAnnotation() final String? type}) = _$CustomLinkImpl;
 
   factory _CustomLink.fromJson(Map<String, dynamic> json) =
-      _$_CustomLink.fromJson;
+      _$CustomLinkImpl.fromJson;
 
   @override
   @FormControlAnnotation()
@@ -200,6 +200,6 @@ abstract class _CustomLink implements CustomLink {
   String? get type;
   @override
   @JsonKey(ignore: true)
-  _$$_CustomLinkCopyWith<_$_CustomLink> get copyWith =>
+  _$$CustomLinkImplCopyWith<_$CustomLinkImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
