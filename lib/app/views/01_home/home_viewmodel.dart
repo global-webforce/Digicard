@@ -9,7 +9,7 @@ import 'package:digicard/app/services/contacts_service.dart';
 
 import 'package:digicard/app/services/digital_card_service.dart';
 import 'package:digicard/app/services/user_service.dart';
-import 'package:digicard/app/views/card_editor/card_editor_view.dart';
+import 'package:digicard/app/views/05_card_editor/card_editor_view.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';

@@ -10,15 +10,15 @@ import 'package:digicard/app/views/00_startup/startup_viewmodel.dart';
 import 'package:digicard/app/ui/bottom_sheets/bs.card_share_viewmodel.dart';
 import 'package:digicard/app/ui/bottom_sheets/bs.card_manager_viewmodel.dart';
 import 'package:digicard/app/views/dashboard/dashboard_viewmodel.dart';
-import 'package:digicard/app/views/card_editor/card_editor_viewmodel.dart';
 import 'package:digicard/app/views/01_home/home_viewmodel.dart';
 import 'package:digicard/app/views/03_contacts/contacts_view_model.dart';
-import 'package:digicard/app/views/02_scan_qr_code/scan_viewmodel.dart';
 import 'package:digicard/app/views/04_settings/settings_view_model.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:stacked_themes/stacked_themes.dart';
-import 'views/card_preview/card_display_viewmodel.dart';
+import 'views/02_scan/scan_viewmodel.dart';
+import 'views/05_card_editor/card_editor_viewmodel.dart';
+import 'views/06_card_viewer/card_display_viewmodel.dart';
 
 @StackedApp(
   logger: StackedLogger(),

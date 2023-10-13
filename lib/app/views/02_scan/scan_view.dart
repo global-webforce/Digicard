@@ -1,11 +1,10 @@
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/ui/_core/empty_display.dart';
 import 'package:digicard/app/ui/_core/ez_button.dart';
-import 'package:digicard/app/views/02_scan_qr_code/scan_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-
 import '../dashboard/dashboard_view.dart';
+import 'scan_viewmodel.dart';
 
 class ScanView extends StatelessWidget {
   const ScanView({Key? key}) : super(key: key);

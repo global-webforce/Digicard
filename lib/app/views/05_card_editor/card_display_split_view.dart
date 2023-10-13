@@ -3,17 +3,18 @@ import 'package:digicard/app/constants/dimensions.dart';
 import 'package:digicard/app/constants/keys.dart';
 import 'package:digicard/app/ui/_core/empty_display.dart';
 import 'package:digicard/app/ui/_core/scaffold_body_wrapper.dart';
+import 'package:digicard/app/views/06_card_viewer/card_display_viewmodel.dart';
+import 'package:digicard/app/views/06_card_viewer/layouts/body0.dart';
+import 'package:digicard/app/views/06_card_viewer/layouts/body1.dart';
+import 'package:digicard/app/views/06_card_viewer/layouts/heading0.dart';
+import 'package:digicard/app/views/06_card_viewer/layouts/heading1.dart';
+import 'package:digicard/app/views/06_card_viewer/widgets/app_bar_display.dart';
+import 'package:digicard/app/views/06_card_viewer/widgets/bottom_sheet_card.dart';
+import 'package:digicard/app/views/06_card_viewer/widgets/card_holder.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import '../card_preview/card_display_viewmodel.dart';
 import 'package:digicard/app/models/digital_card.dart';
-import '../card_preview/layouts/body0.dart';
-import '../card_preview/layouts/body1.dart';
-import '../card_preview/layouts/heading0.dart';
-import '../card_preview/layouts/heading1.dart';
-import '../card_preview/widgets/app_bar_display.dart';
-import '../card_preview/widgets/bottom_sheet_card.dart';
-import '../card_preview/widgets/card_holder.dart';
+
 
 class CardDisplaySplitView extends StatelessWidget {
   final DigitalCard card;

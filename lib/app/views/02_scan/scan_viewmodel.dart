@@ -4,7 +4,6 @@ import 'package:digicard/app/app.logger.dart';
 import 'package:digicard/app/helper/card_url_checker.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/routes/app_router.gr.dart';
-import 'package:digicard/app/views/02_scan_qr_code/scan_qr_code_view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -14,6 +13,7 @@ import 'package:digicard/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import '../../routes/app_router.dart';
+import 'scan_qr_code_view.dart';
 
 const String loadingCardBusyKey = 'loadingCardBusyKey';
 

@@ -1,4 +1,4 @@
-import 'package:digicard/app/views/card_preview/card_display_viewmodel.dart';
+import 'package:digicard/app/views/06_card_viewer/card_display_viewmodel.dart';
 import 'package:digicard/app/views/card_editor/widgets/card.wave_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';

@@ -5,17 +5,17 @@ import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/ui/_core/scaffold_body_wrapper.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
-import 'package:digicard/app/views/card_editor/card_editor_viewmodel.dart';
-import 'package:digicard/app/views/card_editor/widgets/card.custom_links.fields.dart';
-import 'package:digicard/app/views/card_editor/widgets/card.custom_links.options.dart';
-import 'package:digicard/app/views/card_editor/widgets/card.reactive_layout_picker.dart';
-import 'package:digicard/app/views/card_editor/widgets/collapsible_field.dart';
-import 'package:digicard/app/views/card_editor/widgets/card.reactive_color_picker.dart';
+import 'package:digicard/app/views/05_card_editor/card_editor_viewmodel.dart';
+import 'package:digicard/app/views/05_card_editor/widgets/card.reactive_layout_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms_annotations/reactive_forms_annotations.dart';
 import 'package:stacked/stacked.dart';
+import 'card.custom_links.fields.dart';
+import 'card.custom_links.options.dart';
 import 'card.reactive_avatar_picker.dart';
+import 'card.reactive_color_picker.dart';
 import 'card.reactive_logo_picker.dart';
+import 'collapsible_field.dart';
 
 class CardTabForm extends StatefulWidget {
   const CardTabForm({Key? key}) : super(key: key);
@@ -50,7 +50,7 @@ class _CardTabFormState extends State<CardTabForm>
 
   @override
   Widget build(BuildContext context) {
-    ReactiveDigitalCardTabForm.of(context);
+    ReactiveDigitalCardForm.of(context);
     final viewModel =
         getParentViewModel<CardEditorViewModel>(context, listen: true);
     final formModel = viewModel.formModel;
@@ -286,7 +286,7 @@ class _CardTabFormState extends State<CardTabForm>
                 ? "Copy Card "
                 : "Create Card"),
         actions: [
-          ReactiveDigitalCardTabFormConsumer(builder: (context, f, w) {
+          ReactiveDigitalCardFormConsumer(builder: (context, f, w) {
             return ((viewModel.editMode) &&
                     viewModel.formModel.form.pristine != true)
                 ? TextButton(

@@ -1,6 +1,7 @@
 import 'package:digicard/app/extensions/digital_card_extension.dart';
-import 'package:digicard/app/views/card_preview/card_display_viewmodel.dart';
-import 'package:digicard/app/views/card_preview/widgets/card_items.dart';
+import 'package:digicard/app/views/06_card_viewer/card_display_viewmodel.dart';
+import 'package:digicard/app/views/06_card_viewer/widgets/card_items.dart';
+
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 

@@ -2,7 +2,7 @@ import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/extensions/custom_link_extension.dart';
 import 'package:digicard/app/extensions/string_extension.dart';
 import 'package:digicard/app/models/custom_link.dart';
-import 'package:digicard/app/views/card_editor/widgets/icon_list_item.dart';
+import 'package:digicard/app/views/05_card_editor/widgets/icon_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';

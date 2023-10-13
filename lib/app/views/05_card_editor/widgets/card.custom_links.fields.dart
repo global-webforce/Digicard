@@ -1,6 +1,6 @@
 import 'package:digicard/app/extensions/custom_link_extension.dart';
 import 'package:digicard/app/models/digital_card.dart';
-import 'package:digicard/app/views/card_editor/card_editor_viewmodel.dart';
+import 'package:digicard/app/views/05_card_editor/card_editor_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:collection/collection.dart';

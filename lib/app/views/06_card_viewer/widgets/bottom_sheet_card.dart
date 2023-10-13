@@ -2,7 +2,7 @@ import 'package:digicard/app/constants/dimensions.dart';
 import 'package:digicard/app/constants/keys.dart';
 import 'package:digicard/app/ui/_core/ez_button.dart';
 import 'package:digicard/app/ui/_core/spacer.dart';
-import 'package:digicard/app/views/card_preview/card_display_viewmodel.dart';
+import 'package:digicard/app/views/06_card_viewer/card_display_viewmodel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';

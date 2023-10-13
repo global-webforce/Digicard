@@ -1,6 +1,6 @@
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/routes/app_router.dart';
-import 'package:digicard/app/views/card_preview/card_display_viewmodel.dart';
+import 'package:digicard/app/views/06_card_viewer/card_display_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 

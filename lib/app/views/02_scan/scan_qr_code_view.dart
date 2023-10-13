@@ -1,11 +1,12 @@
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/constants/colors.dart';
 import 'package:digicard/app/ui/overlays/loader_overlay_wrapper.dart';
-import 'package:digicard/app/views/02_scan_qr_code/scan_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import 'package:stacked/stacked.dart';
+
+import 'scan_viewmodel.dart';
 
 class ScanQRCodeView extends StatelessWidget {
   const ScanQRCodeView({Key? key}) : super(key: key);

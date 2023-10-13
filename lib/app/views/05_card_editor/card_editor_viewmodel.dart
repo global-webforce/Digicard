@@ -8,7 +8,7 @@ import 'package:digicard/app/helper/image_picker_x.dart';
 import 'package:digicard/app/models/custom_link.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/services/digital_card_service.dart';
-import 'package:digicard/app/views/card_editor/custom_link_view.dart';
+import 'package:digicard/app/views/05_card_editor_custom_link/custom_link_view.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stacked/stacked.dart';

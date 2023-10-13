@@ -4,12 +4,12 @@ import 'package:digicard/app/constants/keys.dart';
 import 'package:digicard/app/helper/screen_size.dart';
 import 'package:digicard/app/models/digital_card.dart';
 import 'package:digicard/app/ui/overlays/loader_overlay_wrapper.dart';
-import 'package:digicard/app/views/card_editor/card_display_split_view.dart';
-import 'package:digicard/app/views/card_editor/card_editor_viewmodel.dart';
-import 'package:digicard/app/views/card_editor/widgets/card_form.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:stacked/stacked.dart';
+import 'card_display_split_view.dart';
+import 'card_editor_viewmodel.dart';
+import 'widgets/card_tab_form.dart';
 
 class CardEditorView extends StatelessWidget {
   final DigitalCard card;
@@ -54,10 +54,10 @@ class CardEditorView extends StatelessWidget {
                                 : null,
                         builder: (context) {
                           return isMobile(context)
-                              ? const CardForm()
+                              ? const CardTabForm()
                               : Row(
                                   children: [
-                                    const Expanded(child: CardForm()),
+                                    const Expanded(child: CardTabForm()),
                                     const VerticalDivider(
                                       width: 1,
                                       thickness: 1,
