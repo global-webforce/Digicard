@@ -33,11 +33,12 @@ class StartupView extends StatelessWidget {
               lightTheme: lightTheme,
               builder: (context, regularTheme, darkTheme, themeMode) {
                 return GlobalLoaderOverlay(
+
                   duration: const Duration(milliseconds: 250),
                   reverseDuration: const Duration(milliseconds: 250),
                   useDefaultLoading: false,
-                  overlayColor: Colors.black,
-                  overlayOpacity: 0.6,
+                  overlayColor: Colors.black.withOpacity(0.6),
+               
                   overlayWidget: const Center(
                       child: CircularProgressIndicator(
                     color: kcPrimaryColor,

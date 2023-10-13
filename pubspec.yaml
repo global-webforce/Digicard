@@ -84,7 +84,7 @@ dependencies:
 #  form_builder_validators: ^8.5.0
   flutter_colorpicker: ^1.0.3
   image_cropper: ^5.0.0
-  loader_overlay: ^2.2.0
+  loader_overlay: ^2.3.2
   cached_network_image: ^3.2.0
   auto_route: ^7.8.4
   stacked: ^3.4.1
