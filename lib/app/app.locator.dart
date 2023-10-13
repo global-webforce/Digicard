@@ -22,15 +22,15 @@ import 'services/native_contacts_service.dart';
 import 'services/user_service.dart';
 import 'ui/bottom_sheets/bs.card_manager_viewmodel.dart';
 import 'ui/bottom_sheets/bs.card_share_viewmodel.dart';
+import 'views/00_startup/startup_viewmodel.dart';
+import 'views/00_startup_login/login_viewmodel.dart';
+import 'views/01_home/home_viewmodel.dart';
+import 'views/02_scan_qr_code/scan_viewmodel.dart';
+import 'views/03_contacts/contacts_view_model.dart';
+import 'views/04_settings/settings_view_model.dart';
 import 'views/card_editor/card_editor_viewmodel.dart';
 import 'views/card_preview/card_display_viewmodel.dart';
-import 'views/03_contacts/contacts_view_model.dart';
 import 'views/dashboard/dashboard_viewmodel.dart';
-import 'views/01_home/home_viewmodel.dart';
-import 'views/00_startup_login/login_viewmodel.dart';
-import 'views/02_scan_qr_code/scan_viewmodel.dart';
-import 'views/04_settings/settings_view_model.dart';
-import 'views/00_startup/startup_viewmodel.dart';
 
 final locator = StackedLocator.instance;
 
