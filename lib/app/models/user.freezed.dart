@@ -24,7 +24,6 @@ mixin _$User {
   String get email => throw _privateConstructorUsedError;
   String? get firstName => throw _privateConstructorUsedError;
   String? get lastName => throw _privateConstructorUsedError;
-  String? get gender => throw _privateConstructorUsedError;
   String? get mobileNumber => throw _privateConstructorUsedError;
   String? get profilePic => throw _privateConstructorUsedError;
   DateTime? get emailVerifiedAt => throw _privateConstructorUsedError;
@@ -45,7 +44,6 @@ abstract class $UserCopyWith<$Res> {
       String email,
       String? firstName,
       String? lastName,
-      String? gender,
       String? mobileNumber,
       String? profilePic,
       DateTime? emailVerifiedAt,
@@ -69,7 +67,6 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? email = null,
     Object? firstName = freezed,
     Object? lastName = freezed,
-    Object? gender = freezed,
     Object? mobileNumber = freezed,
     Object? profilePic = freezed,
     Object? emailVerifiedAt = freezed,
@@ -92,10 +89,6 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.lastName
           : lastName // ignore: cast_nullable_to_non_nullable
               as String?,
-      gender: freezed == gender
-          ? _value.gender
-          : gender // ignore: cast_nullable_to_non_nullable
-              as String?,
       mobileNumber: freezed == mobileNumber
           ? _value.mobileNumber
           : mobileNumber // ignore: cast_nullable_to_non_nullable
@@ -117,9 +110,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
 }
 
 /// @nodoc
-abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
-  factory _$$_UserCopyWith(_$_User value, $Res Function(_$_User) then) =
-      __$$_UserCopyWithImpl<$Res>;
+abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
+  factory _$$UserImplCopyWith(
+          _$UserImpl value, $Res Function(_$UserImpl) then) =
+      __$$UserImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -127,7 +121,6 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       String email,
       String? firstName,
       String? lastName,
-      String? gender,
       String? mobileNumber,
       String? profilePic,
       DateTime? emailVerifiedAt,
@@ -135,9 +128,10 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
-    implements _$$_UserCopyWith<$Res> {
-  __$$_UserCopyWithImpl(_$_User _value, $Res Function(_$_User) _then)
+class __$$UserImplCopyWithImpl<$Res>
+    extends _$UserCopyWithImpl<$Res, _$UserImpl>
+    implements _$$UserImplCopyWith<$Res> {
+  __$$UserImplCopyWithImpl(_$UserImpl _value, $Res Function(_$UserImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -147,13 +141,12 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
     Object? email = null,
     Object? firstName = freezed,
     Object? lastName = freezed,
-    Object? gender = freezed,
     Object? mobileNumber = freezed,
     Object? profilePic = freezed,
     Object? emailVerifiedAt = freezed,
     Object? token = freezed,
   }) {
-    return _then(_$_User(
+    return _then(_$UserImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -169,10 +162,6 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
       lastName: freezed == lastName
           ? _value.lastName
           : lastName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      gender: freezed == gender
-          ? _value.gender
-          : gender // ignore: cast_nullable_to_non_nullable
               as String?,
       mobileNumber: freezed == mobileNumber
           ? _value.mobileNumber
@@ -196,13 +185,12 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
 
 /// @nodoc
 @JsonSerializable()
-class _$_User implements _User {
-  _$_User(
+class _$UserImpl implements _User {
+  _$UserImpl(
       {required this.id,
       required this.email,
       this.firstName,
       this.lastName,
-      this.gender,
       this.mobileNumber,
       this.profilePic,
       this.emailVerifiedAt,
@@ -210,7 +198,8 @@ class _$_User implements _User {
       : assert(id != null, 'User id must be integer and not null'),
         assert(email.isNotEmpty, 'User email must be string and not null');
 
-  factory _$_User.fromJson(Map<String, dynamic> json) => _$$_UserFromJson(json);
+  factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserImplFromJson(json);
 
   @override
   final int id;
@@ -220,8 +209,6 @@ class _$_User implements _User {
   final String? firstName;
   @override
   final String? lastName;
-  @override
-  final String? gender;
   @override
   final String? mobileNumber;
   @override
@@ -233,21 +220,20 @@ class _$_User implements _User {
 
   @override
   String toString() {
-    return 'User(id: $id, email: $email, firstName: $firstName, lastName: $lastName, gender: $gender, mobileNumber: $mobileNumber, profilePic: $profilePic, emailVerifiedAt: $emailVerifiedAt, token: $token)';
+    return 'User(id: $id, email: $email, firstName: $firstName, lastName: $lastName, mobileNumber: $mobileNumber, profilePic: $profilePic, emailVerifiedAt: $emailVerifiedAt, token: $token)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_User &&
+            other is _$UserImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.firstName, firstName) ||
                 other.firstName == firstName) &&
             (identical(other.lastName, lastName) ||
                 other.lastName == lastName) &&
-            (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.mobileNumber, mobileNumber) ||
                 other.mobileNumber == mobileNumber) &&
             (identical(other.profilePic, profilePic) ||
@@ -260,17 +246,17 @@ class _$_User implements _User {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, email, firstName, lastName,
-      gender, mobileNumber, profilePic, emailVerifiedAt, token);
+      mobileNumber, profilePic, emailVerifiedAt, token);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UserCopyWith<_$_User> get copyWith =>
-      __$$_UserCopyWithImpl<_$_User>(this, _$identity);
+  _$$UserImplCopyWith<_$UserImpl> get copyWith =>
+      __$$UserImplCopyWithImpl<_$UserImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_UserToJson(
+    return _$$UserImplToJson(
       this,
     );
   }
@@ -282,13 +268,12 @@ abstract class _User implements User {
       required final String email,
       final String? firstName,
       final String? lastName,
-      final String? gender,
       final String? mobileNumber,
       final String? profilePic,
       final DateTime? emailVerifiedAt,
-      final String? token}) = _$_User;
+      final String? token}) = _$UserImpl;
 
-  factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
+  factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
   @override
   int get id;
@@ -299,8 +284,6 @@ abstract class _User implements User {
   @override
   String? get lastName;
   @override
-  String? get gender;
-  @override
   String? get mobileNumber;
   @override
   String? get profilePic;
@@ -310,5 +293,6 @@ abstract class _User implements User {
   String? get token;
   @override
   @JsonKey(ignore: true)
-  _$$_UserCopyWith<_$_User> get copyWith => throw _privateConstructorUsedError;
+  _$$UserImplCopyWith<_$UserImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

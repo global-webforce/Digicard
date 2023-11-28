@@ -1,59 +1,113 @@
-import 'package:digicard/app/routes/app_router.dart';
-import 'package:digicard/app/services/auth_service_supabase.dart';
-import 'package:digicard/app/services/contacts_service.dart';
-import 'package:digicard/app/services/deeplink_service.dart';
-import 'package:digicard/app/services/digital_card_service.dart';
-import 'package:digicard/app/services/native_contacts_service.dart';
-import 'package:digicard/app/services/user_service.dart';
-import 'package:digicard/app/views/00_startup_login/login_viewmodel.dart';
-import 'package:digicard/app/views/00_startup/startup_viewmodel.dart';
-import 'package:digicard/app/ui/bottom_sheets/bs.card_share_viewmodel.dart';
-import 'package:digicard/app/ui/bottom_sheets/bs.card_manager_viewmodel.dart';
-import 'package:digicard/app/views/dashboard/dashboard_viewmodel.dart';
-import 'package:digicard/app/views/card_editor/card_editor_viewmodel.dart';
-import 'package:digicard/app/views/01_home/home_viewmodel.dart';
-import 'package:digicard/app/views/03_contacts/contacts_view_model.dart';
-import 'package:digicard/app/views/02_scan_qr_code/scan_viewmodel.dart';
-import 'package:digicard/app/views/04_settings/settings_view_model.dart';
+import 'package:digicard/ui/bottom_sheets/notice/notice_sheet.dart';
+import 'package:digicard/ui/views/card_viewer/card_viewer_view.dart';
+import 'package:digicard/ui/views/contacts/contacts_viewmodel.dart';
+import 'package:digicard/ui/views/dashboard/dashboard_viewmodel.dart';
+import 'package:digicard/ui/views/home/home_view.dart';
+import 'package:digicard/ui/views/home/home_viewmodel.dart';
+import 'package:digicard/ui/views/scan/scan_viewmodel.dart';
+import 'package:digicard/ui/views/settings/settings_viewmodel.dart';
+import 'package:digicard/ui/views/startup/startup_view.dart';
+import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:stacked_themes/stacked_themes.dart';
-import 'views/card_preview/card_display_viewmodel.dart';
+import 'package:digicard/ui/views/contacts/contacts_view.dart';
+import 'package:digicard/ui/views/settings/settings_view.dart';
+import 'package:digicard/ui/views/auth/auth_view.dart';
+import 'package:digicard/ui/views/card_editor/card_editor_view.dart';
+import 'package:digicard/ui/bottom_sheets/card_manager/card_manager_sheet.dart';
+import 'package:digicard/ui/bottom_sheets/card_share/card_share_sheet.dart';
+import 'package:digicard/ui/bottom_sheets/delete/delete_sheet.dart';
+import 'package:digicard/ui/dialogs/confirm/confirm_dialog.dart';
+import 'package:digicard/ui/dialogs/error/error_dialog.dart';
+import 'package:digicard/ui/dialogs/info/info_dialog.dart';
+import 'package:digicard/ui/views/forgot_password/forgot_password_view.dart';
+import 'services/auth_service.dart';
+import 'services/authentication_service.supabase.dart';
+import 'services/contacts_service.dart';
+import 'services/digital_card_service.dart';
+import 'services/local_storage_service.dart';
+import 'services/native_contacts_service.dart';
+import 'services/permission_handler_service.dart';
+
+import 'services/user_service.dart';
+import 'package:digicard/ui/views/scan/scan_view.dart';
+import 'package:digicard/ui/views/dashboard/dashboard_view.dart';
+import 'package:digicard/ui/views/card_viewer_web/card_viewer_web_view.dart';
+// @stacked-import
 
 @StackedApp(
   logger: StackedLogger(),
-  routes: [],
-  dependencies: [
-    LazySingleton(classType: UserService),
-    LazySingleton(classType: AuthService),
-    /*   Presolve(
-      classType: LocalStorageService,
-      presolveUsing: LocalStorageService.getInstance,
-    ), */
-    LazySingleton(
-      classType: ThemeService,
-      resolveUsing: ThemeService.getInstance,
+  routes: [
+    MaterialRoute(
+      initial: true,
+      page: StartupView,
     ),
-    Singleton(classType: AppRouter),
-    LazySingleton(classType: DeeplinkService),
-    LazySingleton(classType: DialogService),
-    LazySingleton(classType: SnackbarService),
+    MaterialRoute(
+      fullMatch: true,
+      path: "/p/:uuid",
+      page: CardViewerWebView,
+    ),
+    MaterialRoute(page: AuthView),
+    CustomRoute(
+      page: HomeView,
+      transitionsBuilder: TransitionsBuilders.noTransition,
+    ),
+    CustomRoute(
+      page: ContactsView,
+      transitionsBuilder: TransitionsBuilders.noTransition,
+    ),
+    CustomRoute(
+      page: SettingsView,
+      transitionsBuilder: TransitionsBuilders.noTransition,
+    ),
+    CustomRoute(
+      page: ScanView,
+      maintainState: false,
+      transitionsBuilder: TransitionsBuilders.noTransition,
+    ),
+    MaterialRoute(page: CardEditorView),
+    MaterialRoute(page: CardViewerView),
+    MaterialRoute(page: ForgotPasswordView),
+    MaterialRoute(page: DashboardView),
+
+// @stacked-route
+  ],
+  dependencies: [
+    LazySingleton(classType: RouterService),
+    LazySingleton(classType: UserService),
+    InitializableSingleton(
+      classType: SupabaseAuthService,
+      asType: AuthService,
+    ),
     LazySingleton(classType: BottomSheetService),
-    LazySingleton(classType: NavigationService),
-    LazySingleton(classType: ContactsService),
-    LazySingleton(classType: NativeContactsService),
+    LazySingleton(classType: DialogService),
     LazySingleton(classType: DigitalCardService),
-    Singleton(classType: StartupViewModel),
-    Singleton(classType: LoginViewModel),
+    LazySingleton(classType: ContactsService),
+
+    LazySingleton(classType: LocalStorageService),
+    LazySingleton(classType: NativeContactsService),
+    LazySingleton(classType: PermissionHandlerService),
+
     Singleton(classType: DashboardViewModel),
     Singleton(classType: HomeViewModel),
-    Singleton(classType: CardManagerBottomSheetViewModel),
-    Singleton(classType: CardShareBottomSheetViewModel),
-    Singleton(classType: CardEditorViewModel),
-    Singleton(classType: CardDisplayViewModel),
     Singleton(classType: ScanViewModel),
     Singleton(classType: ContactsViewModel),
     Singleton(classType: SettingsViewModel),
+
+// @stacked-service
+  ],
+  bottomsheets: [
+    StackedBottomsheet(classType: NoticeSheet),
+    StackedBottomsheet(classType: CardManagerSheet),
+    StackedBottomsheet(classType: CardShareSheet),
+    StackedBottomsheet(classType: DeleteSheet),
+// @stacked-bottom-sheet
+  ],
+  dialogs: [
+    StackedDialog(classType: ConfirmDialog),
+    StackedDialog(classType: ErrorDialog),
+    StackedDialog(classType: InfoDialog),
+// @stacked-dialog
   ],
 )
 class App {}

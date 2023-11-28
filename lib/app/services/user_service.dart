@@ -7,11 +7,15 @@ class UserService with ListenableServiceMixin {
   It's purpose is to prevent Auth Service to be 
   imported to any part of the app just because the user info is needed 
   */
-
   final ReactiveValue<User?> _user = ReactiveValue<User?>(null);
+  UserService() {
+    listenToReactiveValues([
+      _user,
+    ]);
+  }
   User? get user => _user.value ?? _supabase.auth.currentUser;
 
-  String? get id => _user.value?.id;
+  String? get userId => _supabase.auth.currentUser?.id;
 
   set user(value) {
     _user.value = value;
@@ -19,9 +23,7 @@ class UserService with ListenableServiceMixin {
 
   bool get isPresent => user != null ? true : false;
 
-  UserService() {
-    listenToReactiveValues([
-      _user,
-    ]);
+  void clearData() {
+    _user.value = null;
   }
 }

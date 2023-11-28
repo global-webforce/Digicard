@@ -1,5 +1,5 @@
 import 'package:digicard/app/app.locator.dart';
-import 'package:digicard/app/models/digital_card.dart';
+import 'package:digicard/app/models/digital_card_dto.dart';
 import 'package:digicard/app/services/user_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -8,8 +8,8 @@ class ContactsService with ListenableServiceMixin {
   final _supabase = Supabase.instance.client;
   final _userService = locator<UserService>();
 
-  final ReactiveValue<List<DigitalCard>> _contacts =
-      ReactiveValue<List<DigitalCard>>([]);
+  final ReactiveValue<List<DigitalCardDTO>> _contacts =
+      ReactiveValue<List<DigitalCardDTO>>([]);
 
   ContactsService() {
     listenToReactiveValues([
@@ -18,7 +18,11 @@ class ContactsService with ListenableServiceMixin {
     ]);
   }
 
-  List<DigitalCard> get contacts {
+  void clearData() {
+    _contacts.value.clear();
+  }
+
+  List<DigitalCardDTO> get contacts {
     return _contacts.value.reversed.toList();
   }
 
@@ -31,13 +35,13 @@ class ContactsService with ListenableServiceMixin {
       final data = await _supabase
           .from('contacts')
           .select('id, created_at, cards(*)')
-          .eq('user_id', _userService.id)
+          .eq('user_id', _userService.userId)
           .order('created_at', ascending: true);
       if (data is List) {
         _contacts.value = data
             .map(
-              (e) => DigitalCard.fromJson(e["cards"])
-                  .copyWith(addedAt: DateTime.parse(e["created_at"])),
+              (e) => DigitalCardDTO.fromJson(e["cards"])
+                  .copyWith(addedToContactsAt: DateTime.parse(e["created_at"])),
             )
             .toList();
 
@@ -48,12 +52,12 @@ class ContactsService with ListenableServiceMixin {
     }
   }
 
-  Future create(DigitalCard card) async {
+  Future create(DigitalCardDTO card) async {
     try {
       await _supabase.from('contacts').insert(
         {
           'card_id': card.id,
-          'user_id': _userService.id,
+          'user_id': _userService.userId,
         },
       ).then((value) {
         if (!_contacts.value.contains(card)) {
@@ -66,11 +70,11 @@ class ContactsService with ListenableServiceMixin {
     }
   }
 
-  Future delete(DigitalCard card) async {
+  Future delete(DigitalCardDTO card) async {
     try {
       await _supabase.from('contacts').delete().match({
         'card_id': card.id,
-        'user_id': _userService.id,
+        'user_id': _userService.userId,
       }).then((value) {
         _contacts.value.removeWhere((element) => element.id == card.id);
       });

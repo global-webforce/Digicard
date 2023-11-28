@@ -1,6 +1,6 @@
 import 'package:permission_handler/permission_handler.dart';
 
-class PermissionService {
+class PermissionHandlerService {
   static Future<bool> checkAndRequestPermission(Permission permission) async {
     // Check if the permission is already granted
     if (await permission.isGranted) {

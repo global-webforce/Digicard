@@ -11,7 +11,6 @@ class User with _$User {
     required String email,
     String? firstName,
     String? lastName,
-    String? gender,
     String? mobileNumber,
     String? profilePic,
     DateTime? emailVerifiedAt,
