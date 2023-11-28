@@ -12,7 +12,7 @@ class AppBarDisplay extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel =
-        getParentViewModel<CardDisplayViewModel>(context, listen: false);
+        getParentViewModel<CardDisplayViewModel>(context, listen: true);
     return AppBar(
       leadingWidth: 15,
       toolbarHeight: 60,

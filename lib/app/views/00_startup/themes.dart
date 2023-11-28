@@ -48,7 +48,7 @@ ThemeData lightTheme = ThemeData(
   ),
   fontFamily: GoogleFonts.varelaRound().fontFamily,
   inputDecorationTheme: const InputDecorationTheme(
-     filled: true,
+    filled: true,
     isDense: true,
     border:
         OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10))),

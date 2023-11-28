@@ -21,14 +21,15 @@ class HomeFloatingActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = getParentViewModel<HomeViewModel>(context, listen: false);
     return FloatingActionButton(
-        backgroundColor: kcPrimaryColor,
-        onPressed: () {
-          viewModel.create();
-        },
-        child: Image.asset(
-            'assets/icons/create.png',
-            width: 36,
-          ),);
+      backgroundColor: kcPrimaryColor,
+      onPressed: () {
+        viewModel.create();
+      },
+      child: Image.asset(
+        'assets/icons/create.png',
+        width: 36,
+      ),
+    );
   }
 }
 
@@ -54,7 +55,7 @@ class HomeView extends StatelessWidget {
             builder: (context, child) {
               return Scaffold(
                 drawer: child.drawer,
-                bottomNavigationBar:const NavigationBarWidget(),
+                bottomNavigationBar: child.bottomNavBar,
                 appBar: AppBar(
                   automaticallyImplyLeading: false,
                   title: isDesktop(context) ? null : appIcon(),

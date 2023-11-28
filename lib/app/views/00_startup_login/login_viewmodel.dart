@@ -46,7 +46,7 @@ class LoginViewModel extends ReactiveViewModel {
           Validators.email,
         ]),
     'password': FormControl<String>(
-        value: kDebugMode ? 'qweqwe123' : null,
+        value: kDebugMode ? 'qweqwe456' : null,
         validators: [
           Validators.required,
         ]),

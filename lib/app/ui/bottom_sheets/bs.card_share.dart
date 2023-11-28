@@ -55,8 +55,10 @@ class CardShareBottomSheet extends StatelessWidget {
                 data: "${Env.cardUrl}${request.data.uuid}",
                 version: QrVersions.auto,
                 errorCorrectionLevel: QrErrorCorrectLevel.M,
-                size: 200,eyeStyle: const QrEyeStyle(color: Colors.black,),
-       
+                size: 200,
+                eyeStyle: const QrEyeStyle(
+                  color: Colors.black,
+                ),
                 backgroundColor: Colors.white,
                 gapless: true,
               ),

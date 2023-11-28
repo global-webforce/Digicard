@@ -45,7 +45,7 @@ class CardItems {
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Text(
               value.clean().toTitleCase(),
-              style: const TextStyle(),
+            
             ),
           )
         : const SizedBox.shrink();
@@ -57,7 +57,7 @@ class CardItems {
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Text(
               value.clean().toTitleCase(),
-              style: const TextStyle(),
+              
             ),
           )
         : const SizedBox.shrink();

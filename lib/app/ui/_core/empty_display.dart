@@ -25,7 +25,7 @@ class EmptyDisplay extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-           Image.asset("assets/icons/empty.png",width: 120,),
+           Image.asset("assets/icons/empty.png",width: 100,),
            
             Text(
               title,

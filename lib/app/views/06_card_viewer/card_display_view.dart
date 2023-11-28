@@ -2,6 +2,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:digicard/app/constants/dimensions.dart';
 import 'package:digicard/app/constants/keys.dart';
+import 'package:digicard/app/helper/screen_size.dart';
 
 import 'package:digicard/app/ui/_core/empty_display.dart';
 import 'package:digicard/app/ui/_core/scaffold_body_wrapper.dart';
@@ -42,13 +43,7 @@ class CardDisplayView extends StatelessWidget {
             displayTypeParam: displayType,
             uuid: uuid,
           );
-          /*     WidgetsBinding.instance.addPostFrameCallback((_) async {
-            await viewModel.start(
-              cardParam: card,
-              displayTypeParam: displayType,
-              uuid: uuid,
-            );
-          }); */
+    
         },
         builder: (context, viewModel, child) {
           return LoaderOverlayWrapper(
@@ -74,7 +69,7 @@ class MainWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = getParentViewModel<CardDisplayViewModel>(context,listen: false);
+    final viewModel = getParentViewModel<CardDisplayViewModel>(context,listen: true);
 
     Widget empty() {
       return const EmptyDisplay(
@@ -88,10 +83,11 @@ class MainWidget extends StatelessWidget {
             screenSize: size, targetWidth: 440.000, vPadding: 0, hPadding: 0);
 
         return Scaffold(
+          extendBodyBehindAppBar: isMobile(context) ? true : false,
           appBar: const AppBarDisplay(),
           bottomSheet: const BottomSheetCard(),
           body: ScaffoldBodyWrapper(
-              isBusy: viewModel.busy(loadingCardBusyKey),
+              isBusy: false,
               isFullWidth: true,
               isEmpty: viewModel.card.id == null,
               emptyIndicatorWidget: empty(),

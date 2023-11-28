@@ -63,7 +63,6 @@ class _CardTabFormState extends State<CardTabForm>
         isDense: true,
         border: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(10))),
-
         floatingLabelBehavior: FloatingLabelBehavior.never);
 
     Widget avatarField() {
@@ -197,8 +196,6 @@ class _CardTabFormState extends State<CardTabForm>
       );
     }
 
-  
-
     Widget maidenNameField() {
       return ClipRRect(
         borderRadius: BorderRadius.circular(5),
@@ -210,8 +207,6 @@ class _CardTabFormState extends State<CardTabForm>
         ),
       );
     }
-
- 
 
     Widget positionField() {
       return ClipRRect(
@@ -339,9 +334,7 @@ class _CardTabFormState extends State<CardTabForm>
                                         vSpaceSmall,
                                         accrediationsField(),
                                         vSpaceSmall,
-                                    
                                         maidenNameField(),
-                                  
                                       ],
                                     ),
                                   )),

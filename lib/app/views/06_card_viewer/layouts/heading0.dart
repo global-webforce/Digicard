@@ -92,9 +92,8 @@ class Heading0 extends StatelessWidget {
       return viewModel.card.position?.isNotEmpty ?? false
           ? AutoSizeText(
               viewModel.card.position.clean().toTitleCase(),
-              style: GoogleFonts.poppins(
-                fontSize: 16,
-                color: Colors.white,
+              style: TextStyle(
+                      color: Colors.white,
                 fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.bold,
               ),
@@ -109,10 +108,10 @@ class Heading0 extends StatelessWidget {
       return viewModel.card.company?.isNotEmpty ?? false
           ? AutoSizeText(
               viewModel.card.company.clean().toTitleCase(),
-              style: GoogleFonts.poppins(
-                color: Colors.white,
-                fontSize: 16,
+             style: TextStyle(
+                      color: Colors.white,
                 fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.bold,
               ),
               maxLines: 2,
               maxFontSize: 16,

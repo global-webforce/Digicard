@@ -1,7 +1,6 @@
-targets:
+ targets:
   $default:
     builders:
-      auto_route:auto_route:
-        generate_for:
-          - lib/app/routes/*.dart
-      
+      stacked_generator|stackedRouterGenerator:
+        options:
+          navigator2: true

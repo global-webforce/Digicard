@@ -45,13 +45,10 @@ class EZDrawer extends StatelessWidget {
             ? colorTheme.withOpacity(0.3)
             : Colors.transparent,
         child: ListTile(
-          leading: Image.asset(
-            'assets/icons/cards.png',
-            width: 24,
-          ), /* Icon(
+          leading: Icon(
             menu.value.icon,
             color: menu.key == currentIndex ? colorTheme : null,
-          ), */
+          ),
           title: Text(
             menu.value.title,
             style: TextStyle(
