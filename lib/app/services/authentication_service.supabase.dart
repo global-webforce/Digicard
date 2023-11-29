@@ -114,10 +114,13 @@ class SupabaseAuthService with Initialisable implements AuthService {
   @override
   Future resetPasswordRequest({required String email}) async {
     try {
-      await _supabase.auth.resetPasswordForEmail(
-        email,
-        redirectTo: Env.siteUrlNoHash,
-      );
+      return await _supabase.auth
+          .resetPasswordForEmail(
+            email,
+            redirectTo: Env.siteUrlNoHash,
+          )
+          .then((value) =>
+              Future.value("Password reset link sent to your email."));
     } catch (e) {
       if (e is AuthException) {
         return Future.error(e.message);

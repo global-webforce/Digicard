@@ -1,23 +1,24 @@
+import 'package:digicard/app/models/forgot_password_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ez_core/widgets/ez_button.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:stacked/stacked.dart';
-import 'package:digicard/app/models/login_dto.dart';
 import 'package:digicard/ui/common/my_text.dart';
 import 'package:digicard/ui/views/auth/auth_viewmodel.dart';
 
-class LoginForm extends StatelessWidget {
-  const LoginForm({super.key});
+class ForgotPasswordForm extends StatelessWidget {
+  const ForgotPasswordForm({super.key});
 
   @override
   Widget build(BuildContext context) {
     final viewModel = getParentViewModel<AuthViewModel>(context);
-    return ReactiveLoginDtoFormConsumer(builder: (context, formModel, _) {
+    return ReactiveForgotPasswordDtoFormConsumer(
+        builder: (context, formModel, _) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const MyText.headingTwo("SIGN-IN"),
+          const MyText.headingTwo("PASSWORD RESET"),
           const SizedBox(height: 24.0),
           ReactiveTextField<String>(
             formControl: formModel.emailControl,
@@ -33,31 +34,16 @@ class LoginForm extends StatelessWidget {
               errorStyle: TextStyle(height: 0.8),
             ),
           ),
-          const SizedBox(height: 8.0),
-          ReactiveTextField<String>(
-            formControl: formModel.passwordControl,
-            obscureText: true,
-            validationMessages: {
-              ValidationMessage.required: (_) => 'Required',
-            },
-            textInputAction: TextInputAction.done,
-            decoration: const InputDecoration(
-              labelText: "Password",
-              helperText: '',
-              helperStyle: TextStyle(height: 0.8),
-              errorStyle: TextStyle(height: 0.8),
-            ),
-          ),
-          const SizedBox(height: 8.0),
-          ReactiveLoginDtoFormConsumer(builder: (context, formModel, child) {
+          ReactiveForgotPasswordDtoFormConsumer(
+              builder: (context, formModel, child) {
             return EzButton(
               busy: viewModel.isBusy,
-              title: 'SIGN IN',
+              title: 'REQUEST PASSWORD RESET',
               disabled: formModel.form.hasErrors ? true : false,
               onPressed: () async {
-                await viewModel.signIn(
-                    email: formModel.emailControl?.value,
-                    password: formModel.passwordControl?.value);
+                await viewModel.forgotPassword(
+                  email: formModel.emailControl?.value,
+                );
               },
             );
           }),
@@ -76,10 +62,10 @@ class LoginForm extends StatelessWidget {
               onPressed: () {
                 formModel.form.reset();
 
-                viewModel.authType = AuthType.forgotPassword;
+                viewModel.authType = AuthType.signIn;
               },
               child: const Text(
-                "Forgot Password?",
+                "Already a member? Sign in",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
               )),
         ],

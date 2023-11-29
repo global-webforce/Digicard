@@ -1,4 +1,5 @@
 import 'package:digicard/app/app.router.dart';
+import 'package:digicard/app/models/forgot_password_dto.dart';
 import 'package:digicard/app/models/login_dto.dart';
 import 'package:digicard/app/models/register_dto.dart';
 import 'package:digicard/app/services/auth_service.dart';
@@ -10,7 +11,7 @@ import 'package:stacked_services/stacked_services.dart';
 
 import '../../../app/app.locator.dart';
 
-enum AuthType { signIn, signUp, passwordResetRequest }
+enum AuthType { signIn, signUp, forgotPassword, passwordReset }
 
 class AuthViewModel extends BaseViewModel {
   final _authService = locator<AuthService>();
@@ -31,6 +32,8 @@ class AuthViewModel extends BaseViewModel {
 
   late LoginDtoForm loginFormModel;
   late RegisterDtoForm registerFormModel;
+  late ForgotPasswordDtoForm forgotPasswordFormModel;
+  late RegisterDtoForm passwordResetFormModel;
 
   AuthType _authType = AuthType.signIn;
   AuthType get authType => _authType;
@@ -54,6 +57,25 @@ class AuthViewModel extends BaseViewModel {
     if (registerFormModel.form.disabled) {
       registerFormModel.form.markAsDisabled();
     }
+
+    forgotPasswordFormModel = ForgotPasswordDtoForm(
+        ForgotPasswordDtoForm.formElements(ForgotPasswordDto()), null);
+    if (forgotPasswordFormModel.form.disabled) {
+      forgotPasswordFormModel.form.markAsDisabled();
+    }
+  }
+
+  Future forgotPassword({required email}) async {
+    await runBusyFuture(_authService.resetPasswordRequest(email: email),
+            throwException: true)
+        .then((value) async {
+      if (value != null) {
+        await _dialogService.showDialog(
+            title: "Password reset",
+            description: value.toString(),
+            dialogPlatform: DialogPlatform.Custom);
+      }
+    });
   }
 
   Future signInAnonymously() async {

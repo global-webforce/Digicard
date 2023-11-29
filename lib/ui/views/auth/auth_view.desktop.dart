@@ -1,5 +1,8 @@
+import 'package:digicard/app/models/forgot_password_dto.dart';
 import 'package:digicard/app/models/login_dto.dart';
 import 'package:digicard/app/models/register_dto.dart';
+import 'package:digicard/app/models/reset_password_dto.dart';
+import 'package:digicard/ui/views/auth/widgets/forgot_password_form.dart';
 import 'package:digicard/ui/widgets/onboarding/onboarding.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -43,17 +46,24 @@ class AuthViewDesktop extends ViewModelWidget<AuthViewModel> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          (viewModel.authType == AuthType.signIn)
-                              ? ReactiveLoginDtoForm(
-                                  key: ObjectKey(viewModel.loginFormModel),
-                                  form: viewModel.loginFormModel,
-                                  child: const LoginForm(),
-                                )
-                              : ReactiveRegisterDtoForm(
-                                  key: ObjectKey(viewModel.registerFormModel),
-                                  form: viewModel.registerFormModel,
-                                  child: const RegisterForm(),
-                                ),
+                          if ((viewModel.authType == AuthType.signIn))
+                            ReactiveLoginDtoForm(
+                              key: ObjectKey(viewModel.loginFormModel),
+                              form: viewModel.loginFormModel,
+                              child: const LoginForm(),
+                            ),
+                          if ((viewModel.authType == AuthType.signUp))
+                            ReactiveRegisterDtoForm(
+                              key: ObjectKey(viewModel.registerFormModel),
+                              form: viewModel.registerFormModel,
+                              child: const RegisterForm(),
+                            ),
+                          if ((viewModel.authType == AuthType.forgotPassword))
+                            ReactiveForgotPasswordDtoForm(
+                              key: ObjectKey(viewModel.forgotPasswordFormModel),
+                              form: viewModel.forgotPasswordFormModel,
+                              child: const ForgotPasswordForm(),
+                            ),
                         ],
                       ),
                     ),
