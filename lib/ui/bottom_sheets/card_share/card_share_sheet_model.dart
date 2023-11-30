@@ -83,7 +83,9 @@ class CardShareSheetModel extends ReactiveViewModel {
           );
         } else {
           await WebImageDownloader.downloadImageFromUInt8List(
-              name: '${card.uuid}.jpg', uInt8List: image);
+            name: '${card.uuid}.jpg',
+            uInt8List: image,
+          );
 
           result = {"isSuccess": true};
         }
