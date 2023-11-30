@@ -1,4 +1,6 @@
+import 'package:digicard/ui/widgets/onboarding/app_logo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ez_core/helpers/ui_helpers.dart';
 import 'package:flutter_ez_core/widgets/ez_button.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:stacked/stacked.dart';
@@ -31,6 +33,8 @@ class RegisterForm extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if (isMobile(context)) const AppLogo(),
+          const SizedBox(height: 24.0),
           const MyText.headingTwo('SIGN UP'),
           const SizedBox(height: 24.0),
           ReactiveTextField<String>(

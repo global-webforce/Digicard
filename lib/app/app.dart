@@ -40,6 +40,7 @@ import 'package:digicard/ui/views/card_viewer_web/card_viewer_web_view.dart';
   routes: [
     MaterialRoute(
       initial: true,
+      path: '/',
       page: StartupView,
     ),
     MaterialRoute(

@@ -10,6 +10,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:stacked/stacked.dart';
 import 'package:digicard/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uni_links/uni_links.dart';
 
 class StartupViewModel extends BaseViewModel {

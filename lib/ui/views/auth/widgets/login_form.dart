@@ -1,4 +1,6 @@
+import 'package:digicard/ui/widgets/onboarding/app_logo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ez_core/helpers/ui_helpers.dart';
 import 'package:flutter_ez_core/widgets/ez_button.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:stacked/stacked.dart';
@@ -17,6 +19,8 @@ class LoginForm extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          if (isMobile(context)) const AppLogo(),
+          const SizedBox(height: 24.0),
           const MyText.headingTwo("SIGN-IN"),
           const SizedBox(height: 24.0),
           ReactiveTextField<String>(
@@ -72,7 +76,7 @@ class LoginForm extends StatelessWidget {
                 "Still not a member? Sign up",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
               )),
-          TextButton(
+          /*  TextButton(
               onPressed: () {
                 formModel.form.reset();
 
@@ -81,7 +85,7 @@ class LoginForm extends StatelessWidget {
               child: const Text(
                 "Forgot Password?",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-              )),
+              )), */
         ],
       );
     });

@@ -25,17 +25,21 @@ class SupabaseAuthService with Initialisable implements AuthService {
   @override
   Future<void> initialise() async {
     _supabase.auth.onAuthStateChange.listen((event) async {
-      if (event.event.name == "passwordRecovery") {
-        _navService.navigateToForgotPasswordView(fromLink: true);
-        _userService.user = event.session?.user;
-        if (event.session != null) {
-          final expiresAt = DateTime.fromMillisecondsSinceEpoch(
-              event.session!.expiresAt! * 1000);
-          if (expiresAt.isBefore(
-              DateTime.now().subtract(const Duration(seconds: 180)))) {
-            await _supabase.auth.refreshSession();
+      try {
+        if (event.event.name == "passwordRecovery") {
+          await _navService.navigateToForgotPasswordView(fromLink: true);
+          _userService.user = event.session?.user;
+          if (event.session != null) {
+            final expiresAt = DateTime.fromMillisecondsSinceEpoch(
+                event.session!.expiresAt! * 1000);
+            if (expiresAt.isBefore(
+                DateTime.now().subtract(const Duration(seconds: 180)))) {
+              await _supabase.auth.refreshSession();
+            }
           }
         }
+      } catch (e) {
+        log.e("passwordRecovery failed:$e");
       }
     });
   }

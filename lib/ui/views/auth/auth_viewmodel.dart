@@ -59,7 +59,10 @@ class AuthViewModel extends BaseViewModel {
     }
 
     forgotPasswordFormModel = ForgotPasswordDtoForm(
-        ForgotPasswordDtoForm.formElements(ForgotPasswordDto()), null);
+        ForgotPasswordDtoForm.formElements(ForgotPasswordDto(
+          email: kDebugMode ? 'dionnie_bulingit@yahoo.com' : '',
+        )),
+        null);
     if (forgotPasswordFormModel.form.disabled) {
       forgotPasswordFormModel.form.markAsDisabled();
     }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ez_core/helpers/ui_helpers.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:another_transformer_page_view/another_transformer_page_view.dart';
+import 'app_logo.dart';
 import 'buildin_transformers.dart';
 
 class OnboaringItem {
@@ -29,22 +30,7 @@ class Onboarding extends StatefulWidget {
 class _OnboardingState extends State<Onboarding> {
   Widget appTitle() {
     return Container(
-      padding: const EdgeInsets.all(30.0),
-      child: const Card(
-        margin: EdgeInsets.zero,
-        color: kcPrimaryColorDark,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-          child: Text(
-            "DIGICARD",
-            style: TextStyle(
-              fontSize: 26,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
-    );
+        padding: const EdgeInsets.all(30.0), child: const AppLogo());
   }
 
   final list = [
