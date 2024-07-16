@@ -102,11 +102,11 @@ class DigitalCardService with ListenableServiceMixin {
       final data = await _supabase
           .from('cards')
           .select('*')
-          .in_('user_id', [_userService.userId]).order(
+          .inFilter('user_id', [_userService.userId]).order(
         'created_at',
         ascending: true,
       );
-      if (data is List && data.isNotEmpty) {
+      if (data.isNotEmpty) {
         _digitalCards.value =
             data.map((e) => DigitalCardDTO.fromJson(e)).toList();
       }
@@ -154,10 +154,8 @@ class DigitalCardService with ListenableServiceMixin {
         folderPath: 'logos',
       );
       final insertedCard = await _supabase.from('cards').insert(data).select();
-      if (insertedCard is List<dynamic>) {
-        _digitalCards.value.add(DigitalCardDTO.fromJson(insertedCard[0]));
-        notifyListeners();
-      }
+      _digitalCards.value.add(DigitalCardDTO.fromJson(insertedCard[0]));
+      notifyListeners();
     } catch (e) {
       return Future.error(e.toString());
     }
@@ -210,14 +208,15 @@ class DigitalCardService with ListenableServiceMixin {
         data["logo_url"] = null;
       }
 
-      final updatedCard =
-          await _supabase.from('cards').update(data).eq('id', card.id).select();
-      if (updatedCard is List<dynamic>) {
-        final index =
-            _digitalCards.value.indexWhere((element) => element.id == card.id);
-        _digitalCards.value[index] = DigitalCardDTO.fromJson(updatedCard[0]);
-        notifyListeners();
-      }
+      final updatedCard = await _supabase
+          .from('cards')
+          .update(data)
+          .eq('id', card.id as Object)
+          .select();
+      final index =
+          _digitalCards.value.indexWhere((element) => element.id == card.id);
+      _digitalCards.value[index] = DigitalCardDTO.fromJson(updatedCard[0]);
+      notifyListeners();
     } catch (e) {
       return Future.error(e.toString());
     }
@@ -231,7 +230,7 @@ class DigitalCardService with ListenableServiceMixin {
       if (card.logoUrl.toString().isFileNameWithExtension()) {
         await imageDelete(folderPath: "logos/${card.logoUrl}");
       }
-      await _supabase.from('cards').delete().eq('id', card.id);
+      await _supabase.from('cards').delete().eq('id', card.id as Object);
       _digitalCards.value.removeWhere((element) => element.id == card.id);
       notifyListeners();
     } catch (e) {
@@ -291,11 +290,9 @@ class DigitalCardService with ListenableServiceMixin {
 
       final insertedCard = await _supabase.from('cards').insert(data).select();
 
-      if (insertedCard is List<dynamic>) {
-        DigitalCardDTO? temp = DigitalCardDTO.fromJson(insertedCard[0]);
-        _digitalCards.value.add(temp);
-        notifyListeners();
-      }
+      DigitalCardDTO? temp = DigitalCardDTO.fromJson(insertedCard[0]);
+      _digitalCards.value.add(temp);
+      notifyListeners();
     } catch (e) {
       return Future.error(e.toString());
     }
@@ -303,7 +300,7 @@ class DigitalCardService with ListenableServiceMixin {
 
   Future<DigitalCardDTO?> findOne(String uuid) async {
     final data = await _supabase.from('cards').select().eq('uuid', uuid);
-    if (data is List && data.isNotEmpty) {
+    if (data.isNotEmpty) {
       return DigitalCardDTO.fromJson(data[0]);
     }
     return null;

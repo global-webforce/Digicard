@@ -53,14 +53,17 @@ class ReactiveDigitalCardDTOForm extends StatelessWidget {
     Key? key,
     required this.form,
     required this.child,
-    this.onWillPop,
+    this.canPop,
+    this.onPopInvoked,
   }) : super(key: key);
 
   final Widget child;
 
   final DigitalCardDTOForm form;
 
-  final WillPopCallback? onWillPop;
+  final bool Function(FormGroup formGroup)? canPop;
+
+  final void Function(FormGroup formGroup, bool didPop)? onPopInvoked;
 
   static DigitalCardDTOForm? of(
     BuildContext context, {
@@ -85,12 +88,21 @@ class ReactiveDigitalCardDTOForm extends StatelessWidget {
     return DigitalCardDTOFormInheritedStreamer(
       form: form,
       stream: form.form.statusChanged,
-      child: WillPopScope(
-        onWillPop: onWillPop,
+      child: ReactiveFormPopScope(
+        canPop: canPop,
+        onPopInvoked: onPopInvoked,
         child: child,
       ),
     );
   }
+}
+
+extension ReactiveReactiveDigitalCardDTOFormExt on BuildContext {
+  DigitalCardDTOForm? digitalCardDTOFormWatch() =>
+      ReactiveDigitalCardDTOForm.of(this);
+
+  DigitalCardDTOForm? digitalCardDTOFormRead() =>
+      ReactiveDigitalCardDTOForm.of(this, listen: false);
 }
 
 class DigitalCardDTOFormBuilder extends StatefulWidget {
@@ -98,7 +110,8 @@ class DigitalCardDTOFormBuilder extends StatefulWidget {
     Key? key,
     this.model,
     this.child,
-    this.onWillPop,
+    this.canPop,
+    this.onPopInvoked,
     required this.builder,
     this.initState,
   }) : super(key: key);
@@ -107,7 +120,9 @@ class DigitalCardDTOFormBuilder extends StatefulWidget {
 
   final Widget? child;
 
-  final WillPopCallback? onWillPop;
+  final bool Function(FormGroup formGroup)? canPop;
+
+  final void Function(FormGroup formGroup, bool didPop)? onPopInvoked;
 
   final Widget Function(
           BuildContext context, DigitalCardDTOForm formModel, Widget? child)
@@ -141,14 +156,7 @@ class _DigitalCardDTOFormBuilderState extends State<DigitalCardDTOFormBuilder> {
   @override
   void didUpdateWidget(covariant DigitalCardDTOFormBuilder oldWidget) {
     if (widget.model != oldWidget.model) {
-      _formModel = DigitalCardDTOForm(
-          DigitalCardDTOForm.formElements(widget.model), null);
-
-      if (_formModel.form.disabled) {
-        _formModel.form.markAsDisabled();
-      }
-
-      widget.initState?.call(context, _formModel);
+      _formModel.updateValue(widget.model);
     }
 
     super.didUpdateWidget(oldWidget);
@@ -165,10 +173,12 @@ class _DigitalCardDTOFormBuilderState extends State<DigitalCardDTOFormBuilder> {
     return ReactiveDigitalCardDTOForm(
       key: ObjectKey(_formModel),
       form: _formModel,
-      onWillPop: widget.onWillPop,
+      // canPop: widget.canPop,
+      // onPopInvoked: widget.onPopInvoked,
       child: ReactiveFormBuilder(
         form: () => _formModel.form,
-        onWillPop: widget.onWillPop,
+        canPop: widget.canPop,
+        onPopInvoked: widget.onPopInvoked,
         builder: (context, formGroup, child) =>
             widget.builder(context, _formModel, widget.child),
         child: widget.child,
@@ -230,6 +240,8 @@ class DigitalCardDTOForm implements FormModel<DigitalCardDTO> {
   final FormGroup form;
 
   final String? path;
+
+  final Map<String, bool> _disabled = {};
 
   String idControlPath() => pathBuilder(idControlName);
 
@@ -519,49 +531,50 @@ class DigitalCardDTOForm implements FormModel<DigitalCardDTO> {
     }
   }
 
-  Object? get idErrors => idControl?.errors;
+  Map<String, Object>? get idErrors => idControl?.errors;
 
-  Object? get userIdErrors => userIdControl?.errors;
+  Map<String, Object>? get userIdErrors => userIdControl?.errors;
 
-  Object? get uuidErrors => uuidControl?.errors;
+  Map<String, Object>? get uuidErrors => uuidControl?.errors;
 
-  Object? get logoUrlErrors => logoUrlControl?.errors;
+  Map<String, Object>? get logoUrlErrors => logoUrlControl?.errors;
 
-  Object? get avatarUrlErrors => avatarUrlControl?.errors;
+  Map<String, Object>? get avatarUrlErrors => avatarUrlControl?.errors;
 
-  Object? get titleErrors => titleControl?.errors;
+  Map<String, Object>? get titleErrors => titleControl?.errors;
 
-  Object? get firstNameErrors => firstNameControl?.errors;
+  Map<String, Object>? get firstNameErrors => firstNameControl?.errors;
 
-  Object? get prefixErrors => prefixControl?.errors;
+  Map<String, Object>? get prefixErrors => prefixControl?.errors;
 
-  Object? get middleNameErrors => middleNameControl?.errors;
+  Map<String, Object>? get middleNameErrors => middleNameControl?.errors;
 
-  Object? get lastNameErrors => lastNameControl?.errors;
+  Map<String, Object>? get lastNameErrors => lastNameControl?.errors;
 
-  Object? get suffixErrors => suffixControl?.errors;
+  Map<String, Object>? get suffixErrors => suffixControl?.errors;
 
-  Object? get avatarFileErrors => avatarFileControl.errors;
+  Map<String, Object> get avatarFileErrors => avatarFileControl.errors;
 
-  Object? get logoFileErrors => logoFileControl.errors;
+  Map<String, Object> get logoFileErrors => logoFileControl.errors;
 
-  Object? get colorErrors => colorControl?.errors;
+  Map<String, Object>? get colorErrors => colorControl?.errors;
 
-  Object? get layoutErrors => layoutControl?.errors;
+  Map<String, Object>? get layoutErrors => layoutControl?.errors;
 
-  Object? get positionErrors => positionControl?.errors;
+  Map<String, Object>? get positionErrors => positionControl?.errors;
 
-  Object? get companyErrors => companyControl?.errors;
+  Map<String, Object>? get companyErrors => companyControl?.errors;
 
-  Object? get headlineErrors => headlineControl?.errors;
+  Map<String, Object>? get headlineErrors => headlineControl?.errors;
 
-  Object? get customLinksErrors => customLinksControl?.errors;
+  Map<String, Object>? get customLinksErrors => customLinksControl?.errors;
 
-  Object? get createdAtErrors => createdAtControl?.errors;
+  Map<String, Object>? get createdAtErrors => createdAtControl?.errors;
 
-  Object? get updatedAtErrors => updatedAtControl?.errors;
+  Map<String, Object>? get updatedAtErrors => updatedAtControl?.errors;
 
-  Object? get addedToContactsAtErrors => addedToContactsAtControl?.errors;
+  Map<String, Object>? get addedToContactsAtErrors =>
+      addedToContactsAtControl?.errors;
 
   void get idFocus => form.focus(idControlPath());
 
@@ -2230,9 +2243,12 @@ class DigitalCardDTOForm implements FormModel<DigitalCardDTO> {
 
   @override
   DigitalCardDTO get model {
-    if (!currentForm.valid) {
-      debugPrint(
-          '[${path ?? 'DigitalCardDTOForm'}]\n┗━ Avoid calling `model` on invalid form. Possible exceptions for non-nullable fields which should be guarded by `required` validator.');
+    final isValid = !currentForm.hasErrors && currentForm.errors.isEmpty;
+
+    if (!isValid) {
+      debugPrintStack(
+          label:
+              '[${path ?? 'DigitalCardDTOForm'}]\n┗━ Avoid calling `model` on invalid form. Possible exceptions for non-nullable fields which should be guarded by `required` validator.');
     }
     return DigitalCardDTO(
         id: _idValue,
@@ -2260,6 +2276,38 @@ class DigitalCardDTOForm implements FormModel<DigitalCardDTO> {
   }
 
   @override
+  void toggleDisabled({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    final currentFormInstance = currentForm;
+
+    if (currentFormInstance is! FormGroup) {
+      return;
+    }
+
+    if (_disabled.isEmpty) {
+      currentFormInstance.controls.forEach((key, control) {
+        _disabled[key] = control.disabled;
+      });
+
+      currentForm.markAsDisabled(
+          updateParent: updateParent, emitEvent: emitEvent);
+    } else {
+      currentFormInstance.controls.forEach((key, control) {
+        if (_disabled[key] == false) {
+          currentFormInstance.controls[key]?.markAsEnabled(
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+
+        _disabled.remove(key);
+      });
+    }
+  }
+
+  @override
   void submit({
     required void Function(DigitalCardDTO model) onValid,
     void Function()? onNotValid,
@@ -2278,7 +2326,7 @@ class DigitalCardDTOForm implements FormModel<DigitalCardDTO> {
 
   @override
   void updateValue(
-    DigitalCardDTO value, {
+    DigitalCardDTO? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) =>
@@ -2461,7 +2509,8 @@ class DigitalCardDTOForm implements FormModel<DigitalCardDTO> {
           disabled: false);
 }
 
-class ReactiveDigitalCardDTOFormArrayBuilder<T> extends StatelessWidget {
+class ReactiveDigitalCardDTOFormArrayBuilder<
+    ReactiveDigitalCardDTOFormArrayBuilderT> extends StatelessWidget {
   const ReactiveDigitalCardDTOFormArrayBuilder({
     Key? key,
     this.control,
@@ -2472,16 +2521,19 @@ class ReactiveDigitalCardDTOFormArrayBuilder<T> extends StatelessWidget {
             "You have to specify `control` or `formControl`!"),
         super(key: key);
 
-  final FormArray<T>? formControl;
+  final FormArray<ReactiveDigitalCardDTOFormArrayBuilderT>? formControl;
 
-  final FormArray<T>? Function(DigitalCardDTOForm formModel)? control;
+  final FormArray<ReactiveDigitalCardDTOFormArrayBuilderT>? Function(
+      DigitalCardDTOForm formModel)? control;
 
   final Widget Function(BuildContext context, List<Widget> itemList,
       DigitalCardDTOForm formModel)? builder;
 
   final Widget Function(
-          BuildContext context, int i, T? item, DigitalCardDTOForm formModel)
-      itemBuilder;
+      BuildContext context,
+      int i,
+      ReactiveDigitalCardDTOFormArrayBuilderT? item,
+      DigitalCardDTOForm formModel) itemBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -2491,10 +2543,11 @@ class ReactiveDigitalCardDTOFormArrayBuilder<T> extends StatelessWidget {
       throw FormControlParentNotFoundException(this);
     }
 
-    return ReactiveFormArray<T>(
+    return ReactiveFormArray<ReactiveDigitalCardDTOFormArrayBuilderT>(
       formArray: formControl ?? control?.call(formModel),
       builder: (context, formArray, child) {
-        final itemList = (formArray.value ?? [])
+        final values = formArray.controls.map((e) => e.value).toList();
+        final itemList = values
             .asMap()
             .map((i, item) {
               return MapEntry(
@@ -2521,8 +2574,8 @@ class ReactiveDigitalCardDTOFormArrayBuilder<T> extends StatelessWidget {
   }
 }
 
-class ReactiveDigitalCardDTOFormFormGroupArrayBuilder<T>
-    extends StatelessWidget {
+class ReactiveDigitalCardDTOFormFormGroupArrayBuilder<
+    ReactiveDigitalCardDTOFormFormGroupArrayBuilderT> extends StatelessWidget {
   const ReactiveDigitalCardDTOFormFormGroupArrayBuilder({
     Key? key,
     this.extended,
@@ -2533,17 +2586,21 @@ class ReactiveDigitalCardDTOFormFormGroupArrayBuilder<T>
             "You have to specify `control` or `formControl`!"),
         super(key: key);
 
-  final ExtendedControl<List<Map<String, Object?>?>, List<T>>? extended;
+  final ExtendedControl<List<Map<String, Object?>?>,
+      List<ReactiveDigitalCardDTOFormFormGroupArrayBuilderT>>? extended;
 
-  final ExtendedControl<List<Map<String, Object?>?>, List<T>> Function(
-      DigitalCardDTOForm formModel)? getExtended;
+  final ExtendedControl<List<Map<String, Object?>?>,
+          List<ReactiveDigitalCardDTOFormFormGroupArrayBuilderT>>
+      Function(DigitalCardDTOForm formModel)? getExtended;
 
   final Widget Function(BuildContext context, List<Widget> itemList,
       DigitalCardDTOForm formModel)? builder;
 
   final Widget Function(
-          BuildContext context, int i, T? item, DigitalCardDTOForm formModel)
-      itemBuilder;
+      BuildContext context,
+      int i,
+      ReactiveDigitalCardDTOFormFormGroupArrayBuilderT? item,
+      DigitalCardDTOForm formModel) itemBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -2558,7 +2615,8 @@ class ReactiveDigitalCardDTOFormFormGroupArrayBuilder<T>
     return StreamBuilder<List<Map<String, Object?>?>?>(
       stream: value.control.valueChanges,
       builder: (context, snapshot) {
-        final itemList = (value.value() ?? <T>[])
+        final itemList = (value.value() ??
+                <ReactiveDigitalCardDTOFormFormGroupArrayBuilderT>[])
             .asMap()
             .map((i, item) => MapEntry(
                   i,

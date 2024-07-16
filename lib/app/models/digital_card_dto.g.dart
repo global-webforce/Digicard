@@ -8,7 +8,7 @@ part of 'digital_card_dto.dart';
 
 _$DigitalCardDTOImpl _$$DigitalCardDTOImplFromJson(Map<String, dynamic> json) =>
     _$DigitalCardDTOImpl(
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       userId: json['user_id'] as String?,
       uuid: json['uuid'] as String?,
       logoUrl: json['logo_url'] as String?,
@@ -23,7 +23,7 @@ _$DigitalCardDTOImpl _$$DigitalCardDTOImplFromJson(Map<String, dynamic> json) =>
       logoFile: json['logo_file'],
       color: _$JsonConverterFromJson<int, Color>(
           json['color'], const ColorConverter().fromJson),
-      layout: json['layout'] as int?,
+      layout: (json['layout'] as num?)?.toInt(),
       position: json['position'] as String?,
       company: json['company'] as String?,
       headline: json['headline'] as String?,

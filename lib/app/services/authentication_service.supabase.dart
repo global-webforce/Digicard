@@ -4,7 +4,6 @@ import 'package:digicard/app/app.router.dart';
 import 'package:digicard/app/env/env.dart';
 import 'package:digicard/app/services/auth_service.dart';
 import 'package:digicard/app/services/user_service.dart';
-import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -16,14 +15,14 @@ enum SupabaseAuthEvent {
   passwordRecovery
 }
 
-class SupabaseAuthService with Initialisable implements AuthService {
+class SupabaseAuthService implements AuthService {
   final log = getLogger('AuthService');
   final _supabase = Supabase.instance.client;
   final _userService = locator<UserService>();
   final _navService = locator<RouterService>();
 
   @override
-  Future<void> initialise() async {
+  Future<void> init() async {
     _supabase.auth.onAuthStateChange.listen((event) async {
       try {
         if (event.event.name == "passwordRecovery") {

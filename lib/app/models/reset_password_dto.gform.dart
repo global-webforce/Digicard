@@ -53,14 +53,17 @@ class ReactiveResetPasswordDtoForm extends StatelessWidget {
     Key? key,
     required this.form,
     required this.child,
-    this.onWillPop,
+    this.canPop,
+    this.onPopInvoked,
   }) : super(key: key);
 
   final Widget child;
 
   final ResetPasswordDtoForm form;
 
-  final WillPopCallback? onWillPop;
+  final bool Function(FormGroup formGroup)? canPop;
+
+  final void Function(FormGroup formGroup, bool didPop)? onPopInvoked;
 
   static ResetPasswordDtoForm? of(
     BuildContext context, {
@@ -85,12 +88,21 @@ class ReactiveResetPasswordDtoForm extends StatelessWidget {
     return ResetPasswordDtoFormInheritedStreamer(
       form: form,
       stream: form.form.statusChanged,
-      child: WillPopScope(
-        onWillPop: onWillPop,
+      child: ReactiveFormPopScope(
+        canPop: canPop,
+        onPopInvoked: onPopInvoked,
         child: child,
       ),
     );
   }
+}
+
+extension ReactiveReactiveResetPasswordDtoFormExt on BuildContext {
+  ResetPasswordDtoForm? resetPasswordDtoFormWatch() =>
+      ReactiveResetPasswordDtoForm.of(this);
+
+  ResetPasswordDtoForm? resetPasswordDtoFormRead() =>
+      ReactiveResetPasswordDtoForm.of(this, listen: false);
 }
 
 class ResetPasswordDtoFormBuilder extends StatefulWidget {
@@ -98,7 +110,8 @@ class ResetPasswordDtoFormBuilder extends StatefulWidget {
     Key? key,
     this.model,
     this.child,
-    this.onWillPop,
+    this.canPop,
+    this.onPopInvoked,
     required this.builder,
     this.initState,
   }) : super(key: key);
@@ -107,7 +120,9 @@ class ResetPasswordDtoFormBuilder extends StatefulWidget {
 
   final Widget? child;
 
-  final WillPopCallback? onWillPop;
+  final bool Function(FormGroup formGroup)? canPop;
+
+  final void Function(FormGroup formGroup, bool didPop)? onPopInvoked;
 
   final Widget Function(
           BuildContext context, ResetPasswordDtoForm formModel, Widget? child)
@@ -142,14 +157,7 @@ class _ResetPasswordDtoFormBuilderState
   @override
   void didUpdateWidget(covariant ResetPasswordDtoFormBuilder oldWidget) {
     if (widget.model != oldWidget.model) {
-      _formModel = ResetPasswordDtoForm(
-          ResetPasswordDtoForm.formElements(widget.model), null);
-
-      if (_formModel.form.disabled) {
-        _formModel.form.markAsDisabled();
-      }
-
-      widget.initState?.call(context, _formModel);
+      _formModel.updateValue(widget.model);
     }
 
     super.didUpdateWidget(oldWidget);
@@ -166,10 +174,12 @@ class _ResetPasswordDtoFormBuilderState
     return ReactiveResetPasswordDtoForm(
       key: ObjectKey(_formModel),
       form: _formModel,
-      onWillPop: widget.onWillPop,
+      // canPop: widget.canPop,
+      // onPopInvoked: widget.onPopInvoked,
       child: ReactiveFormBuilder(
         form: () => _formModel.form,
-        onWillPop: widget.onWillPop,
+        canPop: widget.canPop,
+        onPopInvoked: widget.onPopInvoked,
         builder: (context, formGroup, child) =>
             widget.builder(context, _formModel, widget.child),
         child: widget.child,
@@ -191,6 +201,8 @@ class ResetPasswordDtoForm implements FormModel<ResetPasswordDto> {
   final FormGroup form;
 
   final String? path;
+
+  final Map<String, bool> _disabled = {};
 
   String passwordControlPath() => pathBuilder(passwordControlName);
 
@@ -219,9 +231,10 @@ class ResetPasswordDtoForm implements FormModel<ResetPasswordDto> {
     }
   }
 
-  Object? get passwordErrors => passwordControl?.errors;
+  Map<String, Object>? get passwordErrors => passwordControl?.errors;
 
-  Object? get passwordConfirmationErrors => passwordConfirmationControl?.errors;
+  Map<String, Object>? get passwordConfirmationErrors =>
+      passwordConfirmationControl?.errors;
 
   void get passwordFocus => form.focus(passwordControlPath());
 
@@ -384,13 +397,48 @@ class ResetPasswordDtoForm implements FormModel<ResetPasswordDto> {
 
   @override
   ResetPasswordDto get model {
-    if (!currentForm.valid) {
-      debugPrint(
-          '[${path ?? 'ResetPasswordDtoForm'}]\n┗━ Avoid calling `model` on invalid form. Possible exceptions for non-nullable fields which should be guarded by `required` validator.');
+    final isValid = !currentForm.hasErrors && currentForm.errors.isEmpty;
+
+    if (!isValid) {
+      debugPrintStack(
+          label:
+              '[${path ?? 'ResetPasswordDtoForm'}]\n┗━ Avoid calling `model` on invalid form. Possible exceptions for non-nullable fields which should be guarded by `required` validator.');
     }
     return ResetPasswordDto(
         password: _passwordValue,
         passwordConfirmation: _passwordConfirmationValue);
+  }
+
+  @override
+  void toggleDisabled({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    final currentFormInstance = currentForm;
+
+    if (currentFormInstance is! FormGroup) {
+      return;
+    }
+
+    if (_disabled.isEmpty) {
+      currentFormInstance.controls.forEach((key, control) {
+        _disabled[key] = control.disabled;
+      });
+
+      currentForm.markAsDisabled(
+          updateParent: updateParent, emitEvent: emitEvent);
+    } else {
+      currentFormInstance.controls.forEach((key, control) {
+        if (_disabled[key] == false) {
+          currentFormInstance.controls[key]?.markAsEnabled(
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+
+        _disabled.remove(key);
+      });
+    }
   }
 
   @override
@@ -412,7 +460,7 @@ class ResetPasswordDtoForm implements FormModel<ResetPasswordDto> {
 
   @override
   void updateValue(
-    ResetPasswordDto value, {
+    ResetPasswordDto? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) =>
@@ -459,7 +507,8 @@ class ResetPasswordDtoForm implements FormModel<ResetPasswordDto> {
           disabled: false);
 }
 
-class ReactiveResetPasswordDtoFormArrayBuilder<T> extends StatelessWidget {
+class ReactiveResetPasswordDtoFormArrayBuilder<
+    ReactiveResetPasswordDtoFormArrayBuilderT> extends StatelessWidget {
   const ReactiveResetPasswordDtoFormArrayBuilder({
     Key? key,
     this.control,
@@ -470,16 +519,19 @@ class ReactiveResetPasswordDtoFormArrayBuilder<T> extends StatelessWidget {
             "You have to specify `control` or `formControl`!"),
         super(key: key);
 
-  final FormArray<T>? formControl;
+  final FormArray<ReactiveResetPasswordDtoFormArrayBuilderT>? formControl;
 
-  final FormArray<T>? Function(ResetPasswordDtoForm formModel)? control;
+  final FormArray<ReactiveResetPasswordDtoFormArrayBuilderT>? Function(
+      ResetPasswordDtoForm formModel)? control;
 
   final Widget Function(BuildContext context, List<Widget> itemList,
       ResetPasswordDtoForm formModel)? builder;
 
   final Widget Function(
-          BuildContext context, int i, T? item, ResetPasswordDtoForm formModel)
-      itemBuilder;
+      BuildContext context,
+      int i,
+      ReactiveResetPasswordDtoFormArrayBuilderT? item,
+      ResetPasswordDtoForm formModel) itemBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -489,10 +541,11 @@ class ReactiveResetPasswordDtoFormArrayBuilder<T> extends StatelessWidget {
       throw FormControlParentNotFoundException(this);
     }
 
-    return ReactiveFormArray<T>(
+    return ReactiveFormArray<ReactiveResetPasswordDtoFormArrayBuilderT>(
       formArray: formControl ?? control?.call(formModel),
       builder: (context, formArray, child) {
-        final itemList = (formArray.value ?? [])
+        final values = formArray.controls.map((e) => e.value).toList();
+        final itemList = values
             .asMap()
             .map((i, item) {
               return MapEntry(
@@ -519,7 +572,8 @@ class ReactiveResetPasswordDtoFormArrayBuilder<T> extends StatelessWidget {
   }
 }
 
-class ReactiveResetPasswordDtoFormFormGroupArrayBuilder<T>
+class ReactiveResetPasswordDtoFormFormGroupArrayBuilder<
+        ReactiveResetPasswordDtoFormFormGroupArrayBuilderT>
     extends StatelessWidget {
   const ReactiveResetPasswordDtoFormFormGroupArrayBuilder({
     Key? key,
@@ -531,17 +585,21 @@ class ReactiveResetPasswordDtoFormFormGroupArrayBuilder<T>
             "You have to specify `control` or `formControl`!"),
         super(key: key);
 
-  final ExtendedControl<List<Map<String, Object?>?>, List<T>>? extended;
+  final ExtendedControl<List<Map<String, Object?>?>,
+      List<ReactiveResetPasswordDtoFormFormGroupArrayBuilderT>>? extended;
 
-  final ExtendedControl<List<Map<String, Object?>?>, List<T>> Function(
-      ResetPasswordDtoForm formModel)? getExtended;
+  final ExtendedControl<List<Map<String, Object?>?>,
+          List<ReactiveResetPasswordDtoFormFormGroupArrayBuilderT>>
+      Function(ResetPasswordDtoForm formModel)? getExtended;
 
   final Widget Function(BuildContext context, List<Widget> itemList,
       ResetPasswordDtoForm formModel)? builder;
 
   final Widget Function(
-          BuildContext context, int i, T? item, ResetPasswordDtoForm formModel)
-      itemBuilder;
+      BuildContext context,
+      int i,
+      ReactiveResetPasswordDtoFormFormGroupArrayBuilderT? item,
+      ResetPasswordDtoForm formModel) itemBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -556,7 +614,8 @@ class ReactiveResetPasswordDtoFormFormGroupArrayBuilder<T>
     return StreamBuilder<List<Map<String, Object?>?>?>(
       stream: value.control.valueChanges,
       builder: (context, snapshot) {
-        final itemList = (value.value() ?? <T>[])
+        final itemList = (value.value() ??
+                <ReactiveResetPasswordDtoFormFormGroupArrayBuilderT>[])
             .asMap()
             .map((i, item) => MapEntry(
                   i,

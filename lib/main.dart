@@ -80,10 +80,12 @@ class MainApp extends StatelessWidget {
                 reverseDuration: const Duration(milliseconds: 250),
                 useDefaultLoading: false,
                 overlayColor: Colors.black.withOpacity(0.6),
-                overlayWidget: const Center(
-                    child: CircularProgressIndicator(
-                  color: kcPrimaryColor,
-                )),
+                layoutBuilder: (p0, p1) {
+                  return const Center(
+                      child: CircularProgressIndicator(
+                    color: kcPrimaryColor,
+                  ));
+                },
                 child: MaterialApp.router(
                   title: "Digicard",
                   theme: regularTheme,

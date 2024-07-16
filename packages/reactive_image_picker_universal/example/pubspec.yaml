@@ -30,7 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  reactive_forms: ^16.1.1
+  reactive_forms: ^17.0.1
   reactive_image_picker_universal:
     path: ../
 

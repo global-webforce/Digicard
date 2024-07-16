@@ -54,14 +54,17 @@ class ReactiveForgotPasswordDtoForm extends StatelessWidget {
     Key? key,
     required this.form,
     required this.child,
-    this.onWillPop,
+    this.canPop,
+    this.onPopInvoked,
   }) : super(key: key);
 
   final Widget child;
 
   final ForgotPasswordDtoForm form;
 
-  final WillPopCallback? onWillPop;
+  final bool Function(FormGroup formGroup)? canPop;
+
+  final void Function(FormGroup formGroup, bool didPop)? onPopInvoked;
 
   static ForgotPasswordDtoForm? of(
     BuildContext context, {
@@ -86,12 +89,21 @@ class ReactiveForgotPasswordDtoForm extends StatelessWidget {
     return ForgotPasswordDtoFormInheritedStreamer(
       form: form,
       stream: form.form.statusChanged,
-      child: WillPopScope(
-        onWillPop: onWillPop,
+      child: ReactiveFormPopScope(
+        canPop: canPop,
+        onPopInvoked: onPopInvoked,
         child: child,
       ),
     );
   }
+}
+
+extension ReactiveReactiveForgotPasswordDtoFormExt on BuildContext {
+  ForgotPasswordDtoForm? forgotPasswordDtoFormWatch() =>
+      ReactiveForgotPasswordDtoForm.of(this);
+
+  ForgotPasswordDtoForm? forgotPasswordDtoFormRead() =>
+      ReactiveForgotPasswordDtoForm.of(this, listen: false);
 }
 
 class ForgotPasswordDtoFormBuilder extends StatefulWidget {
@@ -99,7 +111,8 @@ class ForgotPasswordDtoFormBuilder extends StatefulWidget {
     Key? key,
     this.model,
     this.child,
-    this.onWillPop,
+    this.canPop,
+    this.onPopInvoked,
     required this.builder,
     this.initState,
   }) : super(key: key);
@@ -108,7 +121,9 @@ class ForgotPasswordDtoFormBuilder extends StatefulWidget {
 
   final Widget? child;
 
-  final WillPopCallback? onWillPop;
+  final bool Function(FormGroup formGroup)? canPop;
+
+  final void Function(FormGroup formGroup, bool didPop)? onPopInvoked;
 
   final Widget Function(
           BuildContext context, ForgotPasswordDtoForm formModel, Widget? child)
@@ -143,14 +158,7 @@ class _ForgotPasswordDtoFormBuilderState
   @override
   void didUpdateWidget(covariant ForgotPasswordDtoFormBuilder oldWidget) {
     if (widget.model != oldWidget.model) {
-      _formModel = ForgotPasswordDtoForm(
-          ForgotPasswordDtoForm.formElements(widget.model), null);
-
-      if (_formModel.form.disabled) {
-        _formModel.form.markAsDisabled();
-      }
-
-      widget.initState?.call(context, _formModel);
+      _formModel.updateValue(widget.model);
     }
 
     super.didUpdateWidget(oldWidget);
@@ -167,10 +175,12 @@ class _ForgotPasswordDtoFormBuilderState
     return ReactiveForgotPasswordDtoForm(
       key: ObjectKey(_formModel),
       form: _formModel,
-      onWillPop: widget.onWillPop,
+      // canPop: widget.canPop,
+      // onPopInvoked: widget.onPopInvoked,
       child: ReactiveFormBuilder(
         form: () => _formModel.form,
-        onWillPop: widget.onWillPop,
+        canPop: widget.canPop,
+        onPopInvoked: widget.onPopInvoked,
         builder: (context, formGroup, child) =>
             widget.builder(context, _formModel, widget.child),
         child: widget.child,
@@ -191,6 +201,8 @@ class ForgotPasswordDtoForm implements FormModel<ForgotPasswordDto> {
 
   final String? path;
 
+  final Map<String, bool> _disabled = {};
+
   String emailControlPath() => pathBuilder(emailControlName);
 
   String? get _emailValue => emailControl?.value;
@@ -204,7 +216,7 @@ class ForgotPasswordDtoForm implements FormModel<ForgotPasswordDto> {
     }
   }
 
-  Object? get emailErrors => emailControl?.errors;
+  Map<String, Object>? get emailErrors => emailControl?.errors;
 
   void get emailFocus => form.focus(emailControlPath());
 
@@ -286,11 +298,46 @@ class ForgotPasswordDtoForm implements FormModel<ForgotPasswordDto> {
 
   @override
   ForgotPasswordDto get model {
-    if (!currentForm.valid) {
-      debugPrint(
-          '[${path ?? 'ForgotPasswordDtoForm'}]\n┗━ Avoid calling `model` on invalid form. Possible exceptions for non-nullable fields which should be guarded by `required` validator.');
+    final isValid = !currentForm.hasErrors && currentForm.errors.isEmpty;
+
+    if (!isValid) {
+      debugPrintStack(
+          label:
+              '[${path ?? 'ForgotPasswordDtoForm'}]\n┗━ Avoid calling `model` on invalid form. Possible exceptions for non-nullable fields which should be guarded by `required` validator.');
     }
     return ForgotPasswordDto(email: _emailValue);
+  }
+
+  @override
+  void toggleDisabled({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    final currentFormInstance = currentForm;
+
+    if (currentFormInstance is! FormGroup) {
+      return;
+    }
+
+    if (_disabled.isEmpty) {
+      currentFormInstance.controls.forEach((key, control) {
+        _disabled[key] = control.disabled;
+      });
+
+      currentForm.markAsDisabled(
+          updateParent: updateParent, emitEvent: emitEvent);
+    } else {
+      currentFormInstance.controls.forEach((key, control) {
+        if (_disabled[key] == false) {
+          currentFormInstance.controls[key]?.markAsEnabled(
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+
+        _disabled.remove(key);
+      });
+    }
   }
 
   @override
@@ -312,7 +359,7 @@ class ForgotPasswordDtoForm implements FormModel<ForgotPasswordDto> {
 
   @override
   void updateValue(
-    ForgotPasswordDto value, {
+    ForgotPasswordDto? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) =>
@@ -349,7 +396,8 @@ class ForgotPasswordDtoForm implements FormModel<ForgotPasswordDto> {
           disabled: false);
 }
 
-class ReactiveForgotPasswordDtoFormArrayBuilder<T> extends StatelessWidget {
+class ReactiveForgotPasswordDtoFormArrayBuilder<
+    ReactiveForgotPasswordDtoFormArrayBuilderT> extends StatelessWidget {
   const ReactiveForgotPasswordDtoFormArrayBuilder({
     Key? key,
     this.control,
@@ -360,16 +408,19 @@ class ReactiveForgotPasswordDtoFormArrayBuilder<T> extends StatelessWidget {
             "You have to specify `control` or `formControl`!"),
         super(key: key);
 
-  final FormArray<T>? formControl;
+  final FormArray<ReactiveForgotPasswordDtoFormArrayBuilderT>? formControl;
 
-  final FormArray<T>? Function(ForgotPasswordDtoForm formModel)? control;
+  final FormArray<ReactiveForgotPasswordDtoFormArrayBuilderT>? Function(
+      ForgotPasswordDtoForm formModel)? control;
 
   final Widget Function(BuildContext context, List<Widget> itemList,
       ForgotPasswordDtoForm formModel)? builder;
 
   final Widget Function(
-          BuildContext context, int i, T? item, ForgotPasswordDtoForm formModel)
-      itemBuilder;
+      BuildContext context,
+      int i,
+      ReactiveForgotPasswordDtoFormArrayBuilderT? item,
+      ForgotPasswordDtoForm formModel) itemBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -379,10 +430,11 @@ class ReactiveForgotPasswordDtoFormArrayBuilder<T> extends StatelessWidget {
       throw FormControlParentNotFoundException(this);
     }
 
-    return ReactiveFormArray<T>(
+    return ReactiveFormArray<ReactiveForgotPasswordDtoFormArrayBuilderT>(
       formArray: formControl ?? control?.call(formModel),
       builder: (context, formArray, child) {
-        final itemList = (formArray.value ?? [])
+        final values = formArray.controls.map((e) => e.value).toList();
+        final itemList = values
             .asMap()
             .map((i, item) {
               return MapEntry(
@@ -409,7 +461,8 @@ class ReactiveForgotPasswordDtoFormArrayBuilder<T> extends StatelessWidget {
   }
 }
 
-class ReactiveForgotPasswordDtoFormFormGroupArrayBuilder<T>
+class ReactiveForgotPasswordDtoFormFormGroupArrayBuilder<
+        ReactiveForgotPasswordDtoFormFormGroupArrayBuilderT>
     extends StatelessWidget {
   const ReactiveForgotPasswordDtoFormFormGroupArrayBuilder({
     Key? key,
@@ -421,17 +474,21 @@ class ReactiveForgotPasswordDtoFormFormGroupArrayBuilder<T>
             "You have to specify `control` or `formControl`!"),
         super(key: key);
 
-  final ExtendedControl<List<Map<String, Object?>?>, List<T>>? extended;
+  final ExtendedControl<List<Map<String, Object?>?>,
+      List<ReactiveForgotPasswordDtoFormFormGroupArrayBuilderT>>? extended;
 
-  final ExtendedControl<List<Map<String, Object?>?>, List<T>> Function(
-      ForgotPasswordDtoForm formModel)? getExtended;
+  final ExtendedControl<List<Map<String, Object?>?>,
+          List<ReactiveForgotPasswordDtoFormFormGroupArrayBuilderT>>
+      Function(ForgotPasswordDtoForm formModel)? getExtended;
 
   final Widget Function(BuildContext context, List<Widget> itemList,
       ForgotPasswordDtoForm formModel)? builder;
 
   final Widget Function(
-          BuildContext context, int i, T? item, ForgotPasswordDtoForm formModel)
-      itemBuilder;
+      BuildContext context,
+      int i,
+      ReactiveForgotPasswordDtoFormFormGroupArrayBuilderT? item,
+      ForgotPasswordDtoForm formModel) itemBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -446,7 +503,8 @@ class ReactiveForgotPasswordDtoFormFormGroupArrayBuilder<T>
     return StreamBuilder<List<Map<String, Object?>?>?>(
       stream: value.control.valueChanges,
       builder: (context, snapshot) {
-        final itemList = (value.value() ?? <T>[])
+        final itemList = (value.value() ??
+                <ReactiveForgotPasswordDtoFormFormGroupArrayBuilderT>[])
             .asMap()
             .map((i, item) => MapEntry(
                   i,

@@ -1,4 +1,6 @@
-abstract class AuthService {
+import 'package:stacked/stacked_annotations.dart';
+
+abstract class AuthService implements InitializableDependency {
   Future signInWithEmail(
       {required String email, required String password}) async {}
 

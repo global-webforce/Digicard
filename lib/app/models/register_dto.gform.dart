@@ -52,14 +52,17 @@ class ReactiveRegisterDtoForm extends StatelessWidget {
     Key? key,
     required this.form,
     required this.child,
-    this.onWillPop,
+    this.canPop,
+    this.onPopInvoked,
   }) : super(key: key);
 
   final Widget child;
 
   final RegisterDtoForm form;
 
-  final WillPopCallback? onWillPop;
+  final bool Function(FormGroup formGroup)? canPop;
+
+  final void Function(FormGroup formGroup, bool didPop)? onPopInvoked;
 
   static RegisterDtoForm? of(
     BuildContext context, {
@@ -84,12 +87,20 @@ class ReactiveRegisterDtoForm extends StatelessWidget {
     return RegisterDtoFormInheritedStreamer(
       form: form,
       stream: form.form.statusChanged,
-      child: WillPopScope(
-        onWillPop: onWillPop,
+      child: ReactiveFormPopScope(
+        canPop: canPop,
+        onPopInvoked: onPopInvoked,
         child: child,
       ),
     );
   }
+}
+
+extension ReactiveReactiveRegisterDtoFormExt on BuildContext {
+  RegisterDtoForm? registerDtoFormWatch() => ReactiveRegisterDtoForm.of(this);
+
+  RegisterDtoForm? registerDtoFormRead() =>
+      ReactiveRegisterDtoForm.of(this, listen: false);
 }
 
 class RegisterDtoFormBuilder extends StatefulWidget {
@@ -97,7 +108,8 @@ class RegisterDtoFormBuilder extends StatefulWidget {
     Key? key,
     this.model,
     this.child,
-    this.onWillPop,
+    this.canPop,
+    this.onPopInvoked,
     required this.builder,
     this.initState,
   }) : super(key: key);
@@ -106,7 +118,9 @@ class RegisterDtoFormBuilder extends StatefulWidget {
 
   final Widget? child;
 
-  final WillPopCallback? onWillPop;
+  final bool Function(FormGroup formGroup)? canPop;
+
+  final void Function(FormGroup formGroup, bool didPop)? onPopInvoked;
 
   final Widget Function(
       BuildContext context, RegisterDtoForm formModel, Widget? child) builder;
@@ -138,14 +152,7 @@ class _RegisterDtoFormBuilderState extends State<RegisterDtoFormBuilder> {
   @override
   void didUpdateWidget(covariant RegisterDtoFormBuilder oldWidget) {
     if (widget.model != oldWidget.model) {
-      _formModel =
-          RegisterDtoForm(RegisterDtoForm.formElements(widget.model), null);
-
-      if (_formModel.form.disabled) {
-        _formModel.form.markAsDisabled();
-      }
-
-      widget.initState?.call(context, _formModel);
+      _formModel.updateValue(widget.model);
     }
 
     super.didUpdateWidget(oldWidget);
@@ -162,10 +169,12 @@ class _RegisterDtoFormBuilderState extends State<RegisterDtoFormBuilder> {
     return ReactiveRegisterDtoForm(
       key: ObjectKey(_formModel),
       form: _formModel,
-      onWillPop: widget.onWillPop,
+      // canPop: widget.canPop,
+      // onPopInvoked: widget.onPopInvoked,
       child: ReactiveFormBuilder(
         form: () => _formModel.form,
-        onWillPop: widget.onWillPop,
+        canPop: widget.canPop,
+        onPopInvoked: widget.onPopInvoked,
         builder: (context, formGroup, child) =>
             widget.builder(context, _formModel, widget.child),
         child: widget.child,
@@ -193,6 +202,8 @@ class RegisterDtoForm implements FormModel<RegisterDto> {
   final FormGroup form;
 
   final String? path;
+
+  final Map<String, bool> _disabled = {};
 
   String fullNameControlPath() => pathBuilder(fullNameControlName);
 
@@ -260,15 +271,16 @@ class RegisterDtoForm implements FormModel<RegisterDto> {
     }
   }
 
-  Object? get fullNameErrors => fullNameControl?.errors;
+  Map<String, Object>? get fullNameErrors => fullNameControl?.errors;
 
-  Object? get emailErrors => emailControl?.errors;
+  Map<String, Object>? get emailErrors => emailControl?.errors;
 
-  Object? get passwordErrors => passwordControl?.errors;
+  Map<String, Object>? get passwordErrors => passwordControl?.errors;
 
-  Object? get passwordConfirmationErrors => passwordConfirmationControl?.errors;
+  Map<String, Object>? get passwordConfirmationErrors =>
+      passwordConfirmationControl?.errors;
 
-  Object? get acceptLicenseErrors => acceptLicenseControl?.errors;
+  Map<String, Object>? get acceptLicenseErrors => acceptLicenseControl?.errors;
 
   void get fullNameFocus => form.focus(fullNameControlPath());
 
@@ -665,9 +677,12 @@ class RegisterDtoForm implements FormModel<RegisterDto> {
 
   @override
   RegisterDto get model {
-    if (!currentForm.valid) {
-      debugPrint(
-          '[${path ?? 'RegisterDtoForm'}]\n┗━ Avoid calling `model` on invalid form. Possible exceptions for non-nullable fields which should be guarded by `required` validator.');
+    final isValid = !currentForm.hasErrors && currentForm.errors.isEmpty;
+
+    if (!isValid) {
+      debugPrintStack(
+          label:
+              '[${path ?? 'RegisterDtoForm'}]\n┗━ Avoid calling `model` on invalid form. Possible exceptions for non-nullable fields which should be guarded by `required` validator.');
     }
     return RegisterDto(
         fullName: _fullNameValue,
@@ -675,6 +690,38 @@ class RegisterDtoForm implements FormModel<RegisterDto> {
         password: _passwordValue,
         passwordConfirmation: _passwordConfirmationValue,
         acceptLicense: _acceptLicenseValue);
+  }
+
+  @override
+  void toggleDisabled({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    final currentFormInstance = currentForm;
+
+    if (currentFormInstance is! FormGroup) {
+      return;
+    }
+
+    if (_disabled.isEmpty) {
+      currentFormInstance.controls.forEach((key, control) {
+        _disabled[key] = control.disabled;
+      });
+
+      currentForm.markAsDisabled(
+          updateParent: updateParent, emitEvent: emitEvent);
+    } else {
+      currentFormInstance.controls.forEach((key, control) {
+        if (_disabled[key] == false) {
+          currentFormInstance.controls[key]?.markAsEnabled(
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+
+        _disabled.remove(key);
+      });
+    }
   }
 
   @override
@@ -696,7 +743,7 @@ class RegisterDtoForm implements FormModel<RegisterDto> {
 
   @override
   void updateValue(
-    RegisterDto value, {
+    RegisterDto? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) =>
@@ -763,7 +810,8 @@ class RegisterDtoForm implements FormModel<RegisterDto> {
           disabled: false);
 }
 
-class ReactiveRegisterDtoFormArrayBuilder<T> extends StatelessWidget {
+class ReactiveRegisterDtoFormArrayBuilder<ReactiveRegisterDtoFormArrayBuilderT>
+    extends StatelessWidget {
   const ReactiveRegisterDtoFormArrayBuilder({
     Key? key,
     this.control,
@@ -774,16 +822,19 @@ class ReactiveRegisterDtoFormArrayBuilder<T> extends StatelessWidget {
             "You have to specify `control` or `formControl`!"),
         super(key: key);
 
-  final FormArray<T>? formControl;
+  final FormArray<ReactiveRegisterDtoFormArrayBuilderT>? formControl;
 
-  final FormArray<T>? Function(RegisterDtoForm formModel)? control;
+  final FormArray<ReactiveRegisterDtoFormArrayBuilderT>? Function(
+      RegisterDtoForm formModel)? control;
 
   final Widget Function(BuildContext context, List<Widget> itemList,
       RegisterDtoForm formModel)? builder;
 
   final Widget Function(
-          BuildContext context, int i, T? item, RegisterDtoForm formModel)
-      itemBuilder;
+      BuildContext context,
+      int i,
+      ReactiveRegisterDtoFormArrayBuilderT? item,
+      RegisterDtoForm formModel) itemBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -793,10 +844,11 @@ class ReactiveRegisterDtoFormArrayBuilder<T> extends StatelessWidget {
       throw FormControlParentNotFoundException(this);
     }
 
-    return ReactiveFormArray<T>(
+    return ReactiveFormArray<ReactiveRegisterDtoFormArrayBuilderT>(
       formArray: formControl ?? control?.call(formModel),
       builder: (context, formArray, child) {
-        final itemList = (formArray.value ?? [])
+        final values = formArray.controls.map((e) => e.value).toList();
+        final itemList = values
             .asMap()
             .map((i, item) {
               return MapEntry(
@@ -823,7 +875,8 @@ class ReactiveRegisterDtoFormArrayBuilder<T> extends StatelessWidget {
   }
 }
 
-class ReactiveRegisterDtoFormFormGroupArrayBuilder<T> extends StatelessWidget {
+class ReactiveRegisterDtoFormFormGroupArrayBuilder<
+    ReactiveRegisterDtoFormFormGroupArrayBuilderT> extends StatelessWidget {
   const ReactiveRegisterDtoFormFormGroupArrayBuilder({
     Key? key,
     this.extended,
@@ -834,17 +887,21 @@ class ReactiveRegisterDtoFormFormGroupArrayBuilder<T> extends StatelessWidget {
             "You have to specify `control` or `formControl`!"),
         super(key: key);
 
-  final ExtendedControl<List<Map<String, Object?>?>, List<T>>? extended;
+  final ExtendedControl<List<Map<String, Object?>?>,
+      List<ReactiveRegisterDtoFormFormGroupArrayBuilderT>>? extended;
 
-  final ExtendedControl<List<Map<String, Object?>?>, List<T>> Function(
-      RegisterDtoForm formModel)? getExtended;
+  final ExtendedControl<List<Map<String, Object?>?>,
+          List<ReactiveRegisterDtoFormFormGroupArrayBuilderT>>
+      Function(RegisterDtoForm formModel)? getExtended;
 
   final Widget Function(BuildContext context, List<Widget> itemList,
       RegisterDtoForm formModel)? builder;
 
   final Widget Function(
-          BuildContext context, int i, T? item, RegisterDtoForm formModel)
-      itemBuilder;
+      BuildContext context,
+      int i,
+      ReactiveRegisterDtoFormFormGroupArrayBuilderT? item,
+      RegisterDtoForm formModel) itemBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -859,19 +916,20 @@ class ReactiveRegisterDtoFormFormGroupArrayBuilder<T> extends StatelessWidget {
     return StreamBuilder<List<Map<String, Object?>?>?>(
       stream: value.control.valueChanges,
       builder: (context, snapshot) {
-        final itemList = (value.value() ?? <T>[])
-            .asMap()
-            .map((i, item) => MapEntry(
-                  i,
-                  itemBuilder(
-                    context,
-                    i,
-                    item,
-                    formModel,
-                  ),
-                ))
-            .values
-            .toList();
+        final itemList =
+            (value.value() ?? <ReactiveRegisterDtoFormFormGroupArrayBuilderT>[])
+                .asMap()
+                .map((i, item) => MapEntry(
+                      i,
+                      itemBuilder(
+                        context,
+                        i,
+                        item,
+                        formModel,
+                      ),
+                    ))
+                .values
+                .toList();
 
         return builder?.call(
               context,

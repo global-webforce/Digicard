@@ -35,18 +35,16 @@ class ContactsService with ListenableServiceMixin {
       final data = await _supabase
           .from('contacts')
           .select('id, created_at, cards(*)')
-          .eq('user_id', _userService.userId)
+          .eq('user_id', "${_userService.userId}")
           .order('created_at', ascending: true);
-      if (data is List) {
-        _contacts.value = data
-            .map(
-              (e) => DigitalCardDTO.fromJson(e["cards"])
-                  .copyWith(addedToContactsAt: DateTime.parse(e["created_at"])),
-            )
-            .toList();
+      _contacts.value = data
+          .map(
+            (e) => DigitalCardDTO.fromJson(e["cards"])
+                .copyWith(addedToContactsAt: DateTime.parse(e["created_at"])),
+          )
+          .toList();
 
-        notifyListeners();
-      }
+      notifyListeners();
     } catch (e) {
       Future.error(e.toString());
     }
@@ -73,8 +71,8 @@ class ContactsService with ListenableServiceMixin {
   Future delete(DigitalCardDTO card) async {
     try {
       await _supabase.from('contacts').delete().match({
-        'card_id': card.id,
-        'user_id': _userService.userId,
+        'card_id': "${card.id}",
+        'user_id': "${_userService.userId}",
       }).then((value) {
         _contacts.value.removeWhere((element) => element.id == card.id);
       });

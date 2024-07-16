@@ -52,14 +52,17 @@ class ReactiveLoginDtoForm extends StatelessWidget {
     Key? key,
     required this.form,
     required this.child,
-    this.onWillPop,
+    this.canPop,
+    this.onPopInvoked,
   }) : super(key: key);
 
   final Widget child;
 
   final LoginDtoForm form;
 
-  final WillPopCallback? onWillPop;
+  final bool Function(FormGroup formGroup)? canPop;
+
+  final void Function(FormGroup formGroup, bool didPop)? onPopInvoked;
 
   static LoginDtoForm? of(
     BuildContext context, {
@@ -83,12 +86,20 @@ class ReactiveLoginDtoForm extends StatelessWidget {
     return LoginDtoFormInheritedStreamer(
       form: form,
       stream: form.form.statusChanged,
-      child: WillPopScope(
-        onWillPop: onWillPop,
+      child: ReactiveFormPopScope(
+        canPop: canPop,
+        onPopInvoked: onPopInvoked,
         child: child,
       ),
     );
   }
+}
+
+extension ReactiveReactiveLoginDtoFormExt on BuildContext {
+  LoginDtoForm? loginDtoFormWatch() => ReactiveLoginDtoForm.of(this);
+
+  LoginDtoForm? loginDtoFormRead() =>
+      ReactiveLoginDtoForm.of(this, listen: false);
 }
 
 class LoginDtoFormBuilder extends StatefulWidget {
@@ -96,7 +107,8 @@ class LoginDtoFormBuilder extends StatefulWidget {
     Key? key,
     this.model,
     this.child,
-    this.onWillPop,
+    this.canPop,
+    this.onPopInvoked,
     required this.builder,
     this.initState,
   }) : super(key: key);
@@ -105,7 +117,9 @@ class LoginDtoFormBuilder extends StatefulWidget {
 
   final Widget? child;
 
-  final WillPopCallback? onWillPop;
+  final bool Function(FormGroup formGroup)? canPop;
+
+  final void Function(FormGroup formGroup, bool didPop)? onPopInvoked;
 
   final Widget Function(
       BuildContext context, LoginDtoForm formModel, Widget? child) builder;
@@ -135,13 +149,7 @@ class _LoginDtoFormBuilderState extends State<LoginDtoFormBuilder> {
   @override
   void didUpdateWidget(covariant LoginDtoFormBuilder oldWidget) {
     if (widget.model != oldWidget.model) {
-      _formModel = LoginDtoForm(LoginDtoForm.formElements(widget.model), null);
-
-      if (_formModel.form.disabled) {
-        _formModel.form.markAsDisabled();
-      }
-
-      widget.initState?.call(context, _formModel);
+      _formModel.updateValue(widget.model);
     }
 
     super.didUpdateWidget(oldWidget);
@@ -158,10 +166,12 @@ class _LoginDtoFormBuilderState extends State<LoginDtoFormBuilder> {
     return ReactiveLoginDtoForm(
       key: ObjectKey(_formModel),
       form: _formModel,
-      onWillPop: widget.onWillPop,
+      // canPop: widget.canPop,
+      // onPopInvoked: widget.onPopInvoked,
       child: ReactiveFormBuilder(
         form: () => _formModel.form,
-        onWillPop: widget.onWillPop,
+        canPop: widget.canPop,
+        onPopInvoked: widget.onPopInvoked,
         builder: (context, formGroup, child) =>
             widget.builder(context, _formModel, widget.child),
         child: widget.child,
@@ -183,6 +193,8 @@ class LoginDtoForm implements FormModel<LoginDto> {
   final FormGroup form;
 
   final String? path;
+
+  final Map<String, bool> _disabled = {};
 
   String emailControlPath() => pathBuilder(emailControlName);
 
@@ -210,9 +222,9 @@ class LoginDtoForm implements FormModel<LoginDto> {
     }
   }
 
-  Object? get emailErrors => emailControl?.errors;
+  Map<String, Object>? get emailErrors => emailControl?.errors;
 
-  Object? get passwordErrors => passwordControl?.errors;
+  Map<String, Object>? get passwordErrors => passwordControl?.errors;
 
   void get emailFocus => form.focus(emailControlPath());
 
@@ -372,11 +384,46 @@ class LoginDtoForm implements FormModel<LoginDto> {
 
   @override
   LoginDto get model {
-    if (!currentForm.valid) {
-      debugPrint(
-          '[${path ?? 'LoginDtoForm'}]\n┗━ Avoid calling `model` on invalid form. Possible exceptions for non-nullable fields which should be guarded by `required` validator.');
+    final isValid = !currentForm.hasErrors && currentForm.errors.isEmpty;
+
+    if (!isValid) {
+      debugPrintStack(
+          label:
+              '[${path ?? 'LoginDtoForm'}]\n┗━ Avoid calling `model` on invalid form. Possible exceptions for non-nullable fields which should be guarded by `required` validator.');
     }
     return LoginDto(email: _emailValue, password: _passwordValue);
+  }
+
+  @override
+  void toggleDisabled({
+    bool updateParent = true,
+    bool emitEvent = true,
+  }) {
+    final currentFormInstance = currentForm;
+
+    if (currentFormInstance is! FormGroup) {
+      return;
+    }
+
+    if (_disabled.isEmpty) {
+      currentFormInstance.controls.forEach((key, control) {
+        _disabled[key] = control.disabled;
+      });
+
+      currentForm.markAsDisabled(
+          updateParent: updateParent, emitEvent: emitEvent);
+    } else {
+      currentFormInstance.controls.forEach((key, control) {
+        if (_disabled[key] == false) {
+          currentFormInstance.controls[key]?.markAsEnabled(
+            updateParent: updateParent,
+            emitEvent: emitEvent,
+          );
+        }
+
+        _disabled.remove(key);
+      });
+    }
   }
 
   @override
@@ -398,7 +445,7 @@ class LoginDtoForm implements FormModel<LoginDto> {
 
   @override
   void updateValue(
-    LoginDto value, {
+    LoginDto? value, {
     bool updateParent = true,
     bool emitEvent = true,
   }) =>
@@ -441,7 +488,8 @@ class LoginDtoForm implements FormModel<LoginDto> {
           disabled: false);
 }
 
-class ReactiveLoginDtoFormArrayBuilder<T> extends StatelessWidget {
+class ReactiveLoginDtoFormArrayBuilder<ReactiveLoginDtoFormArrayBuilderT>
+    extends StatelessWidget {
   const ReactiveLoginDtoFormArrayBuilder({
     Key? key,
     this.control,
@@ -452,16 +500,20 @@ class ReactiveLoginDtoFormArrayBuilder<T> extends StatelessWidget {
             "You have to specify `control` or `formControl`!"),
         super(key: key);
 
-  final FormArray<T>? formControl;
+  final FormArray<ReactiveLoginDtoFormArrayBuilderT>? formControl;
 
-  final FormArray<T>? Function(LoginDtoForm formModel)? control;
+  final FormArray<ReactiveLoginDtoFormArrayBuilderT>? Function(
+      LoginDtoForm formModel)? control;
 
   final Widget Function(
           BuildContext context, List<Widget> itemList, LoginDtoForm formModel)?
       builder;
 
   final Widget Function(
-      BuildContext context, int i, T? item, LoginDtoForm formModel) itemBuilder;
+      BuildContext context,
+      int i,
+      ReactiveLoginDtoFormArrayBuilderT? item,
+      LoginDtoForm formModel) itemBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -471,10 +523,11 @@ class ReactiveLoginDtoFormArrayBuilder<T> extends StatelessWidget {
       throw FormControlParentNotFoundException(this);
     }
 
-    return ReactiveFormArray<T>(
+    return ReactiveFormArray<ReactiveLoginDtoFormArrayBuilderT>(
       formArray: formControl ?? control?.call(formModel),
       builder: (context, formArray, child) {
-        final itemList = (formArray.value ?? [])
+        final values = formArray.controls.map((e) => e.value).toList();
+        final itemList = values
             .asMap()
             .map((i, item) {
               return MapEntry(
@@ -501,7 +554,8 @@ class ReactiveLoginDtoFormArrayBuilder<T> extends StatelessWidget {
   }
 }
 
-class ReactiveLoginDtoFormFormGroupArrayBuilder<T> extends StatelessWidget {
+class ReactiveLoginDtoFormFormGroupArrayBuilder<
+    ReactiveLoginDtoFormFormGroupArrayBuilderT> extends StatelessWidget {
   const ReactiveLoginDtoFormFormGroupArrayBuilder({
     Key? key,
     this.extended,
@@ -512,17 +566,22 @@ class ReactiveLoginDtoFormFormGroupArrayBuilder<T> extends StatelessWidget {
             "You have to specify `control` or `formControl`!"),
         super(key: key);
 
-  final ExtendedControl<List<Map<String, Object?>?>, List<T>>? extended;
+  final ExtendedControl<List<Map<String, Object?>?>,
+      List<ReactiveLoginDtoFormFormGroupArrayBuilderT>>? extended;
 
-  final ExtendedControl<List<Map<String, Object?>?>, List<T>> Function(
-      LoginDtoForm formModel)? getExtended;
+  final ExtendedControl<List<Map<String, Object?>?>,
+          List<ReactiveLoginDtoFormFormGroupArrayBuilderT>>
+      Function(LoginDtoForm formModel)? getExtended;
 
   final Widget Function(
           BuildContext context, List<Widget> itemList, LoginDtoForm formModel)?
       builder;
 
   final Widget Function(
-      BuildContext context, int i, T? item, LoginDtoForm formModel) itemBuilder;
+      BuildContext context,
+      int i,
+      ReactiveLoginDtoFormFormGroupArrayBuilderT? item,
+      LoginDtoForm formModel) itemBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -537,19 +596,20 @@ class ReactiveLoginDtoFormFormGroupArrayBuilder<T> extends StatelessWidget {
     return StreamBuilder<List<Map<String, Object?>?>?>(
       stream: value.control.valueChanges,
       builder: (context, snapshot) {
-        final itemList = (value.value() ?? <T>[])
-            .asMap()
-            .map((i, item) => MapEntry(
-                  i,
-                  itemBuilder(
-                    context,
-                    i,
-                    item,
-                    formModel,
-                  ),
-                ))
-            .values
-            .toList();
+        final itemList =
+            (value.value() ?? <ReactiveLoginDtoFormFormGroupArrayBuilderT>[])
+                .asMap()
+                .map((i, item) => MapEntry(
+                      i,
+                      itemBuilder(
+                        context,
+                        i,
+                        item,
+                        formModel,
+                      ),
+                    ))
+                .values
+                .toList();
 
         return builder?.call(
               context,

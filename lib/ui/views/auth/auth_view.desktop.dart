@@ -1,7 +1,6 @@
 import 'package:digicard/app/models/forgot_password_dto.dart';
 import 'package:digicard/app/models/login_dto.dart';
 import 'package:digicard/app/models/register_dto.dart';
-import 'package:digicard/app/models/reset_password_dto.dart';
 import 'package:digicard/ui/views/auth/widgets/forgot_password_form.dart';
 import 'package:digicard/ui/widgets/onboarding/onboarding.dart';
 import 'package:flutter/material.dart';

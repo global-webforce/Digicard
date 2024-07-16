@@ -21,56 +21,74 @@ class LoaderOverlayWrapper extends StatelessWidget {
 
     if (type == LoadingType.save) {
       context.loaderOverlay.show(
-          widget: CustomOverlay(
-        context,
-        title: "Saving...",
-        color: color,
-      ));
+        widgetBuilder: (progress) {
+          return CustomOverlay(
+            context,
+            title: "Saving...",
+            color: color,
+          );
+        },
+      );
     }
 
     if (type == LoadingType.download) {
       context.loaderOverlay.show(
-          widget: CustomOverlay(
-        context,
-        title: "Downloading...",
-        color: color,
-      ));
+        widgetBuilder: (progress) {
+          return CustomOverlay(
+            context,
+            title: "Downloading...",
+            color: color,
+          );
+        },
+      );
     }
 
     if (type == LoadingType.duplicate) {
       context.loaderOverlay.show(
-          widget: CustomOverlay(
-        context,
-        title: "Duplicating...",
-        color: color,
-      ));
+        widgetBuilder: (progress) {
+          return CustomOverlay(
+            context,
+            title: "Dupicating...",
+            color: color,
+          );
+        },
+      );
     }
 
     if (type == LoadingType.delete) {
       context.loaderOverlay.show(
-          widget: CustomOverlay(
-        context,
-        title: "Deleting...",
-        color: color,
-      ));
+        widgetBuilder: (progress) {
+          return CustomOverlay(
+            context,
+            title: "Deleting...",
+            color: color,
+          );
+        },
+      );
     }
 
     if (type == LoadingType.update) {
       context.loaderOverlay.show(
-          widget: CustomOverlay(
-        context,
-        title: "Updating...",
-        color: color,
-      ));
+        widgetBuilder: (progress) {
+          return CustomOverlay(
+            context,
+            title: "Updating...",
+            color: color,
+          );
+        },
+      );
     }
 
     if (type == LoadingType.done) {
       context.loaderOverlay.show(
-          widget: DoneOverlay(
-        context,
-        title: "Done!",
-        color: color,
-      ));
+        widgetBuilder: (progress) {
+          return CustomOverlay(
+            context,
+            title: "Done...",
+            color: color,
+          );
+        },
+      );
     }
 
     if (type == null) {
