@@ -80,7 +80,7 @@ class MainApp extends StatelessWidget {
                 reverseDuration: const Duration(milliseconds: 250),
                 useDefaultLoading: false,
                 overlayColor: Colors.black.withOpacity(0.6),
-                layoutBuilder: (p0, p1) {
+                overlayWidgetBuilder: (_) {
                   return const Center(
                       child: CircularProgressIndicator(
                     color: kcPrimaryColor,
