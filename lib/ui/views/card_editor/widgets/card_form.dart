@@ -78,13 +78,13 @@ class _CardTabFormState extends State<CardTabForm>
       );
     }
 
-    Widget layoutPickerField() {
+    /*  Widget layoutPickerField() {
       return ReactiveLayoutPicker(
         primaryColor: colorTheme,
         selectedColor: colorTheme,
         formControl: formModel?.layoutControl,
       );
-    }
+    } */
 
     Widget titleField() {
       return ClipRRect(
@@ -330,13 +330,13 @@ class _CardTabFormState extends State<CardTabForm>
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      /*  const Text(
                         "Design Layout",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       vSpaceRegular,
                       layoutPickerField(),
-                      vSpaceRegular,
+                      vSpaceRegular, */
                       const Text(
                         "Color",
                         style: TextStyle(fontWeight: FontWeight.bold),

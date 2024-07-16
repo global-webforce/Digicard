@@ -71,7 +71,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     viewModel.setIndex(2);
                   },
                 ), */
-                const SizedBox(height: 8.0),
+
                 DrawerMenu(
                   leading: Image.asset(
                     'assets/icons/settings.png',
